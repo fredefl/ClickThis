@@ -1,0 +1,322 @@
+<Project>
+  <Name>ClickThis</Name>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>Classes</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>Serie</Name>
+        <Access>Public</Access>
+        <Location left="497" top="568" />
+        <Size width="162" height="128" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public string EndTime</Member>
+        <Member type="Field">public sting Title</Member>
+        <Member type="Field">public string Creator</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Question</Name>
+        <Access>Public</Access>
+        <Location left="497" top="762" />
+        <Size width="162" height="94" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public string Title</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Option</Name>
+        <Access>Public</Access>
+        <Location left="457" top="992" />
+        <Size width="162" height="94" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public string Title</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Answer</Name>
+        <Access>Public</Access>
+        <Location left="257" top="639" />
+        <Size width="162" height="111" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public int Value</Member>
+        <Member type="Field">private string User</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>User</Name>
+        <Access>Public</Access>
+        <Location left="569" top="379" />
+        <Size width="162" height="128" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public array Group</Member>
+        <Member type="Field">public string User</Member>
+        <Member type="Field">public string Country</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Teacher</Name>
+        <Access>Public</Access>
+        <Location left="257" top="207" />
+        <Size width="162" height="145" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public string Unilogin</Member>
+        <Member type="Field">public string School</Member>
+        <Member type="Field">public string State</Member>
+        <Member type="Field">public string Country</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Pupil</Name>
+        <Access>Public</Access>
+        <Location left="1052" top="280" />
+        <Size width="162" height="162" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public string Class</Member>
+        <Member type="Field">public string Unilogin</Member>
+        <Member type="Field">public string Country</Member>
+        <Member type="Field">public string School</Member>
+        <Member type="Field">public string State</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>DidAnswer</Name>
+        <Access>Public</Access>
+        <Location left="82" top="412" />
+        <Size width="162" height="94" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public string User</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>DidAnswer</Name>
+        <Access>Public</Access>
+        <Location left="82" top="538" />
+        <Size width="162" height="94" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public string Unilogin</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>School</Name>
+        <Access>Public</Access>
+        <Location left="584" top="10" />
+        <Size width="162" height="145" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public string Country</Member>
+        <Member type="Field">public string State</Member>
+        <Member type="Field">public string Name</Member>
+        <Member type="Field">public int Id</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>State</Name>
+        <Access>Public</Access>
+        <Location left="786" top="10" />
+        <Size width="162" height="128" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public string Country</Member>
+        <Member type="Field">public string Name</Member>
+        <Member type="Field">public int Id</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Select</Name>
+        <Access>Public</Access>
+        <Location left="762" top="519" />
+        <Size width="162" height="94" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public int Value</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Text</Name>
+        <Access>Public</Access>
+        <Location left="762" top="653" />
+        <Size width="162" height="94" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public int Value</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Check</Name>
+        <Access>Public</Access>
+        <Location left="762" top="778" />
+        <Size width="162" height="94" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public int Value</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Radio</Name>
+        <Access>Public</Access>
+        <Location left="762" top="904" />
+        <Size width="162" height="94" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public int Value</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Number</Name>
+        <Access>Public</Access>
+        <Location left="762" top="1035" />
+        <Size width="162" height="94" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">public int Value</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Association" first="0" second="1">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>578</X>
+          <Y>721</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>578</X>
+          <Y>737</Y>
+        </BendPoint>
+        <Direction>Bidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="1" second="2">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Bidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="11" second="12">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Bidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="12" second="13">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Bidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="13" second="14">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Bidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="14" second="15">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Bidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="1" second="13">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Bidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="6" second="4">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="4" second="0">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Dependency" first="6" second="10">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Dependency" first="6" second="9">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Dependency" first="6" second="5">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Dependency" first="5" second="9">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Dependency" first="5" second="10">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Association" first="0" second="8">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>471</X>
+          <Y>633</Y>
+        </BendPoint>
+        <Direction>Bidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="0" second="7">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>578</X>
+          <Y>543</Y>
+        </BendPoint>
+        <Direction>Bidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="0" second="3">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Bidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="3" second="2">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Bidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+</Project>

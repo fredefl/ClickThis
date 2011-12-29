@@ -1,0 +1,78 @@
+DirectoryIndex index.php
+
+<IfModule mod_security.c>
+    SecFilterEngine Off
+</IfModule>
+
+<FILES "*.html">
+ForceType 'text/html; charset=UTF-8'
+</FILES>
+
+<Files sitemap.xml>
+ SetHandler application/x-httpd-php
+</Files>
+
+<FILES "*.php">
+ForceType 'text/html; charset=UTF-8'
+</FILES>
+
+AuthUserFile  /hsphere/local/home/illution/illution.dk//.htpasswd
+AuthGroupFile /hsphere/local/home/illution/illution.dk//.htgroup
+
+AuthName "Protected Area"
+AuthType Basic
+
+<FILES .htpasswd>
+deny from all
+</FILES>
+
+<FILES .htgroup>
+deny from all
+</FILES>
+
+ErrorDocument 404 /Error.php?404
+
+# 480 weeks
+<FilesMatch ".(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf)$">
+Header set Cache-Control "no-cache no-store"
+</FilesMatch>
+
+# 480 weeks
+<FilesMatch ".style.php$">
+Header set Cache-Control "max-age=290304000, public"
+</FilesMatch>
+ 
+# 2 DAYS
+<FilesMatch ".(xml|txt)$">
+Header set Cache-Control "max-age=172800, public, must-revalidate"
+</FilesMatch>
+ 
+# 2 HOURS
+<FilesMatch ".(html|htm|php)$">
+Header set Cache-Control "max-age=7200, must-revalidate"
+ForceType "text/html; charset=UTF-8"
+</FilesMatch>
+
+
+<FILES "*.css">
+Header set Content-type "text/css"
+</FILES>
+
+<FILES "*.js">
+Header set Content-type "text/javascript"
+</FILES>
+
+php_value output_handler ob_gzhandler
+php_flag session.use_only_cookies on
+
+Options -Indexes
+
+AddHandler application/x-httpd-php .js .css
+AddType text/cache-manifest .manifest
+
+RewriteEngine On
+RewriteBase /
+ 
+# strips the "www"
+RewriteCond %{HTTP_HOST} ^www\.illution\.dk$
+RewriteRule ^.*$ http://illution.dk%{REQUEST_URI} [R=301,L]

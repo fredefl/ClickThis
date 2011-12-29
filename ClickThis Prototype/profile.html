@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html manifest="offline.manifest">
+    <head>
+        <title>ClickThis - Profil</title>
+        <meta charset="utf-8">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;">
+        <link rel="stylesheet" type="text/css" href="css/jqtouch.css"/>
+        <link rel="stylesheet" type="text/css" href="css/jqt/theme.css"/>
+        <link rel="stylesheet" type="text/css" href="css/style.css"/>
+        <link rel="apple-touch-icon" href="images/ClickThis64.png" />
+    </head>
+    <body>
+        <div id="jqt">
+            <div id="home" class="current">
+                <div class="toolbar">
+                    <h1>ClickThis</h1>
+                    <a class="button slideup" id="infoButton" href="#about">About</a>
+                </div>
+       			<div id="Avatar">
+                	<a title="Bo Thomsen" href="http://illution.dk/ClickThisPrototype/profile.html#2"><img src="http://www.gravatar.com/avatar/dc07576afa6b5b172a378d6f5eb05f5f?s=256" title="Bo Thomsen" alt="Bo Thomsen" /></a>
+                </div>
+                <div id="Profile">
+                	<label for="Name">Name</label><br>
+                	<input type="text" id="Name" value="Bo Thomsen" /><br>
+                    <label for="Email">Email</label><br>
+                	<input type="text" id="Email" value="bo@illution.dk" /><br>
+                    <label for="Email">Location</label><br>
+                    <select id="Location">
+                    	<optgroup title="Europe" label="Europe">Europe</optgroup>
+                        	<option selected value="dk">Denmark</option>
+                            <option value="en">England</option>
+                            <option value="de">Germany</option>
+                            <option value="fr">France</option>
+                        <optgroup title="Asia" label="Asia">Asia</optgroup>
+                        	<option value="cn">China</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <script src="js/prefixfree.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+        <script src="js/script.js"></script>
+    </body>
+</html>

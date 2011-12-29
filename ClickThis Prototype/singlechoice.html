@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html manifest="offline.manifest">
+	<head>
+    	<title>ClickThis - SingleChoice</title>
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="stylesheet" type="text/css" href="css/buttons.css"/>
+        <link rel="stylesheet" type="text/css" href="css/style.css"/>
+        <link rel="apple-touch-icon" href="images/ClickThis64.png" />
+    </head> 
+    <body> 
+    	<input type="hidden" id="currentpage" value="question_1" />
+    	<div id="question_1" class="Active">
+        	<h1>Which of these cars are best?</h1>
+        </div>
+        <div id="question_2" class="Disabled">
+        	<h1>Why is it best?</h1>
+        </div>
+        <div id="question_3" class="Disabled">
+        	<h1>Which sex are you?</h1>
+        </div>
+        <div id="question_4" class="Disabled">
+        	<h1>Where are you from?</h1>
+        </div>
+        <div id="question_5" class="Disabled">
+        	<h1>Which colors do you prefer?</h1>
+        </div>
+  
+    	<script src="js/prefixfree.min.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+        <script src="http://cdn.illution.dk/JS/jquery.hashchange.min.js"></script>
+        <script type="text/javascript" src="js/buttonGenerator.js"></script>
+        <script type="text/javascript" src="js/singlechoice.js"></script>
+    </body> 
+</html>

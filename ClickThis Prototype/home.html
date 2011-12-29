@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html> <!-- manifest="offline.manifest"-->
+	<head>
+    	<title>ClickThis - Home</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="stylesheet" type="text/css" href="css/jqtouch.css"/>
+        <link rel="stylesheet" type="text/css" href="css/jqt/theme.css"/>
+        <link rel="stylesheet" type="text/css" href="css/style.css"/>
+        <link rel="apple-touch-icon" href="images/ClickThis64.png" />
+	</head>
+	<body>
+        <div id="jqt">
+            <div id="home" class="current">
+                <div class="toolbar">
+                    <h1>ClickThis</h1>
+                    <a class="button slideup" id="infoButton" href="#about">About</a>
+                </div>
+                <ul class="rounded">
+                    <li class="forward"><a href="multiplechoice.html">Multiple Choice</a></li>
+                    <li class="forward"><a href="singlechoice.html">Single Choice</a></li>
+                    <li class="forward"><a href="buttons.html">Button Showcase</a></li>
+                    <li class="forward" id="updateButton"><a>Update Desktop</a></li>
+                    <li class="arrow"><a>Page View Counter</a><small class="counter" id="pageCount"></small></li>
+                    <li><a id="chacheStatus">Cache status </a></li>
+                </ul>
+                <ul class="individual">
+                    <li><a href="profile.html">Profile</a></li>
+                    <li><a href="settings.html">Settings</a></li>
+                </ul>
+            </div>
+        
+        </div>
+        <script src="js/prefixfree.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+        <script src="js/script.js"></script>
+        <script type="text/javascript">
+            // Page view counter
+            if (!localStorage.pageCounter)
+                localStorage.setItem('pageCounter',0);
+            localStorage.setItem('pageCounter',parseInt(localStorage.pageCounter)+1);
+            $("#pageCount").html(localStorage.pageCounter);
+            // Request update
+            $('#updateButton').click(function(){
+                $.ajax({
+                  url: "beaconpush.php",
+                });
+            });
+			cache = window.applicationCache;
+			cache.addEventListener('cached', function() {
+				$('#chacheStatus').html('Cache status: Cached').css('color','#119911');
+			}, false);
+			cache.addEventListener('noupdate', function() {
+				$('#chacheStatus').html('Cache status: Cached').css('color','#119911');
+			}, false);
+			cache.addEventListener('downloading', function() {
+				$('#chacheStatus').html('Cache status: Downloading').css('color','#999911');
+			}, false);
+			cache.addEventListener('error', function() {
+				$('#chacheStatus').html('Cache status: Error').css('color','#991111');
+			}, false);
+        </script>
+	</body>
+</html>

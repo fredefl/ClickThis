@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html manifest="offline.manifest">
+    <head>
+        <title>Buttons</title>
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="stylesheet" type="text/css" href="css/style.css"/>
+        <link rel="stylesheet" href="css/buttons.css"/>	
+        <link rel="apple-touch-icon" href="images/ClickThis64.png" />
+    </head> 
+    <body> 
+        <div id="Page">
+        	<!-- Content will come. It's created down below -->    
+        </div>
+        <script src="js/prefixfree.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+        <script type="text/javascript" src="js/buttonGenerator.js"></script>
+        <script type="text/javascript">
+            var buttons =  "";
+            buttons += buttonGenerator.newButton(0,0,'pink','Pink');
+            buttons += buttonGenerator.newButton(0,0,'brown','Brown');
+            buttons += buttonGenerator.newButton(0,0,'green','Green');
+            buttons += buttonGenerator.newButton(0,0,'lime','Lime');
+            buttons += buttonGenerator.newButton(0,0,'red','Rad');
+            buttons += buttonGenerator.newButton(0,0,'orange','Orange');
+            buttons += buttonGenerator.newButton(0,0,'cyan','Cyan');
+            buttons += buttonGenerator.newButton(0,0,'maroon','Maroon');
+            buttons += buttonGenerator.newButton(0,0,'olive','Olive');
+            buttons += buttonGenerator.newButton(0,0,'white','White');
+            buttons += buttonGenerator.newButton(0,0,'yellow','Yellow');
+            buttons += buttonGenerator.newButton(0,0,'black','Black');
+            buttons += buttonGenerator.newButton(0,0,'purple','Purple');
+            buttons += buttonGenerator.newButton(0,0,'gold','Gold');
+            buttons += buttonGenerator.newButton(0,0,'silver','Silver');
+            buttons += buttonGenerator.newButton(0,0,'gray','Gray');
+            $('#Page').append(buttons);
+        </script>
+    </body> 
+</html> 

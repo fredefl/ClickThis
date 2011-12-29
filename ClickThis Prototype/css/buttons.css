@@ -1,0 +1,247 @@
+/* Button*/
+.button, .button:visited {
+	/* Background */	
+	background: #222 url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAyCAQAAAA38nkBAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAACFJREFUCNdj+O/AxPAfjBhgDDj6h8EmSP4jWjGmFQhnAAAvpzBjYnpesAAAAABJRU5ErkJggg%3D%3D) repeat-x;
+	
+	/* General */
+	display: inline-block; 
+	position: relative;
+	cursor: pointer;
+	
+	/* Text */
+	color: #fff; 
+	font-family: Arial, Helvetica, sans-serif;	
+	font-weight: bold; 
+	line-height: 1; 
+	text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+	text-decoration: none;
+	
+	/* Borders */
+	border-radius:10px;
+	-moz-border-radius:10px; 
+	-webkit-border-radius:10px;
+	-ms-border-radius:10px; 
+	-o-border-radius:10px;
+	border-bottom: 1px solid rgba(0,0,0,0.25);
+	 
+	/* Shadows */
+	box-shadow:0 1px 3px rgba(0,0,0,0.6);
+	-moz-box-shadow:0 1px 3px rgba(0,0,0,0.6);
+	-webkit-box-shadow:0 1px 3px rgba(0,0,0,0.6);
+	-ms-box-shadow:0 1px 3px rgba(0,0,0,0.6);
+	-o-box-shadow:0 1px 3px rgba(0,0,0,0.6);
+	
+	/* User Select */
+	-webkit-user-select:none;
+	-moz-user-select:none;
+	user-select:none;
+}
+
+/* Button Active */		
+.button:active {
+	top:1px;
+}
+	
+/* Mega Button */								  
+.mega.button, .mega.button:visited {
+	font-size: 4em;
+	padding: 20px 0 20px 0;
+}
+	
+/* Mobile Button */						
+.halfsize.button, .halfsize.button:visited {
+	width:43.3%;
+	left:2.5%; 
+	text-align:center;
+	margin-left:3%;
+	margin-bottom:25px;
+	margin-top:25px;
+}
+
+/* Fullsize Button */
+.fullsize.button {
+	width:90%;
+	left:2.5%; 
+	text-align:center;
+	margin-bottom:25px;
+	margin-top:25px;	
+}
+
+/* Colors & Glow */
+/* Pink */
+.pink.button, .pink.button:visited {
+	background-color: #e22092;
+}
+.glow.pink.button {
+	box-shadow: 0px 0px 30px #e22092;
+	-moz-box-shadow: 0px 0px 30px #e22092;
+	-webkit-box-shadow: 0px 0px 30px #e22092;
+}
+	
+/* Green */
+.green.button, .green.button:visited {
+	background-color: #91bd09;
+}
+.glow.green.button {
+	box-shadow: 0px 0px 30px #91bd09;
+	-moz-box-shadow: 0px 0px 30px #91bd09;
+	-webkit-box-shadow: 0px 0px 30px #91bd09;
+}
+/* Red */ 
+.red.button, .red.button:visited {
+	background-color: #e62727;
+}
+.glow.red.button {
+	box-shadow: 0px 0px 30px #e62727;
+	-moz-box-shadow: 0px 0px 30px #e62727;
+	-webkit-box-shadow: 0px 0px 30px #e62727;
+}
+
+/* Orange */
+.orange.button, .orange.button:visited {
+	background-color: #ff5c00;
+}
+.glow.orange.button {
+	box-shadow: 0px 0px 30px #ff5c00;
+	-moz-box-shadow: 0px 0px 30px #ff5c00;
+	-webkit-box-shadow: 0px 0px 30px #ff5c00;
+}
+	
+/* Blue */
+.blue.button, .blue.button:visited { 
+	background-color: #2981e4; 
+}
+.glow.blue.button {
+	box-shadow: 0px 0px 30px #2981e4;
+	-moz-box-shadow: 0px 0px 30px #2981e4;
+	-webkit-box-shadow: 0px 0px 30px #2981e4;
+}	
+
+/* Yellow */
+.yellow.button, .yellow.button:visited {
+	background-color: #ffb515;
+}
+.glow.yellow.button {
+	box-shadow: 0px 0px 30px #ffb515;
+	-moz-box-shadow: 0px 0px 30px #ffb515;
+	-webkit-box-shadow: 0px 0px 30px #ffb515;
+}
+	
+/* Black */
+.black.button, .black.button:visited {
+	background-color: #000000;
+}
+.glow.black.button {
+	box-shadow: 0px 0px 30px #000000;
+	-moz-box-shadow: 0px 0px 30px #000000;
+	-webkit-box-shadow: 0px 0px 30px #000000;
+}
+	
+/* Gray */
+.gray.button, .gray.button:visited {
+	background-color: #5D5D5D;
+}
+.glow.gray.button {
+	box-shadow: 0px 0px 30px #5D5D5D;
+	-moz-box-shadow: 0px 0px 30px #5D5D5D;
+	-webkit-box-shadow: 0px 0px 30px #5D5D5D;
+}
+
+/* White */
+.white.button, .white.button:visited {
+	background-color: #FFFFFF;
+	color:#D1D1D1;
+}
+.glow.white.button {
+	box-shadow: 0px 0px 30px #FFFFFF;
+	-moz-box-shadow: 0px 0px 30px #FFFFFF;
+	-webkit-box-shadow: 0px 0px 30px #FFFFFF;
+}
+	
+/* Purple */
+.purple.button, .purple.button:visited {
+	background-color: #C0C;
+}
+.glow.purple.button {
+	box-shadow: 0px 0px 30px #C0C;
+	-moz-box-shadow: 0px 0px 30px #C0C;
+	-webkit-box-shadow: 0px 0px 30px #C0C;
+}
+	
+/* Brown */	
+.brown.button, .brown.button:visited {
+	background-color: #630;
+}
+.glow.brown.button {
+	box-shadow: 0px 0px 30px #630;
+	-moz-box-shadow: 0px 0px 30px #630;
+	-webkit-box-shadow: 0px 0px 30px #630;
+}
+	
+/* Gold */	
+.gold.button, .gold.button:visited {
+	background-color: #D4A017;
+}
+.glow.gold.button {
+	box-shadow: 0px 0px 30px #D4A017;
+	-moz-box-shadow: 0px 0px 30px #D4A017;
+	-webkit-box-shadow: 0px 0px 30px #D4A017;
+}
+	
+/* Cyan */	
+.cyan.button, .cyan.button:visited {
+	background-color: #00FFFF;
+}
+.glow.cyan.button {
+	box-shadow: 0px 0px 30px #00FFFF;
+	-moz-box-shadow: 0px 0px 30px #00FFFF;
+	-webkit-box-shadow: 0px 0px 30px #00FFFF;
+}
+	
+/* Lime */	
+.lime.button, .lime.button:visited {
+	background-color: #00FF00;
+}
+.glow.lime.button {
+	box-shadow: 0px 0px 30px #00FF00;
+	-moz-box-shadow: 0px 0px 30px #00FF00;
+	-webkit-box-shadow: 0px 0px 30px #00FF00;
+}
+	
+/* Silver */	
+.silver.button, .silver.button:visited {
+	background-color: #C0C0C0;
+}
+.glow.silver.button {
+	box-shadow: 0px 0px 30px #C0C0C0;
+	-moz-box-shadow: 0px 0px 30px #C0C0C0;
+	-webkit-box-shadow: 0px 0px 30px #C0C0C0;
+}
+	
+/* Maroon */	
+.maroon.button, .maroon.button:visited {
+	background-color: #800000;
+}
+.glow.maroon.button {
+	box-shadow: 0px 0px 30px #800000;
+	-moz-box-shadow: 0px 0px 30px #800000;
+	-webkit-box-shadow: 0px 0px 30px #800000;
+}
+
+/* Olive */	
+.olive.button, .olive.button:visited {
+	background-color: #808000;
+}
+.glow.olive.button {
+	box-shadow: 0px 0px 30px #808000;
+	-moz-box-shadow: 0px 0px 30px #808000;
+	-webkit-box-shadow: 0px 0px 30px #808000;
+}
+/* End of Colors */
+
+/* No purpose styles */
+.submit.button {
+}
+.single.button {
+}
+/* End Of No purpose styles */
