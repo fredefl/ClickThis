@@ -1,0 +1,21 @@
+<!Doctype html>
+<html>
+<head>
+
+
+
+</head>
+<body>
+
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script type="text/javascript" src="json2.js"></script>
+<script src="ajaxQueue.js"></script>
+<script type="text/javascript">
+	ajaxQueue.load();
+    ajaxQueue.add("ajax.php","somemore=something");
+	ajaxQueue.add("ajax.php","something=1234");
+	ajaxQueue.executeTasks();
+</script>
+</body>
+</html>
