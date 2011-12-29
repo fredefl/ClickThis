@@ -30,6 +30,9 @@ var ajaxQueue = {
 	*/
 	queueArray: null,
 	
+	log: function (message) {
+		$('#log').append(message+'\r\n');
+	},
 	/**
 	* Loads the queue array from localStorage
 	*/
@@ -38,10 +41,11 @@ var ajaxQueue = {
 			var localStorageItem = localStorage.getItem(this.localStorageKeyName);
 			var jsonArray = JSON.parse(localStorageItem);
 			this.queueArray = jsonArray;
-			//console.log("Data loaded",jsonArray.count);
+			/*LOG*/ ajaxQueue.log("Data loaded from localstorage, added "+jsonArray.Tasks.length+" items to queue.");
 			return true;
 		} else {
 			this.queueArray = {Tasks: []};
+			/*LOG*/ ajaxQueue.log("No data in localstorage, adding new key.");
 			return false;
 		}
 	},
@@ -52,6 +56,7 @@ var ajaxQueue = {
 	save: function () {
 		var jsonString = JSON.stringify(this.queueArray, null, 2);
 		localStorage.setItem(this.localStorageKeyName,jsonString);
+		/*LOG*/ ajaxQueue.log("Saved queue to localstorage.");
 		return true;
 	},
 	
@@ -69,6 +74,7 @@ var ajaxQueue = {
 		this.queueArray.Tasks.push( {id:id,url:url,data:data});
 		// Save the queue to prevent data loss
 		this.save();
+		/*LOG*/ ajaxQueue.log("Added task, url:"+url+", data:"+data);
 		// Return the new id for the task
 		return id;
 	},
@@ -85,6 +91,7 @@ var ajaxQueue = {
 			}
         });
 		this.save();
+		/*LOG*/ ajaxQueue.log("Removed "+id);
 		return result;
 	},
 	
@@ -94,6 +101,7 @@ var ajaxQueue = {
 	clear: function () {
 		this.queueArray = {};
 		this.save();
+		/*LOG*/ ajaxQueue.log("Cleared queue");
 		return true;
 	},
 	
@@ -103,12 +111,14 @@ var ajaxQueue = {
 	executeTasks: function () {
 		if(this.queueArray.Tasks.length > 0) {
 			var currentTask = this.queueArray.Tasks[0];
+			/*LOG*/ ajaxQueue.log("Sending '"+currentTask.data+"' to '"+currentTask.url+"'.");
 			$.post(
 					currentTask.url,
 					currentTask.data,
 					// On success
 					function () {
 						ajaxQueue.remove(currentTask.id);
+						/*LOG*/ ajaxQueue.log("Sending of '"+currentTask.data+"' to '"+currentTask.url+"' was successfull.");
 						ajaxQueue.executeTasks();
 					}
 			);
