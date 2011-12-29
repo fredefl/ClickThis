@@ -21,10 +21,10 @@ else{
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
-<link rel="stylesheet" type="text/css" href="../css/jqtouch.css"/>
-<link rel="stylesheet" type="text/css" href="../css/jqt/theme.css"/>
-<link rel="stylesheet" type="text/css" href="../css/style.css"/>
-<link rel="apple-touch-icon" href="../images/ClickThis64.png" />
+<link rel="stylesheet" type="text/css" href="css/jqtouch.css"/>
+<link rel="stylesheet" type="text/css" href="css/jqt/theme.css"/>
+<link rel="stylesheet" type="text/css" href="css/style.css"/>
+<link rel="apple-touch-icon" href="images/ClickThis64.png" />
 <meta charset="utf-8">
 <title><?php echo $name; ?></title>
 </head>
@@ -45,7 +45,7 @@ else{
             </div>
             <div id="user_3" class="Disabled">
                 <div id="Avatar">
-                    <a title="Bo Thomsen" href="http://illution.dk/ClickThisPrototype/profile.html#2"><img src="http://www.gravatar.com/avatar/dc07576afa6b5b172a378d6f5eb05f5f?s=256" title="Bo Thomsen" alt="Bo Thomsen" /></a>
+                    <a title="Bo Thomsen" href="#"><img src="http://www.gravatar.com/avatar/dc07576afa6b5b172a378d6f5eb05f5f?s=256" title="Bo Thomsen" alt="Bo Thomsen" /></a>
                 </div>
                 <div id="Profile">
                     <label for="Name">Name</label><br>
@@ -66,7 +66,7 @@ else{
             </div>
             <div id="user_32" class="Disabled">
                 <div id="Avatar">
-                    <a title="Car Magazine" href="#2"><img src="../images/Grey Bugatti Veyron.png" title="Car Magazine" alt="Car Magazine" /></a>
+                    <a title="Car Magazine" href="#2"><img src="images/Grey Bugatti Veyron.png" title="Car Magazine" alt="Car Magazine" /></a>
                 </div>
                 <div id="Profile">
                     <label for="Name">Name</label><br>
@@ -87,10 +87,10 @@ else{
             </div>
     	</div>    
     </div>    
-	<script src="../js/prefixfree.min.js"></script>
+	<script src="js/prefixfree.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
     <script src="http://cdn.illution.dk/JS/jquery.hashchange.min.js"></script>
-    <script src="../js/script.js"></script>
-    <script type="text/javascript" src="../js/user.js"></script>
+    <script src="js/script.js"></script>
+    <script type="text/javascript" src="js/user.js"></script>
 </body>
 </html>
