@@ -123,7 +123,7 @@ $(document).ready(function() {
 	question5[3] = new Array('multi','green','Yellow',0);
 	question5[4] = new Array('multi','green','Blue',0);
 	question5[5] = new Array('multi','green','Red',0);
-	question5[6] = new Array('submit','orange','Send','send5','http://illution.dk/ClickThisPrototype/user_home.html#thanks_cars',null);
+	question5[6] = new Array('submit','orange','Send','send5','http://illution.dk/ClickThisPrototype/home.html#thanks_cars',null);
 	question(question5,'question_5',true,true,'5','h1');
 	
 	/* Check for page */

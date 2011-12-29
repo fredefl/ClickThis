@@ -12,30 +12,107 @@
         <link rel="apple-touch-icon" href="images/ClickThis64.png" />
 	</head>
 	<body>
+    <input type="hidden" id="currentpage" value="user" />
         <div id="jqt">
+        	<!-- The full page dov -->
             <div id="home" class="current">
-                <div class="toolbar">
-                    <h1>ClickThis</h1>
+            	<!-- Toolbar -->
+            	<div class="toolbar">
+                    <h1><a href="http://illution.dk/ClickThisPrototype/home.html" title="Home" style="text-decoration:none; color:#FFF;">ClickThis</a></h1>
                     <a class="button slideup" id="infoButton" href="#about">About</a>
+                </div>   
+                
+                <!-- User front page -->
+                <div id="user">
+                     <!-- The surveys -->
+                    <ul class="rounded arrow">
+                        <li class="forward"><a href="#welcome_sport">Which sport(s) do you play, and why?</a><small class="counter"><a href="user.php?user_id=3">Bo Thomsen
+                        </a></small></li>
+                        <li class="forward"><a href="#welcome_cars">What is the best car?</a><small class="counter"><a href="user.php?user_id=32">Car Magazine</a></small></li>
+                    </ul>
+                
+                	<!-- The tests -->
+                    <ul class="rounded">
+                    	<li class="forward"><a href="buttons.html">Button Showcase</a></li>  
+                        <li class="forward" id="updateButton"><a>Update Desktop</a></li>
+                        <li class="arrow"><a>Page View Counter</a><small class="counter" id="pageCount"></small></li>
+                        <li><a id="chacheStatus">Cache status </a></li>
+                    </ul>
                 </div>
-                <ul class="rounded">
-                    <li class="forward"><a href="multiplechoice.html">Multiple Choice</a></li>
-                    <li class="forward"><a href="singlechoice.html">Cars</a></li>
-                    <li class="forward"><a href="buttons.html">Button Showcase</a></li>
-                    <li class="forward"><a href="flow">Flow Diagram</a></li>
-                    <li class="forward" id="updateButton"><a>Update Desktop</a></li>
-                    <li class="arrow"><a>Page View Counter</a><small class="counter" id="pageCount"></small></li>
-                    <li><a id="chacheStatus">Cache status </a></li>
-                </ul>
+                
+                <!-- Welcome screen of sports survey -->
+                <div class="Disabled" id="welcome_sport">
+                     <ul class="rounded" >
+                        <!--<h1 id="Header">Hello</h1>-->
+                        <ul class="arrow">
+                            <li class="forward"><a href="multiplechoice.html">Begin the survey</a></li>
+                        </ul>
+                     </ul>
+                     <ul class="rounded" >
+                        <li>&copy; Illution, Survey By: Bo Thomsen</li>
+                     </ul>   
+                </div>
+                
+                <!-- Profile -->
+                <div class="Disabled" id="profile">
+                    <div id="Avatar">
+                        <a title="Bo Thomsen" href="#"><img src="http://www.gravatar.com/avatar/dc07576afa6b5b172a378d6f5eb05f5f?s=256" title="Bo Thomsen" alt="Bo Thomsen" /></a>
+                    </div>
+                    <div id="Profile">
+                        <label for="Name">Name</label><br>
+                        <input type="text" id="Name" value="Bo Thomsen" disabled /><br>
+                        <label for="Email">Email</label><br>
+                        <input type="text" id="Email" value="bo@illution.dk" disabled /><br>
+                        <label for="Email">Location</label><br>
+                        <select id="Location" disabled>
+                            <optgroup title="Europe" label="Europe">Europe</optgroup>
+                                <option selected value="dk">Denmark</option>
+                                <option value="en">England</option>
+                                <option value="de">Germany</option>
+                                <option value="fr">France</option>
+                            <optgroup title="Asia" label="Asia">Asia</optgroup>
+                                <option value="cn">China</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Settings -->
+                <div class="Disabled" id="settings">
+                	<img src="images/OffSwitch.png" alt="Switch" id="Switch" style="margin-top:200px;margin-left:200px;" onClick="OnOff(this)">
+                </div>
+                
+                <!-- Welcome screen of Vehicle survey -->
+                <div class="Disabled" id="welcome_cars">
+                    <!--<h1 id="Header">Hello</h1>-->
+                    <ul class="rounded arrow">
+                        <li class="forward"><a href="singlechoice.html#question_1">Begin the survey</a></li>
+                    </ul>
+                     <ul class="rounded" >
+                        <li>&copy; Illution, Survey By: Car Magazine</li>
+                     </ul>   
+                </div>
+                
+                <!-- The Thanks page for cars -->
+                <div class="Disabled" id="thanks_cars">
+                    <!--<h1 id="Header">Hello</h1>-->
+                    <ul class="rounded arrow">
+                        <li class="forward"><a href="#user">End the survey</a></li>
+                    </ul>
+                     <ul class="rounded" >
+                        <li>&copy; Illution, Survey By: Car Magazine</li>
+                     </ul>   
+                </div>
+                
+                <!-- Bottom -->
                 <ul class="individual">
                     <li><a href="profile.html">Profile</a></li>
                     <li><a href="settings.html">Settings</a></li>
                 </ul>
             </div>
-        
         </div>
         <script src="js/prefixfree.min.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+        <script src="http://cdn.illution.dk/JS/jquery.hashchange.min.js"></script>
         <script src="js/script.js"></script>
         <script type="text/javascript">
             // Page view counter
