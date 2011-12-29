@@ -2,14 +2,24 @@
 <html manifest="offline.manifest">
 	<head>
     	<title>ClickThis - SingleChoice</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;">
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="stylesheet" type="text/css" href="css/jqt/theme.css"/>
         <link rel="stylesheet" type="text/css" href="css/buttons.css"/>
         <link rel="stylesheet" type="text/css" href="css/style.css"/>
         <link rel="apple-touch-icon" href="images/ClickThis64.png" />
     </head> 
     <body> 
+        <div id="jqt">
+        <div id="home" class="current">
+            <div class="toolbar">
+                <h1>ClickThis</h1>
+                <a class="button slideup" id="infoButton" href="#about">About</a>
+            </div>
+        </div>
+        </div>
     	<input type="hidden" id="currentpage" value="question_1" />
     	<div id="question_1" class="Active">
         	<h1>Which of these cars are best?</h1>
@@ -32,5 +42,9 @@
         <script src="http://cdn.illution.dk/JS/jquery.hashchange.min.js"></script>
         <script type="text/javascript" src="js/buttonGenerator.js"></script>
         <script type="text/javascript" src="js/singlechoice.js"></script>
+        <script type="text/javascript" src="http://cdn.illution.dk/JS/jquery.fittext.js"></script>
+        <script type="text/javascript">
+			$('.button.mobile').fitText();
+		</script>
     </body> 
 </html>
