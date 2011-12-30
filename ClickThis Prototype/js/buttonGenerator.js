@@ -234,8 +234,8 @@ var buttonGenerator = {
 				}
 			}
 		}
-		postString = postString.slice(0, -1)
-		alert(postString);
+		postString = postString.slice(0, -1);
+		//alert(postString);
 		if(redirectUrl != undefined && redirectUrl != null){
 			window.location = redirectUrl;
 		}
