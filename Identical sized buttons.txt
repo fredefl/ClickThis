@@ -1,0 +1,5 @@
+Styles:
+padding: 22px 0 22px 0
+top: -12px
+JS:
+$('.button.mega').each(function (index) {console.log($(this).height())});
