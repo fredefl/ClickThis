@@ -157,7 +157,8 @@ body {
     border-bottom: #555858;
     list-style-type: none;
     padding: 10px 10px 10px 10px;
-	background-image: linear-gradient(top, #4c4d4e, #404142);s
+	background-image: linear-gradient(top, #4c4d4e, #404142);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#4c4d4e), color-stop(100%,#404142));
     overflow: hidden;
 }
 #jqt ul li.arrow {
@@ -366,7 +367,8 @@ body {
     display: block;
     padding: 11px 10px 14px 10px;
 	box-shadow: rgba(0,0,0,.2) 1px 1px 3px;
-	background: linear-gradient( 0% 0%, 0% 100%, from(#4c4d4e), to(#404142));
+	background: linear-gradient(top, #4c4d4e 0%, #404142 100%);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#4c4d4e), color-stop(100%,#404142));
 }
 #jqt ul.individual li + li {
     float: right;
