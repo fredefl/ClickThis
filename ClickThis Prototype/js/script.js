@@ -11,11 +11,7 @@ function checkForViewport() {
 // On page load
 window.addEventListener('load', function(e) {
 	$(window).hashchange();
-	if(checkForViewport()) {
-		setTimeout(function() { window.scrollTo(0, 1); }, 1);
-	} else {
-		//setTimeout(function() { window.scrollTo(0, 500); }, 1);
-	}
+	$(window).scrollTop(0, 0);
 }, false);
 
 /* Trigger the event (useful on page load).
