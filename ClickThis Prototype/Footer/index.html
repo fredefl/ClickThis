@@ -1,0 +1,73 @@
+<!Doctype html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;">
+	<style type="text/css">
+		html, body {
+			height: 100%;
+		}
+		body {
+			margin: 0;
+			padding: 0;
+			background-color: #fff;
+		}
+		* {
+			margin: 0;
+		}
+		#container {
+			min-height: 100%; /* use min-height not height, to prevent overlap */
+			margin-bottom: -64px; /* = #footer height+padding+border, to prevent overlap */
+		}
+		#footer {
+			margin:0px;
+			height: 64px;
+			width:100%;
+			background: -webkit-linear-gradient(top,#6b6b6b,#343434);
+			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#6b6b6b), color-stop(100%,#343434)); 
+		}
+		#back {
+			position:absolute;
+			width:32px;
+			height:32px;
+			left:0px;
+			margin: 0 0 0 0;
+			padding: 16px 16px 16px 16px;
+			border-right:2px solid rgba(255,255,255,0.4);
+		}
+		#forward {
+			position:absolute;
+			width:100%;
+			height:64px;
+		}
+		#up {
+			position:absolute;
+			width:32px;
+			height:32px;
+			right:0px;
+			margin: 0 0 0 0;
+			padding: 16px 16px 16px 16px;
+			border-left:2px solid rgba(255,255,255,0.4);
+		}
+		#arrowforward {
+			top:0px;
+			height:32px;
+			width:32px;
+			padding:0px;
+			margin-left:auto;
+			margin-right:auto;
+			margin-top:16px;
+		}
+	</style>
+</head>
+<body>
+    <div id="container">
+        <h1>Lalalalalalalal</h1>
+        <div id="footer-spacer"></div>
+    </div>
+    <div id="footer">
+        <div id="forward" onClick="alert('forward')"><div id="arrowforward"><img src="Arrow-Forward.png"/></div></div>
+        <div id="back" onClick="alert('back')"><img src="Arrow-Back.png"/></div>
+        <div id="up" onClick="alert('up')"><img src="Arrow-Up.png"/></div>
+    </div>
+</body>
+</html>
