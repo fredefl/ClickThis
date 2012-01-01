@@ -14,12 +14,11 @@ window.addEventListener('load', function(e) {
 	$(window).scrollTop(0, 0);
 }, false);
 
-/* Trigger the event (useful on page load).
-$(document).ready(function(e) {
-    $(window).hashchange();
+$(document).ready(function(){
+	$('#closeAboutBox').click(function(){
+		$('#aboutBox').modal('hide')	
+	});		
 });
-*/
-
 
 $(window).hashchange( function(){
 	var Hash = location.hash;
@@ -29,7 +28,14 @@ $(window).hashchange( function(){
 	}
 });
 
-/*
+/**
+* This function is showing the about form
+*/
+function about(){
+	
+}
+
+/**
 * This function change the page content
 *
 * @param {string} page The id without the # of the page content container
