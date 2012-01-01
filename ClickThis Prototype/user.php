@@ -30,12 +30,13 @@ else{
 </head>
 <body>
 	<input type="hidden" id="user" value="<?php echo $userid; ?>" />
+    <input type="hidden" id="currentpage" value="<?php echo $userid; ?>" />
 	<div id="jqt">
         <div id="home" class="current">
             <div class="toolbar">
                 <h1><a href="http://illution.dk/ClickThisPrototype/home.html" title="Home" style="text-decoration:none; color:#FFF;">ClickThis</a></h1>
-                <a class="button slideup" href="#" id="infoButton">About</a>
-                <a class="back" id="backButton" href="home.html">Back</a>
+                <a class="button slideup" href="#" onClick="showAboutBox();" id="infoButton">About</a>
+                <a class="back" id="backButton" href="#" data-href="home.html">Back</a>
             </div>
             <div id="notfound" class="Disabled">
                 <ul class="rounded" >
@@ -88,13 +89,13 @@ else{
             </div>
             
             <!-- About Box -->
-            <div id="aboutBox">
-            	
+            <div id="aboutBox" class="Disabled">
+
             </div>
     	</div>    
     </div>    
 	<script src="js/prefixfree.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
     <script src="http://cdn.illution.dk/JS/jquery.hashchange.min.js"></script>
     <script src="js/script.js"></script>
     <script type="text/javascript" src="js/user.js"></script>

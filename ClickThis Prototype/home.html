@@ -19,8 +19,8 @@
             	<!-- Toolbar -->
             	<div class="toolbar">
                     <h1><a href="http://illution.dk/ClickThisPrototype/home.html" title="Home" style="text-decoration:none; color:#FFF;">ClickThis</a></h1>
-                    <a class="button slideup" href="#" id="infoButton">About</a>
-                    <a class="back" id="backButton" href="home.html">Back</a>
+                    <a class="button slideup" href="#" onClick="showAboutBox();" id="infoButton">About</a>
+                    <a class="back" id="backButton" href="#" data-href="home.html">Back</a>
                 </div>   
                 
                 <!-- User front page -->
@@ -106,16 +106,16 @@
                      </ul>   
                 </div>
                 
+                <!-- About Box -->
+                <div id="aboutBox" class="Disabled">
+                </div>
+                
                 <!-- Bottom -->
                 <ul class="individual">
                     <li><a href="profile.html">Profile</a></li>
                     <li><a href="settings.html">Settings</a></li>
                 </ul>
                 
-                 <!-- About Box -->
-                <div id="aboutBox">
-                   
-                </div>
             </div>
         </div>
         <script src="js/prefixfree.min.js"></script>

@@ -8,6 +8,11 @@ function checkForViewport() {
     });
 	return success;
 }
+
+$('#closeAboutBox').click(function(){
+	 hideAboutBox();
+});
+
 // On page load
 window.addEventListener('load', function(e) {
 	$(window).hashchange();
@@ -15,10 +20,16 @@ window.addEventListener('load', function(e) {
 }, false);
 
 $(document).ready(function(){
-	$('#closeAboutBox').click(function(){
-		$('#aboutBox').modal('hide')	
-	});		
+	addAboutBox();
 });
+
+/**
+* This function fill the about box with content
+*/
+function addAboutBox(){
+	aboutBox = $('#aboutBox');
+	aboutBox.append('<ul class="rounded arrow"><li><a>Llama2</a></li></ul>');
+}
 
 $(window).hashchange( function(){
 	var Hash = location.hash;
@@ -49,5 +60,43 @@ function changePage(Page){
 		$('#currentpage').val(Page);
 		NewPage.removeClass('Disabled').addClass('Active');
 	}
+}
+
+/* This event run if you click the back button */
+$('#backButton').click(function(){
+	if($('#backButton').attr('data-about') == 'true'){
+		hideAboutBox();	
+	}
+	else{
+		window.location = $('#backButton').attr('data-href');
+	}
+});
+
+/**
+* This function show the about box
+*/
+function showAboutBox(){
+	currentPage = $('#'+$('#currentpage').val());
+	page = '#'+$('#currentpage').val();
+	aboutBox = $('#aboutBox');
+	backButton = $('#backButton');
+	backButton.attr('data-href',page);
+	backButton.attr('data-about','true');
+	currentPage.addClass('Disabled').removeClass('Active');
+	aboutBox.removeClass('Disabled').addClass('Active');
+}
+
+/**
+* This function hide the aboutbox
+*/
+function hideAboutBox(){
+	aboutBox = $('#aboutBox');
+	backButton = $('#backButton');
+	currentPage = $('#'+$('#currentpage').val());
+	currentPage.removeClass('Disabled').addClass('Active');
+	page = '#'+$('#currentpage').val();
+	backButton.attr('data-href','home.html');
+	backButton.removeAttr('data-about');	
+	aboutBox.addClass('Disabled').removeClass('Active');
 }
 

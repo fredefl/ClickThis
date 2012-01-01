@@ -1,17 +1,7 @@
 $(document).ready(function() {
 	var page = $('#user').val();
 	changePage(page);
-	/* Check for page */
-	//$(window).hashchange();
 });
-
-/*$(window).hashchange( function(){
-	var Hash = location.hash;
-	if(Hash != null && Hash != undefined && Hash != ''){
-		user = Hash.replace('#','');
-		changePage(page);
-	}
-});*/
 
 /**
 * This function change the page content
