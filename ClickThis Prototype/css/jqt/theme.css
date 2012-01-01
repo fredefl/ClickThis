@@ -61,9 +61,7 @@ body {
     white-space: nowrap;
     background: none;
 	border-image: url(img/button.png) 0 5 0 5;
-	-webkit-border-image: url(img/button.png) 0 5 0 5;
-	-moz-border-image: url(img/button.png) 0 5 0 5;
-	-o-border-image: url(img/button.png) 0 5 0 5;
+    -webkit-border-image: url(img/button.png) 0 5 0 5;
 }
 #jqt .button.active, #jqt .cancel.active, #jqt .add.active {
 	border-image: url(img/button_clicked.png) 0 5 0 5;
@@ -79,6 +77,7 @@ body {
     max-width: 55px;
     border-width: 0 8px 0 14px;
 	border-image: url(img/back_button.png) 0 8 0 14;
+    -webkit-border-image: url(img/back_button.png) 0 8 0 14;
 }
 #jqt .back.active {
 	border-image: url(img/back_button_clicked.png) 0 8 0 14;
