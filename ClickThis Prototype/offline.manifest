@@ -2,7 +2,7 @@ CACHE MANIFEST
 
 # HTML
 buttons.html
-#home.html
+home.html
 multiplechoice.html
 profile.html
 settings.html
@@ -11,7 +11,11 @@ singlechoice.html
 #JAVASCRIPT
 js/buttonGenerator.js
 js/jqtouch.min.js
+js/prefixfree.min.js
 js/script.js
+singlechoice.js
+user.js
+user_index_script.js
 http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js
 
 #STYLE
