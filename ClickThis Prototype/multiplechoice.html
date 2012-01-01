@@ -13,39 +13,35 @@
     </head> 
     <body> 
         <div id="jqt">
+        	<input type="hidden" id="currentpage" value="question_1" />
             <div id="home" class="current">
                 <div class="toolbar">
                     <h1><a href="http://illution.dk/ClickThisPrototype/home.html" title="Home" style="text-decoration:none; color:#FFF;">ClickThis</a></h1>
                     <a class="button slideup" href="#" onClick="showAboutBox();" id="infoButton">About</a>
                     <a class="back" id="backButton" href="#" data-href="home.html">Back</a>
                 </div>
+                <!-- About Box -->
+                <div id="aboutBox" class="Disabled">
+                </div>
             </div>
         </div>
-        <div id="Page">
+        
+        <!-- Question 1 -->
+        <div id="question_1" class="Active">
             <h1 id="Title">Which sport(s) do you practice?</h1>
         </div>
-        <!-- About Box -->
-        <div id="aboutBox" class="Disabled">
+        
+        <!-- Question 2 -->
+        <div id="question_2" class="Disabled">
+            <h1>Which sport(s) do you like to watch?</h1>
         </div>
 
         <script src="js/prefixfree.min.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script src="http://cdn.illution.dk/JS/jquery.hashchange.min.js"></script>
         <script src="js/script.js"></script>
         <script type="text/javascript" src="js/buttonGenerator.js"></script>
-        <script type="text/javascript">
-			var buttons =  "";
-			buttons += buttonGenerator.newButton(1,0,'green','Athletics');
-			buttons += buttonGenerator.newButton(2,0,'green','Badminton');
-			buttons += buttonGenerator.newButton(3,0,'green','Football');
-			buttons += buttonGenerator.newButton(4,0,'green','Handball');
-			buttons += buttonGenerator.newButton(5,0,'green','Shooting');
-			buttons += buttonGenerator.newButton(6,0,'green','Swimming');
-			buttons += buttonGenerator.newButton(7,0,'green','Tennis');
-			buttons += buttonGenerator.newButton(8,0,'green','Volleyball');
-			buttons += buttonGenerator.newButton(9,0,'gold','Others');
-			buttons += buttonGenerator.newButton(10,0,'red','None',true,true);
-			buttons += buttonGenerator.newSubmitButton('orange','Send');
-			$('#Title').after(buttons);
-		</script>
+        <script src="js/question.js"></script>
+        <script src="js/multiplechoice.js"></script>
     </body> 
 </html> 
