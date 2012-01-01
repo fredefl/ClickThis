@@ -33,7 +33,7 @@ else{
 	<div id="jqt">
         <div id="home" class="current">
             <div class="toolbar">
-                <h1>ClickThis</h1>
+                <h1><a href="http://illution.dk/ClickThisPrototype/home.html" title="Home" style="text-decoration:none; color:#FFF;">ClickThis</a></h1>
                 <a class="button slideup" id="infoButton" href="#about">About</a>
             </div>
             <div id="notfound" class="Disabled">
