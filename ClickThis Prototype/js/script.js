@@ -8,18 +8,28 @@ function checkForViewport() {
     });
 	return success;
 }
+
+$('#closeAboutBox').click(function(){
+	 hideAboutBox();
+});
+
 // On page load
 window.addEventListener('load', function(e) {
 	$(window).hashchange();
 	$(window).scrollTop(0, 0);
 }, false);
 
-/* Trigger the event (useful on page load).
-$(document).ready(function(e) {
-    $(window).hashchange();
+$(document).ready(function(){
+	addAboutBox();
 });
-*/
 
+/**
+* This function fill the about box with content
+*/
+function addAboutBox(){
+	aboutBox = $('#aboutBox');
+	aboutBox.append('<ul class="rounded arrow"><li><a>Llama2</a></li></ul>');
+}
 
 $(window).hashchange( function(){
 	var Hash = location.hash;
@@ -29,7 +39,7 @@ $(window).hashchange( function(){
 	}
 });
 
-/*
+/**
 * This function change the page content
 *
 * @param {string} page The id without the # of the page content container
@@ -43,5 +53,51 @@ function changePage(Page){
 		$('#currentpage').val(Page);
 		NewPage.removeClass('Disabled').addClass('Active');
 	}
+}
+
+/* This event run if you click the back button */
+$('#backButton').click(function(){
+	if($('#backButton').attr('data-about') == 'true'){
+		hideAboutBox();	
+	}
+	else{
+		window.location = $('#backButton').attr('data-href');
+	}
+});
+
+/**
+* This function show the about box
+*/
+function showAboutBox(){
+	currentPage = $('#'+$('#currentpage').val());
+	page = '#'+$('#currentpage').val();
+	aboutBox = $('#aboutBox');
+	backButton = $('#backButton');
+	backButton.attr('data-href',page);
+	backButton.attr('data-about','true');
+	backText = $('#backtext');
+	if(backText != undefined){
+		backButton.html(backText.attr('data-about'));
+	}
+	currentPage.addClass('Disabled').removeClass('Active');
+	aboutBox.removeClass('Disabled').addClass('Active');
+}
+
+/**
+* This function hide the aboutbox
+*/
+function hideAboutBox(){
+	aboutBox = $('#aboutBox');
+	backButton = $('#backButton');
+	currentPage = $('#'+$('#currentpage').val());
+	currentPage.removeClass('Disabled').addClass('Active');
+	page = '#'+$('#currentpage').val();
+	backButton.attr('data-href','home.html');
+	backButton.removeAttr('data-about');
+	backText = $('#backtext');
+	if(backText != undefined){
+		backButton.html(backText.attr('data-page'));
+	}	
+	aboutBox.addClass('Disabled').removeClass('Active');
 }
 

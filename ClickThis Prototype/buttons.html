@@ -15,18 +15,22 @@
     	<div id="jqt">
             <div id="home" class="current">
                 <div class="toolbar">
-                    <h1>ClickThis</h1>
-                    <a class="button slideup" id="infoButton" href="#about">About</a>
-                    <a class="back" id="backButton" href="home.html">Back</a>
+                    <h1><a href="http://illution.dk/ClickThisPrototype/home.html" title="Home" style="text-decoration:none; color:#FFF;">ClickThis</a></h1>
+                    <a class="button slideup" href="#" onClick="showAboutBox();" id="infoButton">About</a>
+                    <a class="back" id="backButton" href="#" data-href="home.html">Back</a>
                 </div>
             </div>
         </div>
         <div id="Page">
         	<!-- Content will come. It's created down below -->    
         </div>
+       	<!-- About Box -->
+        <div id="aboutBox" class="Disabled">
+        </div>
         <script src="js/prefixfree.min.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
         <script type="text/javascript" src="js/buttonGenerator.js"></script>
+        <script src="js/script.js"></script>
         <script type="text/javascript">
             var buttons =  "";
             buttons += buttonGenerator.newButton(0,0,'pink','Pink');

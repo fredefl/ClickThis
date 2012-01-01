@@ -19,7 +19,8 @@
             	<!-- Toolbar -->
             	<div class="toolbar">
                     <h1><a href="http://illution.dk/ClickThisPrototype/home.html" title="Home" style="text-decoration:none; color:#FFF;">ClickThis</a></h1>
-                    <a class="button slideup" id="infoButton" href="#about">About</a>
+                    <a class="button slideup" href="#" onClick="showAboutBox();" id="infoButton">About</a>
+                    <a class="back" id="backButton" href="#" data-href="home.html">Back</a>
                 </div>   
                 
                 <!-- User front page -->
@@ -83,13 +84,15 @@
                 
                 <!-- Welcome screen of Vehicle survey -->
                 <div class="Disabled" id="welcome_cars">
-                    <!--<h1 id="Header">Hello</h1>-->
-                    <ul class="rounded arrow">
-                        <li class="forward"><a href="singlechoice.html#question_1">Begin the survey</a></li>
+                    <ul class="rounded" >
+                        <!--<h1 id="Header">Hello</h1>-->
+                        <ul class="rounded arrow">
+                            <li class="forward"><a href="singlechoice.html#question_1">Begin the survey</a></li>
+                        </ul>
                     </ul>
-                     <ul class="rounded" >
+                    <ul class="rounded" >
                         <li>&copy; Illution, Survey By: Car Magazine</li>
-                     </ul>   
+                    </ul>   
                 </div>
                 
                 <!-- The Thanks page for cars -->
@@ -103,11 +106,16 @@
                      </ul>   
                 </div>
                 
+                <!-- About Box -->
+                <div id="aboutBox" class="Disabled">
+                </div>
+                
                 <!-- Bottom -->
                 <ul class="individual">
                     <li><a href="profile.html">Profile</a></li>
                     <li><a href="settings.html">Settings</a></li>
                 </ul>
+                
             </div>
         </div>
         <script src="js/prefixfree.min.js"></script>

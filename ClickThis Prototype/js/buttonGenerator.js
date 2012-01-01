@@ -205,7 +205,6 @@ var buttonGenerator = {
 			}
 		}
 		postString = postString.slice(0, -1);
-		//alert(postString);
 	},
 	/**
 	* Submit the button data with a posibility to use a defined redirect url and a submit location.
@@ -235,7 +234,6 @@ var buttonGenerator = {
 			}
 		}
 		postString = postString.slice(0, -1);
-		//alert(postString);
 		if(redirectUrl != undefined && redirectUrl != null){
 			window.location = redirectUrl;
 		}

@@ -12,36 +12,43 @@
         <link rel="apple-touch-icon" href="images/ClickThis64.png" />
     </head>
     <body>
+   		<input type="hidden" id="currentpage" value="user" />
         <div id="jqt">
             <div id="home" class="current">
                 <div class="toolbar">
                     <h1><a href="http://illution.dk/ClickThisPrototype/home.html" title="Home" style="text-decoration:none; color:#FFF;">ClickThis</a></h1>
-                    <a class="button slideup" id="infoButton" href="#about">About</a>
-                    <a class="back" id="backButton" href="home.html">Back</a>
+                    <a class="button slideup" href="#" onClick="showAboutBox();" id="infoButton">About</a>
+                    <a class="back" id="backButton" href="#" data-href="home.html">Back</a>
                 </div>
-       			<div id="Avatar">
-                	<a title="Bo Thomsen" href="#"><img src="http://www.gravatar.com/avatar/dc07576afa6b5b172a378d6f5eb05f5f?s=256" title="Bo Thomsen" alt="Bo Thomsen" /></a>
+                <div id="user" class="Active">
+                    <div id="Avatar">
+                        <a title="Bo Thomsen" href="#"><img src="http://www.gravatar.com/avatar/dc07576afa6b5b172a378d6f5eb05f5f?s=256" title="Bo Thomsen" alt="Bo Thomsen" /></a>
+                    </div>
+                    <div id="Profile">
+                        <label for="Name">Name</label><br>
+                        <input type="text" id="Name" value="Bo Thomsen" disabled /><br>
+                        <label for="Email">Email</label><br>
+                        <input type="text" id="Email" value="bo@illution.dk" disabled /><br>
+                        <label for="Email">Location</label><br>
+                        <select id="Location" disabled>
+                            <optgroup title="Europe" label="Europe">Europe</optgroup>
+                                <option selected value="dk">Denmark</option>
+                                <option value="en">England</option>
+                                <option value="de">Germany</option>
+                                <option value="fr">France</option>
+                            <optgroup title="Asia" label="Asia">Asia</optgroup>
+                                <option value="cn">China</option>
+                        </select>
+                    </div>
                 </div>
-                <div id="Profile">
-                	<label for="Name">Name</label><br>
-                	<input type="text" id="Name" value="Bo Thomsen" disabled /><br>
-                    <label for="Email">Email</label><br>
-                	<input type="text" id="Email" value="bo@illution.dk" disabled /><br>
-                    <label for="Email">Location</label><br>
-                    <select id="Location" disabled>
-                    	<optgroup title="Europe" label="Europe">Europe</optgroup>
-                        	<option selected value="dk">Denmark</option>
-                            <option value="en">England</option>
-                            <option value="de">Germany</option>
-                            <option value="fr">France</option>
-                        <optgroup title="Asia" label="Asia">Asia</optgroup>
-                        	<option value="cn">China</option>
-                    </select>
-                </div>
+             	<!-- About Box -->
+             	<div id="aboutBox" class="Disabled">
+         </div>               
             </div>
         </div>
         <script src="js/prefixfree.min.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script src="http://cdn.illution.dk/JS/jquery.hashchange.min.js"></script>
         <script src="js/script.js"></script>
     </body>
 </html>
