@@ -14,14 +14,31 @@
 		* {
 			margin: 0;
 		}
-		#container {
+		.container-no-popup {
+			margin-bottom: -64px; /* = #footer height+padding+border+popup, to prevent overlap */
+		}
+		.container-popup {
+			
+			margin-bottom: -130px; /* = #footer height+padding+border+popup, to prevent overlap */
+		}
+		#container{
 			min-height: 100%; /* use min-height not height, to prevent overlap */
-			margin-bottom: -64px; /* = #footer height+padding+border, to prevent overlap */
 		}
 		#footer {
 			margin:0px;
 			height: 64px;
 			width:100%;
+			background: -webkit-linear-gradient(top,#6b6b6b,#343434);
+			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#6b6b6b), color-stop(100%,#343434)); 
+		}
+		.Disabled{
+			display:none;	
+		}
+		#popup{
+			margin-bottom:0px; 
+			height: 64px;
+			width:100%;
+			border-bottom:2px solid rgba(255,255,255,0.4); /* Remove this if you don't want's the spacer */
 			background: -webkit-linear-gradient(top,#6b6b6b,#343434);
 			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#6b6b6b), color-stop(100%,#343434)); 
 		}
@@ -60,14 +77,19 @@
 	</style>
 </head>
 <body>
-    <div id="container">
+    <div id="container" class="container-no-popup">
         <h1>Lalalalalalalal</h1>
         <div id="footer-spacer"></div>
+    </div>
+    <div id="popup" class="Disabled">
+    
     </div>
     <div id="footer">
         <div id="forward" onClick="alert('forward')"><div id="arrowforward"><img src="Arrow-Forward.png"/></div></div>
         <div id="back" onClick="alert('back')"><img src="Arrow-Back.png"/></div>
-        <div id="up" onClick="alert('up')"><img src="Arrow-Up.png"/></div>
+        <div id="up" data-mode="down"><img id="up_image" src="Arrow-Up.png"/></div>
     </div>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
