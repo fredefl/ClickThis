@@ -25,7 +25,6 @@ else{
 <link rel="stylesheet" type="text/css" href="css/jqt/theme.css"/>
 <link rel="stylesheet" type="text/css" href="css/style.css"/>
 <link rel="apple-touch-icon" href="images/ClickThis64.png" />
-<link rel="stylesheet" href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css">
 <meta charset="utf-8">
 <title><?php echo $name; ?></title>
 </head>
@@ -35,7 +34,8 @@ else{
         <div id="home" class="current">
             <div class="toolbar">
                 <h1><a href="http://illution.dk/ClickThisPrototype/home.html" title="Home" style="text-decoration:none; color:#FFF;">ClickThis</a></h1>
-                <a class="btn primary" data-controls-modal="aboutBox" data-backdrop="static" data-keyboard="true">About</a>
+                <a class="button slideup" href="#" id="infoButton">About</a>
+                <a class="back" id="backButton" href="home.html">Back</a>
             </div>
             <div id="notfound" class="Disabled">
                 <ul class="rounded" >
@@ -88,25 +88,14 @@ else{
             </div>
             
             <!-- About Box -->
-            <div id="aboutBox" class="modal hide fade in">
-            	<div class="modal-header">
-                  	<a href="#" class="close">&times;</a>
-                	<h3>About ClickThis</h3>
-                </div>
-            	<div class="modal-body">
-               		<h3>Hello</h3>
-                </div>
-                <div class="modal-footer">
-             		 <a href="#" id="closeAboutBox" class="btn primary">Close</a>
-                </div>
+            <div id="aboutBox">
+            	
             </div>
     	</div>    
     </div>    
 	<script src="js/prefixfree.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script src="http://cdn.illution.dk/JS/jquery.hashchange.min.js"></script>
-    <script type="text/javascript" src="http://cdn.illution.dk/JS/bootstrap-modal.js"></script>
-    <script src="http://cdn.illution.dk/JS/bootstrap-buttons.js"></script>
     <script src="js/script.js"></script>
     <script type="text/javascript" src="js/user.js"></script>
 </body>
