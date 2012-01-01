@@ -40,13 +40,6 @@ $(window).hashchange( function(){
 });
 
 /**
-* This function is showing the about form
-*/
-function about(){
-	
-}
-
-/**
 * This function change the page content
 *
 * @param {string} page The id without the # of the page content container
@@ -82,6 +75,10 @@ function showAboutBox(){
 	backButton = $('#backButton');
 	backButton.attr('data-href',page);
 	backButton.attr('data-about','true');
+	backText = $('#backtext');
+	if(backText != undefined){
+		backButton.html(backText.attr('data-about'));
+	}
 	currentPage.addClass('Disabled').removeClass('Active');
 	aboutBox.removeClass('Disabled').addClass('Active');
 }
@@ -96,7 +93,11 @@ function hideAboutBox(){
 	currentPage.removeClass('Disabled').addClass('Active');
 	page = '#'+$('#currentpage').val();
 	backButton.attr('data-href','home.html');
-	backButton.removeAttr('data-about');	
+	backButton.removeAttr('data-about');
+	backText = $('#backtext');
+	if(backText != undefined){
+		backButton.html(backText.attr('data-page'));
+	}	
 	aboutBox.addClass('Disabled').removeClass('Active');
 }
 

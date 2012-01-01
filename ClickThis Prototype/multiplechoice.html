@@ -15,14 +15,17 @@
         <div id="jqt">
             <div id="home" class="current">
                 <div class="toolbar">
-                    <h1>ClickThis</h1>
-                    <a class="button slideup" id="infoButton" href="#about">About</a>
-                    <a class="back" id="backButton" href="home.html">Home</a>
+                    <h1><a href="http://illution.dk/ClickThisPrototype/home.html" title="Home" style="text-decoration:none; color:#FFF;">ClickThis</a></h1>
+                    <a class="button slideup" href="#" onClick="showAboutBox();" id="infoButton">About</a>
+                    <a class="back" id="backButton" href="#" data-href="home.html">Back</a>
                 </div>
             </div>
         </div>
         <div id="Page">
             <h1 id="Title">Which sport(s) do you practice?</h1>
+        </div>
+        <!-- About Box -->
+        <div id="aboutBox" class="Disabled">
         </div>
 
         <script src="js/prefixfree.min.js"></script>

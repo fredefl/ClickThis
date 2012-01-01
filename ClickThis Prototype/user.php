@@ -90,7 +90,6 @@ else{
             
             <!-- About Box -->
             <div id="aboutBox" class="Disabled">
-
             </div>
     	</div>    
     </div>    
