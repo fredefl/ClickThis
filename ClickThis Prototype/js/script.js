@@ -20,7 +20,22 @@ window.addEventListener('load', function(e) {
 }, false);
 
 $(document).ready(function(){
+	var url = new String(window.location);
+	if(url.indexOf("home.html") != -1){
+		shortenTitle();
+	}
 	addAboutBox();
+});
+
+$(window).resize(function(e) {
+    var url = new String(window.location);
+	if(url.indexOf("home.html") != -1){
+		shortenTitle();
+	}
+});
+
+document.addEventListener("orientationChanged",function () {
+	shortenTitle();
 });
 
 /**
@@ -99,5 +114,32 @@ function hideAboutBox(){
 		backButton.html(backText.attr('data-page'));
 	}	
 	aboutBox.addClass('Disabled').removeClass('Active');
+}
+
+function shortenTitle () {
+	$('#series .forward').each(function(index,element){
+		// Get the title
+		var title = $(element).find('a:first');
+		// Get the title contents or the data attribute content
+		if($(title).attr("data-title")){
+			var titleContents = $(title).attr("data-title");
+		} else {
+			var titleContents = $(title).html();
+			$(title).attr("data-title",titleContents);
+		}
+		// Get the author
+		var author = $(element).find('small');
+		var titleWidth = $(title).width();
+		var authorWidth = $(author).width();
+		var titleMaxWidth = titleWidth-authorWidth;
+		var maxChars = titleMaxWidth / 9;
+		var maxRealChars = maxChars - 4;
+		var currentChars = titleContents.length;
+		if(currentChars > maxRealChars)
+			$(title).html(titleContents.substring(0,maxRealChars)+"...")
+		else {
+			$(title).html(titleContents);
+		}
+	});	
 }
 
