@@ -1,46 +1,47 @@
 <!DOCTYPE html>
 <html manifest="offline.manifest">
     <head>
-        <title>ClickThis - MultipleChoice</title>
-        <meta charset="utf-8">
+    	<title>ClickThis - MultipleChoice</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;">
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <meta name="apple-mobile-web-app-capable" content="yes">
-        <link rel="stylesheet" href="css/buttons.css"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="stylesheet" type="text/css" href="css/jqt/theme.css"/>
+        <link rel="stylesheet" type="text/css" href="css/buttons.css"/>
         <link rel="stylesheet" type="text/css" href="css/style.css"/>
         <link rel="apple-touch-icon" href="images/ClickThis64.png" />
     </head> 
     <body> 
-        <div id="Background">
-            <div id="Page">
-                <h1>Hvilke(n) sportsgren(e) dyrker du?</h1>
-                <div class="push"></div>
+        <div id="jqt">
+            <div id="home" class="current">
+                <div class="toolbar">
+                    <h1>ClickThis</h1>
+                    <a class="button slideup" id="infoButton" href="#about">About</a>
+                </div>
             </div>
         </div>
+        <div id="Page">
+            <h1 id="Title">Which sport(s) do you practice?</h1>
+        </div>
+
         <script src="js/prefixfree.min.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
         <script src="js/script.js"></script>
         <script type="text/javascript" src="js/buttonGenerator.js"></script>
         <script type="text/javascript">
-			var ua = navigator.userAgent;
-			var isAppleDevice = /iPad/i.test(ua) || /iPhone/i.test(ua);
-			if(isAppleDevice) {
-				$('head').append('<meta name = "viewport" content = "user-scalable=no">');
-			};
 			var buttons =  "";
-			buttons += buttonGenerator.newButton(1,0,'green','Atletik');
+			buttons += buttonGenerator.newButton(1,0,'green','Athletics');
 			buttons += buttonGenerator.newButton(2,0,'green','Badminton');
-			buttons += buttonGenerator.newButton(3,0,'green','Fodbold');
-			buttons += buttonGenerator.newButton(4,0,'green','Håndbold');
-			buttons += buttonGenerator.newButton(5,0,'green','Skydning');
-			buttons += buttonGenerator.newButton(6,0,'green','Svømning');
+			buttons += buttonGenerator.newButton(3,0,'green','Football');
+			buttons += buttonGenerator.newButton(4,0,'green','Handball');
+			buttons += buttonGenerator.newButton(5,0,'green','Shooting');
+			buttons += buttonGenerator.newButton(6,0,'green','Swimming');
 			buttons += buttonGenerator.newButton(7,0,'green','Tennis');
 			buttons += buttonGenerator.newButton(8,0,'green','Volleyball');
-			buttons += buttonGenerator.newButton(9,0,'gold','Andre');
-			buttons += buttonGenerator.newButton(10,0,'red','Ingen',true,true);
+			buttons += buttonGenerator.newButton(9,0,'gold','Others');
+			buttons += buttonGenerator.newButton(10,0,'red','None',true,true);
 			buttons += buttonGenerator.newSubmitButton('orange','Send');
-			$('h1').after(buttons);
-		
+			$('#Title').after(buttons);
 		</script>
     </body> 
 </html> 
