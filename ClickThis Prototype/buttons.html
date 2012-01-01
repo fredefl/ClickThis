@@ -12,6 +12,7 @@
         <link rel="apple-touch-icon" href="images/ClickThis64.png" />
     </head> 
     <body> 
+   	 	<input type="hidden" id="currentpage" value="Page" />
     	<div id="jqt">
             <div id="home" class="current">
                 <div class="toolbar">
@@ -19,16 +20,17 @@
                     <a class="button slideup" href="#" onClick="showAboutBox();" id="infoButton">About</a>
                     <a class="back" id="backButton" href="#" data-href="home.html">Back</a>
                 </div>
+                <!-- About Box -->
+                <div id="aboutBox" class="Disabled">
+                </div>
             </div>
         </div>
-        <div id="Page">
+        <div id="Page" class="Active">
         	<!-- Content will come. It's created down below -->    
-        </div>
-       	<!-- About Box -->
-        <div id="aboutBox" class="Disabled">
         </div>
         <script src="js/prefixfree.min.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script src="http://cdn.illution.dk/JS/jquery.hashchange.min.js"></script>
         <script type="text/javascript" src="js/buttonGenerator.js"></script>
         <script src="js/script.js"></script>
         <script type="text/javascript">
