@@ -10,7 +10,8 @@
 /**
 * buttonGenerator Class
 * @class buttonGenerator Class
-*/ 
+*/
+"use strict";
 var buttonGenerator = {
 	/**
 	* The default color when the button is on (String)
@@ -28,15 +29,15 @@ var buttonGenerator = {
 	* @param {string} group The submit group of the button, this parameter is optional
 	* @returns {string} The html for the button
 	*/
-	newButton: function(id, value, color, text, submit, single, group) {
-		if(!submit) {
-			var submit = true;	
+	newButton: function (id, value, color, text, submit, single, group) {
+		if (!submit) {
+			submit = true;
 		}
-		if(!single) {
-			var single = false;	
+		if (!single) {
+			single = false;
 		}
-		if(group == undefined){
-			group = null;	
+		if (group === undefined) {
+			group = null;
 		}
 		return this.newCustomButton(id, value, color, this.defaultColor, text, text, submit, single, group);
 	},
@@ -54,61 +55,61 @@ var buttonGenerator = {
 	* @param {string} group The submit group of the button
 	* @returns {string} The html for the button
 	*/
-	newCustomButton: function(id, value, colorOff, colorOn, textOff, textOn, submit, single, group) {
-		cssClass = "";
+	newCustomButton: function (id, value, colorOff, colorOn, textOff, textOn, submit, single, group) {
+		var cssClass = "";
 		var groupHTML = "";
 		// Get the current color for the button
-		currentColor = "";
-		if(value) {
+		var currentColor = "";
+		if (value) {
 			currentColor = colorOn;
 		} else {
 			currentColor = colorOff;
 		}
 		// Get the current text for the button
-		currentText = "";
-		if(value) {
+		var currentText = "";
+		if (value) {
 			currentText = textOn;
 		} else {
 			currentText = textOff;
 		}
 		// Get the cssClass
-		cssClass += "mega button "+currentColor+" halfsize ";
+		cssClass += "mega button " + currentColor + " halfsize ";
 		// If it is a submittable button, add submit Class
-		if(submit && submit != undefined && submit != null) {
-			cssClass += "submit ";	
+		if (submit && submit !== undefined && submit !== null) {
+			cssClass += "submit ";
 		}
 		// If it is a single-selectable button, add single Class
-		if(single && single != undefined && single != null) {
-			cssClass += "single ";	
+		if (single && single !== undefined && single !== null) {
+			cssClass += "single ";
 		}
 		cssClass = $.trim(cssClass);
 		// Get the javascript functions
-		onClickFunctions = "";
-		if(single && single != undefined && single != null) {
+		var onClickFunctions = "";
+		if (single && single !== undefined && single !== null) {
 			onClickFunctions += "buttonGenerator.singleChoice(this);";
 		} else {
 			onClickFunctions += "buttonGenerator.multipleChoice(this);";
 		}
 		// Special Classes
-		specialClass = "";
-		if(single && single != undefined && single != null) {
+		var specialClass = "";
+		if (single && single !== undefined && single !== null) {
 			specialClass = "data-specialClass=\"single\"";
 		}
-		if(group != undefined && group != null && group != ""){
-			groupHTML = 'data-submitgroup="'+group+'"';
+		if (group !== undefined && group !== null && group !== "") {
+			groupHTML = 'data-submitgroup="' +group+ '"';
 		}
 		// Create Html Code
-		var html = '<a  class="'+cssClass+'"\
-						onClick="'+onClickFunctions+'"\
-						data-value="'+value+'"\
-						data-id="'+id+'"\
-						'+groupHTML+'\
-						data-coloroff="'+colorOff+'"\
-						data-coloron="'+colorOn+'"\
-						data-textoff="'+textOff+'"\
-						data-texton="'+textOn+'"\
-						'+specialClass+'\
-					>'+currentText+'</a>\r\n';
+		var html = '<a  class="' + cssClass + '"\
+						onClick="' + onClickFunctions + '"\
+						data-value="' + value + '"\
+						data-id="' + id + '"\
+						' + groupHTML + '\
+						data-coloroff="' + colorOff + '"\
+						data-coloron="' + colorOn + '"\
+						data-textoff="' + textOff + '"\
+						data-texton="' + textOn + '"\
+						' + specialClass + '\
+					>' + currentText + '</a>\r\n';
 		// Return the Html Code
 		return html;
 	},
@@ -119,10 +120,10 @@ var buttonGenerator = {
 	* @param {integer} value The button text
 	* @returns {string} The html for the button
 	*/
-	newSubmitButton: function(color,text) {
-		var html = '<a  class="mega button '+color+' halfsize fullsize"\
+	newSubmitButton: function (color, text) {
+		var html = '<a  class="mega button ' + color + ' halfsize fullsize"\
 						onClick="buttonGenerator.submitData();" \
-					>'+text+'</a>';
+					>' + text + '</a>';
 		// Return the Html Code
 		return html;
 	},
@@ -137,22 +138,22 @@ var buttonGenerator = {
 	* @param {string} group The submit group of the button
 	* @returns {string} The html of the button
 	*/
-	newCustomSubmitButton: function(color,text,id,location,href,group){
-		var html = '<a  class="mega button '+color+' halfsize fullsize"\
+	newCustomSubmitButton: function (color, text, id, location, href, group) {
+		var html = '<a  class="mega button ' +color+ ' halfsize fullsize"\
 						onClick="buttonGenerator.submitCustomData(this);" ';
-			if(id != undefined && id != null){
-				html += 'id="'+id+'"';
-			}
-			if(location != undefined && location != null){
-				html += 'data-location="'+location+'"';	
-			}
-			if(href != undefined && href != null){
-				html += 'data-link="'+href+'"';
-			}
-			if(group != undefined && group != null){
-				html += 'data-submitgroup="'+group+'"';
-			}
-			html += '\>'+text+'</a>';
+		if (id !== undefined && id !== null) {
+			html += 'id="' + id + '"';
+		}
+		if (location !== undefined && location !== null) {
+			html += 'data-location="' + location + '"';
+		}
+		if (href !== undefined && href !== null) {
+			html += 'data-link="' + href + '"';
+		}
+		if (group !== undefined && group !== null) {
+			html += 'data-submitgroup="' + group + '"';
+		}
+		html += '\>' + text+ '</a>';
 		// Return the Html Code
 		return html;
 	},
@@ -168,25 +169,25 @@ var buttonGenerator = {
 		var textOff = button.getAttribute("data-textoff");
 		var textOn = button.getAttribute("data-texton");
 		var specialClass = button.getAttribute("data-specialclass");
-		if(specialClass) {
-			specialClass = " " + specialClass;	
+		if (specialClass) {
+			specialClass = " " + specialClass;
 		} else {
-			specialClass = "";	
+			specialClass = "";
 		}
-		if(value == "1") {
+		if (value == "1") {
 			button.className = 'mega button ' + colorOff + ' halfsize submit' + specialClass;
-			button.setAttribute("data-value","0");
+			button.setAttribute("data-value", "0");
 			button.innerHTML = textOff;
 		} else {
 			button.className = 'mega button ' + colorOn + ' halfsize submit' + specialClass;
-			button.setAttribute("data-value","1");
+			button.setAttribute("data-value", "1");
 			button.innerHTML = textOn;
 		};
-		if(specialClass != " single") {
+		if (specialClass != " single") {
 			for (var i in $('.single').toArray()) {
 				var singleButton = $('.single').toArray()[i];
-				if(singleButton != null) {
-					if(singleButton.getAttribute("data-value") == "1") {
+				if (singleButton !== null) {
+					if (singleButton.getAttribute("data-value") == "1") {
 						this.changeState(singleButton);
 					}
 				}
@@ -200,8 +201,8 @@ var buttonGenerator = {
 		var postString = "";
 		for (var i in $('.button.submit').toArray()) {
 			var button = $('.button.submit').toArray()[i];
-			if(button != null) {
-				postString += button.getAttribute("data-id") + "=" + button.getAttribute("data-value") + ",";
+			if (button !== null) {
+				postString += button.getAttribute("data-id") + "=" + button.getAttribute("data-value") + ", ";
 			}
 		}
 		postString = postString.slice(0, -1);
@@ -213,39 +214,39 @@ var buttonGenerator = {
 	*
 	* @param {object} submitButton The submit button that submits
 	*/
-	submitCustomData: function (submitButton){
+	submitCustomData: function (submitButton) {
 		var postString = "";
 		var	postLocation = submitButton.getAttribute("data-location");
 		var	redirectUrl = submitButton.getAttribute("data-link");
 		var submitGroup = submitButton.getAttribute("data-submitgroup");
 		for (var i in $('.button.submit').toArray()) {
 			var button = $('.button.submit').toArray()[i];
-			if(submitGroup != undefined){
-				if(button != null && button.getAttribute("data-submitgroup") == submitGroup){
-					if(button.getAttribute("data-id") != null && button.getAttribute("data-id") != 'null'){
-						postString += button.getAttribute("data-id") + "=" + button.getAttribute("data-value") + ",";
+			if (submitGroup !== undefined) {
+				if (button !== null && button.getAttribute("data-submitgroup") == submitGroup) {
+					if (button.getAttribute("data-id") !== null && button.getAttribute("data-id") != 'null') {
+						postString += button.getAttribute("data-id") + "=" + button.getAttribute("data-value") + ", ";
 					}
 				}
 			}
 			else{
-				if(button != null && button.getAttribute("data-id") != null){
-					postString += button.getAttribute("data-id") + "=" + button.getAttribute("data-value") + ",";
+				if (button !== null && button.getAttribute("data-id") !== null) {
+					postString += button.getAttribute("data-id") + "=" + button.getAttribute("data-value") + ", ";
 				}
 			}
 		}
 		postString = postString.slice(0, -1);
-		if(redirectUrl != undefined && redirectUrl != null){
+		if (redirectUrl !== undefined && redirectUrl !== null) {
 			window.location = redirectUrl;
 		}
 	},
 	/**
 	* Uncheck all buttons
 	*/
-	unCheckAll: function (){
+	unCheckAll: function () {
 		for (var i in $('.button.submit').toArray()) {
 			var button = $('.button.submit').toArray()[i];
-			if(button != null) {
-				if(button.getAttribute("data-value") == "1") {
+			if (button !== null) {
+				if (button.getAttribute("data-value") == "1") {
 					this.changeState(button);
 				}
 			}
@@ -256,9 +257,9 @@ var buttonGenerator = {
 	*
 	* @param {object} button The button to perform actions on
 	*/
-	singleChoice: function (button){
+	singleChoice: function (button) {
 		var value = button.getAttribute("data-value");
-		if(value == "1"){
+		if (value == "1") {
 			this.unCheckAll();
 		} else {
 			this.unCheckAll();
@@ -270,7 +271,7 @@ var buttonGenerator = {
 	*
 	* @param {object} button The button to perform actions on
 	*/
-	multipleChoice: function (button){
+	multipleChoice: function (button) {
 		this.changeState(button);
 	}
 };
