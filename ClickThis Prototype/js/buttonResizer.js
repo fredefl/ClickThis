@@ -27,11 +27,11 @@ var buttonResizer = {
 			elementArray[index] = element;
 		});
 		if (elementArray.length > 0) {
+			var numberOfRemovals = 0;
 			$(elementArray).each(function(index, element) {
-				console.log(index,$(element).height());
 				if ($(element).height() == 0 || $(element).height() === undefined || $(element).height() === null) {
-					console.log(index,$(element).height());
-					elementArray.splice(index,1);
+					elementArray.splice(index - numberOfRemovals,1);
+					numberOfRemovals++;
 				}
 			});
 			// Loop though the array and find all the fullsize buttons
@@ -96,6 +96,5 @@ var buttonResizer = {
 			}
 		}
 		console.log(elementArray);
-		return elementArray;
 	}
 }
