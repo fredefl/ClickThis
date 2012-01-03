@@ -35,6 +35,7 @@
                 	<!-- The tests -->
                     <ul class="rounded">
                     	<li class="arrow"><a href="buttons.html">Button Showcase</a></li>  
+                        <li class="arrow"><a href="#add_issue">Add Issue</a></li> 
                         <li class="forward" id="updateButton"><a href="#">Update Desktop</a></li>
                         <li class="forward"><a>Page View Counter</a><small class="counter" id="pageCount"></small></li>
                         <li><a id="chacheStatus">Cache status </a></li>
@@ -117,8 +118,15 @@
                      </ul>   
                 </div>
                 
-                <div id="add_issue">
-                
+                <div class="Disabled" id="add_issue">
+                    <form method="POST" action="http://illution.dk/ClickThisIssueCreator/index.php">
+                        <span style="margin-left:5%; font:Arial, Helvetica, sans-serif; font-size:18px; font-weight:bold; color:#FFF;">Title:</span><br>
+                        <input type="text" name="title" style="width:90%;margin-left:5%;"/><br>
+                        <span style="margin-left:5%; font:Arial, Helvetica, sans-serif; font-size:18px; font-weight:bold; color:#FFF;">Description:</span><br>
+                        <textarea name="description" style="width:90%;margin-left:5%; height:256px;"></textarea>
+                        <br>
+                        <input type="submit" value="Submit!" style="width:90%;margin-left:5%;"/>
+                    </form>
                 </div>
                 
                 <!-- About Box -->
@@ -130,8 +138,9 @@
                     <li><a href="profile.html">Profile</a></li>
                     <li><a href="settings.html">Settings</a></li>
                 </ul>
-                
+                <br><br><br><br>
             </div>
+            
         </div>
         <script src="js/prefixfree.min.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>

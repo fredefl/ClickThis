@@ -1,14 +1,3 @@
-// Check for a meta tag
-function checkForViewport() { 
-	var success = false;
-	$('meta').each(function(index, element) {
-        if(element.hasAttribute('name')) {
-			success = true;	
-		}
-    });
-	return success;
-}
-
 $('#closeAboutBox').click(function(){
 	 hideAboutBox();
 });
@@ -16,7 +5,14 @@ $('#closeAboutBox').click(function(){
 // On page load
 window.addEventListener('load', function(e) {
 	$(window).hashchange();
-	$(window).scrollTop(0, 0);
+	// If is Android
+	var ua = navigator.userAgent.toLowerCase();
+	var isAndroid = ua.indexOf("android") > -1;
+	if(isAndroid) {
+	  // Scoll past the address bar.
+	  window.scrollTo(0, 1);
+	}
+	
 }, false);
 
 $(document).ready(function(){
@@ -32,10 +28,12 @@ $(window).resize(function(e) {
 	if(url.indexOf("home.html") != -1){
 		shortenTitle();
 	}
+	buttonResizer.resizeButtons(document.body);
 });
 
 document.addEventListener("orientationChanged",function () {
 	shortenTitle();
+	buttonResizer.resizeButtons(document.body);
 });
 
 /**
@@ -69,6 +67,10 @@ function changePage(Page){
 		NewPage.removeClass('Disabled').addClass('Active');
 	}
 	buttonResizer.resizeButtons(document.body);
+	var url = new String(window.location);
+	if(url.indexOf("home.html") != -1){
+		shortenTitle();
+	}
 }
 
 /* This event run if you click the back button */
