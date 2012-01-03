@@ -49,6 +49,9 @@ var buttonResizer = {
 		var elementArray = new Array();
 		// Find all buttons in element and stuff them into the array
 		$(element).find('.button.mega').each(function(index, element) {
+			// Remove padding and top
+			$(element).removeAttr('style');
+			// Add the element to the array
 			elementArray[index] = element;
 		});
 		// If the is buttons
