@@ -1,4 +1,5 @@
 <?php
+print_r($_POST);
 if($_POST['title']){
 	require_once 'Github/Autoloader.php';
 	Github_Autoloader::register();
