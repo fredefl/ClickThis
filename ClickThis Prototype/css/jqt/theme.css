@@ -161,7 +161,7 @@ body {
     overflow: hidden;
 }
 #jqt ul li.arrow {
-    background-color: #4c4d4e !important;ssss
+    background-color: #4c4d4e !important;
 	background-image: url(img/chevron.png), linear-gradient( 0% 0%, 0% 100%, from(#4c4d4e), to(#404142));
     background-position: right center !important;
     background-repeat: no-repeat !important;
