@@ -41,4 +41,5 @@ $(document).ready(function() {
 	
 	/* Check for page */
 	$(window).hashchange();
+	buttonResizer.resizeButtons(document.body);
 });

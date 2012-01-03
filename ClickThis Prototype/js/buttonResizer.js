@@ -23,28 +23,35 @@ var buttonResizer = {
 	resizeButtons: function (element) {
 		// Initialize array
 		var elementArray = new Array();
-		$(element).find('.button').each(function(index, element) {
+		$(element).find('.button.mega').each(function(index, element) {
 			elementArray[index] = element;
 		});
 		if (elementArray.length > 0) {
-			// Check if mobile
-			var mobile = false;
-			if($(elementArray[0]).height() % 26 === 0){
-				mobile = true;
-			}
+			$(elementArray).each(function(index, element) {
+				console.log(index,$(element).height());
+				if ($(element).height() == 0 || $(element).height() === undefined || $(element).height() === null) {
+					console.log(index,$(element).height());
+					elementArray.splice(index,1);
+				}
+			});
 			// Loop though the array and find all the fullsize buttons
-			$.each(elementArray,function(index, element) {
-			   if ($(this).hasClass("fullsize")) {
+			$(elementArray).each(function(index, element) {
+				if ($(element).hasClass("fullsize")) {
 				   if((index+1) % 2 == 0) {
 						// If there is only one button above.
 						elementArray.splice(index-1,1);
 				   }
-				   elementArray.splice(index-1,1);
-			   }
+				   elementArray.splice(index,1);
+				}
 			});
 			// Remove the last button if the total button count is odd/uneven
 			if(elementArray.length % 2 !== 0){
 				elementArray.splice(elementArray.length-1,1);
+			}
+			// Check if mobile
+			var mobile = false;
+			if($(elementArray[0]).height() % 26 === 0){
+				mobile = true;
 			}
 			// Loop through button pairs
 			for (var i = 0; i <= elementArray.length - 1; i+=2) {
@@ -82,10 +89,13 @@ var buttonResizer = {
 					var resizeLevel = ((biggestButtonHeigth - smallestButtonHeigth) / buttonHeigth);
 					var topAddition = resizeLevel * levelHeigth;
 					var paddingAddition = topAddition + initialHeigth;
+					console.log(mobile);
 					$(buttonToResize).css("padding", paddingAddition + "px 0 " + paddingAddition + "px 0");
 					$(buttonToResize).css("top", "-" + topAddition + "px");
 				}
 			}
 		}
+		console.log(elementArray);
+		return elementArray;
 	}
 }
