@@ -28,6 +28,10 @@ $(document).ready(function() {
 function center(){
 	var left = 70;
 	var right = 70;
+	var elementWidth = 52;
+	var elementMarginRight = 20;
+	var elementMarginLeft = 0;
+	var numberOfElements = 0;
 	var width = window.width-left-right;
 	$('#progress-container').css('width',width);
 	var innerWidth = 0;
@@ -35,4 +39,5 @@ function center(){
        innerWidth += $(this).width()+22;
     });
 	$('#progress-inner-container').css('width',innerWidth);
+	numberOfElements = width/((elementWidth+elementMarginRight+elementMarginLeft)-elementMarginRight);
 }
