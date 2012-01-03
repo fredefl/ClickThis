@@ -1,7 +1,7 @@
 var offSet = 0; //The offset in elements
 var stopAt = 0; //The offset to stop at 
 var marginLeft = 75; //The left margin
-var marginRight = 75; //Right margin in pixels
+var marginRight = 77; //Right margin in pixels
 var elementMarginRight = 20; //The right margin in pixels of each elements
 var elementMarginLeft = 0; //The left margin in pixels of each elements
 var elementWidth = parseInt(elementMarginRight+elementMarginLeft+52); //The width of one element with padding/margin
@@ -47,27 +47,28 @@ $('#up').click(function() {
 $('#progress-back').click(function() {
 	var elements = numberOfElements();
 	var available = availableElements();
-	var shown = numberOfEnabledElements();
-	var notShown = parseInt(elements)-parseInt(shown);
-	var newPage = 0;
-	if(notShown > 0){
-		if(offSet == 0){
-			offSet = elements-available+1;
+	if(offSet != 0){
+		if(offSet-available > 0){
+			offSet = offSet-available;
+			stopAt = offSet+available-1;
 		}
 		else{
-			offSet = offSet-available+1;
-			stopAt = offSet+available-1;
-			if(offSet < 0){
+			if(offSet > 2){
 				offSet = 0;
+				stopAt = offSet+available;
 			}
-			if(stopAt < available){
-				stopAt = available;
-				offSet =  0;
-			}			
+			else{
+				stopAt = elements;
+				offSet = stopAt-available+1;
+			}
 		}
 	}
+	else{
+		offSet = elements-available+1;
+		stopAt = elements;	
+	}
+	checkValues();
 	center(offSet);
-	console.log('Stop at is set to:'+stopAt+' and of set is set to:'+offSet);
 });
 /**
 * This event is ran when the .progress-front arrow is pressed it calculates the new offSet and
@@ -76,55 +77,70 @@ $('#progress-back').click(function() {
 $('#progress-front').click(function() {
     var elements = numberOfElements();
 	var available = availableElements();
-	var shown = numberOfEnabledElements();
-	console.log('OffSet:'+offSet+'|Stop at:'+stopAt+'|Elements:'+elements);
-	if(stopAt == 0 && offSet == 0){
-		offSet = available+1;
-		stopAt = available*2;
+	if(stopAt != elements){
+		if(stopAt == 0 && offSet == 0){
+			offSet = available+1;
+			stopAt = available*2;
+		}
+		else{
+			if(stopAt != 0 && offSet != 0){
+				offSet = offSet+available;
+				stopAt = offSet+available-1;
+			}else if(offSet != 0 && stopAt == 0){
+				offSet += available-1;
+				stopAt = offSet-1;
+			}else if(stopAt != 0 && offSet == 0){
+				offSet = stopAt+1;
+				stopAt = stopAt+available;
+			}
+		}
+		if(stopAt > offSet+available-1){
+			stopAt = stopAt-1;
+		}
 	}
 	else{
-		if(stopAt != 0 && offSet != 0){
-			
-		}
-		if(stopAt != 0 && offSet == 0){
-			offSet = stopAt+1;
-			stopAt = stopAt+available;
-		}
-		if(offSet != 0 && stopAt == 0){
-			offSet += available-1;
-			stopAt = offSet-1;
-		}
-	}
-	/*if(offSet > (elements-available-1)){
 		offSet = 0;
-		stopAt = available;
-	}*/
+		stopAt = available;	
+	}
+	checkValues();
 	center(offSet);
 });
 
 function checkValues(){
 	var elements = numberOfElements();
 	var available = availableElements();
-	if(stopAt > parseInt(offSet+available)){
+	var spin = stopAt-offSet+1;
+	if(spin > available){
 		if(offSet == 0){
-			stopAt = parseInt(stopAt-(available));
+			stopAt = offSet+available;
 		}
-		else{
-			stopAt = parseInt(offSet+available);
+		else if(offSet == 1){
+			stopAt = offSet+available-1;
+		}else{
+			offSet = stopAt - available+1;
 		}
+	}
+	if(offSet < 0){
+		stopAt = elements;
+		offSet = stopAt-available+1;
 	}
 	if(stopAt > elements){
-		stopAt = elements;
-	}
-	if(stopAt == 0){
-		if(offSet > elements){
+		if(offSet < elements){
+			stopAt = elements;
+		}
+		else{
 			offSet = 0;
+			stopAt = offSet+available;			
 		}
 	}
-	else{
-		if(offSet > stopAt){
-			offSet = parseInt(stopAt-available);
+	if(stopAt != elements && spin < available){
+		if(offSet == 0){
+			stopAt = available;
 		}
+		else{
+			stopAt = offSet+available-1;
+		}
+		
 	}
 }
 /**
@@ -170,18 +186,7 @@ function removeTheRest(){
 	var elements = availableElements();
 	var clearStopAt = false;
 	var numberShown = numberOfEnabledElements;
-	if(stopAt == 0){
-		clearStopAt = true;
-		if(offSet == 0){
-			stopAt = elements;
-		}
-		else{
-			stopAt = offSet+elements-1;
-		}
-	}
 	checkValues();
-	//console.log('Offset:'+offSet+'|Stop At:'+stopAt);
-	//console.log('Elements:'+elements+'|Stop At:'+stopAt+'|Off set:'+offSet);
 	if(stopAt > offSet+elements){
 		stopAt = stopAt-(offSet+elements);
 	}
