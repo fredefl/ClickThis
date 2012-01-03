@@ -1,3 +1,10 @@
+var offSet = 0;
+var marginLeft = 75; //The left margin
+var marginRight = 75; //Right margin in pixels
+var elementMarginRight = 20; //The right margin in pixels of each elements
+var elementMarginLeft = 0; //The left margin in pixels of each elements
+var elementWidth = parseInt(elementMarginRight+elementMarginLeft+52);
+	
 jQuery.fn.reverse = function() {
     return this.pushStack(this.get().reverse(), arguments);
 };
@@ -21,11 +28,26 @@ $('#up').click(function() {
 		up.attr('data-mode','down');
 	}
 });
+$('#progress-back').click(function() {
+    if(!offSet){
+		
+	}
+});
+$('#progress-front').click(function() {
+    var elements = numberOfElements();
+	var available = availableElements();
+	var newPage = 0;
+	if((elements-available) > 0){
+		newPage = parseInt(elements-available);
+		offSet += newPage;
+		center(offSet);
+	}
+});
 $(window).resize(function() {
-  	center();
+  	center(offSet);
 });
 $(document).ready(function() {
-	center();
+	center(offSet);
 });
 
 function WindowWidth(){
@@ -46,27 +68,66 @@ function WindowWidth(){
 
 function removeTheRest(numberOfPossibleElements){
 	var number = 0;
+	var numberShown = elements;
 	$('.progress').each(function(index, element) {
-       number++;
-	   if(number > numberOfPossibleElements){
-		   console.log('Number:'+number);
+       	number++;
+	  	if(offSet == 0){
+			if(number > numberOfPossibleElements){
+			   $(this).addClass('progress-disabled');
+			}
+	   	}
+		else{
+			numberOfPossibleElements = availableElements();
+			console.log('Available:'+numberOfPossibleElements+'|Offset:'+offSet+'|Number:'+number);
+			if((number < offSet) || number > (numberOfPossibleElements+offSet)){
+				$(this).addClass('progress-disabled');
+			}
+		}
+	   /*if(number > numberOfPossibleElements){
 		   $(this).addClass('progress-disabled');
-	   }
+	   }*/
     });
 }
 
-function center(){
-	var marginLeft = 75;
-	var marginRight = 75;
-	var elementMarginRight = 20;
-	var elementMarginLeft = 0;
+function calculeateShown(){
+	var numberDisabled = 0;
+	$('.progress-disabled').each(function(index, element) {
+		numberDisabled++;
+	});
+}
+
+function removeDisabled(){
+	$('.progress-disabled').each(function(index, element) {
+		$(this).removeClass('progress-disabled');	
+	});
+}
+
+function numberOfElements(){
+	var numberOfElements = 0;
+	$('.progress').each(function(index, element) {
+		numberOfElements++;
+	});
+	return numberOfElements;
+}
+
+function numberOfEnabledElements(){
+	var numberOfElements = 0;
+	$('.progress').each(function(index, element) {
+		if(!$(this).hasClass('progress-disabled')){
+			numberOfElements++;
+		}
+    });
+	return numberOfElements;
+}
+
+function availableElements(){
+	return Math.round((parseInt(WindowWidth())-parseInt(marginLeft)-parseInt(marginRight+10)+6)/(Math.round(elementWidth)));
+}
+
+function center(offSet){
 	var numberOfPossibleElements = 0;
 	var numberOfElements = 0;
-	var elementWidth = 52+elementMarginRight+elementMarginLeft;
-	numberOfPossibleElements = Math.round((parseInt(WindowWidth())-parseInt(marginLeft)-parseInt(marginRight)+6)/(Math.round(elementWidth)));
-	removeTheRest(numberOfPossibleElements);
-	var width = window.width-marginLeft-marginRight;
-	$('#progress-container').css('width',width);
+	var numberOfPossibleElements = availableElements();
 	var innerWidth = 0;
 	$('.progress').each(function(index, element) {
 		if(!$(this).hasClass('progress-disabled')){
@@ -74,7 +135,12 @@ function center(){
 			numberOfElements++;
 		}
     });
+	elements = numberOfElements;
+	available = numberOfPossibleElements;
+	removeDisabled();
+	removeTheRest(numberOfPossibleElements);
+	
+	var width = window.width-marginLeft-marginRight;
+	$('#progress-container').css('width',width);
 	$('#progress-inner-container').css('width',innerWidth);
-	console.log('Number of Elements available:'+Math.round(numberOfPossibleElements));
-	console.log('Number of Elements:'+numberOfElements);
 }
