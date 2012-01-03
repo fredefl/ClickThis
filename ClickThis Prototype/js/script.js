@@ -5,7 +5,14 @@ $('#closeAboutBox').click(function(){
 // On page load
 window.addEventListener('load', function(e) {
 	$(window).hashchange();
-	$(window).scrollTop(0, 0);
+	// If is Android
+	var ua = navigator.userAgent.toLowerCase();
+	var isAndroid = ua.indexOf("android") > -1;
+	if(isAndroid) {
+	  // Scoll past the address bar.
+	  window.scrollTo(0, 1);
+	}
+	
 }, false);
 
 $(document).ready(function(){
