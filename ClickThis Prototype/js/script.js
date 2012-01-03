@@ -68,6 +68,7 @@ function changePage(Page){
 		$('#currentpage').val(Page);
 		NewPage.removeClass('Disabled').addClass('Active');
 	}
+	buttonResizer.resizeButtons(document.body);
 }
 
 /* This event run if you click the back button */
