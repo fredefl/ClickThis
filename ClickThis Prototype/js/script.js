@@ -71,6 +71,10 @@ function changePage(Page){
 		NewPage.removeClass('Disabled').addClass('Active');
 	}
 	buttonResizer.resizeButtons(document.body);
+	var url = new String(window.location);
+	if(url.indexOf("home.html") != -1){
+		shortenTitle();
+	}
 }
 
 /* This event run if you click the back button */
