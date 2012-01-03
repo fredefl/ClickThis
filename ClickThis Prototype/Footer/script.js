@@ -50,7 +50,6 @@ $('#progress-back').click(function() {
 	var shown = numberOfEnabledElements();
 	var notShown = parseInt(elements)-parseInt(shown);
 	var newPage = 0;
-	console.log(offSet);
 	if(notShown > 0){
 		if(offSet == 0){
 			offSet = elements-available+1;
@@ -68,6 +67,7 @@ $('#progress-back').click(function() {
 		}
 	}
 	center(offSet);
+	console.log('Stop at is set to:'+stopAt+' and of set is set to:'+offSet);
 });
 /**
 * This event is ran when the .progress-front arrow is pressed it calculates the new offSet and
@@ -77,34 +77,62 @@ $('#progress-front').click(function() {
     var elements = numberOfElements();
 	var available = availableElements();
 	var shown = numberOfEnabledElements();
-	var nowShown = parseInt(elements-shown);
-	var newPage = 0;
-	if((elements-available) > 0){
-		newPage = nowShown;
-		if(newPage > elements){
-			newPage = 0;
+	console.log('OffSet:'+offSet+'|Stop at:'+stopAt+'|Elements:'+elements);
+	if(stopAt == 0 && offSet == 0){
+		offSet = available+1;
+		stopAt = available*2;
+	}
+	else{
+		if(stopAt != 0 && offSet != 0){
+			
 		}
-		if(newPage < 0){
-			newPage = elements;
+		if(stopAt != 0 && offSet == 0){
+			offSet = stopAt+1;
+			stopAt = stopAt+available;
 		}
-		if(newPage > available){
-			newPage = parseInt(newPage-(newPage-available));
+		if(offSet != 0 && stopAt == 0){
+			offSet += available-1;
+			stopAt = offSet-1;
 		}
-		offSet += parseInt(shown)+1;
+	}
+	/*if(offSet > (elements-available-1)){
+		offSet = 0;
+		stopAt = available;
+	}*/
+	center(offSet);
+});
+
+function checkValues(){
+	var elements = numberOfElements();
+	var available = availableElements();
+	if(stopAt > parseInt(offSet+available)){
+		if(offSet == 0){
+			stopAt = parseInt(stopAt-(available));
+		}
+		else{
+			stopAt = parseInt(offSet+available);
+		}
+	}
+	if(stopAt > elements){
+		stopAt = elements;
+	}
+	if(stopAt == 0){
 		if(offSet > elements){
 			offSet = 0;
 		}
-		if(offSet < 0){
-			offSet = elements;
-		}
-		center(offSet);
 	}
-});
+	else{
+		if(offSet > stopAt){
+			offSet = parseInt(stopAt-available);
+		}
+	}
+}
 /**
 * This event is called if the window is resized and it calls the center funtion
 * to calculate the right centering amount.
 */
 $(window).resize(function() {
+	checkValues();
   	center(offSet);
 });
 
@@ -137,31 +165,54 @@ function WindowWidth(){
 /**
 * This function disables all the elements that is not to be shown.
 */
-function removeTheRest(numberOfPossibleElements){
+function removeTheRest(){
 	var number = 0;
-	var numberShown = elements;
-	console.log('OffSet:'+offSet+'|StopAt:'+stopAt);
+	var elements = availableElements();
+	var clearStopAt = false;
+	var numberShown = numberOfEnabledElements;
+	if(stopAt == 0){
+		clearStopAt = true;
+		if(offSet == 0){
+			stopAt = elements;
+		}
+		else{
+			stopAt = offSet+elements-1;
+		}
+	}
+	checkValues();
+	//console.log('Offset:'+offSet+'|Stop At:'+stopAt);
+	//console.log('Elements:'+elements+'|Stop At:'+stopAt+'|Off set:'+offSet);
+	if(stopAt > offSet+elements){
+		stopAt = stopAt-(offSet+elements);
+	}
 	$('.progress').each(function(index, element) {
        	number++;
-	  	if(offSet == 0){
-			if(number > numberOfPossibleElements || (number > stopAt  && stopAt != 0)){
-			   $(this).addClass('progress-disabled');
+		if(stopAt == 0 && offSet == 0){
+			if(number > elements){
+				 $(this).addClass('progress-disabled');	
 			}
-	   	}
+		}
 		else{
-			numberOfPossibleElements = availableElements();
-			if(stopAt == 0){
-				if((number < offSet) || number > (numberOfPossibleElements+offSet)){
+			if(offSet != 0 && stopAt != 0){
+				if(number < offSet || number > stopAt){
 					$(this).addClass('progress-disabled');
 				}
 			}
-			else{
-				if(number < offSet && number > stopAt || number > numberOfPossibleElements){
+			if(stopAt != 0 && offSet == 0){
+				if(number > stopAt){
+					$(this).addClass('progress-disabled');
+				}
+			}
+			if(offSet != 0 && stopAt == 0){
+				if(number < offSet || number > (elements+offSet)){
 					$(this).addClass('progress-disabled');
 				}
 			}
 		}
     });
+	if(clearStopAt){
+			stopAt = 0;
+	}
 }
 
 /**
