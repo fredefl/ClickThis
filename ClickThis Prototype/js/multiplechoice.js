@@ -20,12 +20,12 @@ $(document).ready(function() {
 	
 	/* Question 2 */
 	question2 = new Array()
-	question2[0] = new Array('multi','green','American Footbal',0);
+	question2[0] = new Array('multi','green','American Football',0);
 	question2[1] = new Array('multi','green','Athletics',0);
 	question2[2] = new Array('multi','green','Badminton',0);
 	question2[3] = new Array('multi','green','Basketball',0);
 	question2[4] = new Array('multi','green','Dance',0);
-	question2[5] = new Array('multi','green','Football',0);
+	question2[5] = new Array('multi','green','Football (Soccer)',0);
 	question2[6] = new Array('multi','green','Handball',0);
 	question2[7] = new Array('multi','green','Hockey',0);
 	question2[8] = new Array('multi','green','Horse Riding',0);
@@ -41,5 +41,4 @@ $(document).ready(function() {
 	
 	/* Check for page */
 	$(window).hashchange();
-	buttonResizer.resizeButtons(document.body);
 });
