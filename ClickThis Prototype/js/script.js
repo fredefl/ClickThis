@@ -32,10 +32,12 @@ $(window).resize(function(e) {
 	if(url.indexOf("home.html") != -1){
 		shortenTitle();
 	}
+	buttonResizer.resizeButtons(document.body);
 });
 
 document.addEventListener("orientationChanged",function () {
 	shortenTitle();
+	buttonResizer.resizeButtons(document.body);
 });
 
 /**
