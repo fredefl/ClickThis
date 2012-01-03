@@ -9,7 +9,7 @@ Desktop:
 
 	Algo:
 		padding = 20 + (32*n)
-		top = 32*n
+		top = -32*n
 Mobile:
 	One size up:
 		padding: 23px 0 23px 0;
@@ -21,4 +21,4 @@ Mobile:
 
 	Algo:
 		padding = 10 + (13*n)
-		top = 13 * n
+		top = -13 * n
