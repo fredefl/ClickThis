@@ -76,12 +76,14 @@
 		}
 		#progress-container{
 			bottom:66px;
-			/*left:70px;
-			right:70px;
-			position:fixed;*/
 			padding-top:5px;
 			padding-bottom:5px;
 			margin:0 70px 0 70px;
+		}
+		#progress-inner-container{
+			margin-left:auto;
+			width:104px;
+			margin-right:auto;	
 		}
 		#progress-back{
 			position:absolute;
@@ -120,8 +122,9 @@
 		}
 		.progress{
 			height:52px;
+			margin-right:20px;
 			width:52px;
-			display:block;
+			float:left;
 		}
 	</style>
     <title>Footer Menu Test</title>
@@ -134,7 +137,10 @@
     <div id="popup" class="Disabled">
     	<div id="progress-back"><img src="Arrow-Back.png"/></div>
         <div id="progress-container">
-        	<span class="progress progress-blue">1</span>
+        	<div id="progress-inner-container">
+       			<div class="progress progress-blue">1</div>
+            	<div class="progress progress-blue">2</div>
+            </div>
 		</div>
         <div id="progress-front"><img src="Arrow-Forward.png"/></div>  
     </div>
