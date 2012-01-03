@@ -161,8 +161,10 @@ body {
     overflow: hidden;
 }
 #jqt ul li.arrow {
-    background-color: #4c4d4e !important;ssss
-	background-image: url(img/chevron.png), linear-gradient( 0% 0%, 0% 100%, from(#4c4d4e), to(#404142));
+    background-color: #4c4d4e !important;
+	background-image: url(img/chevron.png), linear-gradient( 0% 0%, 0% 100%, from(#4c4d4e), to(#404142)) !important;
+	background-image: url(img/chevron.png), -webkit-linear-gradient(top, #4c4d4e, #404142) !important;
+	background-image: url(img/chevron.png), -webkit-gradient(linear, left top, left bottom, color-stop(0%,#4c4d4e), color-stop(100%,#404142)) !important;
     background-position: right center !important;
     background-repeat: no-repeat !important;
 }
