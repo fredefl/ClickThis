@@ -18,3 +18,21 @@ $('#up').click(function() {
 		up.attr('data-mode','down');
 	}
 });
+$(window).resize(function() {
+  	center();
+});
+$(document).ready(function() {
+	center();
+});
+
+function center(){
+	var left = 70;
+	var right = 70;
+	var width = window.width-left-right;
+	$('#progress-container').css('width',width);
+	var innerWidth = 0;
+	$('.progress').each(function(index, element) {
+       innerWidth += $(this).width()+22;
+    });
+	$('#progress-inner-container').css('width',innerWidth);
+}
