@@ -1,14 +1,3 @@
-// Check for a meta tag
-function checkForViewport() { 
-	var success = false;
-	$('meta').each(function(index, element) {
-        if(element.hasAttribute('name')) {
-			success = true;	
-		}
-    });
-	return success;
-}
-
 $('#closeAboutBox').click(function(){
 	 hideAboutBox();
 });
