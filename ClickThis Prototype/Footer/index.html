@@ -74,7 +74,57 @@
 			margin-right:auto;
 			margin-top:16px;
 		}
+		#progress-container{
+			bottom:66px;
+			/*left:70px;
+			right:70px;
+			position:fixed;*/
+			padding-top:5px;
+			padding-bottom:5px;
+			margin:0 70px 0 70px;
+		}
+		#progress-back{
+			position:absolute;
+			width:32px;
+			height:32px;
+			left:0px;
+			margin: 0 0 0 0;
+			padding: 16px 16px 16px 16px;
+			border-right:2px solid rgba(255,255,255,0.4);
+		}
+		#progress-front{
+			position:absolute;
+			width:32px;
+			height:32px;
+			bottom:66px;
+			right:0px;
+			margin: 0 0 0 0;
+			padding: 16px 16px 16px 16px;
+			border-left:2px solid rgba(255,255,255,0.4);
+		}
+		.progress-mouse-over{
+			
+		}
+		.progress-gray{
+			background-color:#666666;	
+		}
+		.progress-green{
+			background-color:#0F0;	
+		}
+		.progress-red{
+			background-color:#FF0000;
+		}
+		.progress-blue{
+			border:1px solid #0000FF;
+			background-color:#0000FF;
+		}
+		.progress{
+			height:52px;
+			width:52px;
+			display:block;
+		}
 	</style>
+    <title>Footer Menu Test</title>
 </head>
 <body>
     <div id="container" class="container-no-popup">
@@ -82,7 +132,11 @@
         <div id="footer-spacer"></div>
     </div>
     <div id="popup" class="Disabled">
-    
+    	<div id="progress-back"><img src="Arrow-Back.png"/></div>
+        <div id="progress-container">
+        	<span class="progress progress-blue">1</span>
+		</div>
+        <div id="progress-front"><img src="Arrow-Forward.png"/></div>  
     </div>
     <div id="footer">
         <div id="forward" onClick="alert('forward')"><div id="arrowforward"><img src="Arrow-Forward.png"/></div></div>

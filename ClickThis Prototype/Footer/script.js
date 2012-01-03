@@ -18,3 +18,13 @@ $('#up').click(function() {
 		up.attr('data-mode','down');
 	}
 });
+$(window).resize(function() {
+    var width = window.width-140;
+	$('#progress-container').css('width',width);
+});
+$(document).ready(function() {
+	var left = 70;
+	var right = 70;
+	var width = window.width-left-right;
+	$('#progress-container').css('width',width);
+});
