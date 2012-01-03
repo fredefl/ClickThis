@@ -1,3 +1,6 @@
+jQuery.fn.reverse = function() {
+    return this.pushStack(this.get().reverse(), arguments);
+};
 $('#up').click(function() {
 	up = $('#up');
 	upImage = $('#up_image');
@@ -41,21 +44,37 @@ function WindowWidth(){
 	return width;	
 }
 
+function removeTheRest(numberOfPossibleElements){
+	var number = 0;
+	$('.progress').each(function(index, element) {
+       number++;
+	   if(number > numberOfPossibleElements){
+		   console.log('Number:'+number);
+		   $(this).addClass('progress-disabled');
+	   }
+    });
+}
+
 function center(){
 	var marginLeft = 75;
 	var marginRight = 75;
 	var elementMarginRight = 20;
 	var elementMarginLeft = 0;
+	var numberOfPossibleElements = 0;
 	var numberOfElements = 0;
 	var elementWidth = 52+elementMarginRight+elementMarginLeft;
+	numberOfPossibleElements = Math.round((parseInt(WindowWidth())-parseInt(marginLeft)-parseInt(marginRight)+6)/(Math.round(elementWidth)));
+	removeTheRest(numberOfPossibleElements);
 	var width = window.width-marginLeft-marginRight;
 	$('#progress-container').css('width',width);
 	var innerWidth = 0;
 	$('.progress').each(function(index, element) {
-       innerWidth += $(this).width()+22;
+		if(!$(this).hasClass('progress-disabled')){
+			innerWidth += $(this).width()+22;
+			numberOfElements++;
+		}
     });
 	$('#progress-inner-container').css('width',innerWidth);
-	numberOfElements = (WindowWidth()-marginLeft-marginRight)/((elementWidth)-elementMarginRight);
-	console.log('Number of Elements:'+Math.round(numberOfElements));
-	console.log('Width:'+Math.round((parseInt(WindowWidth())-parseInt(marginLeft)-parseInt(marginRight))/(Math.round(elementWidth))));
+	console.log('Number of Elements available:'+Math.round(numberOfPossibleElements));
+	console.log('Number of Elements:'+numberOfElements);
 }
