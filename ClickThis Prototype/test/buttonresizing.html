@@ -1,0 +1,27 @@
+<!Doctype html>
+<html>
+<head>
+<link rel="stylesheet" href="../css/buttons.css"/>
+</head>
+<body>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="../js/buttonGenerator.js"></script>
+<script src="../js/buttonResizer.js"></script>
+<script type="text/javascript">
+// Add buttons
+var buttons = "";
+buttons += buttonGenerator.newButton(1,0,"green","hehehheehehehehe eheheheheh eheheh",false,false,null);
+buttons += buttonGenerator.newButton(1,0,"green","2",false,false,null);
+buttons += buttonGenerator.newButton(1,0,"green","3",false,false,null);
+buttons += buttonGenerator.newSubmitButton("orange","4");
+buttons += buttonGenerator.newButton(1,0,"green","5",false,false,null);
+buttons += buttonGenerator.newButton(1,0,"green","6",false,false,null);
+buttons += buttonGenerator.newButton(1,0,"green","7",false,false,null);
+$('body').append(buttons);
+buttonResizer.resizeButtons(document.body);
+$(window).resize(function(e) {
+    buttonResizer.resizeButtons(document.body);
+});
+</script>
+</body>
+</html>
