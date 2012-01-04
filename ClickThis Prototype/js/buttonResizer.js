@@ -47,6 +47,8 @@ var buttonResizer = {
 	resizeButtons: function (element) {
 		// Initialize array
 		var elementArray = new Array();
+		// Initialize variable
+		var elementArrayLength = 0;
 		// Find all buttons in element and stuff them into the array
 		$(element).find('.button.mega').each(function(index, element) {
 			// Remove padding and top
@@ -56,25 +58,31 @@ var buttonResizer = {
 		});
 		// If the is buttons
 		if (elementArray.length > 0) {
-			// Count the number of removals
-			var numberOfRemovals = 0;
+			// Set loop time/length
+			elementArrayLength = elementArray.length;
 			// Loop through buttons to find and remove the buttons with no height
-			$(elementArray).each(function(index, element) {
+			for(var i = elementArrayLength - 1; i >= 0; i--){
+				// Define current element
+				element = elementArray[i];
+				// Get element height
 				if ($(element).height() == 0 || $(element).height() === undefined || $(element).height() === null) {
-					elementArray.splice(index - numberOfRemovals,1);
-					numberOfRemovals++;
+					// Remove element if it has no height
+					elementArray.splice(i,1);
 				}
-			});
+			};
+			// Set loop time/length
+			elementArrayLength = elementArray.length;
 			// Loop though the array and find all the fullsize buttons and remove them
-			$(elementArray).each(function(index, element) {
+			for(var i = 0; i <= elementArrayLength; i++){
+				var element = elementArray[i];
 				if ($(element).hasClass("fullsize")) {
-				   if((index+1) % 2 == 0) {
+				   if((i+1) % 2 == 0) {
 						// If there is only one button above.
-						elementArray.splice(index-1,1);
+						elementArray.splice(i-1,1);
 				   }
-				   elementArray.splice(index,1);
+				   elementArray.splice(i,1);
 				}
-			});
+			};
 			// Remove the last button if the total button count is odd/uneven
 			if(elementArray.length % 2 !== 0){
 				elementArray.splice(elementArray.length-1,1);
