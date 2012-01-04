@@ -38,6 +38,7 @@ body {
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#6b6b6b), color-stop(100%,#343434)); 
 }
 #back {
+	cursor:pointer;
 	position:absolute;
 	width:32px;
 	height:32px;
@@ -52,6 +53,7 @@ body {
 	height:64px;
 }
 #up {
+	cursor:pointer;
 	position:absolute;
 	width:32px;
 	height:32px;
@@ -61,6 +63,7 @@ body {
 	border-left:2px solid rgba(255,255,255,0.4);
 }
 #arrowforward {
+	cursor:pointer;
 	top:0px;
 	height:32px;
 	width:32px;
@@ -84,6 +87,7 @@ body {
 	margin-right:auto;	
 }
 #progress-back{
+	cursor:pointer;
 	position:absolute;
 	width:32px;
 	height:32px;
@@ -93,6 +97,7 @@ body {
 	border-right:2px solid rgba(255,255,255,0.4);
 }
 #progress-front{
+	cursor:pointer;
 	position:absolute;
 	width:32px;
 	height:32px;
@@ -137,6 +142,7 @@ body {
 	background: -webkit-linear-gradient(top,#0956e2,#042396);
 }
 .progress{
+	cursor:pointer;
 	border: 0 solid #000000;
 	height:52px;
 	margin-right:20px;

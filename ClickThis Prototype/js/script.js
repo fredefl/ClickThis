@@ -58,6 +58,7 @@ $(window).hashchange( function(){
 * @param {string} page The id without the # of the page content container
 */
 function changePage(Page){
+	var backButton = $('#backButton');
 	var NewPage = $('#'+Page);
 	var oldPage = $('#'+$('#currentpage').val());
 	if(Page != null && Page != undefined){
@@ -65,6 +66,12 @@ function changePage(Page){
 		oldPage.addClass('Disabled');
 		$('#currentpage').val(Page);
 		NewPage.removeClass('Disabled').addClass('Active');
+	}
+	if(Page == 'user'){
+		backButton.addClass('Disabled');
+	}
+	else{
+		backButton.removeClass('Disabled');
 	}
 	buttonResizer.resizeButtons(document.body);
 	var url = new String(window.location);
@@ -97,6 +104,7 @@ function showAboutBox(){
 	if(backText != undefined){
 		backButton.html(backText.attr('data-about'));
 	}
+	backButton.removeClass('Disabled');
 	currentPage.addClass('Disabled').removeClass('Active');
 	aboutBox.removeClass('Disabled').addClass('Active');
 }
@@ -115,7 +123,10 @@ function hideAboutBox(){
 	backText = $('#backtext');
 	if(backText != undefined){
 		backButton.html(backText.attr('data-page'));
-	}	
+	}
+	if($('#currentpage').val() == 'user'){
+		backButton.addClass('Disabled');
+	}
 	aboutBox.addClass('Disabled').removeClass('Active');
 }
 

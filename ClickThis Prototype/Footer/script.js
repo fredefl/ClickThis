@@ -15,6 +15,15 @@ jQuery.fn.reverse = function() {
 };
 
 /**
+* This event is called when you click one of the squares,
+* it removes the old clicked style from the last clicked and adds it to the new clicked square
+*/
+$('.progress').click(function() {
+    $('.progress-current').removeClass('progress-current');
+	$(this).addClass('progress-current');
+});
+
+/**
 * This event is ran when you press the up arrow for the popup panel.
 * This function enable and disable the right images and bars.
 */
@@ -106,10 +115,15 @@ $('#progress-front').click(function() {
 	center(offSet);
 });
 
+/*
+* This function checks if any of the values offSet or StopAt has hit a limit.
+* 
+*/
 function checkValues(){
 	var elements = numberOfElements();
 	var available = availableElements();
 	var spin = stopAt-offSet+1;
+	//If the spin between offSet and stopAt is larger then the amount of squares available on the screen.
 	if(spin > available){
 		if(offSet == 0){
 			stopAt = offSet+available;
@@ -120,6 +134,8 @@ function checkValues(){
 			offSet = stopAt - available+1;
 		}
 	}
+	//This checks to see if the offSet is smaller then zero, if then it's set to stopAt- the available amount on screen+1
+	//Stop at is set to the number of questions in the survey
 	if(offSet < 0){
 		stopAt = elements;
 		offSet = stopAt-available+1;
@@ -274,8 +290,22 @@ function availableElements(){
 }
 
 /**
+* This enables or disables a grayen opacity over the forward and backwards buttons if there isn't enough elements for a page more. 
+*/
+function  buttons(){
+	var elements = numberOfElements();
+	var available = availableElements();
+	if(elements < available){
+		$('#progress-arrow-backwards,#progress-arrow-forward').css('opacity','0.5');
+	}
+	else{
+		$('#progress-arrow-backwards,#progress-arrow-forward').css('opacity','1.0');
+	}
+}
+
+/**
 * This function ensures that the right elements is enabled and center them.
-* @todo Correct the centering algorith
+* @todo Correct the centering algorithm
 */
 function center(offSet){
 	var numberOfPossibleElements = 0;
@@ -294,4 +324,5 @@ function center(offSet){
 	var width = window.width-marginLeft-marginRight;
 	$('#progress-container').css('width',width);
 	$('#progress-inner-container').css('width',innerWidth);
+	 buttons();
 }
