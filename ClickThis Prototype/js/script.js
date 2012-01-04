@@ -96,6 +96,12 @@ function changePage(Page){
 	var NewPage = $('#'+Page);
 	var oldPage = $('#'+$('#currentpage').val());
 	var url = new String(window.location);
+	if(Page != null && Page != undefined){
+		oldPage.removeClass('Active');
+		oldPage.addClass('Disabled');
+		$('#currentpage').val(Page);
+		NewPage.removeClass('Disabled').addClass('Active');
+	}
 	if(Page == 'user'){
 		backButton.addClass('Disabled');
 	}
@@ -108,16 +114,20 @@ function changePage(Page){
 	if(ifOnPage('home.html')){
 		shortenTitle();
 	}
-	if(url.indexOf("home.html") == -1 || url.indexOf("user.php") == -1 || url.indexOf("profile.html") == -1 || url.indexOf("settings.html") == -1){
-		oldPage.css('position','absolute');
+	/*if(url.indexOf("home.html") == -1 || url.indexOf("user.php") == -1 || url.indexOf("profile.html") == -1 || url.indexOf("settings.html") == -1){
+		/*oldPage.css('position','absolute');
 		oldPage.animate({left: parseInt(oldPage.css('left'),10) == 0 ? -oldPage.outerWidth()*2 : 0},1000,'slow',function () {
 			console.log('Fin');
 			switchPage(backButton,NewPage,oldPage);
 		});
+		switchPage(backButton,NewPage,oldPage,Page);
 	}
+	else{
+		switchPage(backButton,NewPage,oldPage,Page);	
+	}*/
 }
 
-function switchPage(backButton,NewPage,oldPage){
+function switchPage(backButton,NewPage,oldPage,Page){
 	if(Page != null && Page != undefined){
 		oldPage.removeClass('Active');
 		oldPage.addClass('Disabled');
