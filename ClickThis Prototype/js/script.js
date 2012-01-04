@@ -102,8 +102,10 @@ function changePage(Page){
 	else{
 		backButton.removeClass('Disabled');
 	}
-	buttonResizer.resizeButtons(document.body);
-	if(url.indexOf("home.html") != -1){
+	if(ifOnPage('multiplechoice.html')||ifOnPage('singlechoice.html')||ifOnPage('buttons.html')){
+		buttonResizer.resizeButtons(document.body);
+	}
+	if(ifOnPage('home.html')){
 		shortenTitle();
 	}
 	if(url.indexOf("home.html") == -1 || url.indexOf("user.php") == -1 || url.indexOf("profile.html") == -1 || url.indexOf("settings.html") == -1){
