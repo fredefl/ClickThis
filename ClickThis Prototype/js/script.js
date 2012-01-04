@@ -1,3 +1,5 @@
+//----------- EVENT LISTENERS ----------------------//
+
 $('#closeAboutBox').click(function(){
 	 hideAboutBox();
 });
@@ -36,6 +38,26 @@ document.addEventListener("orientationChanged",function () {
 	buttonResizer.resizeButtons(document.body);
 });
 
+$(window).hashchange( function(){
+	var Hash = location.hash;
+	if(Hash != null && Hash != undefined && Hash != ''){
+		page = Hash.replace('#','');
+		changePage(page);
+	}
+});
+
+/* This event run if you click the back button */
+$('#backButton').click(function(){
+	if($('#backButton').attr('data-about') == 'true'){
+		hideAboutBox();	
+	}
+	else{
+		window.location = $('#backButton').attr('data-href');
+	}
+});
+
+//----------- FUNCTIONS ----------------------//
+
 /**
 * This function fill the about box with content
 */
@@ -45,14 +67,6 @@ function addAboutBox(){
 	aboutBoxInner = $('#aboutBoxInner');
 	aboutBoxInner.append('&copy; Illution (c), 2012');
 }
-
-$(window).hashchange( function(){
-	var Hash = location.hash;
-	if(Hash != null && Hash != undefined && Hash != ''){
-		page = Hash.replace('#','');
-		changePage(page);
-	}
-});
 
 /**
 * This function change the page content
@@ -92,16 +106,6 @@ function switchPage(backButton,NewPage,oldPage){
 	}
 }
 
-/* This event run if you click the back button */
-$('#backButton').click(function(){
-	if($('#backButton').attr('data-about') == 'true'){
-		hideAboutBox();	
-	}
-	else{
-		window.location = $('#backButton').attr('data-href');
-	}
-});
-
 /**
 * This function show the about box
 */
@@ -122,7 +126,7 @@ function showAboutBox(){
 }
 
 /**
-* This function hide the aboutbox
+* This function hides the aboutbox
 */
 function hideAboutBox(){
 	aboutBox = $('#aboutBox');
@@ -142,8 +146,11 @@ function hideAboutBox(){
 	aboutBox.addClass('Disabled').removeClass('Active');
 }
 
+/**
+* Shortens the titles of the list elements in the series div.
+*/
 function shortenTitle () {
-	$('#series .forward').each(function(index,element){
+	$('#series.forward').each(function(index,element){
 		// Get the title
 		var title = $(element).find('a:first');
 		// Get the title contents or the data attribute content
@@ -168,4 +175,3 @@ function shortenTitle () {
 		}
 	});	
 }
-
