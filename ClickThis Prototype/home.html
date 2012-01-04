@@ -158,19 +158,21 @@
                   url: "beaconpush.php",
                 });
             });
-			cache = window.applicationCache;
-			cache.addEventListener('cached', function() {
-				$('#chacheStatus').html('Cache status: Cached').css('color','#119911');
-			}, false);
-			cache.addEventListener('noupdate', function() {
-				$('#chacheStatus').html('Cache status: Cached').css('color','#119911');
-			}, false);
-			cache.addEventListener('downloading', function() {
-				$('#chacheStatus').html('Cache status: Downloading').css('color','#999911');
-			}, false);
-			cache.addEventListener('error', function() {
-				$('#chacheStatus').html('Cache status: Error').css('color','#991111');
-			}, false);
+			if(window.applicationCache) {
+				cache = window.applicationCache;
+				cache.addEventListener('cached', function() {
+					$('#chacheStatus').html('Cache status: Cached').css('color','#119911');
+				}, false);
+				cache.addEventListener('noupdate', function() {
+					$('#chacheStatus').html('Cache status: Cached').css('color','#119911');
+				}, false);
+				cache.addEventListener('downloading', function() {
+					$('#chacheStatus').html('Cache status: Downloading').css('color','#999911');
+				}, false);
+				cache.addEventListener('error', function() {
+					$('#chacheStatus').html('Cache status: Error').css('color','#991111');
+				}, false);
+			};
         </script>
 	</body>
 </html>
