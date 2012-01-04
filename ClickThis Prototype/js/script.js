@@ -168,7 +168,7 @@ function hideAboutBox(){
 * Shortens the titles of the list elements in the series div.
 */
 function shortenTitle () {
-	$('#series.forward').each(function(index,element){
+	$('#series').find('.forward').each(function(index,element){
 		// Get the title
 		var title = $(element).find('a:first');
 		// Get the title contents or the data attribute content
