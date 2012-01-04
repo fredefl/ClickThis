@@ -41,7 +41,9 @@ document.addEventListener("orientationChanged",function () {
 */
 function addAboutBox(){
 	aboutBox = $('#aboutBox');
-	aboutBox.append('<ul class="rounded arrow"><li><a>Llama2</a></li></ul>');
+	aboutBox.append('<ul class="rounded arrow"><li><a id="aboutBoxInner"></a></li></ul>');
+	aboutBoxInner = $('#aboutBoxInner');
+	aboutBoxInner.append('&copy; Illution (c), 2012');
 }
 
 $(window).hashchange( function(){
@@ -61,12 +63,7 @@ function changePage(Page){
 	var backButton = $('#backButton');
 	var NewPage = $('#'+Page);
 	var oldPage = $('#'+$('#currentpage').val());
-	if(Page != null && Page != undefined){
-		oldPage.removeClass('Active');
-		oldPage.addClass('Disabled');
-		$('#currentpage').val(Page);
-		NewPage.removeClass('Disabled').addClass('Active');
-	}
+	var url = new String(window.location);
 	if(Page == 'user'){
 		backButton.addClass('Disabled');
 	}
@@ -74,9 +71,24 @@ function changePage(Page){
 		backButton.removeClass('Disabled');
 	}
 	buttonResizer.resizeButtons(document.body);
-	var url = new String(window.location);
 	if(url.indexOf("home.html") != -1){
 		shortenTitle();
+	}
+	if(url.indexOf("home.html") == -1 || url.indexOf("user.php") == -1 || url.indexOf("profile.html") == -1 || url.indexOf("settings.html") == -1){
+		oldPage.css('position','absolute');
+		oldPage.animate({left: parseInt(oldPage.css('left'),10) == 0 ? -oldPage.outerWidth()*2 : 0},1000,'slow',function () {
+			console.log('Fin');
+			switchPage(backButton,NewPage,oldPage);
+		});
+	}
+}
+
+function switchPage(backButton,NewPage,oldPage){
+	if(Page != null && Page != undefined){
+		oldPage.removeClass('Active');
+		oldPage.addClass('Disabled');
+		$('#currentpage').val(Page);
+		NewPage.removeClass('Disabled').addClass('Active');
 	}
 }
 
