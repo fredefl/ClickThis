@@ -8,34 +8,35 @@ $('#closeAboutBox').click(function(){
 window.addEventListener('load', function(e) {
 	$(window).hashchange();
 	// If is Android
-	var ua = navigator.userAgent.toLowerCase();
-	var isAndroid = ua.indexOf("android") > -1;
-	if(isAndroid) {
+	if (isAndroid) {
 	  // Scoll past the address bar.
 	  window.scrollTo(0, 1);
 	}
-	
 }, false);
 
 $(document).ready(function(){
-	var url = new String(window.location);
-	if(url.indexOf("home.html") != -1){
+	if(ifOnPage('home.html')){
 		shortenTitle();
 	}
 	addAboutBox();
 });
 
 $(window).resize(function(e) {
-    var url = new String(window.location);
-	if(url.indexOf("home.html") != -1){
+	if(ifOnPage('home.html')){
 		shortenTitle();
 	}
-	buttonResizer.resizeButtons(document.body);
+	if(ifOnPage('multiplechoice.html')||ifOnPage('singlechoice.html')||ifOnPage('buttons.html')){
+		buttonResizer.resizeButtons(document.body);
+	}
 });
 
 document.addEventListener("orientationChanged",function () {
-	shortenTitle();
-	buttonResizer.resizeButtons(document.body);
+	if(ifOnPage('home.html')){
+		shortenTitle();
+	}
+	if(ifOnPage('multiplechoice.html')||ifOnPage('singlechoice.html')||ifOnPage('buttons.html')){
+		buttonResizer.resizeButtons(document.body);
+	}
 });
 
 $(window).hashchange( function(){
@@ -57,6 +58,23 @@ $('#backButton').click(function(){
 });
 
 //----------- FUNCTIONS ----------------------//
+
+/**
+* Check if Android is used to browse the site.
+*/
+function isAndroid () {
+	return isAndroid = navigator.userAgent.toLowerCase().indexOf("android") > -1;	
+}
+
+/**
+* Check if we are on the specified page.
+*
+* @param {string} name The string to search for in the url.
+* @returns {bool} The result, (true/false).
+*/
+function ifOnPage (name) {
+	return new String(window.location).indexOf(name) != -1;
+}
 
 /**
 * This function fill the about box with content
