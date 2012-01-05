@@ -15,26 +15,26 @@ window.addEventListener('load', function(e) {
 }, false);
 
 $(document).ready(function(){
-	if(ifOnPage('home.html')){
+	if(isOnPage('home.html')){
 		shortenTitle();
 	}
 	addAboutBox();
 });
 
 $(window).resize(function(e) {
-	if(ifOnPage('home.html')){
+	if(isOnPage('home.html')){
 		shortenTitle();
 	}
-	if(ifOnPage('multiplechoice.html')||ifOnPage('singlechoice.html')||ifOnPage('buttons.html')){
+	if(isOnPage('multiplechoice.html')||isOnPage('singlechoice.html')||isOnPage('buttons.html')){
 		buttonResizer.resizeButtons(document.body);
 	}
 });
 
 document.addEventListener("orientationChanged",function () {
-	if(ifOnPage('home.html')){
+	if(isOnPage('home.html')){
 		shortenTitle();
 	}
-	if(ifOnPage('multiplechoice.html')||ifOnPage('singlechoice.html')||ifOnPage('buttons.html')){
+	if(isOnPage('multiplechoice.html')||isOnPage('singlechoice.html')||isOnPage('buttons.html')){
 		buttonResizer.resizeButtons(document.body);
 	}
 });
@@ -72,7 +72,7 @@ function isAndroid () {
 * @param {string} name The string to search for in the url.
 * @returns {bool} The result, (true/false).
 */
-function ifOnPage (name) {
+function isOnPage (name) {
 	return new String(window.location).indexOf(name) != -1;
 }
 
@@ -108,10 +108,10 @@ function changePage(Page){
 	else{
 		backButton.removeClass('Disabled');
 	}
-	if(ifOnPage('multiplechoice.html')||ifOnPage('singlechoice.html')||ifOnPage('buttons.html')){
+	if(isOnPage('multiplechoice.html')||isOnPage('singlechoice.html')||isOnPage('buttons.html')){
 		buttonResizer.resizeButtons(document.body);
 	}
-	if(ifOnPage('home.html')){
+	if(isOnPage('home.html')){
 		shortenTitle();
 	}
 	/*if(url.indexOf("home.html") == -1 || url.indexOf("user.php") == -1 || url.indexOf("profile.html") == -1 || url.indexOf("settings.html") == -1){
