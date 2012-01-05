@@ -87,14 +87,17 @@ function getUserProviders(){
 	return $.jStorage.get('userProviders',defaultProviders).defaultProviders;
 }
 
+/**
+* Needs to be fully re written this is only a small concept
+*/
 function userPage(){
 	var providers = currentProviders();
 	//var myProviders = {"defaultProviders" : ["Google","ClickThis","Youtube","Facebook","Twitter","LinkedIn" ]};
-	setUserProviders({"defaultProviders" : ["Google","ClickThis","Youtube","Facebook","Twitter","LinkedIn","Illution","Tubmlr" ]});
+	setUserProviders({"defaultProviders" : ["Google","ClickThis","Youtube","Facebook","Twitter","LinkedIn","Illution","Tubmlr", ]});
 	var userProviders = getUserProviders();
 	var number = 0;
 	var numberOfBoxes = Math.round(userProviders.length/6);
-	if(Math.round(userProviders.length/6) > numberOfBoxes){
+	if(Math.round(userProviders.length) > numberOfBoxes){
 		numberOfBoxes++;
 	}
 	console.log(numberOfBoxes);
