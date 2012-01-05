@@ -8,6 +8,7 @@ body {
     background-attachment: fixed;
 	background: linear-gradient(top, #333, #5e5e65);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#333), color-stop(100%,#5e5e65));
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#333333', endColorstr='#5e5e65');
 	background-repeat: no-repeat;
 	background-color:#5e5e65;
 	-webkit-user-select:none;
