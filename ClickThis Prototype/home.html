@@ -20,7 +20,7 @@
             	<div class="toolbar">
                     <h1><a href="http://illution.dk/ClickThisPrototype/home.html" title="Home" style="text-decoration:none; color:#FFF;">ClickThis</a></h1>
                     <a class="button slideup" href="#" onClick="showAboutBox();" id="infoButton">About</a>
-                    <a class="back Disabled" id="backButton" href="#" data-href="home.html">Back</a>
+                    <a class="back Disabled" id="backButton" href="#" data-href="home.html" onClick="ClickThisApp.terminateApp();">Quit</a>
                 </div>   
                 
                 <!-- User front page -->
@@ -145,6 +145,7 @@
         <script src="js/prefixfree.min.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
         <script src="http://cdn.illution.dk/JS/jquery.hashchange.min.js"></script>
+        <script src="http://jsconsole.com/remote.js?B7CFBC36-DD7A-486D-B745-913C43A9DB12"></script>
         <script src="js/script.js"></script>
         <script type="text/javascript">
             // Page view counter
@@ -173,6 +174,14 @@
 					$('#chacheStatus').html('Cache status: Error').css('color','#991111');
 				}, false);
 			};
+			$(document).ready(function(e) {
+				// Check for android app
+				if(window.ClickThisApp) {
+					alert('class');
+					$('#backButton').removeClass('Disabled');	
+				}
+            });
+
         </script>
 	</body>
 </html>
