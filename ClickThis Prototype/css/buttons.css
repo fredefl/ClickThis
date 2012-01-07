@@ -104,6 +104,9 @@
 	-webkit-user-select:none;
 	-moz-user-select:none;
 	user-select:none;
+	
+	/* Webkit Mobile Select Color */
+	-webkit-tap-highlight-color: rgba(0,0,255,0.1);
 }
 
 /* Button Active */		
