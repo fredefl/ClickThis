@@ -13,6 +13,7 @@
 	</head>
 	<body>
     <input type="hidden" id="currentpage" value="user" />
+    <input type="hidden" id="backtext" data-about="Back" data-page="Back" data-mobile="Back" data-appe="Quit"  data-mobile-about="Back" data-app-about="Back" />
         <div id="jqt">
         	<!-- The full page dov -->
             <div id="home" class="current">
@@ -20,7 +21,7 @@
             	<div class="toolbar">
                     <h1><a href="http://illution.dk/ClickThisPrototype/home.html" title="Home" style="text-decoration:none; color:#FFF;">ClickThis</a></h1>
                     <a class="button slideup" onClick="showAboutBox();" id="infoButton">About</a>
-                    <a class="back Disabled" id="backButton" data-href="home.html" onClick="ClickThisApp.terminateApp();">Quit</a>
+                    <a class="back Disabled" id="backButton" data-href="home.html" onClick="ClickThisApp.terminateApp();">Back</a>
                 </div>   
                 
                 <!-- User front page -->
@@ -36,7 +37,7 @@
                     <ul class="rounded">
                     	<li class="arrow"><a href="buttons.html">Button Showcase</a></li>  
                         <li class="arrow"><a href="#add_issue">Add Issue</a></li> 
-                        <li class="forward" id="updateButton"><a href="#">Update Desktop</a></li>
+                        <li class="arrow" id="updateButton"><a href="#">Update Desktop</a></li>
                         <li class="forward"><a>Page View Counter</a><small class="counter" id="pageCount"></small></li>
                         <li><a id="chacheStatus">Cache status </a></li>
                     </ul>
@@ -175,10 +176,11 @@
 				}, false);
 			};
 			$(document).ready(function(e) {
+				aboutText();
 				// Check for android app
 				if(window.ClickThisApp) {
-					alert('class');
-					$('#backButton').removeClass('Disabled');	
+					$('#backButton').removeClass('Disabled');
+					$('#backButton').html('Quit');	
 				}
             });
 
