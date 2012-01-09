@@ -1,4 +1,196 @@
-var currentPage = '';
+var providers; //This variable is filled with all the providers as an object when the document is ready
+var pageKeyword = "page_p"; //This variable holds the keyword that will be put infront of the standard page names/div names
+var userPageKeyword = "user_p"; //This keyword will be put infront of the name of each user generated page
+
+//This event fills the providers variable with data
+$(document).ready(function(){
+	$.ajax('providers.php',{
+	  success: function(data){
+		setCurrentProvider(jQuery.parseJSON(data));
+		start();
+	}});
+});
+
+/**
+* This function creates a table, this function will be used to create the page tables
+* @param object obj This parameter is the jquery object of the outer div or outer container
+* @param object cellspacing This is an optional parameter, to set the table cellspacing if its not set then the value will be 10
+* @returns object This function returns the jquery object of the container
+*/
+function addContainer(obj,cellspacing){
+	var container = $("<table></table>");
+	if(typeof cellspacing != "number"){
+		cellspacing = 10;
+	}
+	container.attr("cellspacing",cellspacing);
+	if(typeof obj == "object" && obj != null){
+		obj.append(container);
+	}
+	return container;
+}
+
+/**
+* This function is called by the succes callback of the providers ajax request.
+*/
+function start(){
+	
+	//Page 1
+	var page1 = addPage($("#box"),"default","1","Disbaled");
+	var page1Container = addContainer(page1);
+	var page1Row1 = addRow(page1Container);
+	var page1Row2 = addRow(page1Container);
+	
+	//Page 2
+	var page2 = addPage($("#box"),"default","2","Active");
+	var page2Container = addContainer(page2);
+	var page2Row1 = addRow(page2Container);
+	var page2Row2 = addRow(page2Container);
+	
+	//Page 3
+	var page3 = addPage($("#box"),"default","1","Disbaled");
+	var page3Container = addContainer(page3);
+	var page3Row1 = addRow(page3Container);
+	var page3Row2 = addRow(page3Container);
+	
+	//Page One Row 1
+	addProvider(providers.Google,addColumn(page1Row1));
+	addProvider(providers.ClickThis,addColumn(page1Row1));
+	addProvider(providers.MySpace,addColumn(page1Row1));
+	
+	//Page One Row 2
+	addProvider(providers.Facebook,addColumn(page1Row2));
+	addProvider(providers.Twitter,addColumn(page1Row2));
+	addProvider(providers.LinkedIn,addColumn(page1Row2));
+	
+	//Page Two Row 1
+	addProvider(providers.OpenId,addColumn(page2Row1));
+	addProvider(providers.GitHub,addColumn(page2Row1));
+	addProvider(providers.Vimeo,addColumn(page2Row1));
+	
+	//Page Two Row 2
+	addProvider(providers.StumbleUpon,addColumn(page2Row2));
+	addProvider(providers.Youtube,addColumn(page2Row2));
+	addProvider(providers.Tumblr,addColumn(page2Row2));
+}
+
+/**
+* This function creates a new row in a table with the tr tags,
+* and returns the jquery object if a table is deffined as an object in obj the row is appended to it.
+* @param object The jquery object of the table
+* @returns object The jquery object of the new row
+*/
+function addRow(obj){
+	var row = $("<tr></tr>");
+	if(typeof obj == "object" && obj != null){
+		obj.append(row);
+	}
+	return row;
+}
+
+/**
+* This function adds a page to the container with the specified parameters
+* @param object obj The container you wish to add the page div to
+* @param string type This is the type of the page, "user" or "default"/page
+* @param string name The name of the page div the final id will be the choosen keyoed user or page + name
+* @param string state The state of the page "Disabled" or "Active"
+* @retunrs object This function returns a jquery object
+*/
+function addPage(obj,type,name,state){
+	var div = $("<div></div>");
+	var objectName;
+	if(type === "default"){
+		div.attr("id",pageKeyword+name);
+		objectName = pageKeyword+name;
+	}
+	else if(type === "user"){
+		div.attr("id",userPageKeyword+name);
+		objectName = userPageKeyword+name;
+	}
+	if(state === "Active"){
+		div.addClass("Active");	
+	}
+	else{
+		div.addClass("Disabled");	
+	}
+	if(typeof obj == "object" && obj != null){
+		obj.append(div);
+	}
+	return $('#'+objectName);
+}
+
+/**
+* This function adds a column to a table and if obj is specified the column will be appended too.
+* @param obj The row/tr tag you wish to add the td/column too
+* @returns object The jquery object of the newly created column
+*/
+function addColumn(obj){
+	var column = $("<td></td>");
+	if(typeof obj == "object" && obj != null){
+		obj.append(column);
+	}
+	return column;
+}
+
+/**
+* This function adds the necesary html code for provider element,
+* and if obj is specified the element will also be append to to obj
+* @param object obj The jquery object you wish to add the provider to
+*
+* @param array data This parameter is optional it's used to specify other rows then standard,
+* but beaware that the html tag and the class variable must be the same.
+* @returns object The created jquery object of the provider
+*/
+function addProvider(provider,obj,data){
+	if(typeof provider == "object"){
+		var linkTag = $("<a></a>"); //Makes the a tag
+		var content = $("<img></img>"); //Makes the content img tag
+		
+		//Adds the href to the a tag if its set
+		if(provider.Link != undefined && provider.Link != null){
+			linkTag.attr("href",provider.Link);
+		}
+		
+		//Adds the image src if its set
+		if(provider.Image != undefined && provider.Image != null){
+			content.attr("src",provider.Image);
+		}
+		
+		//Adds the image alt if its set
+		if(provider.Alt != undefined && provider.Alt != null){
+			content.attr("alt",provider.Alt);
+		}
+		
+		//Adds the image title if its set
+		if(provider.Title != undefined && provider.Title != null){
+			content.attr("title",provider.Title);
+		}
+		
+		//If there is extra attributes to be set, defined in data then set em
+		if(typeof data == "object" && data != null){
+			$(data).each(function(index, element) {
+                content.attr(element,provider[element])
+            });
+		}
+		
+		//Append the img tag to the a tag
+		linkTag.append(content);
+		
+		//If an append obj is set append the provider to it
+		if(typeof obj == "object" && obj != null){
+			obj.append(linkTag);
+		}
+		return linkTag;
+	}
+}
+
+/**
+* This function sets the providers variable
+*/
+function setCurrentProvider(data){
+	providers = data;
+}
+
+/*var currentPage = '';
 
 $(window).hashchange( function(){
 	var Hash = location.hash;
@@ -42,28 +234,7 @@ function changePage(page){
 /**
 * "Image","Title","Alt","Link"
 */
-function currentProviders(){
-	var allProviders = {"providers": [
-        {"Google": [{"Image" : "images/Google.png","Title" : "Google","Alt" : "Google","Link" : ""}]},
-        {"ClickThis": [{"Image" : "images/ClickThis.png","Title" : "ClickThis","Alt" : "ClickThis","Link" : ""}]},
-        {"MySpace": [{"Image" : "images/MySpace.png","Title" : "Myspace","Alt" : "Myspace","Link" : ""}]},
-		{"Facebook": [{"Image" : "images/Facebook.png","Title" : "Facebook","Alt" : "Facebook","Link" : ""}]},
-		{"Twitter": [{"Image" : "images/Twitter.png","Title" : "Twitter","Alt" : "Twitter","Link" : ""}]},
-		{"LinkedIn": [{"Image" : "images/LinkedIn.png","Title" : "LinkedIn","Alt" : "LinkedIn","Link" : ""}]},
-		{"Blogger": [{"Image" : "images/Blogger.png","Title" : "Blogger","Alt" : "Blogger","Link" : ""}]},
-		{"GitHub": [{"Image" : "images/github.png","Title" : "github","Alt" : "github","Link" : ""}]},
-		{"OpenId": [{"Image" : "images/Openid.png","Title" : "OpenId","Alt" : "OpenId","Link" : ""}]},
-		{"StumbleUpon": [{"Image" : "images/StumbleUpon.png","Title" : "StumbleUpon","Alt" : "StumbleUpon","Link" : ""}]},
-		{"Vimeo": [{"Image" : "images/Vimeo.png","Title" : "Vimeo","Alt" : "Vimeo","Link" : ""}]},
-		{"Youtube": [{"Image" : "images/Youtube.png","Title" : "Youtube","Alt" : "Youtube","Link" : ""}]},
-		{"Tumblr": [{"Image" : "images/Tumblr.png","Title" : "Tumblr","Alt" : "Tumblr","Link" : ""}]},
-		{"GooglePlus": [{"Image" : "images/GooglePlus","Title" : "Google+","Alt" : "Google+","Link" : ""}]},
-		{"FriendFeed": [{"Image" : "images/FriendFeed.png","Title" : "friendfeed","Alt" : "friendfeed","Link" : ""}]},
-		{"Flickr": [{"Image" : "images/Flickr.png","Title" : "Flickr","Alt" : "Flickr","Link" : ""}]}
-    ]};
-	return allProviders;
-}
-
+/*
 //This function Fails in some caises
 function getProvider(provider){
 	var providers = currentProviders();
@@ -77,7 +248,7 @@ function getProvider(provider){
 		});
 	});
 }
-
+/*
 function setUserProviders(providers){
 	$.jStorage.set('userProviders',providers);
 }
@@ -85,11 +256,13 @@ function setUserProviders(providers){
 function getUserProviders(){
 	var defaultProviders = {"defaultProviders" : ["Google","ClickThis","MySpace","Facebook","Twitter","LinkedIn" ]};
 	return $.jStorage.get('userProviders',defaultProviders).defaultProviders;
-}
+}*/
+
 
 /**
 * Needs to be fully re written this is only a small concept
 */
+/*
 function userPage(){
 	var providers = currentProviders();
 	//var myProviders = {"defaultProviders" : ["Google","ClickThis","Youtube","Facebook","Twitter","LinkedIn" ]};
@@ -119,7 +292,8 @@ function userPage(){
 		});
 	});
 }
-
+*/
+/*
 function error(error){
 	switch(error){
 		case 404:
@@ -129,4 +303,4 @@ function error(error){
 			$('#error').removeClass('Disabled').addClass('Active').html('<h1>404 this page wasn\'t found</h1>');
 		break;
 	}
-}
+}*/
