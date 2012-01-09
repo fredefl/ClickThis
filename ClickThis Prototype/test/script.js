@@ -2,10 +2,82 @@ var providers; //This variable is filled with all the providers as an object whe
 var pageKeyword = "page_p"; //This variable holds the keyword that will be put infront of the standard page names/div names
 var userPageKeyword = "user_p"; //This keyword will be put infront of the name of each user generated page
 var currentPage = null;
+var userProviders;
+
+function showUserProviders(){
+	var userProviders = $.parseJSON('["Google","LinkedIn","Facebook","Twitter","ClickThis","MySpace","Blogger","OpenId","Tumblr","Youtube","GooglePlus","Flickr","GitHub"]');
+	var numberOfPages;
+	var pages = new Array();
+	if(userProviders.length > 0){
+		pages[1] = new Array();
+	}
+	if(userProviders.length % 6 > 0){
+		numberOfPages = ((userProviders.length - (userProviders.length % 6))/6)+1;
+	}
+	else{
+		numberOfPages = userProviders.length/6;
+	}
+	var pageNumber = 1;
+	var number = 0;
+	var rowNumber = 1;
+	var rowStartedAt = 0;
+	var pageStartedAt = 0
+	$(userProviders).each(function(index, element) {
+		if(index !=  0){
+			number++;
+		}
+		if(index > pageStartedAt+5){
+			pageStartedAt = index;
+			number = 0;
+			pageNumber++;
+			rowNumber = 1;
+			rowStartedAt = index;
+			pages[pageNumber] = new Array();
+		} else if(index > rowStartedAt+2){	
+			rowStartedAt =  index;
+			rowNumber = 2;
+		}
+		pages[pageNumber][number] = "llama";//[index+1] = element;
+		//console.log("Page:"+pageNumber+"|Row:"+rowNumber+"|pageStartedAt:"+pageStartedAt+"|Index:"+index+"|Row Started at:"+rowStartedAt);
+    });
+	pages.splice(0,1);
+}
+
+/**
+* This function is only for testing of localStorage,
+* it sets the localStorage data pageCount and it updates it every time you visit the site
+*/
+function pageCount(){
+	if(localStorage.pageCount <= undefined){
+		localStorage.pageCount = 1;
+	}
+	else{
+		localStorage.pageCount = parseInt(localStorage.pageCount)+1;
+	}
+}
+
+/**
+* This function gets the users userProviders from localStorage,
+* and if the user doens't have any false will be returned.
+* @returns boolean The status of the function
+*/
+function getUserProviders(){
+	if(localStorage.getItem('userProviders') != undefined){
+		userProviders = $.parseJSON(localStorage.getItem('userProviders'));
+		return true;
+	}
+	else{
+		/* Only for test */
+		localStorage.setItem('userProviders','["Google","LinkedIn","Facebook","Twitter","ClickThis","MySpace"]');
+		userProviders = $.parseJSON(localStorage.getItem('userProviders'));
+		//return false;
+	}
+}
 
 //This event fills the providers variable with data
 $(document).ready(function(){
 	currentPage = "page_p1";
+	getUserProviders();
 	$.ajax('providers.php',{
 	  success: function(data){
 		setCurrentProvider(jQuery.parseJSON(data));
@@ -13,6 +85,7 @@ $(document).ready(function(){
 			$(window).hashchange();
 		});
 	}});
+	showUserProviders();
 });
 
 /* This event is firered if the hash changes */
@@ -50,7 +123,7 @@ function addContainer(obj,cellspacing){
 * @param function An optinal callback function when ready
 */
 function start(callback){
-	
+
 	//Page 1
 	var page1 = addPage($("#box"),"default","1","Active");
 	var page1Container = addContainer(page1);
@@ -218,118 +291,3 @@ function addProvider(provider,obj,data){
 function setCurrentProvider(data){
 	providers = data;
 }
-
-/*var currentPage = '';
-
-$(window).hashchange( function(){
-	var Hash = location.hash;
-	if(Hash != null && Hash != undefined && Hash != ''){
-		page = Hash.replace('#','');
-		changePage(page);
-	}
-});
-
-$(document).ready(function(){
-	userPage();
-	currentPage = findPageHash($('.Active').attr('id'));
-	$(window).hashchange();	
-});
-
-function findPageHash(page){
-	if($('#page_'+page).length != 0){
-		return '#page_'+page;
-	}
-	else if($('#user_page_'+page).length != 0){
-		return '#user_page_'+page;
-	} else if($('#'+page).length != 0){
-		return '#'+page;
-	}
-}
-
-function changePage(page){
-	var pageHash = findPageHash(page);
-	if(typeof page === 'string' && typeof pageHash === 'string'){
-		if($(pageHash).length != 0 && !$(pageHash).hasClass('Active')){
-			$(currentPage).addClass('Disabled').removeClass('Active');
-			$(pageHash).addClass('Active').removeClass('Disabled');
-			currentPage = pageHash;
-		}
-	}
-	else{
-		error(404);
-	}
-}
-
-/**
-* "Image","Title","Alt","Link"
-*/
-/*
-//This function Fails in some caises
-function getProvider(provider){
-	var providers = currentProviders();
-	$.each(providers.providers,function(index,element){
-		$.each(element,function(name,value){
-			if(name === provider){
-				$.each(value,function(i,data){
-					return data;
-				});
-			}
-		});
-	});
-}
-/*
-function setUserProviders(providers){
-	$.jStorage.set('userProviders',providers);
-}
-
-function getUserProviders(){
-	var defaultProviders = {"defaultProviders" : ["Google","ClickThis","MySpace","Facebook","Twitter","LinkedIn" ]};
-	return $.jStorage.get('userProviders',defaultProviders).defaultProviders;
-}*/
-
-
-/**
-* Needs to be fully re written this is only a small concept
-*/
-/*
-function userPage(){
-	var providers = currentProviders();
-	//var myProviders = {"defaultProviders" : ["Google","ClickThis","Youtube","Facebook","Twitter","LinkedIn" ]};
-	setUserProviders({"defaultProviders" : ["Google","ClickThis","Youtube","Facebook","Twitter","LinkedIn","Illution","Tubmlr", ]});
-	var userProviders = getUserProviders();
-	var number = 0;
-	var numberOfBoxes = Math.round(userProviders.length/6);
-	if(Math.round(userProviders.length) > numberOfBoxes){
-		numberOfBoxes++;
-	}
-	console.log(numberOfBoxes);
-	$.each(userProviders,function(index,providerName){
-		$.each(providers.providers,function(index,element){
-			$.each(element,function(name,value){
-				if(name === providerName){
-					$.each(value,function(i,data){
-						number++;
-						if(number <= 3){
-							$('#user_page_u_p1 tr').first().append('<td><a><img src="'+data.Image+'" title="'+data.Title+'" alt="'+data.Alt+'" /></a></td>');
-						}
-						else{
-							$('#user_page_u_p1 tr').last().append('<td><a><img src="'+data.Image+'" title="'+data.Title+'" alt="'+data.Alt+'" /></a></td>');
-						}
-					});
-				}
-			});
-		});
-	});
-}
-*/
-/*
-function error(error){
-	switch(error){
-		case 404:
-			$(currentPage).removeClass('Active').addClass('Disabled');
-			console.log('Current Page:'+currentPage);
-			currentPage = '#error';
-			$('#error').removeClass('Disabled').addClass('Active').html('<h1>404 this page wasn\'t found</h1>');
-		break;
-	}
-}*/
