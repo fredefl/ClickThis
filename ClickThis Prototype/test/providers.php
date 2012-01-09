@@ -40,6 +40,9 @@ $Providers = array(
     ]};-->
 ?>
 */
+/**
+* Properties: Image,Alt,Title,Link
+*/
 $Providers = array(
 	"Google" => array("Image" => "images/Google.png"),
 	"ClickThis" => array("Image" => "images/ClickThis.png"),
@@ -54,13 +57,17 @@ $Providers = array(
 	"Vimeo" => array("Image" => "images/Vimeo.png"),
 	"Youtube" => array("Image" => "images/Youtube.png"),
 	"Tumblr" => array("Image" => "images/Tumblr.png"),
-	"GooglePlus" => array("Image" => "images/GooglePlus"),
-	"FriendFeed" => array("Image" => "images/FriendFeed.png"),
+	"GooglePlus" => array("Image" => "images/GooglePlus.png","Alt" => "Google+","Title" => "Google+"),
+	"FriendFeed" => array("Image" => "images/FriendFeed.png","Alt" => "friendfeed","Title" => "friendfeed"),
 	"Flickr" => array("Image" => "images/Flickr.png")
 );
 foreach($Providers as $Name => $Provider){
-	$Provider["Title"] = $Name;
-	$Provider["Alt"] = $Name;
+	if(!isset($Provider["Title"])){
+		$Provider["Title"] = $Name;
+	}
+	if(!isset($Provider["Alt"])){
+		$Provider["Alt"] = $Name;
+	}
 	$Providers[$Name] = $Provider;
 }
 echo json_encode($Providers);

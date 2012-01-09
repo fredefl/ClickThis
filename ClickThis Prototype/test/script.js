@@ -1,15 +1,31 @@
 var providers; //This variable is filled with all the providers as an object when the document is ready
 var pageKeyword = "page_p"; //This variable holds the keyword that will be put infront of the standard page names/div names
 var userPageKeyword = "user_p"; //This keyword will be put infront of the name of each user generated page
+var currentPage = null;
 
 //This event fills the providers variable with data
 $(document).ready(function(){
+	currentPage = "page_p1";
 	$.ajax('providers.php',{
 	  success: function(data){
 		setCurrentProvider(jQuery.parseJSON(data));
-		start();
+		start(function(){
+			$(window).hashchange();
+		});
 	}});
 });
+
+/* This event is firered if the hash changes */
+$(window).hashchange( function(){
+	if(location.hash != null && location.hash != undefined && location.hash != ''){
+		var page = location.hash.replace('#','');
+		if($('#'+pageKeyword+page).length > 0){
+			$('#'+pageKeyword+page).addClass('Active').removeClass('Disabled');
+			$('#'+currentPage).addClass('Disabled').removeClass('Active');
+			currentPage = pageKeyword+page;
+		}
+	}
+})
 
 /**
 * This function creates a table, this function will be used to create the page tables
@@ -31,23 +47,24 @@ function addContainer(obj,cellspacing){
 
 /**
 * This function is called by the succes callback of the providers ajax request.
+* @param function An optinal callback function when ready
 */
-function start(){
+function start(callback){
 	
 	//Page 1
-	var page1 = addPage($("#box"),"default","1","Disbaled");
+	var page1 = addPage($("#box"),"default","1","Active");
 	var page1Container = addContainer(page1);
 	var page1Row1 = addRow(page1Container);
 	var page1Row2 = addRow(page1Container);
 	
 	//Page 2
-	var page2 = addPage($("#box"),"default","2","Active");
+	var page2 = addPage($("#box"),"default","2","Disbaled");
 	var page2Container = addContainer(page2);
 	var page2Row1 = addRow(page2Container);
 	var page2Row2 = addRow(page2Container);
 	
 	//Page 3
-	var page3 = addPage($("#box"),"default","1","Disbaled");
+	var page3 = addPage($("#box"),"default","3","Disbaled");
 	var page3Container = addContainer(page3);
 	var page3Row1 = addRow(page3Container);
 	var page3Row2 = addRow(page3Container);
@@ -71,6 +88,18 @@ function start(){
 	addProvider(providers.StumbleUpon,addColumn(page2Row2));
 	addProvider(providers.Youtube,addColumn(page2Row2));
 	addProvider(providers.Tumblr,addColumn(page2Row2));
+	
+	//Page Three Row 1
+	addProvider(providers.GooglePlus,addColumn(page3Row1));
+	addProvider(providers.FriendFeed,addColumn(page3Row1));
+	addProvider(providers.Flickr,addColumn(page3Row1));
+	
+	//Page Three Row 2
+	addProvider(providers.Blogger,addColumn(page3Row2));
+	
+	if(typeof callback == "function"){
+		callback();
+	}
 }
 
 /**
