@@ -3,6 +3,7 @@ package dk.illution.clickthis;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
@@ -28,14 +29,17 @@ public class MainActivity extends Activity {
         mainWebView.getSettings()
         	.setDomStorageEnabled(true);
         
+        // Make the the scroll bar more beautiful
+        mainWebView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+        
         // Add the JavaScript interface
         mainWebView.addJavascriptInterface(new JavaScriptInterface(this), "ClickThisApp");
         
         // Handle redirects so it won't open in the built in browser
         mainWebView.setWebViewClient(new WebViewClient() {
             public boolean shouldOverrideUrlLoading(WebView view, String url){
-                // do your handling codes here, which url is the requested url
-                // probably you need to open that url rather than redirect:
+                // do your handling codes here, which URL is the requested url
+                // probably you need to open that URL rather than redirect:
                 view.loadUrl(url);
                 return false; // then it is not handled by default action
            }

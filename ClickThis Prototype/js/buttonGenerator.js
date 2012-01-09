@@ -56,17 +56,21 @@ var buttonGenerator = {
 	* @returns {string} The html for the button
 	*/
 	newCustomButton: function (id, value, colorOff, colorOn, textOff, textOn, submit, single, group) {
-		var cssClass = "";
-		var groupHTML = "";
+		var cssClass = "",
+			groupHTML = "",
+			currentColor = "",
+			currentText = "",
+			onClickFunctions = "",
+			specialClass = "",
+			html = "";
+
 		// Get the current color for the button
-		var currentColor = "";
 		if (value) {
 			currentColor = colorOn;
 		} else {
 			currentColor = colorOff;
 		}
 		// Get the current text for the button
-		var currentText = "";
 		if (value) {
 			currentText = textOn;
 		} else {
@@ -84,32 +88,32 @@ var buttonGenerator = {
 		}
 		cssClass = $.trim(cssClass);
 		// Get the javascript functions
-		var onClickFunctions = "";
 		if (single && single !== undefined && single !== null) {
 			onClickFunctions += "buttonGenerator.singleChoice(this);";
 		} else {
 			onClickFunctions += "buttonGenerator.multipleChoice(this);";
 		}
 		// Special Classes
-		var specialClass = "";
 		if (single && single !== undefined && single !== null) {
 			specialClass = "data-specialClass=\"single\"";
 		}
 		if (group !== undefined && group !== null && group !== "") {
-			groupHTML = 'data-submitgroup="' +group+ '"';
+			groupHTML = 'data-submitgroup="' + group + '"';
 		}
 		// Create Html Code
-		var html = '<a  class="' + cssClass + '"\
-						onClick="' + onClickFunctions + '"\
-						data-value="' + value + '"\
-						data-id="' + id + '"\
-						' + groupHTML + '\
-						data-coloroff="' + colorOff + '"\
-						data-coloron="' + colorOn + '"\
-						data-textoff="' + textOff + '"\
-						data-texton="' + textOn + '"\
-						' + specialClass + '\
-					>' + currentText + '</a>\r\n';
+		html = [
+			'<a class="' + cssClass + '"',
+			'onClick="' + onClickFunctions + '"',
+			'data-value="' + value + '"',
+			'data-id="' + id + '"',
+			groupHTML,
+			'data-coloroff="' + colorOff + '"',
+			'data-coloron="' + colorOn + '"',
+			'data-textoff="' + textOff + '"',
+			'data-texton="' + textOn + '"',
+			specialClass,
+			'>' + currentText + '</a>\r\n'
+		].join("");
 		// Return the Html Code
 		return html;
 	},
@@ -121,9 +125,11 @@ var buttonGenerator = {
 	* @returns {string} The html for the button
 	*/
 	newSubmitButton: function (color, text) {
-		var html = '<a  class="mega button ' + color + ' halfsize fullsize"\
-						onClick="buttonGenerator.submitData();" \
-					>' + text + '</a>';
+		var html = [
+				'<a  class="mega button ' + color + ' halfsize fullsize"',
+				'onClick="buttonGenerator.submitData();"',
+				'>' + text + '</a>'
+			].join("");
 		// Return the Html Code
 		return html;
 	},
@@ -139,8 +145,10 @@ var buttonGenerator = {
 	* @returns {string} The html of the button
 	*/
 	newCustomSubmitButton: function (color, text, id, location, href, group) {
-		var html = '<a  class="mega button ' +color+ ' halfsize fullsize"\
-						onClick="buttonGenerator.submitCustomData(this);" ';
+		var html = [
+				'<a  class="mega button ' + color + ' halfsize fullsize"',
+				'onClick="buttonGenerator.submitCustomData(this);"'
+			].join("");
 		if (id !== undefined && id !== null) {
 			html += 'id="' + id + '"';
 		}
@@ -153,7 +161,7 @@ var buttonGenerator = {
 		if (group !== undefined && group !== null) {
 			html += 'data-submitgroup="' + group + '"';
 		}
-		html += '\>' + text+ '</a>';
+		html += '\\>' + text + '</a>';
 		// Return the Html Code
 		return html;
 	},
@@ -163,18 +171,21 @@ var buttonGenerator = {
 	* @param {object} button The button that it should change state on
 	*/
 	changeState: function (button) {
-		var value = button.getAttribute("data-value");
-		var colorOff = button.getAttribute("data-coloroff");
-		var colorOn = button.getAttribute("data-coloron");
-		var textOff = button.getAttribute("data-textoff");
-		var textOn = button.getAttribute("data-texton");
-		var specialClass = button.getAttribute("data-specialclass");
+		var i = 0,
+			value = button.getAttribute("data-value"),
+			colorOff = button.getAttribute("data-coloroff"),
+			colorOn = button.getAttribute("data-coloron"),
+			textOff = button.getAttribute("data-textoff"),
+			textOn = button.getAttribute("data-texton"),
+			specialClass = button.getAttribute("data-specialclass"),
+			singleButton = null;
+
 		if (specialClass) {
 			specialClass = " " + specialClass;
 		} else {
 			specialClass = "";
 		}
-		if (value == "1") {
+		if (value === "1") {
 			button.className = 'mega button ' + colorOff + ' halfsize submit' + specialClass;
 			button.setAttribute("data-value", "0");
 			button.innerHTML = textOff;
@@ -182,12 +193,12 @@ var buttonGenerator = {
 			button.className = 'mega button ' + colorOn + ' halfsize submit' + specialClass;
 			button.setAttribute("data-value", "1");
 			button.innerHTML = textOn;
-		};
-		if (specialClass != " single") {
-			for (var i in $('.single').toArray()) {
-				var singleButton = $('.single').toArray()[i];
+		}
+		if (specialClass !== " single") {
+			for (i in $('.single').toArray()) {
+				singleButton = $('.single').toArray()[i];
 				if (singleButton !== null) {
-					if (singleButton.getAttribute("data-value") == "1") {
+					if (singleButton.getAttribute("data-value") === "1") {
 						this.changeState(singleButton);
 					}
 				}
@@ -198,9 +209,11 @@ var buttonGenerator = {
 	* Submits the data
 	*/
 	submitData: function () {
-		var postString = "";
-		for (var i in $('.button.submit').toArray()) {
-			var button = $('.button.submit').toArray()[i];
+		var i = 0,
+			postString = "",
+			button = null;
+		for (i in $('.button.submit').toArray()) {
+			button = $('.button.submit').toArray()[i];
 			if (button !== null) {
 				postString += button.getAttribute("data-id") + "=" + button.getAttribute("data-value") + ", ";
 			}
@@ -215,20 +228,21 @@ var buttonGenerator = {
 	* @param {object} submitButton The submit button that submits
 	*/
 	submitCustomData: function (submitButton) {
-		var postString = "";
-		var	postLocation = submitButton.getAttribute("data-location");
-		var	redirectUrl = submitButton.getAttribute("data-link");
-		var submitGroup = submitButton.getAttribute("data-submitgroup");
-		for (var i in $('.button.submit').toArray()) {
-			var button = $('.button.submit').toArray()[i];
+		var i = 0,
+			postString = "",
+			postLocation = submitButton.getAttribute("data-location"),
+			redirectUrl = submitButton.getAttribute("data-link"),
+			submitGroup = submitButton.getAttribute("data-submitgroup"),
+			button = null;
+		for (i in $('.button.submit').toArray()) {
+			button = $('.button.submit').toArray()[i];
 			if (submitGroup !== undefined) {
-				if (button !== null && button.getAttribute("data-submitgroup") == submitGroup) {
-					if (button.getAttribute("data-id") !== null && button.getAttribute("data-id") != 'null') {
+				if (button !== null && button.getAttribute("data-submitgroup") === submitGroup) {
+					if (button.getAttribute("data-id") !== null && button.getAttribute("data-id") !== 'null') {
 						postString += button.getAttribute("data-id") + "=" + button.getAttribute("data-value") + ", ";
 					}
 				}
-			}
-			else{
+			} else {
 				if (button !== null && button.getAttribute("data-id") !== null) {
 					postString += button.getAttribute("data-id") + "=" + button.getAttribute("data-value") + ", ";
 				}
@@ -243,14 +257,16 @@ var buttonGenerator = {
 	* Uncheck all buttons
 	*/
 	unCheckAll: function () {
-		for (var i in $('.button.submit').toArray()) {
-			var button = $('.button.submit').toArray()[i];
+		var i = 0,
+			button = null;
+		for (i in $('.button.submit').toArray()) {
+			button = $('.button.submit').toArray()[i];
 			if (button !== null) {
-				if (button.getAttribute("data-value") == "1") {
+				if (button.getAttribute("data-value") === "1") {
 					this.changeState(button);
 				}
 			}
-		}	
+		}
 	},
 	/**
 	* Single Choice button click
@@ -259,7 +275,7 @@ var buttonGenerator = {
 	*/
 	singleChoice: function (button) {
 		var value = button.getAttribute("data-value");
-		if (value == "1") {
+		if (value === "1") {
 			this.unCheckAll();
 		} else {
 			this.unCheckAll();
