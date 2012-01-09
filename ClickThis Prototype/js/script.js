@@ -107,6 +107,9 @@ function aboutText(){
 		}	
 	}
 	if(window.ClickThisApp){
+		if(backButton.attr('data-app-onClick') != undefined && backButton.attr('onClick') != backButton.attr('data-app-onClick')){
+			backButton.attr('onClick',backButton.attr('data-app-onClick'));
+		}
 		if(backText.attr('data-app') != undefined){
 			backButtonPageText = backText.attr('data-app');
 		}
@@ -241,7 +244,7 @@ function showAboutBox(){
 		}
 	}*/
 	aboutText();
-	backButton.removeClass('Disabled');
+	backButton.removeClass('Disabled').addClass('Active');
 	currentPage.addClass('Disabled').removeClass('Active');
 	aboutBox.removeClass('Disabled').addClass('Active');
 }

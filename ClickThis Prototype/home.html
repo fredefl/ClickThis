@@ -13,7 +13,7 @@
 	</head>
 	<body>
     <input type="hidden" id="currentpage" value="user" />
-    <input type="hidden" id="backtext" data-about="Back" data-page="Back" data-mobile="Back" data-appe="Quit"  data-mobile-about="Back" data-app-about="Back" />
+    <input type="hidden" id="backtext" data-about="Back" data-page="Back" data-mobile="Back" data-start-mode="active" data-app="Quit"  data-mobile-about="Back" data-app-about="Back" />
         <div id="jqt">
         	<!-- The full page dov -->
             <div id="home" class="current">
@@ -21,7 +21,7 @@
             	<div class="toolbar">
                     <h1><a href="http://illution.dk/ClickThisPrototype/home.html" title="Home" style="text-decoration:none; color:#FFF;">ClickThis</a></h1>
                     <a class="button slideup" onClick="showAboutBox();" id="infoButton">About</a>
-                    <a class="back Disabled" id="backButton" data-href="home.html" onClick="ClickThisApp.terminateApp();">Back</a>
+                    <a class="back Disabled" id="backButton" data-href="home.html" data-app-onClick="ClickThisApp.terminateApp()">Back</a>
                 </div>   
                 
                 <!-- User front page -->
