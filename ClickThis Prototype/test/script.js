@@ -4,8 +4,11 @@ var userPageKeyword = "user_p"; //This keyword will be put infront of the name o
 var currentPage = null; //This variable is set by the page changer function
 var userProviders; //The variable will be set with the content of the users localStorage key "userProviders" 
 
+/**
+* This function gets all the user providers and add them to pages,
+* wth all the needed data
+*/
 function showUserProviders(){
-	var userProviders = $.parseJSON('["Google","LinkedIn","Facebook","Twitter","ClickThis","MySpace","Blogger","OpenId","Tumblr","Youtube","GooglePlus","Flickr","GitHub"]');
 	var numberOfPages;
 	var pages = new Array();
 	if(userProviders.length % 6 > 0){
@@ -32,32 +35,15 @@ function showUserProviders(){
 				currentIndex++;
 			}
 		}
-		//console.log(userProviders[i]);	
 	}
-	/*
-	var pageNumber = 1;
-	var number = 0;
-	var rowNumber = 1;
-	var rowStartedAt = 0;
-	var pageStartedAt = 0
-	$(userProviders).each(function(index, element) {
-		if(index !=  0){
-			number++;
-		}
-		if(index > pageStartedAt+5){
-			pageStartedAt = index;
-			number = 0;
-			pageNumber++;
-			rowNumber = 1;
-			rowStartedAt = index;
-			pages[pageNumber] = new Array();
-		} else if(index > rowStartedAt+2){	
-			rowStartedAt =  index;
-			rowNumber = 2;
-		}
-		pages[pageNumber][number] = "llama";//[index+1] = element;
-		//console.log("Page:"+pageNumber+"|Row:"+rowNumber+"|pageStartedAt:"+pageStartedAt+"|Index:"+index+"|Row Started at:"+rowStartedAt);
-    });*/
+}
+
+/**
+* This function sets the local storage element for user providers
+* @param string data A json string of the wished providers
+*/
+function setUserProviders(data){
+	localStorage.setItem('userProviders',data);
 }
 
 /**
@@ -86,8 +72,8 @@ function getUserProviders(){
 	else{
 		/* Only for test */
 		localStorage.setItem('userProviders','["Google","LinkedIn","Facebook","Twitter","ClickThis","MySpace"]');
-		userProviders = $.parseJSON(localStorage.getItem('userProviders'));
-		//return false;
+		userProviders = $.parseJSON('["Google","LinkedIn","Facebook","Twitter","ClickThis","MySpace"]');
+		return false;
 	}
 }
 
@@ -114,13 +100,11 @@ $(window).hashchange( function(){
 				$('#'+userPageKeyword+page).addClass('Active').removeClass('Disabled');
 				$('#'+currentPage).addClass('Disabled').removeClass('Active');
 				currentPage = userPageKeyword+page;
-				console.log(currentPage);
 			}
 		}else if($('#'+pageKeyword+page).length > 0 && !$('#'+pageKeyword+page).hasClass('Active')){
 			$('#'+pageKeyword+page).addClass('Active').removeClass('Disabled');
 			$('#'+currentPage).addClass('Disabled').removeClass('Active');
 			currentPage = pageKeyword+page;
-			console.log(currentPage);
 		}
 	}
 })
