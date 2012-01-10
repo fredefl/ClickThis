@@ -23,12 +23,17 @@ public class MainActivity extends Activity {
     	// Find the WebView element
         mainWebView = (WebView) findViewById(R.id.mainWebView);
         
+        // Make the DOM storage persistent
+        mainWebView.getSettings().setDatabaseEnabled(true);
+        mainWebView.getSettings().setDatabasePath("/data/data/clickthis/databases");
+       
+        
         // Enable JavaScript and DOM storage (for example localStorage)
         mainWebView.getSettings()
         	.setJavaScriptEnabled(true);
         mainWebView.getSettings()
         	.setDomStorageEnabled(true);
-        
+
         // Make the the scroll bar more beautiful
         mainWebView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
         
