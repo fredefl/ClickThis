@@ -1,46 +1,49 @@
 var providers; //This variable is filled with all the providers as an object when the document is ready
 var pageKeyword = "page_p"; //This variable holds the keyword that will be put infront of the standard page names/div names
 var userPageKeyword = "user_p"; //This keyword will be put infront of the name of each user generated page
-var currentPage = null;
-var userProviders;
+var currentPage = null; //This variable is set by the page changer function
+var userProviders; //The variable will be set with the content of the users localStorage key "userProviders" 
 
+/**
+* This function gets all the user providers and add them to pages,
+* wth all the needed data
+*/
 function showUserProviders(){
-	var userProviders = $.parseJSON('["Google","LinkedIn","Facebook","Twitter","ClickThis","MySpace","Blogger","OpenId","Tumblr","Youtube","GooglePlus","Flickr","GitHub"]');
 	var numberOfPages;
 	var pages = new Array();
-	if(userProviders.length > 0){
-		pages[1] = new Array();
-	}
 	if(userProviders.length % 6 > 0){
 		numberOfPages = ((userProviders.length - (userProviders.length % 6))/6)+1;
 	}
 	else{
 		numberOfPages = userProviders.length/6;
 	}
-	var pageNumber = 1;
-	var number = 0;
-	var rowNumber = 1;
-	var rowStartedAt = 0;
-	var pageStartedAt = 0
-	$(userProviders).each(function(index, element) {
-		if(index !=  0){
-			number++;
+	var currentIndex = 0;
+	var numberPerPage = 6;
+	for(var i = 1;i <= numberOfPages;i++){
+		var page = addPage($("#box"),"user",i,"Default");
+		var container = addContainer(page);
+		var row1 = addRow(container);
+		var row2 = addRow(container);
+		for(var number = 0;number <= numberPerPage-1;number++){
+			if(currentIndex < userProviders.length){
+				if(number < 3){
+					addProvider(providers[userProviders[currentIndex]],addColumn(row1));
+				}
+				else if(number < 6){
+					addProvider(providers[userProviders[currentIndex]],addColumn(row2));				
+				}
+				currentIndex++;
+			}
 		}
-		if(index > pageStartedAt+5){
-			pageStartedAt = index;
-			number = 0;
-			pageNumber++;
-			rowNumber = 1;
-			rowStartedAt = index;
-			pages[pageNumber] = new Array();
-		} else if(index > rowStartedAt+2){	
-			rowStartedAt =  index;
-			rowNumber = 2;
-		}
-		pages[pageNumber][number] = "llama";//[index+1] = element;
-		//console.log("Page:"+pageNumber+"|Row:"+rowNumber+"|pageStartedAt:"+pageStartedAt+"|Index:"+index+"|Row Started at:"+rowStartedAt);
-    });
-	pages.splice(0,1);
+	}
+}
+
+/**
+* This function sets the local storage element for user providers
+* @param string data A json string of the wished providers
+*/
+function setUserProviders(data){
+	localStorage.setItem('userProviders',data);
 }
 
 /**
@@ -69,8 +72,8 @@ function getUserProviders(){
 	else{
 		/* Only for test */
 		localStorage.setItem('userProviders','["Google","LinkedIn","Facebook","Twitter","ClickThis","MySpace"]');
-		userProviders = $.parseJSON(localStorage.getItem('userProviders'));
-		//return false;
+		userProviders = $.parseJSON('["Google","LinkedIn","Facebook","Twitter","ClickThis","MySpace"]');
+		return false;
 	}
 }
 
@@ -85,14 +88,20 @@ $(document).ready(function(){
 			$(window).hashchange();
 		});
 	}});
-	showUserProviders();
 });
 
 /* This event is firered if the hash changes */
 $(window).hashchange( function(){
 	if(location.hash != null && location.hash != undefined && location.hash != ''){
 		var page = location.hash.replace('#','');
-		if($('#'+pageKeyword+page).length > 0){
+		if(page[0] == "u"){
+			page = page.substring(1,page.length);
+			if($('#'+userPageKeyword+page).length > 0 && !$('#'+userPageKeyword+page).hasClass('Active')){
+				$('#'+userPageKeyword+page).addClass('Active').removeClass('Disabled');
+				$('#'+currentPage).addClass('Disabled').removeClass('Active');
+				currentPage = userPageKeyword+page;
+			}
+		}else if($('#'+pageKeyword+page).length > 0 && !$('#'+pageKeyword+page).hasClass('Active')){
 			$('#'+pageKeyword+page).addClass('Active').removeClass('Disabled');
 			$('#'+currentPage).addClass('Disabled').removeClass('Active');
 			currentPage = pageKeyword+page;
@@ -169,7 +178,8 @@ function start(callback){
 	
 	//Page Three Row 2
 	addProvider(providers.Blogger,addColumn(page3Row2));
-	
+		
+	showUserProviders();
 	if(typeof callback == "function"){
 		callback();
 	}
