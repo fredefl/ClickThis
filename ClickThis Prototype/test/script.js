@@ -1,22 +1,40 @@
 var providers; //This variable is filled with all the providers as an object when the document is ready
 var pageKeyword = "page_p"; //This variable holds the keyword that will be put infront of the standard page names/div names
 var userPageKeyword = "user_p"; //This keyword will be put infront of the name of each user generated page
-var currentPage = null;
-var userProviders;
+var currentPage = null; //This variable is set by the page changer function
+var userProviders; //The variable will be set with the content of the users localStorage key "userProviders" 
 
 function showUserProviders(){
 	var userProviders = $.parseJSON('["Google","LinkedIn","Facebook","Twitter","ClickThis","MySpace","Blogger","OpenId","Tumblr","Youtube","GooglePlus","Flickr","GitHub"]');
 	var numberOfPages;
 	var pages = new Array();
-	if(userProviders.length > 0){
-		pages[1] = new Array();
-	}
 	if(userProviders.length % 6 > 0){
 		numberOfPages = ((userProviders.length - (userProviders.length % 6))/6)+1;
 	}
 	else{
 		numberOfPages = userProviders.length/6;
 	}
+	var currentIndex = 0;
+	var numberPerPage = 6;
+	for(var i = 1;i <= numberOfPages;i++){
+		var page = addPage($("#box"),"user",i,"Default");
+		var container = addContainer(page);
+		var row1 = addRow(container);
+		var row2 = addRow(container);
+		for(var number = 0;number <= numberPerPage-1;number++){
+			if(currentIndex < userProviders.length){
+				if(number < 3){
+					addProvider(providers[userProviders[currentIndex]],addColumn(row1));
+				}
+				else if(number < 6){
+					addProvider(providers[userProviders[currentIndex]],addColumn(row2));				
+				}
+				currentIndex++;
+			}
+		}
+		//console.log(userProviders[i]);	
+	}
+	/*
 	var pageNumber = 1;
 	var number = 0;
 	var rowNumber = 1;
@@ -39,8 +57,7 @@ function showUserProviders(){
 		}
 		pages[pageNumber][number] = "llama";//[index+1] = element;
 		//console.log("Page:"+pageNumber+"|Row:"+rowNumber+"|pageStartedAt:"+pageStartedAt+"|Index:"+index+"|Row Started at:"+rowStartedAt);
-    });
-	pages.splice(0,1);
+    });*/
 }
 
 /**
@@ -85,17 +102,25 @@ $(document).ready(function(){
 			$(window).hashchange();
 		});
 	}});
-	showUserProviders();
 });
 
 /* This event is firered if the hash changes */
 $(window).hashchange( function(){
 	if(location.hash != null && location.hash != undefined && location.hash != ''){
 		var page = location.hash.replace('#','');
-		if($('#'+pageKeyword+page).length > 0){
+		if(page[0] == "u"){
+			page = page.substring(1,page.length);
+			if($('#'+userPageKeyword+page).length > 0 && !$('#'+userPageKeyword+page).hasClass('Active')){
+				$('#'+userPageKeyword+page).addClass('Active').removeClass('Disabled');
+				$('#'+currentPage).addClass('Disabled').removeClass('Active');
+				currentPage = userPageKeyword+page;
+				console.log(currentPage);
+			}
+		}else if($('#'+pageKeyword+page).length > 0 && !$('#'+pageKeyword+page).hasClass('Active')){
 			$('#'+pageKeyword+page).addClass('Active').removeClass('Disabled');
 			$('#'+currentPage).addClass('Disabled').removeClass('Active');
 			currentPage = pageKeyword+page;
+			console.log(currentPage);
 		}
 	}
 })
@@ -169,7 +194,8 @@ function start(callback){
 	
 	//Page Three Row 2
 	addProvider(providers.Blogger,addColumn(page3Row2));
-	
+		
+	showUserProviders();
 	if(typeof callback == "function"){
 		callback();
 	}
