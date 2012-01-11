@@ -18,7 +18,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main);
         setUpWebView();
     }
-    
+    s
     public void setUpWebView () {
     	// Find the WebView element
         mainWebView = (WebView) findViewById(R.id.mainWebView);
