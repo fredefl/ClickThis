@@ -4,6 +4,7 @@ var userPageKeyword = "user_p"; //This keyword will be put infront of the name o
 var currentPage = null; //This variable is set by the page changer function
 var userProviders; //The variable will be set with the content of the users localStorage key "userProviders" 
 var pageChangeType = '.page'; //This variable is used in the arrow system options are (".default",".page",".user")
+var numberPerPage = 6; // This variable set how many providers there will be shown per page
 
 /**
 * This event is triggered when right arrow is clicked,
@@ -67,7 +68,6 @@ function showUserProviders(){
 		numberOfPages = userProviders.length/6;
 	}
 	var currentIndex = 0;
-	var numberPerPage = 6;
 	for(var i = 1;i <= numberOfPages;i++){
 		var page = addPage($("#box"),"user",i,"Default");
 		var container = addContainer(page);
@@ -119,7 +119,7 @@ function getUserProviders(){
 		return true;
 	}
 	else{
-		/* Only for test */
+		/* Only for testing */
 		localStorage.setItem('userProviders','["Google","LinkedIn","Facebook","Twitter","ClickThis","MySpace"]');
 		userProviders = $.parseJSON('["Google","LinkedIn","Facebook","Twitter","ClickThis","MySpace"]');
 		return false;
@@ -135,11 +135,14 @@ $(document).ready(function(){
 		setCurrentProvider(jQuery.parseJSON(data));
 		start(function(){
 			$(window).hashchange();
+			$('#box').scrollable({
+				items: pageChangeType
+			});
 		});
 	}});
 });
 
-/* This event is firered if the hash changes */
+/* This event is fired if the hash changes */
 $(window).hashchange( function(){
 	if(location.hash != null && location.hash != undefined && location.hash != ''){
 		var page = location.hash.replace('#','');
