@@ -25,7 +25,7 @@ public class MainActivity extends Activity {
         
         // Make the DOM storage persistent
         mainWebView.getSettings().setDatabaseEnabled(true);
-        mainWebView.getSettings().setDatabasePath("/data/data/clickthis/databases");
+        mainWebView.getSettings().setDatabasePath("/data/data/dk.illution.clickthis/databases/");
        
         
         // Enable JavaScript and DOM storage (for example localStorage)
@@ -66,8 +66,8 @@ public class MainActivity extends Activity {
         
         // Terminates the native android app, FROM JAVASCRIPT!!!
         public void terminateApp () {
-        	//MainActivity.this.moveTaskToBack(true);
-        	Toast.makeText(mContext, "hehe", Toast.LENGTH_SHORT).show();
+        	MainActivity.this.moveTaskToBack(true);
+        	//Toast.makeText(mContext, "hehe", Toast.LENGTH_SHORT).show();
         }
     }
 
