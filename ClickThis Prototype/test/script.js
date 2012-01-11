@@ -4,6 +4,45 @@ var userPageKeyword = "user_p"; //This keyword will be put infront of the name o
 var currentPage = null; //This variable is set by the page changer function
 var userProviders; //The variable will be set with the content of the users localStorage key "userProviders" 
 
+/* Needs a filter to only use the User or Default pages */
+$('#right').click(function() {
+	//right();
+	var thisPage = $('.Active');
+	var newPage = $(thisPage).next('.page');
+	if(newPage.length > 0){
+   		newPage.addClass('Active').removeClass('Disabled');
+		thisPage.addClass('Disabled').removeClass('Active');
+		currentPage = newPage.attr('id');
+	}
+	else{
+		newPage = $('.page:first');	
+		thisPage.addClass('Disabled').removeClass('Active');
+		newPage.addClass('Active').removeClass('Disabled');
+		currentPage = newPage.attr('id');
+	}
+});
+
+function right(){
+
+}
+
+/* Needs a filter to only use the User or Default pages */
+$('#left').click(function() {
+	var thisPage = $('.Active');
+	var newPage = $(thisPage).prev('.page');
+	if(newPage.length > 0){
+		thisPage.addClass('Disabled').removeClass('Active');
+		newPage.addClass('Active').removeClass('Disabled');
+		currentPage = newPage.attr('id');
+	}
+	else{
+		newPage = $('.page:last');	
+		thisPage.addClass('Disabled').removeClass('Active');
+		newPage.addClass('Active').removeClass('Disabled');
+		currentPage = newPage.attr('id');
+	}
+});
+
 /**
 * This function gets all the user providers and add them to pages,
 * wth all the needed data
@@ -211,10 +250,14 @@ function addPage(obj,type,name,state){
 	var div = $("<div></div>");
 	var objectName;
 	if(type === "default"){
+		div.addClass('page');
+		div.addClass('default');
 		div.attr("id",pageKeyword+name);
 		objectName = pageKeyword+name;
 	}
 	else if(type === "user"){
+		div.addClass('page');
+		div.addClass('user');
 		div.attr("id",userPageKeyword+name);
 		objectName = userPageKeyword+name;
 	}

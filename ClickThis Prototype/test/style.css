@@ -1,25 +1,60 @@
+/* The right arrow */
 #right{
-	height:32px;
-	width:32px;
-	background:url(images/Right.png)	
-}
-#left{
-	height:32px;
-	width:32px;	
-	background:url(images/Left.png)
-		
-}
-#up{
-	height:32px;
-	width:32px;		
-	background:url(images/Up.png)
-}
-#down{
-	height:32px;
-	width:32px;		
-	background:url(images/Down.png)
+	height:34px;
+	width:35px;
+	background: url("images/Right.png") 0 0 no-repeat;
+	position:absolute;
+	top:45%;
+	right:-25px;	
 }
 
+#right:hover{
+	background-position: -36px 0;
+}
+
+/* The left arrow */
+#left:hover{
+	background-position: -36px 0;
+}
+
+#left{
+	height:34px;
+	width:35px;	
+	background: url("images/Left.png") 0 0 no-repeat;
+	position:absolute;
+	top:45%;
+	left:-15px;	
+}
+
+/* The upper arrow */
+#up{
+	height:34px;
+	width:35px;		
+	left:45%;
+	top:-22px;
+	background: url("images/Up.png") 0 0 no-repeat;
+	position:absolute;
+}
+
+#up:hover{
+	background-position: -36px 0;
+}
+
+/* The arrow down */
+#down{
+	height:34px;
+	width:35px;		
+	left:45%;
+	background: url("images/Down.png") 0 0 no-repeat;
+	position:absolute;
+	bottom:-15px;
+}
+
+#down:hover{
+	background-position: -36px 0;
+}
+
+/* The gradient box */
 #box {
 	width:430px;
 	height:300px;
@@ -44,16 +79,23 @@
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#bababa', endColorstr='#6d6d6d',GradientType=0 ); /* IE6-9 */
 	background: linear-gradient(top, #bababa 1%,#6d6d6d 100%); /* W3C */
 }
+
+/* The html body style the makes the background */
 body {
-	/*background: url(http://illution.dk/include/Errors/images/Back.png) repeat; */
 	background: url(images/Back.png) repeat;
 	width:100%; 
 	height:100%;
 }
+/* Page Changer Disabled */
 .Disabled{
 	display:none;	
 }
+/* Page Active */
 .Active{
 	
 }
 
+/* Page Types */
+.user{ }
+.page{ }
+.default{ }
