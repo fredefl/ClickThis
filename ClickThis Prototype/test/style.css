@@ -1,3 +1,25 @@
+#right{
+	height:32px;
+	width:32px;
+	background:url(images/Right.png)	
+}
+#left{
+	height:32px;
+	width:32px;	
+	background:url(images/Left.png)
+		
+}
+#up{
+	height:32px;
+	width:32px;		
+	background:url(images/Up.png)
+}
+#down{
+	height:32px;
+	width:32px;		
+	background:url(images/Down.png)
+}
+
 #box {
 	width:430px;
 	height:300px;
