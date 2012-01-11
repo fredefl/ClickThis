@@ -3,43 +3,53 @@ var pageKeyword = "page_p"; //This variable holds the keyword that will be put i
 var userPageKeyword = "user_p"; //This keyword will be put infront of the name of each user generated page
 var currentPage = null; //This variable is set by the page changer function
 var userProviders; //The variable will be set with the content of the users localStorage key "userProviders" 
+var pageChangeType = '.page'; //This variable is used in the arrow system options are (".default",".page",".user")
 
-/* Needs a filter to only use the User or Default pages */
+/**
+* This event is triggered when right arrow is clicked,
+* this event's callback function gets the next page,
+* and if it's the last page it returns to the first page
+*/
 $('#right').click(function() {
 	//right();
 	var thisPage = $('.Active');
-	var newPage = $(thisPage).next('.page');
+	var newPage = $(thisPage).next(pageChangeType);
 	if(newPage.length > 0){
-   		newPage.addClass('Active').removeClass('Disabled');
-		thisPage.addClass('Disabled').removeClass('Active');
-		currentPage = newPage.attr('id');
+		animate(newPage,thisPage)
 	}
 	else{
-		newPage = $('.page:first');	
-		thisPage.addClass('Disabled').removeClass('Active');
-		newPage.addClass('Active').removeClass('Disabled');
-		currentPage = newPage.attr('id');
+		newPage = $(pageChangeType+':first');
+		animate(newPage,thisPage);	
 	}
 });
 
-function right(){
-
+/**
+* This function fades the old page out and the new page in,
+* and sets the current page variable
+*/
+function animate(newPage,thisPage){
+	thisPage.fadeOut('fast',function(){
+		thisPage.addClass('Disabled').removeClass('Active');
+		newPage.addClass('Active').removeClass('Disabled');
+		newPage.fadeIn('fast');
+	});
+	currentPage = newPage.attr('id');
 }
 
-/* Needs a filter to only use the User or Default pages */
+/**
+* This event is called when the left arrow is clicked it does the same as,
+* the event for the right button just reverses
+* @see $('#right').click(function()
+*/
 $('#left').click(function() {
-	var thisPage = $('.Active');
-	var newPage = $(thisPage).prev('.page');
+	var thisPage = $(pageChangeType+'.Active');
+	var newPage = $(thisPage).prev(pageChangeType);
 	if(newPage.length > 0){
-		thisPage.addClass('Disabled').removeClass('Active');
-		newPage.addClass('Active').removeClass('Disabled');
-		currentPage = newPage.attr('id');
+		animate(newPage,thisPage);	
 	}
 	else{
-		newPage = $('.page:last');	
-		thisPage.addClass('Disabled').removeClass('Active');
-		newPage.addClass('Active').removeClass('Disabled');
-		currentPage = newPage.attr('id');
+		newPage = $(pageChangeType+':last');	
+		animate(newPage,thisPage);	
 	}
 });
 
