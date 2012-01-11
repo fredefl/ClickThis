@@ -18,17 +18,22 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main);
         setUpWebView();
     }
-    
+    s
     public void setUpWebView () {
     	// Find the WebView element
         mainWebView = (WebView) findViewById(R.id.mainWebView);
+        
+        // Make the DOM storage persistent
+        mainWebView.getSettings().setDatabaseEnabled(true);
+        mainWebView.getSettings().setDatabasePath("/data/data/dk.illution.clickthis/databases/");
+       
         
         // Enable JavaScript and DOM storage (for example localStorage)
         mainWebView.getSettings()
         	.setJavaScriptEnabled(true);
         mainWebView.getSettings()
         	.setDomStorageEnabled(true);
-        
+
         // Make the the scroll bar more beautiful
         mainWebView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
         
@@ -61,8 +66,8 @@ public class MainActivity extends Activity {
         
         // Terminates the native android app, FROM JAVASCRIPT!!!
         public void terminateApp () {
-        	//MainActivity.this.moveTaskToBack(true);
-        	Toast.makeText(mContext, "hehe", Toast.LENGTH_SHORT).show();
+        	MainActivity.this.moveTaskToBack(true);
+        	//Toast.makeText(mContext, "hehe", Toast.LENGTH_SHORT).show();
         }
     }
 
