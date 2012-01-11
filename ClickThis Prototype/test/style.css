@@ -5,16 +5,26 @@
 	background: url("images/Right.png") 0 0 no-repeat;
 	position:absolute;
 	top:45%;
-	right:-25px;	
+	right:-20px;	
 }
 
 #right:hover{
 	background-position: -36px 0;
 }
 
+
+#right:active{
+	background-position: -69px 0;	
+}
+
 /* The left arrow */
 #left:hover{
 	background-position: -36px 0;
+}
+
+
+#left:active{
+	background-position: -71px 0;
 }
 
 #left{
@@ -95,7 +105,38 @@ body {
 	
 }
 
+/* Editt */
+#edit-box{
+	padding:10px;
+}
+
+#edit:hover{
+	background: url("images/circle.png") -35px 0 no-repeat;
+}
+
+#edit:active{
+	background: url("images/circle.png") -70px 0 no-repeat;
+}
+
+#edit{
+	width:34px;
+	height:35px;
+	position:absolute;
+	top:-15px;	
+	right:-15px;
+	background: url("images/circle.png") 0 0 no-repeat;
+}
+
+#button{
+	width:64px;
+	height:32px;
+	position:absolute;
+	text-align:center;
+	background: url("images/Button.png") 0 0 no-repeat;
+}
+
 /* Page Types */
 .user{ }
 .page{ }
 .default{ }
+.edit{ }

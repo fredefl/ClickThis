@@ -3,8 +3,27 @@ var pageKeyword = "page_p"; //This variable holds the keyword that will be put i
 var userPageKeyword = "user_p"; //This keyword will be put infront of the name of each user generated page
 var currentPage = null; //This variable is set by the page changer function
 var userProviders; //The variable will be set with the content of the users localStorage key "userProviders" 
-var pageChangeType = '.page'; //This variable is used in the arrow system options are (".default",".page",".user")
+var pageChangeType = '.page'; //This variable is used in the arrow system options are (".default",".page",".user",".edit")
 var numberPerPage = 6; // This variable set how many providers there will be shown per page
+var numberPerRow = 3; //This variable sets how many providers there will be shown per row
+var oldPage; //This variable stores the last disabled page
+var oldPageChangeType; //This variable is used in the edit box the re-create what it changed
+
+$('#edit').click(function() {
+	var thisPage = $('.Active');
+	var newPage = $('#edit-box');
+	if(!newPage.hasClass('Active')){
+		oldPageChangeType = pageChangeType;
+		animate(newPage,thisPage);
+		pageChangeType = '.edit';
+	}
+	else{
+		thisPage = $('#edit-box');
+		newPage = $('#'+oldPage);	
+		pageChangeType = oldPageChangeType;
+		animate(newPage,thisPage);
+	}
+});
 
 /**
 * This event is triggered when right arrow is clicked,
@@ -15,12 +34,14 @@ $('#right').click(function() {
 	//right();
 	var thisPage = $('.Active');
 	var newPage = $(thisPage).next(pageChangeType);
-	if(newPage.length > 0){
-		animate(newPage,thisPage)
-	}
-	else{
-		newPage = $(pageChangeType+':first');
-		animate(newPage,thisPage);	
+	if($(pageChangeType).length > 1){
+		if(newPage.length > 0){
+			animate(newPage,thisPage)
+		}
+		else{
+			newPage = $(pageChangeType+':first');
+			animate(newPage,thisPage);	
+		}
 	}
 });
 
@@ -29,11 +50,19 @@ $('#right').click(function() {
 * and sets the current page variable
 */
 function animate(newPage,thisPage){
-	thisPage.fadeOut('fast',function(){
-		thisPage.addClass('Disabled').removeClass('Active');
+	if(thisPage.hasClass('Active')){
+		thisPage.fadeOut('fast',function(){
+			thisPage.css('display','');
+			thisPage.addClass('Disabled').removeClass('Active');
+			newPage.addClass('Active').removeClass('Disabled');
+			newPage.fadeIn('fast');
+		});
+	}
+	else{
 		newPage.addClass('Active').removeClass('Disabled');
 		newPage.fadeIn('fast');
-	});
+	}
+	oldPage = currentPage;
 	currentPage = newPage.attr('id');
 }
 
@@ -45,12 +74,14 @@ function animate(newPage,thisPage){
 $('#left').click(function() {
 	var thisPage = $(pageChangeType+'.Active');
 	var newPage = $(thisPage).prev(pageChangeType);
-	if(newPage.length > 0){
-		animate(newPage,thisPage);	
-	}
-	else{
-		newPage = $(pageChangeType+':last');	
-		animate(newPage,thisPage);	
+	if($(pageChangeType).length > 1){
+		if(newPage.length > 0){
+			animate(newPage,thisPage);	
+		}
+		else{
+			newPage = $(pageChangeType+':last');	
+			animate(newPage,thisPage);	
+		}
 	}
 });
 
@@ -61,11 +92,11 @@ $('#left').click(function() {
 function showUserProviders(){
 	var numberOfPages;
 	var pages = new Array();
-	if(userProviders.length % 6 > 0){
-		numberOfPages = ((userProviders.length - (userProviders.length % 6))/6)+1;
+	if(userProviders.length % numberPerPage > 0){
+		numberOfPages = ((userProviders.length - (userProviders.length % numberPerPage))/numberPerPage)+1;
 	}
 	else{
-		numberOfPages = userProviders.length/6;
+		numberOfPages = userProviders.length/numberPerPage;
 	}
 	var currentIndex = 0;
 	for(var i = 1;i <= numberOfPages;i++){
@@ -75,10 +106,10 @@ function showUserProviders(){
 		var row2 = addRow(container);
 		for(var number = 0;number <= numberPerPage-1;number++){
 			if(currentIndex < userProviders.length){
-				if(number < 3){
+				if(number < numberPerRow){
 					addProvider(providers[userProviders[currentIndex]],addColumn(row1));
 				}
-				else if(number < 6){
+				else if(number < numberPerPage){
 					addProvider(providers[userProviders[currentIndex]],addColumn(row2));				
 				}
 				currentIndex++;
@@ -128,17 +159,17 @@ function getUserProviders(){
 
 //This event fills the providers variable with data
 $(document).ready(function(){
-	currentPage = "page_p1";
 	getUserProviders();
 	$.ajax('providers.php',{
 	  success: function(data){
 		setCurrentProvider(jQuery.parseJSON(data));
 		start(function(){
 			$(window).hashchange();
-			$('#box').scrollable({
-				items: pageChangeType
-			});
 		});
+		if(location.hash == undefined || location.hash == ''){
+			currentPage = "page_p1";
+			$('#page_p1').addClass('Active').removeClass('Disabled');
+		}
 	}});
 });
 
@@ -149,14 +180,10 @@ $(window).hashchange( function(){
 		if(page[0] == "u"){
 			page = page.substring(1,page.length);
 			if($('#'+userPageKeyword+page).length > 0 && !$('#'+userPageKeyword+page).hasClass('Active')){
-				$('#'+userPageKeyword+page).addClass('Active').removeClass('Disabled');
-				$('#'+currentPage).addClass('Disabled').removeClass('Active');
-				currentPage = userPageKeyword+page;
+				animate($('#'+userPageKeyword+page),$('#'+currentPage));
 			}
 		}else if($('#'+pageKeyword+page).length > 0 && !$('#'+pageKeyword+page).hasClass('Active')){
-			$('#'+pageKeyword+page).addClass('Active').removeClass('Disabled');
-			$('#'+currentPage).addClass('Disabled').removeClass('Active');
-			currentPage = pageKeyword+page;
+			animate($('#'+pageKeyword+page),$('#'+currentPage));
 		}
 	}
 })
@@ -186,19 +213,19 @@ function addContainer(obj,cellspacing){
 function start(callback){
 
 	//Page 1
-	var page1 = addPage($("#box"),"default","1","Active");
+	var page1 = addPage($("#box"),"default","1","Disa");
 	var page1Container = addContainer(page1);
 	var page1Row1 = addRow(page1Container);
 	var page1Row2 = addRow(page1Container);
 	
 	//Page 2
-	var page2 = addPage($("#box"),"default","2","Disbaled");
+	var page2 = addPage($("#box"),"default","2","Disabled");
 	var page2Container = addContainer(page2);
 	var page2Row1 = addRow(page2Container);
 	var page2Row2 = addRow(page2Container);
 	
 	//Page 3
-	var page3 = addPage($("#box"),"default","3","Disbaled");
+	var page3 = addPage($("#box"),"default","3","Disabled");
 	var page3Container = addContainer(page3);
 	var page3Row1 = addRow(page3Container);
 	var page3Row2 = addRow(page3Container);
