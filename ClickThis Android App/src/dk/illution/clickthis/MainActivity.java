@@ -1,7 +1,11 @@
 package dk.illution.clickthis;
 
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
@@ -18,7 +22,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.main);
         setUpWebView();
     }
-    s
+    
     public void setUpWebView () {
     	// Find the WebView element
         mainWebView = (WebView) findViewById(R.id.mainWebView);
@@ -55,6 +59,33 @@ public class MainActivity extends Activity {
         mainWebView.loadUrl("http://illution.dk/ClickThisPrototype/home.html");
     }
     
+    protected void sendNotification (String title, String message) {
+ 	   String ns = Context.NOTIFICATION_SERVICE;
+ 	   NotificationManager mNotificationManager = (NotificationManager) getSystemService(ns);
+
+ 	   int icon = R.drawable.icon;
+ 	   CharSequence tickerText = message;
+ 	   long when = System.currentTimeMillis();
+
+ 	   Notification notification = new Notification(icon, tickerText, when);
+
+ 	   Context context = getApplicationContext();
+ 	   CharSequence contentTitle = title;
+ 	   CharSequence contentText = message;
+ 	   Intent notificationIntent = new Intent(this, MainActivity.class);
+ 	   PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+
+ 	   notification.flags = Notification.FLAG_ONGOING_EVENT;
+ 	   notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
+ 	   mNotificationManager.notify(1, notification);
+ 	}
+   
+   protected void clearnotification () {
+ 	  String ns = Context.NOTIFICATION_SERVICE;
+       NotificationManager mNotificationManager = (NotificationManager) getSystemService(ns);
+       mNotificationManager.cancelAll();
+ 	}
+    
     // The JavaScript interface
     public class JavaScriptInterface {
         Context mContext;
@@ -66,8 +97,24 @@ public class MainActivity extends Activity {
         
         // Terminates the native android app, FROM JAVASCRIPT!!!
         public void terminateApp () {
+        	
         	MainActivity.this.moveTaskToBack(true);
-        	//Toast.makeText(mContext, "hehe", Toast.LENGTH_SHORT).show();
+        	
+        }
+        
+         
+        public void startSeries () {
+        	sendNotification("ClickThis","A Series Is Open");
+        }
+        
+        public void test () {
+        	
+        	Context context = getApplicationContext();
+        	CharSequence text = "Hello toast!";
+        	int duration = Toast.LENGTH_SHORT;
+
+        	Toast toast = Toast.makeText(context, text, duration);
+        	toast.show();
         }
     }
 
