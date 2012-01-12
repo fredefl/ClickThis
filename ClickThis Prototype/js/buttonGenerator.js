@@ -1,34 +1,34 @@
 /**
-* ClickThis buttons
-* http://illution.dk
-*
-* Copyright (c) 2011 illution
-*
-* @author Illution
-* @version 1.0
-*/
+ * ClickThis buttons
+ * http://illution.dk
+ *
+ * Copyright (c) 2011 illution
+ *
+ * @author Illution
+ * @version 1.0
+ */
 /**
-* buttonGenerator Class
-* @class buttonGenerator Class
-*/
+ * buttonGenerator Class
+ * @class buttonGenerator Class
+ */
 "use strict";
 var buttonGenerator = {
 	/**
-	* The default color when the button is on (String)
-	*/
+	 * The default color when the button is on (String)
+	 */
 	defaultColor: "blue",
 	/**
-	* Creates a new button
-	*
-	* @param {integer} id The id of the button
-	* @param {integer} value The on/off value (1/0)
-	* @param {string} color The color of the button
-	* @param {string} text The button text
-	* @param {boolean} submit Wherever it should submit its data
-	* @param {boolean} single Wherever it should deselect all other buttons (Single choice)
-	* @param {string} group The submit group of the button, this parameter is optional
-	* @returns {string} The html for the button
-	*/
+	 * Creates a new button
+	 *
+	 * @param {integer} id The id of the button
+	 * @param {integer} value The on/off value (1/0)
+	 * @param {string} color The color of the button
+	 * @param {string} text The button text
+	 * @param {boolean} submit Wherever it should submit its data
+	 * @param {boolean} single Wherever it should deselect all other buttons (Single choice)
+	 * @param {string} group The submit group of the button, this parameter is optional
+	 * @returns {string} The html for the button
+	 */
 	newButton: function (id, value, color, text, submit, single, group) {
 		if (!submit) {
 			submit = true;
@@ -42,19 +42,19 @@ var buttonGenerator = {
 		return this.newCustomButton(id, value, color, this.defaultColor, text, text, submit, single, group);
 	},
 	/**
-	* Creates a new custom button
-	*
-	* @param {integer} id The id of the button
-	* @param {integer} value The on/off value (1/0)
-	* @param {string} colorOff The color of the button when its off
-	* @param {string} colorOn The color of the buttonwhen its on
-	* @param {string} textOff The button text when its on
-	* @param {string} textOn The button text when its off
-	* @param {boolean} submit Wherever it should submit its data
-	* @param {boolean} single Wherever it should deselect all other buttons (Single choice)
-	* @param {string} group The submit group of the button
-	* @returns {string} The html for the button
-	*/
+	 * Creates a new custom button
+	 *
+	 * @param {integer} id The id of the button
+	 * @param {integer} value The on/off value (1/0)
+	 * @param {string} colorOff The color of the button when its off
+	 * @param {string} colorOn The color of the buttonwhen its on
+	 * @param {string} textOff The button text when its on
+	 * @param {string} textOn The button text when its off
+	 * @param {boolean} submit Wherever it should submit its data
+	 * @param {boolean} single Wherever it should deselect all other buttons (Single choice)
+	 * @param {string} group The submit group of the button
+	 * @returns {string} The html for the button
+	 */
 	newCustomButton: function (id, value, colorOff, colorOn, textOff, textOn, submit, single, group) {
 		var cssClass = "",
 			groupHTML = "",
@@ -118,12 +118,12 @@ var buttonGenerator = {
 		return html;
 	},
 	/**
-	* Creates a new submit button
-	*
-	* @param {integer} id The color of the button
-	* @param {integer} value The button text
-	* @returns {string} The html for the button
-	*/
+	 * Creates a new submit button
+	 *
+	 * @param {integer} id The color of the button
+	 * @param {integer} value The button text
+	 * @returns {string} The html for the button
+	 */
 	newSubmitButton: function (color, text) {
 		var html = [
 				'<a  class="mega button ' + color + ' halfsize fullsize"',
@@ -134,16 +134,16 @@ var buttonGenerator = {
 		return html;
 	},
 	/**
-	* Creates a submit button, with custom properties
-	*
-	* @param {string} color The color of the button
-	* @param {string} text The text of the button
-	* @param {string} id The HTML id of the button
-	* @param {string} location The location to submit the result
-	* @param {string} href The url to redirect, when data is submitted
-	* @param {string} group The submit group of the button
-	* @returns {string} The html of the button
-	*/
+	 * Creates a submit button, with custom properties
+	 *
+	 * @param {string} color The color of the button
+	 * @param {string} text The text of the button
+	 * @param {string} id The HTML id of the button
+	 * @param {string} location The location to submit the result
+	 * @param {string} href The url to redirect, when data is submitted
+	 * @param {string} group The submit group of the button
+	 * @returns {string} The html of the button
+	 */
 	newCustomSubmitButton: function (color, text, id, location, href, group) {
 		var html = [
 				'<a  class="mega button ' + color + ' halfsize fullsize"',
@@ -166,10 +166,10 @@ var buttonGenerator = {
 		return html;
 	},
 	/**
-	* Changes the button's state, from On to Off or from Off to On
-	*
-	* @param {object} button The button that it should change state on
-	*/
+	 * Changes the button's state, from On to Off or from Off to On
+	 *
+	 * @param {object} button The button that it should change state on
+	 */
 	changeState: function (button) {
 		var i = 0,
 			value = button.getAttribute("data-value"),
@@ -206,8 +206,8 @@ var buttonGenerator = {
 		}
 	},
 	/**
-	* Submits the data
-	*/
+	 * Submits the data
+	 */
 	submitData: function () {
 		var i = 0,
 			postString = "",
@@ -221,12 +221,12 @@ var buttonGenerator = {
 		postString = postString.slice(0, -1);
 	},
 	/**
-	* Submit the button data with a posibility to use a defined redirect url and a submit location.
-	* This function also have the ability only to submit data from buttons within the same submit group as the submitButton.
-	* Mind this function can have some problems and need revalidation and testing.
-	*
-	* @param {object} submitButton The submit button that submits
-	*/
+	 * Submit the button data with a posibility to use a defined redirect url and a submit location.
+	 * This function also have the ability only to submit data from buttons within the same submit group as the submitButton.
+	 * Mind this function can have some problems and need revalidation and testing.
+	 *
+	 * @param {object} submitButton The submit button that submits
+	 */
 	submitCustomData: function (submitButton) {
 		var i = 0,
 			postString = "",
@@ -254,8 +254,8 @@ var buttonGenerator = {
 		}
 	},
 	/**
-	* Uncheck all buttons
-	*/
+	 * Uncheck all buttons
+	 */
 	unCheckAll: function () {
 		var i = 0,
 			button = null;
@@ -269,10 +269,10 @@ var buttonGenerator = {
 		}
 	},
 	/**
-	* Single Choice button click
-	*
-	* @param {object} button The button to perform actions on
-	*/
+	 * Single Choice button click
+	 *
+	 * @param {object} button The button to perform actions on
+	 */
 	singleChoice: function (button) {
 		var value = button.getAttribute("data-value");
 		if (value === "1") {
@@ -283,10 +283,10 @@ var buttonGenerator = {
 		}
 	},
 	/**
-	* Multiple Choice button click
-	*
-	* @param {object} button The button to perform actions on
-	*/
+	 * Multiple Choice button click
+	 *
+	 * @param {object} button The button to perform actions on
+	 */
 	multipleChoice: function (button) {
 		this.changeState(button);
 	}

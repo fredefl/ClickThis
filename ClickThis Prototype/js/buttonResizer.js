@@ -1,48 +1,48 @@
 /**
-* ClickThis button resizer
-* http://illution.dk
-*
-* Copyright (c) 2011 illution
-*
-* @author Illution
-* @version 1.0
-*/
+ * ClickThis button resizer
+ * http://illution.dk
+ *
+ * Copyright (c) 2011 illution
+ *
+ * @author Illution
+ * @version 1.0
+ */
 /**
-* buttonResizer Class
-* @class buttonResizer Class
-*/
+ * buttonResizer Class
+ * @class buttonResizer Class
+ */
 "use strict";
 var buttonResizer = {
 	/**
-	* The initial height of a button when padding should be added.
-	* THIS IS NOT THE STANDARD BUTTON HEIGHT!!!
-	*/
+	 * The initial height of a button when padding should be added.
+	 * THIS IS NOT THE STANDARD BUTTON HEIGHT!!!
+	 */
 	mobileInitialHeigth: 10,
 	/**
-	* The level height of a button when padding should be added.
-	* This the size per button resizing.
-	* THIS IS NOT THE STANDARD BUTTON HEIGHT!!!
-	*/
+	 * The level height of a button when padding should be added.
+	 * This the size per button resizing.
+	 * THIS IS NOT THE STANDARD BUTTON HEIGHT!!!
+	 */
 	mobileLevelHeigth: 13,
 	/**
-	* The initial height of a button when padding should be added.
-	* THIS IS NOT THE STANDARD BUTTON HEIGHT!!!
-	*/
+	 * The initial height of a button when padding should be added.
+	 * THIS IS NOT THE STANDARD BUTTON HEIGHT!!!
+	 */
 
 	desktopInitialHeigth: 20,
 	/**
-	* The level height of a button when padding should be added. 
-	* This the size per button resizing.
-	* THIS IS NOT THE STANDARD BUTTON HEIGHT!!!
-	*/
+	 * The level height of a button when padding should be added. 
+	 * This the size per button resizing.
+	 * THIS IS NOT THE STANDARD BUTTON HEIGHT!!!
+	 */
 	desktopLevelHeigth: 32,
 
 	/**
-	* Resizes the buttons in the specified element.
-	*
-	* @param {element} element The element to search for buttons in
-	* @returns {bool} Wherever it found buttons in the element or not.
-	*/
+	 * Resizes the buttons in the specified element.
+	 *
+	 * @param {element} element The element to search for buttons in
+	 * @returns {bool} Wherever it found buttons in the element or not.
+	 */
 	resizeButtons: function (element) {
 		// Initialize arrays & variables
 		var i = 0,
