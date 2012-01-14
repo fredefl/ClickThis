@@ -45,6 +45,20 @@
 	background: url("images/Up.png") 0 0 no-repeat;
 	position:absolute;
 }
+@font-face {  
+  font-family: Colveti;  
+  src:url(fonts/COOLVETI.TTF)
+}
+
+.Button{
+	text-align:center;
+	color:#666;
+	font-family:"Colveti";
+	position:absolute;
+	height:32px;
+	width:64px;
+	background: url("images/Button.png") 0 0 no-repeat;
+}
 
 #up:hover{
 	background-position: -36px 0;

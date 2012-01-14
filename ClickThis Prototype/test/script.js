@@ -8,19 +8,23 @@ var numberPerPage = 6; // This variable set how many providers there will be sho
 var numberPerRow = 3; //This variable sets how many providers there will be shown per row
 var oldPage; //This variable stores the last disabled page
 var oldPageChangeType; //This variable is used in the edit box the re-create what it changed
+var changeing = false;
 
 $('#edit').click(function() {
+	var editBox = $('#edit-box');
+	var newPage;
 	var thisPage = $('.Active');
-	var newPage = $('#edit-box');
-	if(!newPage.hasClass('Active')){
-		oldPageChangeType = pageChangeType;
-		animate(newPage,thisPage);
-		pageChangeType = '.edit';
-	}
-	else{
-		thisPage = $('#edit-box');
-		newPage = $('#'+oldPage);	
-		pageChangeType = oldPageChangeType;
+	if(changeing != true){
+		changeing = true;
+		if(editBox.hasClass('Active')){
+			newPage = $('#'+oldPage);
+			pageChangeType = oldPageChangeType;
+		}
+		else{
+			newPage = editBox;
+			oldPageChangeType = pageChangeType;
+			pageChangeType = '.edit';
+		}
 		animate(newPage,thisPage);
 	}
 });
@@ -31,14 +35,15 @@ $('#edit').click(function() {
 * and if it's the last page it returns to the first page
 */
 $('#right').click(function() {
-	//right();
 	var thisPage = $('.Active');
 	var newPage = $(thisPage).next(pageChangeType);
 	if($(pageChangeType).length > 1){
 		if(newPage.length > 0){
+			changeing = true;
 			animate(newPage,thisPage)
 		}
 		else{
+			changeing = true;
 			newPage = $(pageChangeType+':first');
 			animate(newPage,thisPage);	
 		}
@@ -56,11 +61,13 @@ function animate(newPage,thisPage){
 			thisPage.addClass('Disabled').removeClass('Active');
 			newPage.addClass('Active').removeClass('Disabled');
 			newPage.fadeIn('fast');
+			changeing = false;
 		});
 	}
 	else{
 		newPage.addClass('Active').removeClass('Disabled');
 		newPage.fadeIn('fast');
+		changeing = false;
 	}
 	oldPage = currentPage;
 	currentPage = newPage.attr('id');
@@ -76,9 +83,11 @@ $('#left').click(function() {
 	var newPage = $(thisPage).prev(pageChangeType);
 	if($(pageChangeType).length > 1){
 		if(newPage.length > 0){
+			changeing = true;
 			animate(newPage,thisPage);	
 		}
 		else{
+			changeing = true;
 			newPage = $(pageChangeType+':last');	
 			animate(newPage,thisPage);	
 		}
