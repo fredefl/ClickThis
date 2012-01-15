@@ -1,5 +1,7 @@
 package dk.illution.clickthis;
 
+import java.io.File;
+
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -8,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebBackForwardList;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
@@ -20,10 +23,23 @@ public class MainActivity extends Activity {
     	// The standard crap
     	super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        setUpWebView();
+        setUpWebView(savedInstanceState);
     }
     
-    public void setUpWebView () {
+    @Override
+    protected void onSaveInstanceState(Bundle outState)
+    {
+      final WebBackForwardList list = mainWebView.saveState(outState);
+      File mThumbnailDir = getDir("thumbnails", 0);
+      if (list != null)
+      {
+        final File f = new File(mThumbnailDir, mainWebView.hashCode() + "_pic.save");
+        if (mainWebView.savePicture(outState, f))
+           outState.putString("currentPicture", f.getPath());
+      }
+    }
+    
+    public void setUpWebView (Bundle savedInstanceState) {
     	// Find the WebView element
         mainWebView = (WebView) findViewById(R.id.mainWebView);
         
@@ -55,8 +71,27 @@ public class MainActivity extends Activity {
         });
         // Clear cache
         mainWebView.clearCache(true);
+        
         // Load the ClickThis Prototype
-        mainWebView.loadUrl("http://illution.dk/ClickThisPrototype/home.html");
+        if (savedInstanceState != null)
+        {
+        	if(mainWebView.getUrl() == null) {
+		          final WebBackForwardList list = mainWebView.restoreState(savedInstanceState);
+		          if (list == null)
+		            return;
+		
+		          if (savedInstanceState.containsKey("currentPicture"))
+		          {
+		             final File f = new File(savedInstanceState.getString("currentPicture"));
+		             mainWebView.restorePicture(savedInstanceState, f);
+		             f.delete();
+		          }
+        	} else {
+        		mainWebView.loadUrl("http://illution.dk/ClickThisPrototype/home.html");
+        	}
+        } else {
+        	mainWebView.loadUrl("http://illution.dk/ClickThisPrototype/home.html");
+        }
     }
     
     protected void sendNotification (String title, String message) {
