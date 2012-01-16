@@ -376,6 +376,8 @@ function addProvider(provider,obj,data){
             });
 		}
 		
+		content.addClass('provider');
+		linkTag.addClass('providerLink');
 		//Append the img tag to the a tag
 		linkTag.append(content);
 		
