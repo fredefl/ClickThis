@@ -15,21 +15,29 @@
 */
 "use strict";
 var ajaxQueue = {
-
 	/**
-	* The key name for the localStorage row
-	*/
+	 * The key name for the localStorage row
+	 * @type {string}
+	 */
 	localStorageKeyName: "ajaxQueue",
 
 	/**
-	* The length of the queue element id
-	*/
+	 * The length of the queue element id
+	 * @type {integer}
+	 */
 	idLength: 4,
 
 	/**
-	* The queue array
-	*/
+	 * The queue array
+	 * @type {array}
+	 */
 	queueArray: null,
+
+	/**
+	 * The array the holds the function(s) to callback to
+	 * @type {array}
+	 */
+	callbackArray: null,
 
 	/**
 	 * Logs the specified message
