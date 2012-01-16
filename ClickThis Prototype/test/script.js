@@ -10,6 +10,7 @@ var oldPage; //This variable stores the last disabled page
 var oldPageChangeType; //This variable is used in the edit box the re-create what it changed
 var changeing = false;
 
+<<<<<<< HEAD
 $('#edit').click(function() {
 	var editBox = $('#edit-box');
 	var newPage;
@@ -26,6 +27,22 @@ $('#edit').click(function() {
 			pageChangeType = '.edit';
 		}
 		animate(newPage,thisPage);
+=======
+"use strict";
+
+$('#edit').click(function () {
+	var thisPage = $('.Active'),
+		newPage = $('#edit-box');
+	if (!newPage.hasClass('Active')) {
+		oldPageChangeType = pageChangeType;
+		animate(newPage, thisPage);
+		pageChangeType = '.edit';
+	} else {
+		thisPage = $('#edit-box');
+		newPage = $('#' + oldPage);
+		pageChangeType = oldPageChangeType;
+		animate(newPage, thisPage);
+>>>>>>> 8f3ffef5728cb3508b42a7684f1c5cd62eeff101
 	}
 });
 
@@ -34,6 +51,7 @@ $('#edit').click(function() {
 * this event's callback function gets the next page,
 * and if it's the last page it returns to the first page
 */
+<<<<<<< HEAD
 $('#right').click(function() {
 	var thisPage = $('.Active');
 	var newPage = $(thisPage).next(pageChangeType);
@@ -44,6 +62,16 @@ $('#right').click(function() {
 		}
 		else{
 			changeing = true;
+=======
+$('#right').click(function () {
+	//right();
+	var thisPage = $('.Active');
+	var newPage = $(thisPage).next(pageChangeType);
+	if ($(pageChangeType).length > 1) {
+		if (newPage.length > 0) {
+			animate(newPage,thisPage)
+			} else {
+>>>>>>> 8f3ffef5728cb3508b42a7684f1c5cd62eeff101
 			newPage = $(pageChangeType+':first');
 			animate(newPage,thisPage);	
 		}
@@ -54,17 +82,16 @@ $('#right').click(function() {
 * This function fades the old page out and the new page in,
 * and sets the current page variable
 */
-function animate(newPage,thisPage){
-	if(thisPage.hasClass('Active')){
-		thisPage.fadeOut('fast',function(){
+function animate(newPage,thisPage) {
+	if (thisPage.hasClass('Active')) {
+		thisPage.fadeOut('fast',function () {
 			thisPage.css('display','');
 			thisPage.addClass('Disabled').removeClass('Active');
 			newPage.addClass('Active').removeClass('Disabled');
 			newPage.fadeIn('fast');
 			changeing = false;
 		});
-	}
-	else{
+	} else {
 		newPage.addClass('Active').removeClass('Disabled');
 		newPage.fadeIn('fast');
 		changeing = false;
@@ -76,11 +103,12 @@ function animate(newPage,thisPage){
 /**
 * This event is called when the left arrow is clicked it does the same as,
 * the event for the right button just reverses
-* @see $('#right').click(function()
+* @see $('#right').click(function ()
 */
-$('#left').click(function() {
+$('#left').click(function () {
 	var thisPage = $(pageChangeType+'.Active');
 	var newPage = $(thisPage).prev(pageChangeType);
+<<<<<<< HEAD
 	if($(pageChangeType).length > 1){
 		if(newPage.length > 0){
 			changeing = true;
@@ -88,6 +116,12 @@ $('#left').click(function() {
 		}
 		else{
 			changeing = true;
+=======
+	if ($(pageChangeType).length > 1) {
+		if (newPage.length > 0) {
+			animate(newPage,thisPage);	
+			} else {
+>>>>>>> 8f3ffef5728cb3508b42a7684f1c5cd62eeff101
 			newPage = $(pageChangeType+':last');	
 			animate(newPage,thisPage);	
 		}
@@ -98,27 +132,25 @@ $('#left').click(function() {
 * This function gets all the user providers and add them to pages,
 * wth all the needed data
 */
-function showUserProviders(){
+function showUserProviders() {
 	var numberOfPages;
 	var pages = new Array();
-	if(userProviders.length % numberPerPage > 0){
+	if (userProviders.length % numberPerPage > 0) {
 		numberOfPages = ((userProviders.length - (userProviders.length % numberPerPage))/numberPerPage)+1;
-	}
-	else{
+	} else {
 		numberOfPages = userProviders.length/numberPerPage;
 	}
 	var currentIndex = 0;
-	for(var i = 1;i <= numberOfPages;i++){
+	for(var i = 1;i <= numberOfPages;i++) {
 		var page = addPage($("#box"),"user",i,"Default");
 		var container = addContainer(page);
 		var row1 = addRow(container);
 		var row2 = addRow(container);
-		for(var number = 0;number <= numberPerPage-1;number++){
-			if(currentIndex < userProviders.length){
-				if(number < numberPerRow){
+		for(var number = 0;number <= numberPerPage-1;number++) {
+			if (currentIndex < userProviders.length) {
+				if (number < numberPerRow) {
 					addProvider(providers[userProviders[currentIndex]],addColumn(row1));
-				}
-				else if(number < numberPerPage){
+				} else if (number < numberPerPage) {
 					addProvider(providers[userProviders[currentIndex]],addColumn(row2));				
 				}
 				currentIndex++;
@@ -131,7 +163,7 @@ function showUserProviders(){
 * This function sets the local storage element for user providers
 * @param string data A json string of the wished providers
 */
-function setUserProviders(data){
+function setUserProviders(data) {
 	localStorage.setItem('userProviders',data);
 }
 
@@ -139,11 +171,10 @@ function setUserProviders(data){
 * This function is only for testing of localStorage,
 * it sets the localStorage data pageCount and it updates it every time you visit the site
 */
-function pageCount(){
-	if(localStorage.pageCount <= undefined){
+function pageCount() {
+	if (localStorage.pageCount <= undefined) {
 		localStorage.pageCount = 1;
-	}
-	else{
+	} else {
 		localStorage.pageCount = parseInt(localStorage.pageCount)+1;
 	}
 }
@@ -153,12 +184,11 @@ function pageCount(){
 * and if the user doens't have any false will be returned.
 * @returns boolean The status of the function
 */
-function getUserProviders(){
-	if(localStorage.getItem('userProviders') != undefined){
+function getUserProviders() {
+	if (localStorage.getItem('userProviders') != undefined) {
 		userProviders = $.parseJSON(localStorage.getItem('userProviders'));
 		return true;
-	}
-	else{
+	} else {
 		/* Only for testing */
 		localStorage.setItem('userProviders','["Google","LinkedIn","Facebook","Twitter","ClickThis","MySpace"]');
 		userProviders = $.parseJSON('["Google","LinkedIn","Facebook","Twitter","ClickThis","MySpace"]');
@@ -167,15 +197,15 @@ function getUserProviders(){
 }
 
 //This event fills the providers variable with data
-$(document).ready(function(){
+$(document).ready(function () {
 	getUserProviders();
 	$.ajax('providers.php',{
-	  success: function(data){
+	  success: function (data) {
 		setCurrentProvider(jQuery.parseJSON(data));
-		start(function(){
+		start(function () {
 			$(window).hashchange();
 		});
-		if(location.hash == undefined || location.hash == ''){
+		if (location.hash == undefined || location.hash == '') {
 			currentPage = "page_p1";
 			$('#page_p1').addClass('Active').removeClass('Disabled');
 		}
@@ -183,15 +213,15 @@ $(document).ready(function(){
 });
 
 /* This event is fired if the hash changes */
-$(window).hashchange( function(){
-	if(location.hash != null && location.hash != undefined && location.hash != ''){
+$(window).hashchange( function () {
+	if (location.hash != null && location.hash != undefined && location.hash != '') {
 		var page = location.hash.replace('#','');
-		if(page[0] == "u"){
+		if (page[0] == "u") {
 			page = page.substring(1,page.length);
-			if($('#'+userPageKeyword+page).length > 0 && !$('#'+userPageKeyword+page).hasClass('Active')){
+			if ($('#'+userPageKeyword+page).length > 0 && !$('#'+userPageKeyword+page).hasClass('Active')) {
 				animate($('#'+userPageKeyword+page),$('#'+currentPage));
 			}
-		}else if($('#'+pageKeyword+page).length > 0 && !$('#'+pageKeyword+page).hasClass('Active')){
+		} else if ($('#'+pageKeyword+page).length > 0 && !$('#'+pageKeyword+page).hasClass('Active')) {
 			animate($('#'+pageKeyword+page),$('#'+currentPage));
 		}
 	}
@@ -203,13 +233,13 @@ $(window).hashchange( function(){
 * @param object cellspacing This is an optional parameter, to set the table cellspacing if its not set then the value will be 10
 * @returns object This function returns the jquery object of the container
 */
-function addContainer(obj,cellspacing){
+function addContainer(obj,cellspacing) {
 	var container = $("<table></table>");
-	if(typeof cellspacing != "number"){
+	if (typeof cellspacing != "number") {
 		cellspacing = 10;
 	}
 	container.attr("cellspacing",cellspacing);
-	if(typeof obj == "object" && obj != null){
+	if (typeof obj == "object" && obj != null) {
 		obj.append(container);
 	}
 	return container;
@@ -219,25 +249,23 @@ function addContainer(obj,cellspacing){
 * This function is called by the succes callback of the providers ajax request.
 * @param function An optinal callback function when ready
 */
-function start(callback){
+function start(callback) {
 
-	//Page 1
-	var page1 = addPage($("#box"),"default","1","Disa");
-	var page1Container = addContainer(page1);
-	var page1Row1 = addRow(page1Container);
-	var page1Row2 = addRow(page1Container);
-	
-	//Page 2
-	var page2 = addPage($("#box"),"default","2","Disabled");
-	var page2Container = addContainer(page2);
-	var page2Row1 = addRow(page2Container);
-	var page2Row2 = addRow(page2Container);
-	
-	//Page 3
-	var page3 = addPage($("#box"),"default","3","Disabled");
-	var page3Container = addContainer(page3);
-	var page3Row1 = addRow(page3Container);
-	var page3Row2 = addRow(page3Container);
+		//Page 1
+	var page1 = addPage($("#box"),"default","1","Disa"),
+		page1Container = addContainer(page1),
+		page1Row1 = addRow(page1Container),
+		page1Row2 = addRow(page1Container),
+		//Page 2
+		page2 = addPage($("#box"),"default","2","Disabled"),
+		page2Container = addContainer(page2),
+		page2Row1 = addRow(page2Container),
+		page2Row2 = addRow(page2Container),
+		//Page 3
+		page3 = addPage($("#box"),"default","3","Disabled"),
+		page3Container = addContainer(page3),
+		page3Row1 = addRow(page3Container),
+		page3Row2 = addRow(page3Container);
 	
 	//Page One Row 1
 	addProvider(providers.Google,addColumn(page1Row1));
@@ -268,7 +296,7 @@ function start(callback){
 	addProvider(providers.Blogger,addColumn(page3Row2));
 		
 	showUserProviders();
-	if(typeof callback == "function"){
+	if (typeof callback == "function") {
 		callback();
 	}
 }
@@ -279,9 +307,9 @@ function start(callback){
 * @param object The jquery object of the table
 * @returns object The jquery object of the new row
 */
-function addRow(obj){
+function addRow(obj) {
 	var row = $("<tr></tr>");
-	if(typeof obj == "object" && obj != null){
+	if (typeof obj == "object" && obj != null) {
 		obj.append(row);
 	}
 	return row;
@@ -295,28 +323,27 @@ function addRow(obj){
 * @param string state The state of the page "Disabled" or "Active"
 * @retunrs object This function returns a jquery object
 */
-function addPage(obj,type,name,state){
+function addPage(obj,type,name,state) {
 	var div = $("<div></div>");
 	var objectName;
-	if(type === "default"){
+	if (type === "default") {
 		div.addClass('page');
 		div.addClass('default');
 		div.attr("id",pageKeyword+name);
 		objectName = pageKeyword+name;
 	}
-	else if(type === "user"){
+	else if (type === "user") {
 		div.addClass('page');
 		div.addClass('user');
 		div.attr("id",userPageKeyword+name);
 		objectName = userPageKeyword+name;
 	}
-	if(state === "Active"){
+	if (state === "Active") {
 		div.addClass("Active");	
-	}
-	else{
+	} else {
 		div.addClass("Disabled");	
 	}
-	if(typeof obj == "object" && obj != null){
+	if (typeof obj == "object" && obj != null) {
 		obj.append(div);
 	}
 	return $('#'+objectName);
@@ -327,9 +354,9 @@ function addPage(obj,type,name,state){
 * @param obj The row/tr tag you wish to add the td/column too
 * @returns object The jquery object of the newly created column
 */
-function addColumn(obj){
+function addColumn(obj) {
 	var column = $("<td></td>");
-	if(typeof obj == "object" && obj != null){
+	if (typeof obj == "object" && obj != null) {
 		obj.append(column);
 	}
 	return column;
@@ -344,34 +371,34 @@ function addColumn(obj){
 * but beaware that the html tag and the class variable must be the same.
 * @returns object The created jquery object of the provider
 */
-function addProvider(provider,obj,data){
-	if(typeof provider == "object"){
+function addProvider(provider,obj,data) {
+	if (typeof provider == "object") {
 		var linkTag = $("<a></a>"); //Makes the a tag
 		var content = $("<img></img>"); //Makes the content img tag
 		
 		//Adds the href to the a tag if its set
-		if(provider.Link != undefined && provider.Link != null){
+		if (provider.Link != undefined && provider.Link != null) {
 			linkTag.attr("href",provider.Link);
 		}
 		
 		//Adds the image src if its set
-		if(provider.Image != undefined && provider.Image != null){
+		if (provider.Image != undefined && provider.Image != null) {
 			content.attr("src",provider.Image);
 		}
 		
 		//Adds the image alt if its set
-		if(provider.Alt != undefined && provider.Alt != null){
+		if (provider.Alt != undefined && provider.Alt != null) {
 			content.attr("alt",provider.Alt);
 		}
 		
 		//Adds the image title if its set
-		if(provider.Title != undefined && provider.Title != null){
+		if (provider.Title != undefined && provider.Title != null) {
 			content.attr("title",provider.Title);
 		}
 		
 		//If there is extra attributes to be set, defined in data then set em
-		if(typeof data == "object" && data != null){
-			$(data).each(function(index, element) {
+		if (typeof data == "object" && data != null) {
+			$(data).each(function (index, element) {
                 content.attr(element,provider[element])
             });
 		}
@@ -382,7 +409,7 @@ function addProvider(provider,obj,data){
 		linkTag.append(content);
 		
 		//If an append obj is set append the provider to it
-		if(typeof obj == "object" && obj != null){
+		if (typeof obj == "object" && obj != null) {
 			obj.append(linkTag);
 		}
 		return linkTag;
@@ -392,6 +419,6 @@ function addProvider(provider,obj,data){
 /**
 * This function sets the providers variable
 */
-function setCurrentProvider(data){
+function setCurrentProvider(data) {
 	providers = data;
 }
