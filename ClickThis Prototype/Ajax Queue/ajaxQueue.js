@@ -37,7 +37,7 @@ var ajaxQueue = {
 	 * The array the holds the function(s) to callback to
 	 * @type {array}
 	 */
-	callbackArray: null,
+	callbackArray: {},
 
 	/**
 	 * Logs the specified message
@@ -87,7 +87,7 @@ var ajaxQueue = {
 	 */
 	add: function (url, data, group) {
 		// Create a random string
-		var id = this.randomString(this.idLength);
+		var id = this.generateId();
 		// Insert the task into the queue
 		this.queueArray.Tasks.push({id: id, url: url, data: data, group: group});
 		// Save the queue to prevent data loss
@@ -128,19 +128,51 @@ var ajaxQueue = {
 	 */
 	executeTasks: function () {
 		if (this.queueArray.Tasks.length > 0) {
-			var currentTask = this.queueArray.Tasks[0];
+			var currentTask = this.queueArray.Tasks[0],
+				callback = null;
 			ajaxQueue.log("Sending '" + currentTask.data + "' to '" + currentTask.url + "'.");/*LOG*/
 			$.post(
 				currentTask.url,
 				currentTask.data,
 				// On success
 				function () {
+					// Remove the task from the queue
 					ajaxQueue.remove(currentTask.id);
 					ajaxQueue.log("Sending of '" + currentTask.data + "' to '" + currentTask.url + "' was successfull.");/*LOG*/
+					// Call the groups callback
+					callback = ajaxQueue.callbackArray[currentTask.group];
+					if (callback && typeof(callback) == "function") {
+						ajaxQueue.log("Calling back!");
+						callback();
+					}
+					// Loop on...
 					ajaxQueue.executeTasks();
 				}
 			);
 		}
+	},
+
+	/**
+	 * Registers a callback function
+	 * @param  {string}   group    The group
+	 * @param  {Function} callback The function to call
+	 * @return {boolean}
+	 */
+	registerCallback: function (group, callback) {
+		if (callback && typeof(callback) === "function" && group) {
+			ajaxQueue.callbackArray[group] = callback;
+			return true;
+		} else {
+			return false;
+		}
+	},
+
+	/**
+	 * Generates a random id
+	 * @return {string}
+	 */
+	generateId: function () {
+		return ajaxQueue.randomString(ajaxQueue.idLength);
 	},
 
 	/**
