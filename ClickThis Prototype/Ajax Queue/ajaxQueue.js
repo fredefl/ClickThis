@@ -1,18 +1,18 @@
 /**
-* ClickThis ajaxQueue
-* http://illution.dk
-*
-* THIS CLASS REQUIRES JQUERY AND THE JSON LIBRARY
-*
-* Copyright (c) 2011 illution
-*
-* @author Illution
-* @version 1.0
-*/
+ * ClickThis ajaxQueue
+ * http://illution.dk
+ *
+ * THIS CLASS REQUIRES JQUERY AND THE JSON LIBRARY
+ *
+ * Copyright (c) 2011 illution
+ *
+ * @author Illution
+ * @version 1.0
+ */
 /**
-* ajaxQueue Class
-* @class ajaxQueue Class
-*/
+ * ajaxQueue Class
+ * @class ajaxQueue Class
+ */
 "use strict";
 var ajaxQueue = {
 	/**
