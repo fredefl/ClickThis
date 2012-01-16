@@ -15,23 +15,25 @@
  */
 "use strict";
 var ajaxQueue = {
+	/*************** CONFIG ***************/
 	/**
-	 * The key name for the localStorage row
+	 * The name for the localStorage key 
 	 * @type {string}
 	 */
 	localStorageKeyName: "ajaxQueue",
 
 	/**
-	 * The length of the queue element id
+	 * The length of the unique task id
 	 * @type {integer}
 	 */
-	idLength: 4,
+	idLength: 5,
+	/************ END OF CONFIG ***********/
 
 	/**
 	 * The queue array
 	 * @type {array}
 	 */
-	queueArray: null,
+	queueArray: {},
 
 	/**
 	 * The array the holds the function(s) to callback to
@@ -150,6 +152,13 @@ var ajaxQueue = {
 					ajaxQueue.executeTasks();
 				}
 			});
+		}
+	},
+
+	setConfig: function (config) {
+		// Check for idLength configuration
+		if (config.idLength) {
+			ajaxQueue.idLength = config.idLength;
 		}
 	},
 
