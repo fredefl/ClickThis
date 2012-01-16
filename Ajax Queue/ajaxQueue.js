@@ -12,151 +12,164 @@
 /**
 * ajaxQueue Class
 * @class ajaxQueue Class
-*/ 
+*/
+"use strict";
 var ajaxQueue = {
-	
+
 	/**
 	* The key name for the localStorage row
 	*/
 	localStorageKeyName: "ajaxQueue",
-	
+
 	/**
 	* The length of the queue element id
 	*/
 	idLength: 4,
-	
+
 	/**
 	* The queue array
 	*/
 	queueArray: null,
-	
-	log: function (message) {
-		$('#log').append(message+'\r\n');
-	},
+
 	/**
-	* Loads the queue array from localStorage
-	*/
+	 * Logs the specified message
+	 * @param  {string} message The message to log
+	 * @return {null}
+	 */
+	log: function (message) {
+		$('#log').append(message + '\r\n');
+	},
+
+	/**
+	 * Loads the queue from localStorage
+	 * @return {boolean}
+	 */
 	load: function () {
-		if(localStorage.getItem(this.localStorageKeyName) != null) {
-			var localStorageItem = localStorage.getItem(this.localStorageKeyName);
-			var jsonArray = JSON.parse(localStorageItem);
+		if (localStorage.getItem(this.localStorageKeyName) !== null) {
+			var localStorageItem = localStorage.getItem(this.localStorageKeyName),
+				jsonArray = JSON.parse(localStorageItem);
 			this.queueArray = jsonArray;
-			/*LOG*/ ajaxQueue.log("Data loaded from localstorage, added "+jsonArray.Tasks.length+" items to queue.");
+			ajaxQueue.log("Data loaded from localstorage, added " + jsonArray.Tasks.length + " items to queue.");/*LOG*/
 			return true;
 		} else {
 			this.queueArray = {Tasks: []};
-			/*LOG*/ ajaxQueue.log("No data in localstorage, adding new key.");
+			ajaxQueue.log("No data in localstorage, adding new key.");/*LOG*/
 			return false;
 		}
 	},
-	
+
 	/**
-	* Saves the queue array to localStorage
-	*/
+	 * Saves the queue array to localStorage
+	 * @return {boolean}
+	 */
 	save: function () {
 		var jsonString = JSON.stringify(this.queueArray, null, 2);
-		localStorage.setItem(this.localStorageKeyName,jsonString);
-		/*LOG*/ ajaxQueue.log("Saved queue to localstorage.");
+		localStorage.setItem(this.localStorageKeyName, jsonString);
+		ajaxQueue.log("Saved queue to localstorage.");/*LOG*/
 		return true;
 	},
-	
+
 	/**
-	* Adds an element to the queue array
-	*
-	* @param {string} url The url to send the ajax request to
-	* @param {data} data The data to send with the ajax request (POST)
-	* @returns {string} The new id of the element
-	*/
-	add: function (url, data) {
+	 * Adds an element to the queue array
+	 *
+	 * @param {string} url The url to send the ajax request to
+	 * @param {data} data The data to send with the ajax request (POST)
+	 * @param {data} group The group to add the data to
+	 * @returns {string} The new id of the element
+	 */
+	add: function (url, data, group) {
 		// Create a random string
 		var id = this.randomString(this.idLength);
 		// Insert the task into the queue
-		this.queueArray.Tasks.push( {id:id,url:url,data:data});
+		this.queueArray.Tasks.push({id: id, url: url, data: data, group: group});
 		// Save the queue to prevent data loss
 		this.save();
-		/*LOG*/ ajaxQueue.log("Added task, url:"+url+", data:"+data);
+		ajaxQueue.log("Added task, url:" + url + ", data:" + data);/*LOG*/
 		// Return the new id for the task
 		return id;
 	},
-	
+
 	/**
-	* Removes the specified task from the queue
-	*/
+	 * Removes the specified task from the queue
+	 */
 	remove: function (id) {
 		var result = false;
-		$(this.queueArray.Tasks).each(function(index, element) {
-            if(element.id == id){
-				ajaxQueue.queueArray.Tasks.splice(index,1);
+		$(this.queueArray.Tasks).each(function (index, element) {
+            if (element.id === id) {
+				ajaxQueue.queueArray.Tasks.splice(index, 1);
 				result = true;
 			}
         });
 		this.save();
-		/*LOG*/ ajaxQueue.log("Removed "+id);
+		ajaxQueue.log("Removed " + id);/*LOG*/
 		return result;
 	},
-	
+
 	/**
-	* Clears the queue
-	*/
+	 * Clears the queue
+	 */
 	clear: function () {
 		this.queueArray = {};
 		this.save();
-		/*LOG*/ ajaxQueue.log("Cleared queue");
+		ajaxQueue.log("Cleared queue");/*LOG*/
 		return true;
 	},
-	
+
 	/**
-	* Executes the tasks in the queue
-	*/
+	 * Executes the tasks in the queue
+	 */
 	executeTasks: function () {
-		if(this.queueArray.Tasks.length > 0) {
+		if (this.queueArray.Tasks.length > 0) {
 			var currentTask = this.queueArray.Tasks[0];
-			/*LOG*/ ajaxQueue.log("Sending '"+currentTask.data+"' to '"+currentTask.url+"'.");
+			ajaxQueue.log("Sending '" + currentTask.data + "' to '" + currentTask.url + "'.");/*LOG*/
 			$.post(
-					currentTask.url,
-					currentTask.data,
-					// On success
-					function () {
-						ajaxQueue.remove(currentTask.id);
-						/*LOG*/ ajaxQueue.log("Sending of '"+currentTask.data+"' to '"+currentTask.url+"' was successfull.");
-						ajaxQueue.executeTasks();
-					}
+				currentTask.url,
+				currentTask.data,
+				// On success
+				function () {
+					ajaxQueue.remove(currentTask.id);
+					ajaxQueue.log("Sending of '" + currentTask.data + "' to '" + currentTask.url + "' was successfull.");/*LOG*/
+					ajaxQueue.executeTasks();
+				}
 			);
 		}
 	},
 
 	/**
-	* Generates a random string at the specified length
-	*
-	* @param {integer} length The length of the string
-	* @returns {string} The random string
-	*/
+	 * Generates a random string at the specified length
+	 *
+	 * @param {integer} length The length of the string
+	 * @returns {string} The random string
+	 */
 	randomString: function (length) {
-		// Define the chars used
-		var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
-		// Initialize variable
-		var randomString = '';
+		var i = 0,
+			// Define the chars used
+			chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz",
+			// Initialize variables
+			randomString = '',
+			randomNumber = 0;
 		// Loop *length* times
-		for (var i=0; i<length; i++) {
+		for (i = 0; i < length; i++) {
 			// Generate a random number
-			var randomNumber = Math.floor(Math.random() * chars.length);
+			randomNumber = Math.floor(Math.random() * chars.length);
 			// Add a char to the random string
-			randomString += chars.substring(randomNumber,randomNumber+1);
+			randomString += chars.substring(randomNumber, randomNumber + 1);
 		}
 		return randomString;
 	},
-	
+
 	/**
-	* Removes an element from an array
-	* 
-	* @param {array} array The array to remove the element from
-	* @param {string} arrayElementName The name of the element to remove
-	*/
+	 * Removes an element from an array
+	 * 
+	 * @param {array} array The array to remove the element from
+	 * @param {string} arrayElementName The name of the element to remove
+	 */
 	removeElementFromArray: function (array, arrayElementName) {
-		for (var i=0; i<array.length;i++ ) { 
-	  		if(array[i]==arrayElementName)
-	  		array.splice(i,1); 
-	  	} 
-  	}
-	
-}
+		var i = 0;
+		for (i = 0; i < array.length; i++) {
+			if (array[i] === arrayElementName) {
+				array.splice(i, 1);
+			}
+		}
+	}
+};
