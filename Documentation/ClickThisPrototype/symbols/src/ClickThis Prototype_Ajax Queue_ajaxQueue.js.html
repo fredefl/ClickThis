@@ -1,0 +1,222 @@
+<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"> <style>
+	.KEYW {color: #933;}
+	.COMM {color: #bbb; font-style: italic;}
+	.NUMB {color: #393;}
+	.STRN {color: #393;}
+	.REGX {color: #339;}
+	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
+	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
+<span class='line'>  2</span> * ClickThis ajaxQueue
+<span class='line'>  3</span> * http://illution.dk
+<span class='line'>  4</span> *
+<span class='line'>  5</span> * THIS CLASS REQUIRES JQUERY AND THE JSON LIBRARY
+<span class='line'>  6</span> *
+<span class='line'>  7</span> * Copyright (c) 2011 illution
+<span class='line'>  8</span> *
+<span class='line'>  9</span> * @author Illution
+<span class='line'> 10</span> * @version 1.0
+<span class='line'> 11</span> */</span><span class="WHIT">
+<span class='line'> 12</span> </span><span class="COMM">/**
+<span class='line'> 13</span> * ajaxQueue Class
+<span class='line'> 14</span> * @class ajaxQueue Class
+<span class='line'> 15</span> */</span><span class="WHIT">
+<span class='line'> 16</span> </span><span class="STRN">"use strict"</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 17</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">ajaxQueue</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 18</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 19</span> 	 * The key name for the localStorage row
+<span class='line'> 20</span> 	 * @type {string}
+<span class='line'> 21</span> 	 */</span><span class="WHIT">
+<span class='line'> 22</span> </span><span class="WHIT">	</span><span class="NAME">localStorageKeyName</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"ajaxQueue"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 23</span> 
+<span class='line'> 24</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 25</span> 	 * The length of the queue element id
+<span class='line'> 26</span> 	 * @type {integer}
+<span class='line'> 27</span> 	 */</span><span class="WHIT">
+<span class='line'> 28</span> </span><span class="WHIT">	</span><span class="NAME">idLength</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NUMB">4</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 29</span> 
+<span class='line'> 30</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 31</span> 	 * The queue array
+<span class='line'> 32</span> 	 * @type {array}
+<span class='line'> 33</span> 	 */</span><span class="WHIT">
+<span class='line'> 34</span> </span><span class="WHIT">	</span><span class="NAME">queueArray</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 35</span> 
+<span class='line'> 36</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 37</span> 	 * The array the holds the function(s) to callback to
+<span class='line'> 38</span> 	 * @type {array}
+<span class='line'> 39</span> 	 */</span><span class="WHIT">
+<span class='line'> 40</span> </span><span class="WHIT">	</span><span class="NAME">callbackArray</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 41</span> 
+<span class='line'> 42</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 43</span> 	 * Logs the specified message
+<span class='line'> 44</span> 	 * @param  {string} message The message to log
+<span class='line'> 45</span> 	 * @return {null}
+<span class='line'> 46</span> 	 */</span><span class="WHIT">
+<span class='line'> 47</span> </span><span class="WHIT">	</span><span class="NAME">log</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">message</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 48</span> </span><span class="WHIT">		</span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'#log'</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">append</span><span class="PUNC">(</span><span class="NAME">message</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">'\r\n'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 49</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 50</span> 
+<span class='line'> 51</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 52</span> 	 * Loads the queue from localStorage
+<span class='line'> 53</span> 	 * @return {boolean}
+<span class='line'> 54</span> 	 */</span><span class="WHIT">
+<span class='line'> 55</span> </span><span class="WHIT">	</span><span class="NAME">load</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 56</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">localStorage.getItem</span><span class="PUNC">(</span><span class="NAME">this.localStorageKeyName</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">!==</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 57</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">localStorageItem</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">localStorage.getItem</span><span class="PUNC">(</span><span class="NAME">this.localStorageKeyName</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 58</span> </span><span class="WHIT">				</span><span class="NAME">jsonArray</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">JSON.parse</span><span class="PUNC">(</span><span class="NAME">localStorageItem</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 59</span> </span><span class="WHIT">			</span><span class="NAME">this.queueArray</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">jsonArray</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="WHIT">			</span><span class="NAME">ajaxQueue.log</span><span class="PUNC">(</span><span class="STRN">"Data loaded from localstorage, added "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">jsonArray.Tasks.length</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">" items to queue."</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="COMM">/*LOG*/</span><span class="WHIT">
+<span class='line'> 61</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 62</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 63</span> </span><span class="WHIT">			</span><span class="NAME">this.queueArray</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">Tasks</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">			</span><span class="NAME">ajaxQueue.log</span><span class="PUNC">(</span><span class="STRN">"No data in localstorage, adding new key."</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="COMM">/*LOG*/</span><span class="WHIT">
+<span class='line'> 65</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 66</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 68</span> 
+<span class='line'> 69</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 70</span> 	 * Saves the queue array to localStorage
+<span class='line'> 71</span> 	 * @return {boolean}
+<span class='line'> 72</span> 	 */</span><span class="WHIT">
+<span class='line'> 73</span> </span><span class="WHIT">	</span><span class="NAME">save</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 74</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">jsonString</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">JSON.stringify</span><span class="PUNC">(</span><span class="NAME">this.queueArray</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">2</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 75</span> </span><span class="WHIT">		</span><span class="NAME">localStorage.setItem</span><span class="PUNC">(</span><span class="NAME">this.localStorageKeyName</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">jsonString</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 76</span> </span><span class="WHIT">		</span><span class="NAME">ajaxQueue.log</span><span class="PUNC">(</span><span class="STRN">"Saved queue to localstorage."</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="COMM">/*LOG*/</span><span class="WHIT">
+<span class='line'> 77</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 78</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 79</span> 
+<span class='line'> 80</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 81</span> 	 * Adds an element to the queue array
+<span class='line'> 82</span> 	 *
+<span class='line'> 83</span> 	 * @param {string} url The url to send the ajax request to
+<span class='line'> 84</span> 	 * @param {data} data The data to send with the ajax request (POST)
+<span class='line'> 85</span> 	 * @param {data} group The group to add the data to
+<span class='line'> 86</span> 	 * @returns {string} The new id of the element
+<span class='line'> 87</span> 	 */</span><span class="WHIT">
+<span class='line'> 88</span> </span><span class="WHIT">	</span><span class="NAME">add</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">url</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">data</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">group</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 89</span> </span><span class="WHIT">		</span><span class="COMM">// Create a random string</span><span class="WHIT">
+<span class='line'> 90</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">id</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.randomString</span><span class="PUNC">(</span><span class="NAME">this.idLength</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 91</span> </span><span class="WHIT">		</span><span class="COMM">// Insert the task into the queue</span><span class="WHIT">
+<span class='line'> 92</span> </span><span class="WHIT">		</span><span class="NAME">this.queueArray.Tasks.push</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="NAME">id</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">url</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">url</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">data</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">data</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">group</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">group</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 93</span> </span><span class="WHIT">		</span><span class="COMM">// Save the queue to prevent data loss</span><span class="WHIT">
+<span class='line'> 94</span> </span><span class="WHIT">		</span><span class="NAME">this.save</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="WHIT">		</span><span class="NAME">ajaxQueue.log</span><span class="PUNC">(</span><span class="STRN">"Added task, url:"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">url</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">", data:"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">data</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="COMM">/*LOG*/</span><span class="WHIT">
+<span class='line'> 96</span> </span><span class="WHIT">		</span><span class="COMM">// Return the new id for the task</span><span class="WHIT">
+<span class='line'> 97</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 98</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 99</span> 
+<span class='line'>100</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>101</span> 	 * Removes the specified task from the queue
+<span class='line'>102</span> 	 */</span><span class="WHIT">
+<span class='line'>103</span> </span><span class="WHIT">	</span><span class="NAME">remove</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">id</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>104</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">result</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>105</span> </span><span class="WHIT">		</span><span class="NAME">$</span><span class="PUNC">(</span><span class="NAME">this.queueArray.Tasks</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">each</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">index</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">element</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>106</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">element.id</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>107</span> </span><span class="WHIT">				</span><span class="NAME">ajaxQueue.queueArray.Tasks.splice</span><span class="PUNC">(</span><span class="NAME">index</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>108</span> </span><span class="WHIT">				</span><span class="NAME">result</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>109</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>110</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>111</span> </span><span class="WHIT">		</span><span class="NAME">this.save</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>112</span> </span><span class="WHIT">		</span><span class="NAME">ajaxQueue.log</span><span class="PUNC">(</span><span class="STRN">"Removed "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="COMM">/*LOG*/</span><span class="WHIT">
+<span class='line'>113</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">result</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>114</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>115</span> 
+<span class='line'>116</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>117</span> 	 * Clears the queue
+<span class='line'>118</span> 	 */</span><span class="WHIT">
+<span class='line'>119</span> </span><span class="WHIT">	</span><span class="NAME">clear</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>120</span> </span><span class="WHIT">		</span><span class="NAME">this.queueArray</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>121</span> </span><span class="WHIT">		</span><span class="NAME">this.save</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>122</span> </span><span class="WHIT">		</span><span class="NAME">ajaxQueue.log</span><span class="PUNC">(</span><span class="STRN">"Cleared queue"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="COMM">/*LOG*/</span><span class="WHIT">
+<span class='line'>123</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>124</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>125</span> 
+<span class='line'>126</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>127</span> 	 * Executes the tasks in the queue
+<span class='line'>128</span> 	 */</span><span class="WHIT">
+<span class='line'>129</span> </span><span class="WHIT">	</span><span class="NAME">executeTasks</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>130</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.queueArray.Tasks.length</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>131</span> </span><span class="WHIT">			</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">currentTask</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.queueArray.Tasks</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>132</span> </span><span class="WHIT">				</span><span class="NAME">callback</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>133</span> </span><span class="WHIT">			</span><span class="NAME">ajaxQueue.log</span><span class="PUNC">(</span><span class="STRN">"Sending '"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">currentTask.data</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"' to '"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">currentTask.url</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"'."</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="COMM">/*LOG*/</span><span class="WHIT">
+<span class='line'>134</span> </span><span class="WHIT">			</span><span class="NAME">$.post</span><span class="PUNC">(</span><span class="WHIT">
+<span class='line'>135</span> </span><span class="WHIT">				</span><span class="NAME">currentTask.url</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>136</span> </span><span class="WHIT">				</span><span class="NAME">currentTask.data</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>137</span> </span><span class="WHIT">				</span><span class="COMM">// On success</span><span class="WHIT">
+<span class='line'>138</span> </span><span class="WHIT">				</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>139</span> </span><span class="WHIT">					</span><span class="COMM">// Remove the task from the queue</span><span class="WHIT">
+<span class='line'>140</span> </span><span class="WHIT">					</span><span class="NAME">ajaxQueue.remove</span><span class="PUNC">(</span><span class="NAME">currentTask.id</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>141</span> </span><span class="WHIT">					</span><span class="NAME">ajaxQueue.log</span><span class="PUNC">(</span><span class="STRN">"Sending of '"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">currentTask.data</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"' to '"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">currentTask.url</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"' was successfull."</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="COMM">/*LOG*/</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="WHIT">					</span><span class="COMM">// Call the groups callback</span><span class="WHIT">
+<span class='line'>143</span> </span><span class="WHIT">					</span><span class="NAME">callback</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">ajaxQueue.callbackArray</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>144</span> </span><span class="WHIT">					</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">callback</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="KEYW">typeof</span><span class="PUNC">(</span><span class="NAME">callback</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">"function"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>145</span> </span><span class="WHIT">						</span><span class="NAME">ajaxQueue.log</span><span class="PUNC">(</span><span class="STRN">"Calling back!"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>146</span> </span><span class="WHIT">						</span><span class="NAME">callback</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>147</span> </span><span class="WHIT">					</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>148</span> </span><span class="WHIT">					</span><span class="COMM">// Loop on...</span><span class="WHIT">
+<span class='line'>149</span> </span><span class="WHIT">					</span><span class="NAME">ajaxQueue.executeTasks</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>150</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>151</span> </span><span class="WHIT">			</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>152</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>153</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>154</span> 
+<span class='line'>155</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>156</span> 	 * Registers a callback function
+<span class='line'>157</span> 	 * @param  {Function} callback The function to call
+<span class='line'>158</span> 	 * @param  {string}   group    The group
+<span class='line'>159</span> 	 * @return {boolean}
+<span class='line'>160</span> 	 */</span><span class="WHIT">
+<span class='line'>161</span> </span><span class="WHIT">	</span><span class="NAME">registerCallback</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">callback</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">group</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>162</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">callback</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="KEYW">typeof</span><span class="PUNC">(</span><span class="NAME">callback</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">"function"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>163</span> </span><span class="WHIT">			</span><span class="NAME">ajaxQueue.callbackArray</span><span class="PUNC">[</span><span class="NAME">group</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">callback</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>164</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>165</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>166</span> </span><span class="WHIT">			</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>167</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>168</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>169</span> 
+<span class='line'>170</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>171</span> 	 * Generates a random id
+<span class='line'>172</span> 	 * @return {string}
+<span class='line'>173</span> 	 */</span><span class="WHIT">
+<span class='line'>174</span> </span><span class="WHIT">	</span><span class="NAME">generateId</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>175</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">ajaxQueue.randomString</span><span class="PUNC">(</span><span class="NUMB">5</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>176</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>177</span> 
+<span class='line'>178</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>179</span> 	 * Generates a random string at the specified length
+<span class='line'>180</span> 	 *
+<span class='line'>181</span> 	 * @param {integer} length The length of the string
+<span class='line'>182</span> 	 * @returns {string} The random string
+<span class='line'>183</span> 	 */</span><span class="WHIT">
+<span class='line'>184</span> </span><span class="WHIT">	</span><span class="NAME">randomString</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">length</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>185</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>186</span> </span><span class="WHIT">			</span><span class="COMM">// Define the chars used</span><span class="WHIT">
+<span class='line'>187</span> </span><span class="WHIT">			</span><span class="NAME">chars</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">"0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>188</span> </span><span class="WHIT">			</span><span class="COMM">// Initialize variables</span><span class="WHIT">
+<span class='line'>189</span> </span><span class="WHIT">			</span><span class="NAME">randomString</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">''</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>190</span> </span><span class="WHIT">			</span><span class="NAME">randomNumber</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>191</span> </span><span class="WHIT">		</span><span class="COMM">// Loop *length* times</span><span class="WHIT">
+<span class='line'>192</span> </span><span class="WHIT">		</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>193</span> </span><span class="WHIT">			</span><span class="COMM">// Generate a random number</span><span class="WHIT">
+<span class='line'>194</span> </span><span class="WHIT">			</span><span class="NAME">randomNumber</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">Math.floor</span><span class="PUNC">(</span><span class="NAME">Math.random</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">*</span><span class="WHIT"> </span><span class="NAME">chars.length</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>195</span> </span><span class="WHIT">			</span><span class="COMM">// Add a char to the random string</span><span class="WHIT">
+<span class='line'>196</span> </span><span class="WHIT">			</span><span class="NAME">randomString</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">chars.substring</span><span class="PUNC">(</span><span class="NAME">randomNumber</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">randomNumber</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>197</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>198</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">randomString</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>199</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>200</span> 
+<span class='line'>201</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'>202</span> 	 * Removes an element from an array
+<span class='line'>203</span> 	 * 
+<span class='line'>204</span> 	 * @param {array} array The array to remove the element from
+<span class='line'>205</span> 	 * @param {string} arrayElementName The name of the element to remove
+<span class='line'>206</span> 	 */</span><span class="WHIT">
+<span class='line'>207</span> </span><span class="WHIT">	</span><span class="NAME">removeElementFromArray</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">array</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">arrayElementName</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>208</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>209</span> </span><span class="WHIT">		</span><span class="KEYW">for</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">&lt;</span><span class="WHIT"> </span><span class="NAME">array.length</span><span class="PUNC">;</span><span class="WHIT"> </span><span class="NAME">i</span><span class="PUNC">++</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>210</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">array</span><span class="PUNC">[</span><span class="NAME">i</span><span class="PUNC">]</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="NAME">arrayElementName</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>211</span> </span><span class="WHIT">				</span><span class="NAME">array.splice</span><span class="PUNC">(</span><span class="NAME">i</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>212</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>213</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>214</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>215</span> </span><span class="PUNC">}</span><span class="PUNC">;</span></pre></body></html>
