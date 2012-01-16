@@ -130,12 +130,13 @@ var ajaxQueue = {
 		if (this.queueArray.Tasks.length > 0) {
 			var currentTask = this.queueArray.Tasks[0],
 				callback = null;
-			ajaxQueue.log("Sending '" + currentTask.data + "' to '" + currentTask.url + "'.");/*LOG*/
-			$.post(
-				currentTask.url,
-				currentTask.data,
+			ajaxQueue.log("Sending '" + currentTask.data + "' to '" + currentTask.url + "'.");/*LOG*/			
+			$.ajax({
+				type: 'POST',
+				url: currentTask.url,
+				data: currentTask.data,
 				// On success
-				function () {
+				success: function (data) {
 					// Remove the task from the queue
 					ajaxQueue.remove(currentTask.id);
 					ajaxQueue.log("Sending of '" + currentTask.data + "' to '" + currentTask.url + "' was successfull.");/*LOG*/
@@ -148,7 +149,7 @@ var ajaxQueue = {
 					// Loop on...
 					ajaxQueue.executeTasks();
 				}
-			);
+			});
 		}
 	},
 
