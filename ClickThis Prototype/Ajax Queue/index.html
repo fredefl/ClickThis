@@ -9,13 +9,23 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script src="ajaxQueue.js"></script>
 <script type="text/javascript">
-	ajaxQueue.setConfig({idLength: 10})
+	ajaxQueue.setConfig({
+		idLength: 10, 
+		retryTimeout: 1000, 
+		ajaxTimeout: 6000
+	})
 	ajaxQueue.load();
 	ajaxQueue.registerCallback({group: "test", type: "onSuccess"},function () {
 		ajaxQueue.log("Recieved callback!");
 	});
-	ajaxQueue.add({url: "ajax.php", data: "somemore=something",group: "test"});
-	ajaxQueue.add({url: "ajax.php", data: "somemore=something",group: "test"});
+	ajaxQueue.registerCallback({group: "test", type: "onTimeout"},function () {
+		ajaxQueue.log("...timeout....booring!!!");
+	});
+	ajaxQueue.registerCallback({group: "test", type: "onError"},function () {
+		ajaxQueue.log("ERROR!!!!");
+	});
+	ajaxQueue.add({url: "ajax.php", data: "somemore=something", group: "test"});
+	ajaxQueue.add({url: "ajax.php", data: "somemore=something", group: "test"});
 	ajaxQueue.executeTasks();
 </script>
 </body>
