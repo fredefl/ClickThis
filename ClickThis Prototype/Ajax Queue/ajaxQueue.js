@@ -17,7 +17,6 @@
  */
 "use strict";
 var ajaxQueue = {
-	/*************** CONFIG ***************/
 	/**
 	 * The name for the localStorage key 
 	 * @type {string}
@@ -26,10 +25,21 @@ var ajaxQueue = {
 
 	/**
 	 * The length of the unique task id
-	 * @type {integer}
+	 * @type {Number}
 	 */
 	idLength: 5,
-	/************ END OF CONFIG ***********/
+
+	/**
+	 * The number of milliseconds between each retry, false means do not retry
+	 * @type {Number}
+	 */
+	retryTimeout: 5000,
+
+	/**
+	 * The ajax timeout
+	 * @type {Number}
+	 */
+	ajaxTimeout: 6000,
 
 	/**
 	 * The queue array
@@ -80,7 +90,6 @@ var ajaxQueue = {
 
 	/**
 	 * Saves the queue array to localStorage
-	 * @return {boolean} Always true
 	 * @example
 	 * ajaxQueue.save();
 	 */
@@ -166,6 +175,7 @@ var ajaxQueue = {
 				type: 'POST',
 				url: currentTask.url,
 				data: currentTask.data,
+				timeout: ajaxQueue.ajaxTimeout,
 				// On success
 				success: function (data) {
 					// Remove the task from the queue
@@ -179,9 +189,32 @@ var ajaxQueue = {
 					}
 					// Loop on...
 					ajaxQueue.executeTasks();
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					// Timeout
+					if (textStatus === "timeout") {
+						callback = ajaxQueue.callbackArray.onTimeout[currentTask.group];
+						if (callback && typeof (callback) === "function") {
+							ajaxQueue.log("Calling back!");
+							callback();
+						}
+					}
+					if (textStatus === "error" || textStatus === "abort" || textStatus === "parsererror") {
+						callback = ajaxQueue.callbackArray.onError[currentTask.group];
+						if (callback && typeof (callback) === "function") {
+							ajaxQueue.log("Calling back!");
+							callback();
+						}
+					}
+					if (ajaxQueue.retryTimeout !== false) {
+						ajaxQueue.log("Coming back around(in a bit)!!!");
+						// Try againg in a bit
+						setTimeout("ajaxQueue.executeTasks()", ajaxQueue.retryTimeout);
+					}
 				}
 			});
 		}
+		return true;
 	},
 
 	/**
@@ -190,13 +223,28 @@ var ajaxQueue = {
 	 * @param {JSON} config The settings to change
 	 * @example
 	 * ajaxQueue.setConfig({
-	 *  idLength: 5
+	 *  idLength: 5,
+	 *  localStorageKeyName: "ajaxQueue2",
+	 *  retryTimeout: false, // Or for example 2000
+	 *  ajaxTimeout: 5000
 	 * });
 	 */
 	setConfig: function (config) {
-		// Check for idLength configuration
-		if (config.idLength) {
+		// Check for the idLength configuration
+		if (config.idLength !== undefined) {
 			ajaxQueue.idLength = config.idLength;
+		}
+		// Check for the localStorageKeyName configuration
+		if (config.localStorageKeyName !== undefined) {
+			ajaxQueue.localStorageKeyName = config.localStorageKeyName;
+		}
+		// Check for the retryTimeout configuration
+		if (config.retryTimeout !== undefined) {
+			ajaxQueue.retryTimeout = config.retryTimeout;
+		}
+		// Check for the ajaxTimeout configuration
+		if (config.ajaxTimeout !== undefined) {
+			ajaxQueue.ajaxTimeout = config.ajaxTimeout;
 		}
 	},
 
