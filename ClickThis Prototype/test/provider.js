@@ -1,4 +1,7 @@
 /**
+ * This class can be used in login systems,
+ * to add login provider icons properly.
+ * 
  * Copyrights Illution (c) 2012
  * 
  * @requires jQuery 1.7.1+
@@ -13,7 +16,7 @@
  * This class can add a provider,
  * page,container,column,row and a provider tag with image and a tag 
  * to a specific jQuery object.
-  * @class provider
+  * @class provider Login Provider Class
   * @type {Object}
   */
  var provider = {
@@ -24,7 +27,7 @@
 	 * @since 1.0
 	 * @param {object} cellspacing This is an optional parameter, to set the table cellspacing if its not set then the value will be 10
 	 * @returns {object} This function returns the jquery object of the container
-	 * 
+	 *
 	 * @example
 	 * //This function uses a jquery object and a optional integer with the cellspacing value
 	 * provider.addContainer($('#box'),10)
@@ -32,15 +35,14 @@
 	 * @example
 	 * var container = provider.addContainer();
 	 * 
-	 * an append object is not defined and nothing is done with the result.
 	 * @example
+	 * //This example will not do anything because, an append object is not defined and nothing is done with the result.
 	 * var box = null;
-	 * //This example will not do anything because,
 	 * provider.addContainer(box,null);
 	 * 
 	 * @example
-	 * var container;
 	 * //This example will not append anything but the result will be stored in 'container'.
+	 * var container;
 	 * container = provider.addProvider(null,10);
 	 */
  	addContainer : function(obj,cellspacing) {
