@@ -1,3 +1,4 @@
+"use strict";
 var providers; //This variable is filled with all the providers as an object when the document is ready
 var pageKeyword = "page_p"; //This variable holds the keyword that will be put infront of the standard page names/div names
 var userPageKeyword = "user_p"; //This keyword will be put infront of the name of each user generated page
@@ -10,7 +11,6 @@ var oldPage; //This variable stores the last disabled page
 var oldPageChangeType; //This variable is used in the edit box the re-create what it changed
 var changeing = false;
 
-<<<<<<< HEAD
 $('#edit').click(function() {
 	var editBox = $('#edit-box');
 	var newPage;
@@ -27,22 +27,6 @@ $('#edit').click(function() {
 			pageChangeType = '.edit';
 		}
 		animate(newPage,thisPage);
-=======
-"use strict";
-
-$('#edit').click(function () {
-	var thisPage = $('.Active'),
-		newPage = $('#edit-box');
-	if (!newPage.hasClass('Active')) {
-		oldPageChangeType = pageChangeType;
-		animate(newPage, thisPage);
-		pageChangeType = '.edit';
-	} else {
-		thisPage = $('#edit-box');
-		newPage = $('#' + oldPage);
-		pageChangeType = oldPageChangeType;
-		animate(newPage, thisPage);
->>>>>>> 8f3ffef5728cb3508b42a7684f1c5cd62eeff101
 	}
 });
 
@@ -51,7 +35,6 @@ $('#edit').click(function () {
 * this event's callback function gets the next page,
 * and if it's the last page it returns to the first page
 */
-<<<<<<< HEAD
 $('#right').click(function() {
 	var thisPage = $('.Active');
 	var newPage = $(thisPage).next(pageChangeType);
@@ -62,18 +45,6 @@ $('#right').click(function() {
 		}
 		else{
 			changeing = true;
-=======
-$('#right').click(function () {
-	//right();
-	var thisPage = $('.Active');
-	var newPage = $(thisPage).next(pageChangeType);
-	if ($(pageChangeType).length > 1) {
-		if (newPage.length > 0) {
-			animate(newPage,thisPage)
-			} else {
->>>>>>> 8f3ffef5728cb3508b42a7684f1c5cd62eeff101
-			newPage = $(pageChangeType+':first');
-			animate(newPage,thisPage);	
 		}
 	}
 });
@@ -108,7 +79,6 @@ function animate(newPage,thisPage) {
 $('#left').click(function () {
 	var thisPage = $(pageChangeType+'.Active');
 	var newPage = $(thisPage).prev(pageChangeType);
-<<<<<<< HEAD
 	if($(pageChangeType).length > 1){
 		if(newPage.length > 0){
 			changeing = true;
@@ -116,14 +86,6 @@ $('#left').click(function () {
 		}
 		else{
 			changeing = true;
-=======
-	if ($(pageChangeType).length > 1) {
-		if (newPage.length > 0) {
-			animate(newPage,thisPage);	
-			} else {
->>>>>>> 8f3ffef5728cb3508b42a7684f1c5cd62eeff101
-			newPage = $(pageChangeType+':last');	
-			animate(newPage,thisPage);	
 		}
 	}
 });
