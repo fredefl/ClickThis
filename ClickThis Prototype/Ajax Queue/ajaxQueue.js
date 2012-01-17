@@ -19,7 +19,7 @@
 var ajaxQueue = {
 	/**
 	 * The name for the localStorage key 
-	 * @type {string}
+	 * @type {String}
 	 */
 	localStorageKeyName: "ajaxQueue",
 
@@ -30,26 +30,26 @@ var ajaxQueue = {
 	idLength: 5,
 
 	/**
-	 * The number of milliseconds between each retry, false means do not retry
+	 * The number of milliseconds between each retry, where false means do not retry
 	 * @type {Number}
 	 */
 	retryTimeout: 5000,
 
 	/**
-	 * The ajax timeout
+	 * The ajax timeout in milliseconds
 	 * @type {Number}
 	 */
 	ajaxTimeout: 6000,
 
 	/**
 	 * The queue array
-	 * @type {array}
+	 * @type {Array}
 	 */
 	queueArray: {},
 
 	/**
 	 * The array the holds the function(s) to callback to
-	 * @type {array}
+	 * @type {Array}
 	 */
 	callbackArray: {
 		onSuccess: {},
@@ -59,8 +59,7 @@ var ajaxQueue = {
 
 	/**
 	 * Logs the specified message
-	 * @param  {string} message The message to log
-	 * @return {null}
+	 * @param  {String} message The message to log
 	 * @example
 	 * ajaxQueue.log("Hello world!");
 	 */
@@ -103,8 +102,8 @@ var ajaxQueue = {
 	/**
 	 * Adds an element to the queue array
 	 *
-	 * @param {string} json The json element to add
-	 * @returns {string} The new id of the element, false in case of error
+	 * @param {String} json The json element to add.
+	 * @returns {String} The new id of the element, false in case of error
 	 * @example
 	 * ajaxQueue.add({
 	 *  url: "http://illution.dk",
@@ -132,7 +131,7 @@ var ajaxQueue = {
 
 	/**
 	 * Removes the specified task from the queue
-	 * @param {strign} id The id of the task to remove
+	 * @param {String} id The id of the task to remove
 	 * @example
 	 * ajaxQueue.remove("5kB6");
 	 */
@@ -252,7 +251,7 @@ var ajaxQueue = {
 	 * Registers a callback function
 	 * @param  {JSON}     options	The json string containing the type and group
 	 * @param  {Function} callback	The function to call
-	 * @return {boolean} Whenever the callback could be registered of not
+	 * @return {Boolean} Whenever the callback could be registered of not
 	 * @example
 	 * ajaxQueue.registerCallback({
 	 *  type: "onSuccess",
@@ -278,7 +277,7 @@ var ajaxQueue = {
 
 	/**
 	 * Generates a random Id
-	 * @return {string} The newly created Id
+	 * @return {String} The newly created Id
 	 * @example
 	 * ajaxQueue.generateId(); // Returns id
 	 */
@@ -289,8 +288,8 @@ var ajaxQueue = {
 	/**
 	 * Generates a random string at the specified length
 	 *
-	 * @param {integer} length The length of the string
-	 * @returns {string} The random string
+	 * @param {Number} length The length of the string
+	 * @returns {String} The random string
 	 * @example
 	 * ajaxQueue.randomString(5); // Returns random string
 	 */
