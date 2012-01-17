@@ -60,7 +60,7 @@ var ajaxQueue = {
 
 	/**
 	 * Loads the queue from localStorage
-	 * @return {boolean}
+	 * @return {boolean} True if data was loaded from localStorage, false if no data was found in localStorage and a new queue has been created.
 	 * @example
 	 * ajaxQueue.load();
 	 */
@@ -80,7 +80,7 @@ var ajaxQueue = {
 
 	/**
 	 * Saves the queue array to localStorage
-	 * @return {boolean}
+	 * @return {boolean} Always true
 	 * @example
 	 * ajaxQueue.save();
 	 */
@@ -106,9 +106,9 @@ var ajaxQueue = {
 	add: function (json) {
 		if (json.url&&json.data&&json.group) {
 			// Create a random string
-			var id = this.generateId();
+			var id = ajaxQueue.generateId();
 			// Insert the task into the queue
-			this.queueArray.Tasks.push({id: json.id, url: json.url, data: json.data, group: json.group});
+			this.queueArray.Tasks.push({id: id, url: json.url, data: json.data, group: json.group});
 			// Save the queue to prevent data loss
 			this.save();
 			ajaxQueue.log("Added task, url:" + json.url + ", data:" + json.data);/*LOG*/
@@ -171,7 +171,7 @@ var ajaxQueue = {
 					ajaxQueue.remove(currentTask.id);
 					ajaxQueue.log("Sending of '" + currentTask.data + "' to '" + currentTask.url + "' was successfull.");/*LOG*/
 					// Call the groups callback
-					callback = ajaxQueue.callbackArray[currentTask.group]["success"];
+					callback = ajaxQueue.callbackArray["onSuccess"][currentTask.group];
 					if (callback && typeof(callback) == "function") {
 						ajaxQueue.log("Calling back!");
 						callback();
