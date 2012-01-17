@@ -98,15 +98,16 @@ var ajaxQueue = {
 	 * @returns {string} The new id of the element, false in case of error
 	 * @example
 	 * ajaxQueue.add({
-	 * 	url: "http://illution.dk",
-	 * 	data: "test=hehe,llama=fish",
-	 * 	group: "testGroup2"
+	 *  url: "http://illution.dk",
+	 *  data: "test=hehe,llama=fish",
+	 *  group: "testGroup2"
 	 * })
 	 */
 	add: function (json) {
-		if (json.url&&json.data&&json.group) {
+		var id = null;
+		if (json.url && json.data && json.group) {
 			// Create a random string
-			var id = ajaxQueue.generateId();
+			id = ajaxQueue.generateId();
 			// Insert the task into the queue
 			this.queueArray.Tasks.push({id: id, url: json.url, data: json.data, group: json.group});
 			// Save the queue to prevent data loss
@@ -160,7 +161,7 @@ var ajaxQueue = {
 		if (this.queueArray.Tasks.length > 0) {
 			var currentTask = this.queueArray.Tasks[0],
 				callback = null;
-			ajaxQueue.log("Sending '" + currentTask.data + "' to '" + currentTask.url + "'.");/*LOG*/			
+			ajaxQueue.log("Sending '" + currentTask.data + "' to '" + currentTask.url + "'.");/*LOG*/
 			$.ajax({
 				type: 'POST',
 				url: currentTask.url,
@@ -171,8 +172,8 @@ var ajaxQueue = {
 					ajaxQueue.remove(currentTask.id);
 					ajaxQueue.log("Sending of '" + currentTask.data + "' to '" + currentTask.url + "' was successfull.");/*LOG*/
 					// Call the groups callback
-					callback = ajaxQueue.callbackArray["onSuccess"][currentTask.group];
-					if (callback && typeof(callback) == "function") {
+					callback = ajaxQueue.callbackArray.onSuccess[currentTask.group];
+					if (callback && typeof (callback) === "function") {
 						ajaxQueue.log("Calling back!");
 						callback();
 					}
@@ -189,7 +190,7 @@ var ajaxQueue = {
 	 * @param {JSON} config The settings to change
 	 * @example
 	 * ajaxQueue.setConfig({
-	 * 	idLength: 5
+	 *  idLength: 5
 	 * });
 	 */
 	setConfig: function (config) {
@@ -206,19 +207,19 @@ var ajaxQueue = {
 	 * @return {boolean} Whenever the callback could be registered of not
 	 * @example
 	 * ajaxQueue.registerCallback({
-	 * 	type: "onSuccess",
-	 * 	group: "testGroup23"
+	 *  type: "onSuccess",
+	 *  group: "testGroup23"
 	 * }, function () {
-	 * 	alert('Message was delivered successfully!');
+	 *  alert('Message was delivered successfully!');
 	 * });
 	 * @example
 	 * ajaxQueue.registerCallback({
-	 * 	type: "onSuccess",
-	 * 	group: "testGroup23"
+	 *  type: "onSuccess",
+	 *  group: "testGroup23"
 	 * }, testFunction);
 	 */
 	registerCallback: function (json, callback) {
-		if (callback && typeof(callback) === "function" && json.group && json.type) {
+		if (callback && typeof (callback) === "function" && json.group && json.type) {
 			var current = ajaxQueue.callbackArray[json.type];
 			current[json.group] = callback;
 			return true;
@@ -260,5 +261,5 @@ var ajaxQueue = {
 			randomString += chars.substring(randomNumber, randomNumber + 1);
 		}
 		return randomString;
-	},
+	}
 };
