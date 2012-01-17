@@ -17,25 +17,26 @@
  	/**
 	 * This function creates a table, this function will be used to create the page tables
 	 * @param object obj This parameter is the jquery object of the outer div or outer container
+	 * @since 1.0
 	 * @param object cellspacing This is an optional parameter, to set the table cellspacing if its not set then the value will be 10
 	 * @returns object This function returns the jquery object of the container
 	 * 
+	 * @description This function uses a jquery object and a optional integer with the cellspacing value
 	 * @example
-	 * //This function uses a jquery object and a optional integer with the cellspacing value
 	 * provider.addContainer($('#box'),10)
 	 * 
 	 * @example
 	 * var container = provider.addContainer();
 	 * 
+	 * @description This example will not do anything because,
+	 * an append object is not defined and nothing is done with the result.
 	 * @example
 	 * var box = null;
-	 * //This example will not do anything because,
-	 * // an append object is not defined and nothing is done with the result.
 	 * provider.addContainer(box,null);
 	 * 
+	 * @description This example will not append anything but the result will be stored in 'container'.
 	 * @example
 	 * var container;
-	 * //This example will not append anything but the result will be stored in 'container'
 	 * container = provider.addProvider(null,10);
 	 */
  	addContainer : function(obj,cellspacing) {
