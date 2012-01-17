@@ -8,6 +8,8 @@
  *
  * @author Illution
  * @version 1.0
+ * @requires jQuery
+ * @requires JSON Library
  */
 /**
  * ajaxQueue Class
@@ -41,13 +43,16 @@ var ajaxQueue = {
 	 */
 	callbackArray: {
 		onSuccess: {},
-		onError: {}
+		onError: {},
+		onTimeout: {}
 	},
 
 	/**
 	 * Logs the specified message
 	 * @param  {string} message The message to log
 	 * @return {null}
+	 * @example
+	 * ajaxQueue.log("Hello world!");
 	 */
 	log: function (message) {
 		$('#log').append(message + '\r\n');
@@ -56,6 +61,8 @@ var ajaxQueue = {
 	/**
 	 * Loads the queue from localStorage
 	 * @return {boolean}
+	 * @example
+	 * ajaxQueue.load();
 	 */
 	load: function () {
 		if (localStorage.getItem(this.localStorageKeyName) !== null) {
@@ -74,6 +81,8 @@ var ajaxQueue = {
 	/**
 	 * Saves the queue array to localStorage
 	 * @return {boolean}
+	 * @example
+	 * ajaxQueue.save();
 	 */
 	save: function () {
 		var jsonString = JSON.stringify(this.queueArray, null, 2);
@@ -87,6 +96,12 @@ var ajaxQueue = {
 	 *
 	 * @param {string} json The json element to add
 	 * @returns {string} The new id of the element, false in case of error
+	 * @example
+	 * ajaxQueue.add({
+	 * 	url: "http://illution.dk",
+	 * 	data: "test=hehe,llama=fish",
+	 * 	group: "testGroup2"
+	 * })
 	 */
 	add: function (json) {
 		if (json.url&&json.data&&json.group) {
@@ -107,6 +122,9 @@ var ajaxQueue = {
 
 	/**
 	 * Removes the specified task from the queue
+	 * @param {strign} id The id of the task to remove
+	 * @example
+	 * ajaxQueue.remove("5kB6");
 	 */
 	remove: function (id) {
 		var result = false;
@@ -123,6 +141,8 @@ var ajaxQueue = {
 
 	/**
 	 * Clears the queue
+	 * @example
+	 * ajaxQueue.clear();
 	 */
 	clear: function () {
 		this.queueArray = {};
@@ -133,6 +153,8 @@ var ajaxQueue = {
 
 	/**
 	 * Executes the tasks in the queue
+	 * @example
+	 * ajaxQueue.executeTasks();
 	 */
 	executeTasks: function () {
 		if (this.queueArray.Tasks.length > 0) {
@@ -161,6 +183,15 @@ var ajaxQueue = {
 		}
 	},
 
+	/**
+	 * Set the configuration
+	 * 
+	 * @param {JSON} config The settings to change
+	 * @example
+	 * ajaxQueue.setConfig({
+	 * 	idLength: 5
+	 * });
+	 */
 	setConfig: function (config) {
 		// Check for idLength configuration
 		if (config.idLength) {
@@ -170,9 +201,21 @@ var ajaxQueue = {
 
 	/**
 	 * Registers a callback function
-	 * @param  {string}   json     The json string containing the type and group
-	 * @param  {Function} callback The function to call
-	 * @return {boolean}
+	 * @param  {JSON}     options	The json string containing the type and group
+	 * @param  {Function} callback	The function to call
+	 * @return {boolean} Whenever the callback could be registered of not
+	 * @example
+	 * ajaxQueue.registerCallback({
+	 * 	type: "onSuccess",
+	 * 	group: "testGroup23"
+	 * }, function () {
+	 * 	alert('Message was delivered successfully!');
+	 * });
+	 * @example
+	 * ajaxQueue.registerCallback({
+	 * 	type: "onSuccess",
+	 * 	group: "testGroup23"
+	 * }, testFunction);
 	 */
 	registerCallback: function (json, callback) {
 		if (callback && typeof(callback) === "function" && json.group && json.type) {
@@ -185,8 +228,10 @@ var ajaxQueue = {
 	},
 
 	/**
-	 * Generates a random id
-	 * @return {string}
+	 * Generates a random Id
+	 * @return {string} The newly created Id
+	 * @example
+	 * ajaxQueue.generateId(); // Returns id
 	 */
 	generateId: function () {
 		return ajaxQueue.randomString(ajaxQueue.idLength);
@@ -197,6 +242,8 @@ var ajaxQueue = {
 	 *
 	 * @param {integer} length The length of the string
 	 * @returns {string} The random string
+	 * @example
+	 * ajaxQueue.randomString(5); // Returns random string
 	 */
 	randomString: function (length) {
 		var i = 0,
@@ -214,19 +261,4 @@ var ajaxQueue = {
 		}
 		return randomString;
 	},
-
-	/**
-	 * Removes an element from an array
-	 * 
-	 * @param {array} array The array to remove the element from
-	 * @param {string} arrayElementName The name of the element to remove
-	 */
-	removeElementFromArray: function (array, arrayElementName) {
-		var i = 0;
-		for (i = 0; i < array.length; i++) {
-			if (array[i] === arrayElementName) {
-				array.splice(i, 1);
-			}
-		}
-	}
 };
