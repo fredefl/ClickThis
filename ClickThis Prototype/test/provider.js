@@ -64,6 +64,7 @@
 	 * @param {array} data This parameter is optional it's used to specify other rows then standard,
 	 * but beaware that the html tag and the class variable must be the same.
 	 * @returns {object} The created jquery object of the provider
+	 * @since 1.0
 	 */
 	addProvider : function(provider,obj,data) {
 		if (typeof provider == "object") {
@@ -117,6 +118,7 @@
 	 * @param {string} name The name of the page div the final id will be the choosen keyoed user or page + name
 	 * @param {string} state The state of the page "Disabled" or "Active"
 	 * @returns {object} This function returns a jquery object
+	 * @since 1.0
 	 */
 	addPage : function(obj,type,name,state) {
 		var div = $("<div></div>");
@@ -149,6 +151,7 @@
 	 * and returns the jquery object if a table is deffined as an object in obj the row is appended to it.
 	 * @param {object} The jquery object of the table
 	 * @returns {object} The jquery object of the new row
+	 * @since 1.0
 	 * @example
 	 * provider.addRow(column)
 	 */
@@ -164,6 +167,7 @@
 	 * This function adds a column to a table and if obj is specified the column will be appended too.
 	 * @param {object} obj The row/tr tag you wish to add the td/column too
 	 * @returns {object} The jquery object of the newly created column
+	 * @since 1.0
 	 * @example
 	 * provider.addColumn(container);
 	 */

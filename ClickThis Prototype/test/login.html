@@ -6,6 +6,13 @@
 <link rel="stylesheet" href="style.css" />
 <title>ClickThis - Login Design</title>
 </head>
+    <style type="text/css">
+    body { font-size:32px; }
+    ul { list-style:none; margin:0; padding:0; width:50%;}
+    li { line-height: 80px;  border:1px solid #ccc; margin-bottom:-1px;}
+    .handle {float:right; margin:4px; text-align:center; line-height:64px; color:#fff; border-radius:32px; height:64px; width:64px; background:#999;}
+    .placeholder {background:#ffc; height:80px;}
+    </style>
 <body>
 	<div id="box">
     	<a id="edit"></a>   
@@ -13,15 +20,26 @@
         <a id="right"></a>
         
         <div id="edit-box" class="Disabled edit">
-        	 <a class="Button">Home</a>
+        	  <ul class="list" id="sortable">
+                <li><span class="handle">&uarr;&darr;</span> Item 1</li>
+                <li><span class="handle">&uarr;&darr;</span> Item 2</li>
+                <li><span class="handle">&uarr;&darr;</span> Item 3</li>
+              </ul>
         </div>
     </div>
     
     <script src="jquery.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="jquery.ui.touch-punch.min.js"></script>
     <script src="jquery.hashchange.min.js"></script>
     <script src="provider.js"></script>
     <script src="script.js"></script>
-
+    <script>
+        $('#sortable').sortable({
+            handle:'.handle', 
+            axis:'y',
+            placeholder: "placeholder"
+        });
+    </script>  
 </body>
 </html>

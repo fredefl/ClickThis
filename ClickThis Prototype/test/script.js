@@ -4,13 +4,16 @@ var pageKeyword = "page_p"; //This variable holds the keyword that will be put i
 var userPageKeyword = "user_p"; //This keyword will be put infront of the name of each user generated page
 var currentPage = null; //This variable is set by the page changer function
 var userProviders; //The variable will be set with the content of the users localStorage key "userProviders" 
-var pageChangeType = '.page'; //This variable is used in the arrow system options are (".default",".page",".user",".edit")
+var pageChangeType = '.page'; //This variable is used in the arrow system options are (".default",".page",".user",".edit",".edit-chose")
 var numberPerPage = 6; // This variable set how many providers there will be shown per page
 var numberPerRow = 3; //This variable sets how many providers there will be shown per row
 var oldPage; //This variable stores the last disabled page
 var oldPageChangeType; //This variable is used in the edit box the re-create what it changed
 var changeing = false; //This variable stores the state of the page, true means that the page is changing
 
+/**
+ * This event is fired when the edit button is clicked
+ */
 $('#edit').click(function() {
 	var editBox = $('#edit-box');
 	var newPage;
