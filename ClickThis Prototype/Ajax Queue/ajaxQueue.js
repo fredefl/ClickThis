@@ -39,7 +39,10 @@ var ajaxQueue = {
 	 * The array the holds the function(s) to callback to
 	 * @type {array}
 	 */
-	callbackArray: {},
+	callbackArray: {
+		onSuccess: {},
+		onError: {}
+	},
 
 	/**
 	 * Logs the specified message
@@ -82,19 +85,22 @@ var ajaxQueue = {
 	/**
 	 * Adds an element to the queue array
 	 *
-	 * @param {string} url The url to send the ajax request to
-	 * @param {data} data The data to send with the ajax request (POST)
-	 * @param {data} group The group to add the data to
-	 * @returns {string} The new id of the element
+	 * @param {string} json The json element to add
+	 * @returns {string} The new id of the element, false in case of error
 	 */
-	add: function (url, data, group) {
-		// Create a random string
-		var id = this.generateId();
-		// Insert the task into the queue
-		this.queueArray.Tasks.push({id: id, url: url, data: data, group: group});
-		// Save the queue to prevent data loss
-		this.save();
-		ajaxQueue.log("Added task, url:" + url + ", data:" + data);/*LOG*/
+	add: function (json) {
+		if (json.url&&json.data&&json.group) {
+			// Create a random string
+			var id = this.generateId();
+			// Insert the task into the queue
+			this.queueArray.Tasks.push({id: json.id, url: json.url, data: json.data, group: json.group});
+			// Save the queue to prevent data loss
+			this.save();
+			ajaxQueue.log("Added task, url:" + json.url + ", data:" + json.data);/*LOG*/
+		} else {
+			// Incate that an error occoured
+			id = false;
+		}
 		// Return the new id for the task
 		return id;
 	},
@@ -143,7 +149,7 @@ var ajaxQueue = {
 					ajaxQueue.remove(currentTask.id);
 					ajaxQueue.log("Sending of '" + currentTask.data + "' to '" + currentTask.url + "' was successfull.");/*LOG*/
 					// Call the groups callback
-					callback = ajaxQueue.callbackArray[currentTask.group];
+					callback = ajaxQueue.callbackArray[currentTask.group]["success"];
 					if (callback && typeof(callback) == "function") {
 						ajaxQueue.log("Calling back!");
 						callback();
@@ -164,13 +170,14 @@ var ajaxQueue = {
 
 	/**
 	 * Registers a callback function
-	 * @param  {string}   group    The group
+	 * @param  {string}   json     The json string containing the type and group
 	 * @param  {Function} callback The function to call
 	 * @return {boolean}
 	 */
-	registerCallback: function (group, callback) {
-		if (callback && typeof(callback) === "function" && group) {
-			ajaxQueue.callbackArray[group] = callback;
+	registerCallback: function (json, callback) {
+		if (callback && typeof(callback) === "function" && json.group && json.type) {
+			var current = ajaxQueue.callbackArray[json.type];
+			current[json.group] = callback;
 			return true;
 		} else {
 			return false;

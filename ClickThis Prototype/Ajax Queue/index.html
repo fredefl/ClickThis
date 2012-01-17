@@ -11,11 +11,11 @@
 <script type="text/javascript">
 	ajaxQueue.setConfig({idLength: 10})
 	ajaxQueue.load();
-	ajaxQueue.registerCallback("test",function () {
+	ajaxQueue.registerCallback({group: "test", type: "onSuccess"},function () {
 		ajaxQueue.log("Recieved callback!");
 	});
-	ajaxQueue.add("ajax.php","somemore=something","test");
-	ajaxQueue.add("ajax.php","something=1234","test");
+	ajaxQueue.add({url: "ajax.php", data: "somemore=something",group: "test"});
+	ajaxQueue.add({url: "ajax.php", data: "somemore=something",group: "test"});
 	ajaxQueue.executeTasks();
 </script>
 </body>
