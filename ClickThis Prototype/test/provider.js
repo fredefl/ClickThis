@@ -1,42 +1,46 @@
 /**
- * This class can add a provider,
- * page,container,column,row and a provider 
- * to a specific object. 
- * 
  * Copyrights Illution (c) 2012
  * 
  * @requires jQuery 1.7.1+
- * @link http://illution.dk
  * @author Illution
- * @class Provider
  * @copyright Illuton &copy
  * @version 1.0
+ * @package Login
+ * @subpackage Provider
+ * @fileOverview This file contains the provider class
  */
+ /**
+ * This class can add a provider,
+ * page,container,column,row and a provider tag with image and a tag 
+ * to a specific jQuery object.
+  * @class provider
+  * @type {Object}
+  */
  var provider = {
  	
  	/**
 	 * This function creates a table, this function will be used to create the page tables
-	 * @param object obj This parameter is the jquery object of the outer div or outer container
+	 * @param {object} obj This parameter is the jquery object of the outer div or outer container
 	 * @since 1.0
-	 * @param object cellspacing This is an optional parameter, to set the table cellspacing if its not set then the value will be 10
-	 * @returns object This function returns the jquery object of the container
+	 * @param {object} cellspacing This is an optional parameter, to set the table cellspacing if its not set then the value will be 10
+	 * @returns {object} This function returns the jquery object of the container
 	 * 
-	 * @description This function uses a jquery object and a optional integer with the cellspacing value
 	 * @example
+	 * //This function uses a jquery object and a optional integer with the cellspacing value
 	 * provider.addContainer($('#box'),10)
 	 * 
 	 * @example
 	 * var container = provider.addContainer();
 	 * 
-	 * @description This example will not do anything because,
 	 * an append object is not defined and nothing is done with the result.
 	 * @example
 	 * var box = null;
+	 * //This example will not do anything because,
 	 * provider.addContainer(box,null);
 	 * 
-	 * @description This example will not append anything but the result will be stored in 'container'.
 	 * @example
 	 * var container;
+	 * //This example will not append anything but the result will be stored in 'container'.
 	 * container = provider.addProvider(null,10);
 	 */
  	addContainer : function(obj,cellspacing) {
@@ -54,10 +58,10 @@
 	/**
 	 * This function adds the necesary html code for provider element,
 	 * and if obj is specified the element will also be append to to obj
-	 * @param object obj The jquery object you wish to add the provider to
-	 * @param array data This parameter is optional it's used to specify other rows then standard,
+	 * @param {object} obj The jquery object you wish to add the provider to
+	 * @param {array} data This parameter is optional it's used to specify other rows then standard,
 	 * but beaware that the html tag and the class variable must be the same.
-	 * @returns object The created jquery object of the provider
+	 * @returns {object} The created jquery object of the provider
 	 */
 	addProvider : function(provider,obj,data) {
 		if (typeof provider == "object") {
@@ -106,11 +110,11 @@
 
 	/**
 	 * This function adds a page to the container with the specified parameters
-	 * @param object obj The container you wish to add the page div to
-	 * @param string type This is the type of the page, "user" or "default"/page
-	 * @param string name The name of the page div the final id will be the choosen keyoed user or page + name
-	 * @param string state The state of the page "Disabled" or "Active"
-	 * @retunrs object This function returns a jquery object
+	 * @param {object} obj The container you wish to add the page div to
+	 * @param {string} type This is the type of the page, "user" or "default"/page
+	 * @param {string} name The name of the page div the final id will be the choosen keyoed user or page + name
+	 * @param {string} state The state of the page "Disabled" or "Active"
+	 * @returns {object} This function returns a jquery object
 	 */
 	addPage : function(obj,type,name,state) {
 		var div = $("<div></div>");
@@ -141,8 +145,8 @@
 	/**
 	 * This function creates a new row in a table with the tr tags,
 	 * and returns the jquery object if a table is deffined as an object in obj the row is appended to it.
-	 * @param object The jquery object of the table
-	 * @returns object The jquery object of the new row
+	 * @param {object} The jquery object of the table
+	 * @returns {object} The jquery object of the new row
 	 * @example
 	 * provider.addRow(column)
 	 */
@@ -156,8 +160,8 @@
 
 	/**
 	 * This function adds a column to a table and if obj is specified the column will be appended too.
-	 * @param obj The row/tr tag you wish to add the td/column too
-	 * @returns object The jquery object of the newly created column
+	 * @param {object} obj The row/tr tag you wish to add the td/column too
+	 * @returns {object} The jquery object of the newly created column
 	 * @example
 	 * provider.addColumn(container);
 	 */
