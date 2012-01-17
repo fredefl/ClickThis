@@ -7,52 +7,35 @@
 <title>ClickThis - Login Design</title>
 </head>
     <style type="text/css">
-    /*body {}
-    ul {list-style:none; float: left;}
-    li {list-style:none;}
-    .handle {}
-    .placeholder {}*/
-    #edit-box ol{
-        list-style:none;
-    }
     ul{
-        /*list-style-type:decimal;*/
         list-style-type:none;
     }
     ul li{
         float: left;
-        width:64px;
-        height:64px;
+        width:128px;
+        height:128px;
     }
-
+    .sortable-grid{
+        width:100%; 
+        height:100%;
+        left:-18px;
+        top:0px;
+        position: absolute;
+    }
     </style>
 <body>
 	<div id="box">
     	<a id="edit"></a>   
 		<a id="left"></a>
         <a id="right"></a>
-        
         <div id="edit-box" class="Disabled edit">
-            <ul class="sortable" style="width:420px; height:300px;">
-                <ul>
-                    <li><img src="images/small/64/Twitter.png"/></li>
-                    <li><img src="images/small/64/Google.png"/></li>
-                    <li><img src="images/small/64/Facebook.png"/></li>
-                    <li><img src="images/small/64/Tumblr.png" /></li>
-                    <li><img src="images/small/64/GooglePlus.png" /></li>  
-                </ul>
-                <ul>
-                    <li><img src="images/small/64/github.png" /></li>
-                    <li><img src="images/small/64/MySpace.png" /></li>
-                    <li><img src="images/small/64/FriendFeed.png" /></li>
-                    <li><img src="images/small/64/ClickThis.png" /></li>
-                    <li><img src="images/small/64/Blogger.png" /></li>
-                </ul>
-                <ul>
-                    <li><img src="images/small/64/StumbleUpon.png" /></li>
-                    <li><img src="images/small/64/Flickr.png" /></li>
-                    <li><img src="images/small/64/LinkedIn.png" /></li>
-                </ul>
+            <ul class="sortable-grid">
+                <li><img src="images/small/128/Google.png"/></li>
+                <li><img src="images/small/128/ClickThis.png"/></li>
+                <li><img src="images/small/128/MySpace.png" /></li>
+                <li><img src="images/small/128/Facebook.png" /></li>
+                <li><img src="images/small/128/Twitter.png" /></li>
+                <li><img src="images/small/128/LinkedIn.png" /></li>
             </ul>
         </div>
     </div>
@@ -60,19 +43,46 @@
     <script src="jquery.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
     <script type="text/javascript" src="jquery.ui.touch-punch.min.js"></script>
-    <script type="text/javascript" src="jquery.ui.nestedSortable.js"></script>
     <script src="jquery.hashchange.min.js"></script>
     <script src="provider.js"></script>
     <script src="script.js"></script>
     <script>
-        //$('#edit-box table tr').sortable();
-        $('ul.sortable').nestedSortable({
-            items: 'li',
-            maxLevels: 1,
-            tabSize: 1,
-            listType: 'ul',
-            tolerance: 'pointer',
-        });
+        $('#edit-box ul').sortable();
     </script>  
 </body>
 </html>
+<!-- 
+            <ol class="sortable" style="width:420px; height:300px;">
+                <ol>
+                    <li><img src="images/small/96/Twitter.png"/></li>
+                    <li><img src="images/small/96/Google.png"/></li>
+                    <li><img src="images/small/96/Facebook.png"/></li>
+                    <li><img src="images/small/96/Tumblr.png" /></li>
+                    <li><img src="images/small/96/GooglePlus.png" /></li>  
+                </ol>
+                <ol>
+                    <li><img src="images/small/96/github.png" /></li>
+                    <li><img src="images/small/96/MySpace.png" /></li>
+                    <li><img src="images/small/96/FriendFeed.png" /></li>
+                    <li><img src="images/small/96/ClickThis.png" /></li>
+                    <li><img src="images/small/96/Blogger.png" /></li>
+                </ol>
+                <ol>
+                    <li><img src="images/small/96/StumbleUpon.png" /></li>
+                    <li><img src="images/small/96/Flickr.png" /></li>
+                    <li><img src="images/small/96/LinkedIn.png" /></li>
+                </ol>
+            </ol>
+-->
+<!--
+            <ul class="sortable-grid">
+                <li><img src="images/small/96/Twitter.png"/></li>
+                <li><img src="images/small/96/Google.png"/></li>
+                <li><img src="images/small/96/Facebook.png"/></li>
+                <li><img src="images/small/96/Tumblr.png" /></li>
+                <li><img src="images/small/96/github.png" /></li>
+                <li><img src="images/small/96/MySpace.png" /></li>
+                <li><img src="images/small/96/FriendFeed.png" /></li>
+                <li><img src="images/small/96/Blogger.png" /></li>
+            </ul>
+-->
