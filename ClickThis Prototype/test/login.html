@@ -7,14 +7,24 @@
 <title>ClickThis - Login Design</title>
 </head>
     <style type="text/css">
-    body { font-size:32px; }
-    ul { list-style:none; margin:0; padding:0; width:50%;}
-    li { line-height: 80px; margin-bottom:-1px;}
-    .handle {float:right; margin:4px; text-align:center; line-height:64px; color:#fff; border-radius:32px; height:64px; width:64px; background:#999;}
-    .placeholder {  }
-    li:hover,li:active {
-        border:1px solid #171717;
+    /*body {}
+    ul {list-style:none; float: left;}
+    li {list-style:none;}
+    .handle {}
+    .placeholder {}*/
+    #edit-box ol{
+        list-style:none;
     }
+    ul{
+        /*list-style-type:decimal;*/
+        list-style-type:none;
+    }
+    ul li{
+        float: left;
+        width:64px;
+        height:64px;
+    }
+
     </style>
 <body>
 	<div id="box">
@@ -23,25 +33,45 @@
         <a id="right"></a>
         
         <div id="edit-box" class="Disabled edit">
-        	  <ul class="list" id="sortable">
-                <li><span class="handle">&uarr;&darr;</span> Item 1</li>
-                <li><span class="handle">&uarr;&darr;</span> Item 2</li>
-                <li><span class="handle">&uarr;&darr;</span> Item 3</li>
-              </ul>
+            <ul class="sortable" style="width:420px; height:300px;">
+                <ul>
+                    <li><img src="images/small/64/Twitter.png"/></li>
+                    <li><img src="images/small/64/Google.png"/></li>
+                    <li><img src="images/small/64/Facebook.png"/></li>
+                    <li><img src="images/small/64/Tumblr.png" /></li>
+                    <li><img src="images/small/64/GooglePlus.png" /></li>  
+                </ul>
+                <ul>
+                    <li><img src="images/small/64/github.png" /></li>
+                    <li><img src="images/small/64/MySpace.png" /></li>
+                    <li><img src="images/small/64/FriendFeed.png" /></li>
+                    <li><img src="images/small/64/ClickThis.png" /></li>
+                    <li><img src="images/small/64/Blogger.png" /></li>
+                </ul>
+                <ul>
+                    <li><img src="images/small/64/StumbleUpon.png" /></li>
+                    <li><img src="images/small/64/Flickr.png" /></li>
+                    <li><img src="images/small/64/LinkedIn.png" /></li>
+                </ul>
+            </ul>
         </div>
     </div>
     
     <script src="jquery.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
     <script type="text/javascript" src="jquery.ui.touch-punch.min.js"></script>
+    <script type="text/javascript" src="jquery.ui.nestedSortable.js"></script>
     <script src="jquery.hashchange.min.js"></script>
     <script src="provider.js"></script>
     <script src="script.js"></script>
     <script>
-        $('#sortable').sortable({
-            handle:'.handle', 
-            axis:'y',
-            placeholder: "placeholder"
+        //$('#edit-box table tr').sortable();
+        $('ul.sortable').nestedSortable({
+            items: 'li',
+            maxLevels: 1,
+            tabSize: 1,
+            listType: 'ul',
+            tolerance: 'pointer',
         });
     </script>  
 </body>

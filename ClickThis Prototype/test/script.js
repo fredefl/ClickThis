@@ -192,6 +192,8 @@ $(window).hashchange( function () {
 			}
 		} else if ($('#'+pageKeyword+page).length > 0 && !$('#'+pageKeyword+page).hasClass('Active')) {
 			animate($('#'+pageKeyword+page),$('#'+currentPage));
+		} else if ($('#'+page).length > 0) {
+			animate($('#'+page),$('#'+currentPage));
 		}
 	}
 })
