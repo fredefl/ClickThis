@@ -39,42 +39,8 @@ $('#edit').click(function() {
 * and if it's the last page it returns to the first page
 */
 $('#right').click(function() {
-	var thisPage = $('.Active');
-	var newPage = $(thisPage).next(pageChangeType);
-	if($(pageChangeType).length > 1){
-		if(newPage.length > 0){
-			changeing = true;
-			animate(newPage,thisPage)
-		}
-		else{
-			changeing = true;
-			newPage = $(pageChangeType+':first');
-			animate(newPage,thisPage);
-		}
-	}
+	window.loginSwipe.next();
 });
-
-/**
-* This function fades the old page out and the new page in,
-* and sets the current page variable
-*/
-function animate(newPage,thisPage) {
-	if (thisPage.hasClass('Active')) {
-		thisPage.fadeOut('fast',function () {
-			thisPage.css('display','');
-			thisPage.addClass('Disabled').removeClass('Active');
-			newPage.addClass('Active').removeClass('Disabled');
-			newPage.fadeIn('fast');
-			changeing = false;
-		});
-	} else {
-		newPage.addClass('Active').removeClass('Disabled');
-		newPage.fadeIn('fast');
-		changeing = false;
-	}
-	oldPage = currentPage;
-	currentPage = newPage.attr('id');
-}
 
 /**
 * This event is called when the left arrow is clicked it does the same as,
@@ -82,19 +48,7 @@ function animate(newPage,thisPage) {
 * @see $('#right').click(function ()
 */
 $('#left').click(function () {
-	var thisPage = $(pageChangeType+'.Active');
-	var newPage = $(thisPage).prev(pageChangeType);
-	if($(pageChangeType).length > 1){
-		if(newPage.length > 0){
-			changeing = true;
-			animate(newPage,thisPage);	
-		}
-		else{
-			changeing = true;
-			newPage = $(pageChangeType+':last');
-			animate(newPage,thisPage);
-		}
-	}
+	window.loginSwipe.prev();
 });
 
 /**
@@ -111,7 +65,7 @@ function showUserProviders() {
 	}
 	var currentIndex = 0;
 	for(var i = 1;i <= numberOfPages;i++) {
-		var page = provider.addPage($("#box"),"user",i,"Default");
+		var page = provider.addPage($("#providerContainer"),"user",i,"Default");
 		var container = provider.addContainer(page);
 		var row1 = provider.addRow(container);
 		var row2 = provider.addRow(container);
@@ -203,19 +157,19 @@ $(window).hashchange( function () {
 * @param function An optinal callback function when ready
 */
 function start(callback) {
-
-		//Page 1
-	var page1 = provider.addPage($("#box"),"default","1","Disa"),
+	var providerContainer = $("#providerContainer > :first");
+	//Page 1
+	var page1 = provider.addPage(providerContainer,"default","1","Disa"),
 		page1Container = provider.addContainer(page1),
 		page1Row1 = provider.addRow(page1Container),
 		page1Row2 = provider.addRow(page1Container),
 		//Page 2
-		page2 = provider.addPage($("#box"),"default","2","Disabled"),
+		page2 = provider.addPage(providerContainer,"default","2","Disabled"),
 		page2Container = provider.addContainer(page2),
 		page2Row1 = provider.addRow(page2Container),
 		page2Row2 = provider.addRow(page2Container),
 		//Page 3
-		page3 = provider.addPage($("#box"),"default","3","Disabled"),
+		page3 = provider.addPage(providerContainer,"default","3","Disabled"),
 		page3Container = provider.addContainer(page3),
 		page3Row1 = provider.addRow(page3Container),
 		page3Row2 = provider.addRow(page3Container);
@@ -252,6 +206,7 @@ function start(callback) {
 	if (typeof callback == "function") {
 		callback();
 	}
+	window.loginSwipe = new Swipe(document.getElementById("providerContainer"));
 }
 
 /**

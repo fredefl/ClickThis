@@ -27,13 +27,11 @@
 <body>
 	<div id="box">
     	<!--<a id="edit"></a>--> 
-		<a id="left" onClick="window.loginSwipe.prev()"></a>
-        <a id="right" onClick="window.loginSwipe.next()"></a>
+		<a id="left"></a>
+        <a id="right"></a>
         <div id="providerContainer">
             <div>
-                <div style="display: block"><div><table cellspacing="10"><tbody><tr><td><a class="providerLink"><img src="images/Google.png" alt="Google" title="Google" class="provider"></a></td><td><a class="providerLink"><img src="images/ClickThis.png" alt="ClickThis" title="ClickThis" class="provider"></a></td><td><a class="providerLink"><img src="images/MySpace.png" alt="MySpace" title="MySpace" class="provider"></a></td></tr><tr><td><a class="providerLink"><img src="images/Facebook.png" alt="Facebook" title="Facebook" class="provider"></a></td><td><a class="providerLink"><img src="images/Twitter.png" alt="Twitter" title="Twitter" class="provider"></a></td><td><a class="providerLink"><img src="images/LinkedIn.png" alt="LinkedIn" title="LinkedIn" class="provider"></a></td></tr></tbody></table></div></div>
-                <div style="display: none"><div><table cellspacing="10"><tbody><tr><td><a class="providerLink"><img src="images/Google.png" alt="Google" title="Google" class="provider"></a></td><td><a class="providerLink"><img src="images/ClickThis.png" alt="ClickThis" title="ClickThis" class="provider"></a></td><td><a class="providerLink"><img src="images/MySpace.png" alt="MySpace" title="MySpace" class="provider"></a></td></tr><tr><td><a class="providerLink"><img src="images/Facebook.png" alt="Facebook" title="Facebook" class="provider"></a></td><td><a class="providerLink"><img src="images/Twitter.png" alt="Twitter" title="Twitter" class="provider"></a></td><td><a class="providerLink"><img src="images/LinkedIn.png" alt="LinkedIn" title="LinkedIn" class="provider"></a></td></tr></tbody></table></div></div>
-</div>
+            </div>
         </div>
         <div id="edit-box" class="Disabled edit">
             <ul class="sortable-grid">
@@ -52,11 +50,10 @@
     <script type="text/javascript" src="jquery.ui.touch-punch.min.js"></script>
     <script src="jquery.hashchange.min.js"></script>
     <script src="swipe.min.js"></script>
-    <!--<script src="provider.js"></script>
-    <script src="script.js"></script>-->
+    <script src="provider.js"></script>
+    <script src="script.js"></script>
     <script>
-        window.loginSwipe = new Swipe(document.getElementById("providerContainer"));
-        //$('#edit-box ul').sortable();
+        $('#edit-box ul').sortable();
     </script>  
 </body>
 </html>
