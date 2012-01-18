@@ -6,36 +6,36 @@
 	.REGX {color: #339;}
 	.line {border-right: 1px dotted #666; color: #666; font-style: normal;}
 	</style></head><body><pre><span class='line'>  1</span> <span class="COMM">/**
-<span class='line'>  2</span> * ClickThis buttons
-<span class='line'>  3</span> * http://illution.dk
-<span class='line'>  4</span> *
-<span class='line'>  5</span> * Copyright (c) 2011 illution
-<span class='line'>  6</span> *
-<span class='line'>  7</span> * @author Illution
-<span class='line'>  8</span> * @version 1.0
-<span class='line'>  9</span> */</span><span class="WHIT">
+<span class='line'>  2</span>  * ClickThis buttons
+<span class='line'>  3</span>  * http://illution.dk
+<span class='line'>  4</span>  *
+<span class='line'>  5</span>  * Copyright (c) 2011 illution
+<span class='line'>  6</span>  *
+<span class='line'>  7</span>  * @author Illution
+<span class='line'>  8</span>  * @version 1.0
+<span class='line'>  9</span>  */</span><span class="WHIT">
 <span class='line'> 10</span> </span><span class="COMM">/**
-<span class='line'> 11</span> * buttonGenerator Class
-<span class='line'> 12</span> * @class buttonGenerator Class
-<span class='line'> 13</span> */</span><span class="WHIT">
+<span class='line'> 11</span>  * buttonGenerator Class
+<span class='line'> 12</span>  * @class buttonGenerator Class
+<span class='line'> 13</span>  */</span><span class="WHIT">
 <span class='line'> 14</span> </span><span class="STRN">"use strict"</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 15</span> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">buttonGenerator</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'> 16</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'> 17</span> 	* The default color when the button is on (String)
-<span class='line'> 18</span> 	*/</span><span class="WHIT">
+<span class='line'> 17</span> 	 * The default color when the button is on (String)
+<span class='line'> 18</span> 	 */</span><span class="WHIT">
 <span class='line'> 19</span> </span><span class="WHIT">	</span><span class="NAME">defaultColor</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"blue"</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 20</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'> 21</span> 	* Creates a new button
-<span class='line'> 22</span> 	*
-<span class='line'> 23</span> 	* @param {integer} id The id of the button
-<span class='line'> 24</span> 	* @param {integer} value The on/off value (1/0)
-<span class='line'> 25</span> 	* @param {string} color The color of the button
-<span class='line'> 26</span> 	* @param {string} text The button text
-<span class='line'> 27</span> 	* @param {boolean} submit Wherever it should submit its data
-<span class='line'> 28</span> 	* @param {boolean} single Wherever it should deselect all other buttons (Single choice)
-<span class='line'> 29</span> 	* @param {string} group The submit group of the button, this parameter is optional
-<span class='line'> 30</span> 	* @returns {string} The html for the button
-<span class='line'> 31</span> 	*/</span><span class="WHIT">
+<span class='line'> 21</span> 	 * Creates a new button
+<span class='line'> 22</span> 	 *
+<span class='line'> 23</span> 	 * @param {integer} id The id of the button
+<span class='line'> 24</span> 	 * @param {integer} value The on/off value (1/0)
+<span class='line'> 25</span> 	 * @param {string} color The color of the button
+<span class='line'> 26</span> 	 * @param {string} text The button text
+<span class='line'> 27</span> 	 * @param {boolean} submit Wherever it should submit its data
+<span class='line'> 28</span> 	 * @param {boolean} single Wherever it should deselect all other buttons (Single choice)
+<span class='line'> 29</span> 	 * @param {string} group The submit group of the button, this parameter is optional
+<span class='line'> 30</span> 	 * @returns {string} The html for the button
+<span class='line'> 31</span> 	 */</span><span class="WHIT">
 <span class='line'> 32</span> </span><span class="WHIT">	</span><span class="NAME">newButton</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">id</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">color</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">text</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">submit</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">single</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">group</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'> 33</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">submit</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'> 34</span> </span><span class="WHIT">			</span><span class="NAME">submit</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
@@ -49,19 +49,19 @@
 <span class='line'> 42</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.newCustomButton</span><span class="PUNC">(</span><span class="NAME">id</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">color</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.defaultColor</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">text</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">text</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">submit</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">single</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">group</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 43</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 44</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'> 45</span> 	* Creates a new custom button
-<span class='line'> 46</span> 	*
-<span class='line'> 47</span> 	* @param {integer} id The id of the button
-<span class='line'> 48</span> 	* @param {integer} value The on/off value (1/0)
-<span class='line'> 49</span> 	* @param {string} colorOff The color of the button when its off
-<span class='line'> 50</span> 	* @param {string} colorOn The color of the buttonwhen its on
-<span class='line'> 51</span> 	* @param {string} textOff The button text when its on
-<span class='line'> 52</span> 	* @param {string} textOn The button text when its off
-<span class='line'> 53</span> 	* @param {boolean} submit Wherever it should submit its data
-<span class='line'> 54</span> 	* @param {boolean} single Wherever it should deselect all other buttons (Single choice)
-<span class='line'> 55</span> 	* @param {string} group The submit group of the button
-<span class='line'> 56</span> 	* @returns {string} The html for the button
-<span class='line'> 57</span> 	*/</span><span class="WHIT">
+<span class='line'> 45</span> 	 * Creates a new custom button
+<span class='line'> 46</span> 	 *
+<span class='line'> 47</span> 	 * @param {integer} id The id of the button
+<span class='line'> 48</span> 	 * @param {integer} value The on/off value (1/0)
+<span class='line'> 49</span> 	 * @param {string} colorOff The color of the button when its off
+<span class='line'> 50</span> 	 * @param {string} colorOn The color of the buttonwhen its on
+<span class='line'> 51</span> 	 * @param {string} textOff The button text when its on
+<span class='line'> 52</span> 	 * @param {string} textOn The button text when its off
+<span class='line'> 53</span> 	 * @param {boolean} submit Wherever it should submit its data
+<span class='line'> 54</span> 	 * @param {boolean} single Wherever it should deselect all other buttons (Single choice)
+<span class='line'> 55</span> 	 * @param {string} group The submit group of the button
+<span class='line'> 56</span> 	 * @returns {string} The html for the button
+<span class='line'> 57</span> 	 */</span><span class="WHIT">
 <span class='line'> 58</span> </span><span class="WHIT">	</span><span class="NAME">newCustomButton</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">id</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">value</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">colorOff</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">colorOn</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">textOff</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">textOn</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">submit</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">single</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">group</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'> 59</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">cssClass</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 60</span> </span><span class="WHIT">			</span><span class="NAME">groupHTML</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">,</span><span class="WHIT">
@@ -125,12 +125,12 @@
 <span class='line'>118</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">html</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>119</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>120</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>121</span> 	* Creates a new submit button
-<span class='line'>122</span> 	*
-<span class='line'>123</span> 	* @param {integer} id The color of the button
-<span class='line'>124</span> 	* @param {integer} value The button text
-<span class='line'>125</span> 	* @returns {string} The html for the button
-<span class='line'>126</span> 	*/</span><span class="WHIT">
+<span class='line'>121</span> 	 * Creates a new submit button
+<span class='line'>122</span> 	 *
+<span class='line'>123</span> 	 * @param {integer} id The color of the button
+<span class='line'>124</span> 	 * @param {integer} value The button text
+<span class='line'>125</span> 	 * @returns {string} The html for the button
+<span class='line'>126</span> 	 */</span><span class="WHIT">
 <span class='line'>127</span> </span><span class="WHIT">	</span><span class="NAME">newSubmitButton</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">color</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">text</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>128</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">html</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="WHIT">
 <span class='line'>129</span> </span><span class="WHIT">				</span><span class="STRN">'&lt;a  class="mega button '</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">color</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">' halfsize fullsize"'</span><span class="PUNC">,</span><span class="WHIT">
@@ -141,16 +141,16 @@
 <span class='line'>134</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">html</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>135</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>136</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>137</span> 	* Creates a submit button, with custom properties
-<span class='line'>138</span> 	*
-<span class='line'>139</span> 	* @param {string} color The color of the button
-<span class='line'>140</span> 	* @param {string} text The text of the button
-<span class='line'>141</span> 	* @param {string} id The HTML id of the button
-<span class='line'>142</span> 	* @param {string} location The location to submit the result
-<span class='line'>143</span> 	* @param {string} href The url to redirect, when data is submitted
-<span class='line'>144</span> 	* @param {string} group The submit group of the button
-<span class='line'>145</span> 	* @returns {string} The html of the button
-<span class='line'>146</span> 	*/</span><span class="WHIT">
+<span class='line'>137</span> 	 * Creates a submit button, with custom properties
+<span class='line'>138</span> 	 *
+<span class='line'>139</span> 	 * @param {string} color The color of the button
+<span class='line'>140</span> 	 * @param {string} text The text of the button
+<span class='line'>141</span> 	 * @param {string} id The HTML id of the button
+<span class='line'>142</span> 	 * @param {string} location The location to submit the result
+<span class='line'>143</span> 	 * @param {string} href The url to redirect, when data is submitted
+<span class='line'>144</span> 	 * @param {string} group The submit group of the button
+<span class='line'>145</span> 	 * @returns {string} The html of the button
+<span class='line'>146</span> 	 */</span><span class="WHIT">
 <span class='line'>147</span> </span><span class="WHIT">	</span><span class="NAME">newCustomSubmitButton</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">color</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">text</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">id</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">location</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">href</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">group</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>148</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">html</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="WHIT">
 <span class='line'>149</span> </span><span class="WHIT">				</span><span class="STRN">'&lt;a  class="mega button '</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">color</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">' halfsize fullsize"'</span><span class="PUNC">,</span><span class="WHIT">
@@ -173,10 +173,10 @@
 <span class='line'>166</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">html</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>167</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>168</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>169</span> 	* Changes the button's state, from On to Off or from Off to On
-<span class='line'>170</span> 	*
-<span class='line'>171</span> 	* @param {object} button The button that it should change state on
-<span class='line'>172</span> 	*/</span><span class="WHIT">
+<span class='line'>169</span> 	 * Changes the button's state, from On to Off or from Off to On
+<span class='line'>170</span> 	 *
+<span class='line'>171</span> 	 * @param {object} button The button that it should change state on
+<span class='line'>172</span> 	 */</span><span class="WHIT">
 <span class='line'>173</span> </span><span class="WHIT">	</span><span class="NAME">changeState</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">button</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>174</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>175</span> </span><span class="WHIT">			</span><span class="NAME">value</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">button.getAttribute</span><span class="PUNC">(</span><span class="STRN">"data-value"</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT">
@@ -213,8 +213,8 @@
 <span class='line'>206</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
 <span class='line'>207</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>208</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>209</span> 	* Submits the data
-<span class='line'>210</span> 	*/</span><span class="WHIT">
+<span class='line'>209</span> 	 * Submits the data
+<span class='line'>210</span> 	 */</span><span class="WHIT">
 <span class='line'>211</span> </span><span class="WHIT">	</span><span class="NAME">submitData</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>212</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>213</span> </span><span class="WHIT">			</span><span class="NAME">postString</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">,</span><span class="WHIT">
@@ -228,12 +228,12 @@
 <span class='line'>221</span> </span><span class="WHIT">		</span><span class="NAME">postString</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">postString.slice</span><span class="PUNC">(</span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">-</span><span class="NUMB">1</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>222</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>223</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>224</span> 	* Submit the button data with a posibility to use a defined redirect url and a submit location.
-<span class='line'>225</span> 	* This function also have the ability only to submit data from buttons within the same submit group as the submitButton.
-<span class='line'>226</span> 	* Mind this function can have some problems and need revalidation and testing.
-<span class='line'>227</span> 	*
-<span class='line'>228</span> 	* @param {object} submitButton The submit button that submits
-<span class='line'>229</span> 	*/</span><span class="WHIT">
+<span class='line'>224</span> 	 * Submit the button data with a posibility to use a defined redirect url and a submit location.
+<span class='line'>225</span> 	 * This function also have the ability only to submit data from buttons within the same submit group as the submitButton.
+<span class='line'>226</span> 	 * Mind this function can have some problems and need revalidation and testing.
+<span class='line'>227</span> 	 *
+<span class='line'>228</span> 	 * @param {object} submitButton The submit button that submits
+<span class='line'>229</span> 	 */</span><span class="WHIT">
 <span class='line'>230</span> </span><span class="WHIT">	</span><span class="NAME">submitCustomData</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">submitButton</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>231</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>232</span> </span><span class="WHIT">			</span><span class="NAME">postString</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">""</span><span class="PUNC">,</span><span class="WHIT">
@@ -261,8 +261,8 @@
 <span class='line'>254</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
 <span class='line'>255</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>256</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>257</span> 	* Uncheck all buttons
-<span class='line'>258</span> 	*/</span><span class="WHIT">
+<span class='line'>257</span> 	 * Uncheck all buttons
+<span class='line'>258</span> 	 */</span><span class="WHIT">
 <span class='line'>259</span> </span><span class="WHIT">	</span><span class="NAME">unCheckAll</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>260</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">i</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>261</span> </span><span class="WHIT">			</span><span class="NAME">button</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">;</span><span class="WHIT">
@@ -276,10 +276,10 @@
 <span class='line'>269</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
 <span class='line'>270</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>271</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>272</span> 	* Single Choice button click
-<span class='line'>273</span> 	*
-<span class='line'>274</span> 	* @param {object} button The button to perform actions on
-<span class='line'>275</span> 	*/</span><span class="WHIT">
+<span class='line'>272</span> 	 * Single Choice button click
+<span class='line'>273</span> 	 *
+<span class='line'>274</span> 	 * @param {object} button The button to perform actions on
+<span class='line'>275</span> 	 */</span><span class="WHIT">
 <span class='line'>276</span> </span><span class="WHIT">	</span><span class="NAME">singleChoice</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">button</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>277</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">value</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">button.getAttribute</span><span class="PUNC">(</span><span class="STRN">"data-value"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>278</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">value</span><span class="WHIT"> </span><span class="PUNC">===</span><span class="WHIT"> </span><span class="STRN">"1"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
@@ -290,10 +290,10 @@
 <span class='line'>283</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
 <span class='line'>284</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>285</span> </span><span class="WHIT">	</span><span class="COMM">/**
-<span class='line'>286</span> 	* Multiple Choice button click
-<span class='line'>287</span> 	*
-<span class='line'>288</span> 	* @param {object} button The button to perform actions on
-<span class='line'>289</span> 	*/</span><span class="WHIT">
+<span class='line'>286</span> 	 * Multiple Choice button click
+<span class='line'>287</span> 	 *
+<span class='line'>288</span> 	 * @param {object} button The button to perform actions on
+<span class='line'>289</span> 	 */</span><span class="WHIT">
 <span class='line'>290</span> </span><span class="WHIT">	</span><span class="NAME">multipleChoice</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">button</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>291</span> </span><span class="WHIT">		</span><span class="NAME">this.changeState</span><span class="PUNC">(</span><span class="NAME">button</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>292</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="WHIT">

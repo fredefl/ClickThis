@@ -1,0 +1,1117 @@
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="generator" content="JsDoc Toolkit" />
+		<title>ajaxQueue | JsDoc Reference</title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+		<meta name="mobileoptimized" content="0" />
+	
+		<link rel="stylesheet" href="../css/all.css" media="all" />
+		<link rel="stylesheet" href="../css/handheld.css" media="only screen and (max-width: 660px)" />
+		<link rel="stylesheet" href="../css/handheld.css" media="handheld" />
+		<link rel="stylesheet" href="../css/screen.css" media="screen and (min-width: 661px)" />
+
+		<script src="../javascript/all.js"></script>
+		<!--[if lt IE 9]>
+			<script src="../javascript/html5.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+<div class="index">
+	<div class="menu">
+		<div class="indexLinks">
+			<a href="../index.html">Classes</a>
+			<a href="../files.html">Files</a>
+		</div>
+	
+		<h2 class="heading1">Classes</h2>
+		
+		<input type="text" name="classFilter" class="classFilter" id="ClassFilter" placeholder="Filter"></input>
+		
+		<nav>
+			<ul class="classList" id="ClassList">
+				
+					<li><a href="../symbols/_global_.html">_global_</a></li>
+				
+					<li><a href="../symbols/ajaxQueue.html">ajaxQueue</a></li>
+				
+					<li><a href="../symbols/buttonGenerator.html">buttonGenerator</a></li>
+				
+					<li><a href="../symbols/buttonResizer.html">buttonResizer</a></li>
+				
+					<li><a href="../symbols/provider.html">provider</a></li>
+				
+			</ul>
+		</nav>
+	</div>
+	<div class="fineprint" style="clear:both">
+		<footer>
+			
+			Documentation generator: <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0<br />
+			Template: <a href="http://www.thebrightlines.com/2010/05/06/new-template-for-jsdoctoolkit-codeview/" target="_blank">Codeview</a> 1.2<br />
+			Generated on:
+			<time datetime='2012-0-18' pubdate>2012-0-18 14:17</time>
+		</footer>
+	</div>
+</div>
+
+<div class="index indexStatic"></div>
+
+<div class="content">
+	<div class="innerContent">
+		<article>
+			<header>
+				<h1 class="classTitle">
+					
+					Class <span>ajaxQueue</span>
+				</h1>
+				
+				<div class="intro">
+					<p class="description summary">
+						ajaxQueue Class
+					</p>
+						
+					
+						<ul class="summary">
+							
+							
+							
+								<li>Defined in: <a href="../symbols/src/ClickThis Prototype_Ajax Queue_ajaxQueue.js.html">ajaxQueue.js</a></li>
+							
+							
+						</ul>
+					
+				</div>
+			</header>
+			
+			
+				<section>
+					<div class="props">
+						<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class ajaxQueue.">
+							<caption class="sectionTitle">Class Summary</caption>
+							<thead>
+								<tr>
+									<th scope="col">Constructor Attributes</th>
+									<th scope="col">Constructor Name and Description</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="attributes">&nbsp;</td>
+									<td class="nameDescription" >
+										<div class="fixedFont">
+											<b><a href="../symbols/ajaxQueue.html#constructor">ajaxQueue</a></b>()
+										</div>
+										<div class="description">ajaxQueue Class</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</section>
+			
+			
+			
+				
+				<section>
+					
+						<nav>
+							<div class="props">
+								<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class ajaxQueue.">
+									<caption class="sectionTitle">Field Summary</caption>
+									
+									<thead>
+										<tr>
+											<th scope="col">Field Attributes</th>
+											<th scope="col">Field Name and Description</th>
+										</tr>
+									</thead>
+									
+									<tbody>
+										
+											<tr>
+												<td class="attributes">&lt;static&gt; &nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont">
+													ajaxQueue.<b><a href="../symbols/ajaxQueue.html#.ajaxTimeout">ajaxTimeout</a></b>
+													</div>
+													<div class="description">The ajax timeout in milliseconds</div>
+												</td>
+											</tr>
+										
+											<tr>
+												<td class="attributes">&lt;static&gt; &nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont">
+													ajaxQueue.<b><a href="../symbols/ajaxQueue.html#.callbackArray">callbackArray</a></b>
+													</div>
+													<div class="description">The array the holds the function(s) to callback to</div>
+												</td>
+											</tr>
+										
+											<tr>
+												<td class="attributes">&lt;static&gt; &nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont">
+													ajaxQueue.<b><a href="../symbols/ajaxQueue.html#.idLength">idLength</a></b>
+													</div>
+													<div class="description">The length of the unique task id</div>
+												</td>
+											</tr>
+										
+											<tr>
+												<td class="attributes">&lt;static&gt; &nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont">
+													ajaxQueue.<b><a href="../symbols/ajaxQueue.html#.localStorageKeyName">localStorageKeyName</a></b>
+													</div>
+													<div class="description">The name for the localStorage key</div>
+												</td>
+											</tr>
+										
+											<tr>
+												<td class="attributes">&lt;static&gt; &nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont">
+													ajaxQueue.<b><a href="../symbols/ajaxQueue.html#.queueArray">queueArray</a></b>
+													</div>
+													<div class="description">The queue array</div>
+												</td>
+											</tr>
+										
+											<tr>
+												<td class="attributes">&lt;static&gt; &nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont">
+													ajaxQueue.<b><a href="../symbols/ajaxQueue.html#.retryTimeout">retryTimeout</a></b>
+													</div>
+													<div class="description">The number of milliseconds between each retry, where false means do not retry</div>
+												</td>
+											</tr>
+										
+									</tbody>
+								</table>
+							</div>
+						</nav>
+					
+					
+					
+				</section>
+			
+	<!--
+	#### METHODS SUMMARY
+	-->
+			
+				<section>
+					
+					
+					<div class="props">
+						<h2 class="sectionTitle">Method Summary</h2>
+						
+						
+							<nav>
+								<table class="summaryTable" id="MethodsList" cellspacing="0" summary="A summary of the methods documented in the class ajaxQueue.">
+									<thead>
+										<tr>
+											<th scope="col">Method Attributes</th>
+											<th scope="col">Method Name and Description</th>
+										</tr>
+									</thead>
+									
+									<tbody>
+										
+										
+											<tr
+												 class='item0'
+											>
+												<td class="attributes">&lt;static&gt; &nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont">ajaxQueue.<b><a href="../symbols/ajaxQueue.html#.add">add</a></b>(json)
+													</div>
+													<div class="description">Adds an element to the queue array</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item1'
+											>
+												<td class="attributes">&lt;static&gt; &nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont">ajaxQueue.<b><a href="../symbols/ajaxQueue.html#.clear">clear</a></b>()
+													</div>
+													<div class="description">Clears the queue</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item2'
+											>
+												<td class="attributes">&lt;static&gt; &nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont">ajaxQueue.<b><a href="../symbols/ajaxQueue.html#.executeTasks">executeTasks</a></b>()
+													</div>
+													<div class="description">Executes the tasks in the queue</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item3'
+											>
+												<td class="attributes">&lt;static&gt; &nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont">ajaxQueue.<b><a href="../symbols/ajaxQueue.html#.generateId">generateId</a></b>()
+													</div>
+													<div class="description">Generates a random Id</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item4'
+											>
+												<td class="attributes">&lt;static&gt; &nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont">ajaxQueue.<b><a href="../symbols/ajaxQueue.html#.load">load</a></b>()
+													</div>
+													<div class="description">Loads the queue from localStorage</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item5'
+											>
+												<td class="attributes">&lt;static&gt; &nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont">ajaxQueue.<b><a href="../symbols/ajaxQueue.html#.log">log</a></b>(message)
+													</div>
+													<div class="description">Logs the specified message</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item6'
+											>
+												<td class="attributes">&lt;static&gt; &nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont">ajaxQueue.<b><a href="../symbols/ajaxQueue.html#.randomString">randomString</a></b>(length)
+													</div>
+													<div class="description">Generates a random string at the specified length</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item7'
+											>
+												<td class="attributes">&lt;static&gt; &nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont">ajaxQueue.<b><a href="../symbols/ajaxQueue.html#.registerCallback">registerCallback</a></b>(options, callback)
+													</div>
+													<div class="description">Registers a callback function</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item8'
+											>
+												<td class="attributes">&lt;static&gt; &nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont">ajaxQueue.<b><a href="../symbols/ajaxQueue.html#.remove">remove</a></b>(id)
+													</div>
+													<div class="description">Removes the specified task from the queue</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item9'
+											>
+												<td class="attributes">&lt;static&gt; &nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont">ajaxQueue.<b><a href="../symbols/ajaxQueue.html#.save">save</a></b>()
+													</div>
+													<div class="description">Saves the queue array to localStorage</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item10'
+											>
+												<td class="attributes">&lt;static&gt; &nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont">ajaxQueue.<b><a href="../symbols/ajaxQueue.html#.setConfig">setConfig</a></b>(config)
+													</div>
+													<div class="description">Set the configuration</div>
+												</td>
+											</tr>
+										
+									</tbody>
+								</table>
+							</nav>
+						
+					
+						
+					</div>
+				</section>
+			
+			
+	<!--
+	#### EVENTS SUMMARY
+	-->
+			
+	<!--
+	#### CONSTRUCTOR DETAILS
+	-->
+			
+				<section>
+					<div class="details props">
+						<div class="innerProps">
+							<h2 class="sectionTitle" id="constructor">
+								Class Detail
+							</h2>
+							
+							<div class="fixedFont">
+								<b>ajaxQueue</b>()
+							</div>
+							
+							<div class="description">
+								ajaxQueue Class
+								
+							</div>
+							
+							
+						
+							
+							
+							
+						</div>
+					</div>
+				</section>
+			
+	<!--
+	#### FIELD DETAILS
+	-->
+			
+				<section>
+					<div class="details props">
+						<div class="innerProps">
+							<h2 class="sectionTitle">
+								Field Detail
+							</h2>
+							
+							
+								<div class="fixedFont heading" id=".ajaxTimeout">
+									<span class='lighter'>
+									&lt;static&gt; 
+									</span>
+									
+									
+									
+									<span class="light">ajaxQueue.</span><b>ajaxTimeout</b>							
+								</div>
+								
+								<div class="description">
+									The ajax timeout in milliseconds
+									
+									
+									
+								</div>
+								
+								
+									
+								
+								<div class="hr"></div>
+							
+								<div class="fixedFont heading" id=".callbackArray">
+									<span class='lighter'>
+									&lt;static&gt; 
+									</span>
+									
+									
+									
+									<span class="light">ajaxQueue.</span><b>callbackArray</b>							
+								</div>
+								
+								<div class="description">
+									The array the holds the function(s) to callback to
+									
+									
+									
+								</div>
+								
+								
+									
+								
+								<div class="hr"></div>
+							
+								<div class="fixedFont heading" id=".idLength">
+									<span class='lighter'>
+									&lt;static&gt; 
+									</span>
+									
+									
+									
+									<span class="light">ajaxQueue.</span><b>idLength</b>							
+								</div>
+								
+								<div class="description">
+									The length of the unique task id
+									
+									
+									
+								</div>
+								
+								
+									
+								
+								<div class="hr"></div>
+							
+								<div class="fixedFont heading" id=".localStorageKeyName">
+									<span class='lighter'>
+									&lt;static&gt; 
+									</span>
+									
+									
+									
+									<span class="light">ajaxQueue.</span><b>localStorageKeyName</b>							
+								</div>
+								
+								<div class="description">
+									The name for the localStorage key
+									
+									
+									
+								</div>
+								
+								
+									
+								
+								<div class="hr"></div>
+							
+								<div class="fixedFont heading" id=".queueArray">
+									<span class='lighter'>
+									&lt;static&gt; 
+									</span>
+									
+									
+									
+									<span class="light">ajaxQueue.</span><b>queueArray</b>							
+								</div>
+								
+								<div class="description">
+									The queue array
+									
+									
+									
+								</div>
+								
+								
+									
+								
+								<div class="hr"></div>
+							
+								<div class="fixedFont heading" id=".retryTimeout">
+									<span class='lighter'>
+									&lt;static&gt; 
+									</span>
+									
+									
+									
+									<span class="light">ajaxQueue.</span><b>retryTimeout</b>							
+								</div>
+								
+								<div class="description">
+									The number of milliseconds between each retry, where false means do not retry
+									
+									
+									
+								</div>
+								
+								
+									
+								
+								
+							
+						</div>
+					</div>
+				</section>
+			
+	<!--
+	#### METHOD DETAILS
+	-->		
+			
+				<section>
+					<div class="details props">
+						<div class="innerProps">
+							<h2 class="sectionTitle">
+								Method Detail
+							</h2>
+							
+							<ul class="methodDetail" id="MethodDetail">
+								
+								
+									<li 
+										 class='item0'
+									>
+										<div class="fixedFont heading" id=".add">
+											<span class='lighter'>
+											&lt;static&gt; 
+											</span>
+											
+											<span class="light">{String}</span>
+											
+											<span class="light">ajaxQueue.</span><b>add</b>(json)
+										</div>
+										
+										<div class="description">
+											Adds an element to the queue array
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">ajaxQueue.add({ url: "http://illution.dk", data: "test=hehe,llama=fish", group: "testGroup2"})</pre>
+											
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<span class="light fixedFont">{String}</span> <b>json</b>
+														
+													</dt>
+													<dd>The json element to add.</dd>
+												
+											</dl>
+										
+										
+										
+											<dl class="detailList nomargin">
+											
+												
+												
+												
+												
+												
+												
+												
+													<dt class="heading">Returns:</dt>
+													
+														<dd><span class="light fixedFont">{String}</span> The new id of the element, false in case of error</dd>
+													
+												
+												
+												
+												
+												
+											
+											</dl>
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item1'
+									>
+										<div class="fixedFont heading" id=".clear">
+											<span class='lighter'>
+											&lt;static&gt; 
+											</span>
+											
+											
+											
+											<span class="light">ajaxQueue.</span><b>clear</b>()
+										</div>
+										
+										<div class="description">
+											Clears the queue
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">ajaxQueue.clear();</pre>
+											
+										
+										
+										
+										
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item2'
+									>
+										<div class="fixedFont heading" id=".executeTasks">
+											<span class='lighter'>
+											&lt;static&gt; 
+											</span>
+											
+											
+											
+											<span class="light">ajaxQueue.</span><b>executeTasks</b>()
+										</div>
+										
+										<div class="description">
+											Executes the tasks in the queue
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">ajaxQueue.executeTasks();</pre>
+											
+										
+										
+										
+										
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item3'
+									>
+										<div class="fixedFont heading" id=".generateId">
+											<span class='lighter'>
+											&lt;static&gt; 
+											</span>
+											
+											<span class="light">{String}</span>
+											
+											<span class="light">ajaxQueue.</span><b>generateId</b>()
+										</div>
+										
+										<div class="description">
+											Generates a random Id
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">ajaxQueue.generateId(); // Returns id</pre>
+											
+										
+										
+										
+										
+										
+											<dl class="detailList nomargin">
+											
+												
+												
+												
+												
+												
+												
+												
+													<dt class="heading">Returns:</dt>
+													
+														<dd><span class="light fixedFont">{String}</span> The newly created Id</dd>
+													
+												
+												
+												
+												
+												
+											
+											</dl>
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item4'
+									>
+										<div class="fixedFont heading" id=".load">
+											<span class='lighter'>
+											&lt;static&gt; 
+											</span>
+											
+											<span class="light">{boolean}</span>
+											
+											<span class="light">ajaxQueue.</span><b>load</b>()
+										</div>
+										
+										<div class="description">
+											Loads the queue from localStorage
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">ajaxQueue.load();</pre>
+											
+										
+										
+										
+										
+										
+											<dl class="detailList nomargin">
+											
+												
+												
+												
+												
+												
+												
+												
+													<dt class="heading">Returns:</dt>
+													
+														<dd><span class="light fixedFont">{boolean}</span> True if data was loaded from localStorage, false if no data was found in localStorage and a new queue has been created.</dd>
+													
+												
+												
+												
+												
+												
+											
+											</dl>
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item5'
+									>
+										<div class="fixedFont heading" id=".log">
+											<span class='lighter'>
+											&lt;static&gt; 
+											</span>
+											
+											
+											
+											<span class="light">ajaxQueue.</span><b>log</b>(message)
+										</div>
+										
+										<div class="description">
+											Logs the specified message
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">ajaxQueue.log("Hello world!");</pre>
+											
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<span class="light fixedFont">{String}</span> <b>message</b>
+														
+													</dt>
+													<dd>The message to log</dd>
+												
+											</dl>
+										
+										
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item6'
+									>
+										<div class="fixedFont heading" id=".randomString">
+											<span class='lighter'>
+											&lt;static&gt; 
+											</span>
+											
+											<span class="light">{String}</span>
+											
+											<span class="light">ajaxQueue.</span><b>randomString</b>(length)
+										</div>
+										
+										<div class="description">
+											Generates a random string at the specified length
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">ajaxQueue.randomString(5); // Returns random string</pre>
+											
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<span class="light fixedFont">{Number}</span> <b>length</b>
+														
+													</dt>
+													<dd>The length of the string</dd>
+												
+											</dl>
+										
+										
+										
+											<dl class="detailList nomargin">
+											
+												
+												
+												
+												
+												
+												
+												
+													<dt class="heading">Returns:</dt>
+													
+														<dd><span class="light fixedFont">{String}</span> The random string</dd>
+													
+												
+												
+												
+												
+												
+											
+											</dl>
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item7'
+									>
+										<div class="fixedFont heading" id=".registerCallback">
+											<span class='lighter'>
+											&lt;static&gt; 
+											</span>
+											
+											<span class="light">{Boolean}</span>
+											
+											<span class="light">ajaxQueue.</span><b>registerCallback</b>(options, callback)
+										</div>
+										
+										<div class="description">
+											Registers a callback function
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">ajaxQueue.registerCallback({ type: "onSuccess", group: "testGroup23"}, function () { alert('Message was delivered successfully!');});</pre>
+											
+												<pre class="code">ajaxQueue.registerCallback({ type: "onSuccess", group: "testGroup23"}, testFunction);</pre>
+											
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<span class="light fixedFont">{JSON}</span> <b>options</b>
+														
+													</dt>
+													<dd>The json string containing the type and group</dd>
+												
+													<dt>
+														<span class="light fixedFont">{Function}</span> <b>callback</b>
+														
+													</dt>
+													<dd>The function to call</dd>
+												
+											</dl>
+										
+										
+										
+											<dl class="detailList nomargin">
+											
+												
+												
+												
+												
+												
+												
+												
+													<dt class="heading">Returns:</dt>
+													
+														<dd><span class="light fixedFont">{Boolean}</span> Whenever the callback could be registered of not</dd>
+													
+												
+												
+												
+												
+												
+											
+											</dl>
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item8'
+									>
+										<div class="fixedFont heading" id=".remove">
+											<span class='lighter'>
+											&lt;static&gt; 
+											</span>
+											
+											
+											
+											<span class="light">ajaxQueue.</span><b>remove</b>(id)
+										</div>
+										
+										<div class="description">
+											Removes the specified task from the queue
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">ajaxQueue.remove("5kB6");</pre>
+											
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<span class="light fixedFont">{String}</span> <b>id</b>
+														
+													</dt>
+													<dd>The id of the task to remove</dd>
+												
+											</dl>
+										
+										
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item9'
+									>
+										<div class="fixedFont heading" id=".save">
+											<span class='lighter'>
+											&lt;static&gt; 
+											</span>
+											
+											
+											
+											<span class="light">ajaxQueue.</span><b>save</b>()
+										</div>
+										
+										<div class="description">
+											Saves the queue array to localStorage
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">ajaxQueue.save();</pre>
+											
+										
+										
+										
+										
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item10'
+									>
+										<div class="fixedFont heading" id=".setConfig">
+											<span class='lighter'>
+											&lt;static&gt; 
+											</span>
+											
+											
+											
+											<span class="light">ajaxQueue.</span><b>setConfig</b>(config)
+										</div>
+										
+										<div class="description">
+											Set the configuration
+											
+											
+											
+											
+										</div>
+										
+										
+											
+												<pre class="code">ajaxQueue.setConfig({ idLength: 5, localStorageKeyName: "ajaxQueue2", retryTimeout: false, // Or for example 2000 ajaxTimeout: 5000});</pre>
+											
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<span class="light fixedFont">{JSON}</span> <b>config</b>
+														
+													</dt>
+													<dd>The settings to change</dd>
+												
+											</dl>
+										
+										
+										
+										
+									</li>
+								
+							</ul>
+						</div>
+					</div>
+				</section>
+			
+			
+	<!--
+	#### EVENT DETAILS
+	-->		
+			
+		</article>
+	</div>
+</div>
+
+		<script type="text/javascript">
+			wbos.CssTools.MediaQueryFallBack.LoadCss('../css/screen.css', '../css/handheld.css', 660)
+			codeview.classFilter.Init()
+		</script>
+	</body>
+</html>
+
