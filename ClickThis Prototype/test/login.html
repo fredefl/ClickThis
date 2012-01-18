@@ -25,6 +25,19 @@
     <script src="swipe.min.js"></script>
     <script src="provider.js"></script>
     <script src="script.js"></script>
+    <script type="text/javascript">
+        /*$('#providerContainer div').each(function(index,element){
+            $( element ).find('ul').sortable({
+                "items" : 'li',
+            });
+            $( element ).find('ul').disableSelection();
+        }   
+        );*/
+         $('#providerContainer ul').sortable({
+                "items" : 'li',
+         });
+         $('#providerContainer ul').disableSelection();
+    </script>
 </body>
 </html>
 

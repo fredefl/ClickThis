@@ -250,6 +250,10 @@ function start(callback) {
 			if (typeof callback == "function") {
 				callback();
 			}
+			$('#providerContainer ul').sortable({
+                "items" : 'li',
+         	});
+         	$('#providerContainer ul').disableSelection();
 			window.loginSwipe = new Swipe(document.getElementById("providerContainer"),{
 				callback:swipeCallback
 			});
