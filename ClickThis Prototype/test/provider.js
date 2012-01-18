@@ -13,63 +13,55 @@
  * @fileOverview This file contains the provider class
  */
  /**
- * This class can add a provider,
- * page,container,column,row and a provider tag with image and a tag 
- * to a specific jQuery object.
+  * This class can add a provider,
+  * and what else is needed for it
+  * to a specific jQuery object.
   * @class provider Login Provider Class
   * @type {Object}
   */
  var provider = {
+
+ 	 /**
+ 	  * The keyword to put in front of normal pages
+ 	  * @type {String}
+ 	  */
+ 	pageKeyword : "page_p", 
+
+ 	/**
+ 	 * The front keyword in front of pages with user content
+ 	 * @type {String}
+ 	 */
+	userPageKeyword : "user_p",
  	
  	/**
-	 * This function creates a table, this function will be used to create the page tables
-	 * @param {object} obj This parameter is the jquery object of the outer div or outer container
-	 * @since 1.0
-	 * @param {object} cellspacing This is an optional parameter, to set the table cellspacing if its not set then the value will be 10
-	 * @returns {object} This function returns the jquery object of the container
-	 *
-	 * @example
-	 * //This function uses a jquery object and a optional integer with the cellspacing value
-	 * provider.addContainer($('#box'),10)
-	 * 
-	 * @example
-	 * var container = provider.addContainer();
-	 * 
-	 * @example
-	 * //This example will not do anything because, an append object is not defined and nothing is done with the result.
-	 * var box = null;
-	 * provider.addContainer(box,null);
-	 * 
-	 * @example
-	 * //This example will not append anything but the result will be stored in 'container'.
-	 * var container;
-	 * container = provider.addProvider(null,10);
-	 */
- 	addContainer : function(obj,cellspacing) {
-		var container = $("<table></table>");
-		if (typeof cellspacing != "number") {
-			cellspacing = 10;
-		}
-		container.attr("cellspacing",cellspacing);
-		if (typeof obj == "object" && obj != null) {
-			obj.append(container);
-		}
-		return container;
+ 	 * This function creates a container/ul container and returns it,
+ 	 * if the page object is set then it is append to
+ 	 * @param {object} page  The page object to append to
+ 	 * @param {string} attrclass The wished class to add to the container,
+ 	 * standard value is 'sortable-grid'
+ 	 */
+ 	addContainer : function(page,attrclass) {
+ 		if(typeof attrclass != 'string'){
+ 			attrclass = 'sortable-grid';
+ 		}
+ 		var container = $('<ul></ul>');
+ 		container.addClass(attrclass);
+ 		if(typeof page == 'object'){
+ 			page.append(container);
+ 		}
+ 		return container;
 	},
 
 	/**
-	 * This function adds the necesary html code for provider element,
-	 * and if obj is specified the element will also be append to to obj
-	 * @param {object} obj The jquery object you wish to add the provider to
-	 * @param {array} data This parameter is optional it's used to specify other rows then standard,
-	 * but beaware that the html tag and the class variable must be the same.
-	 * @returns {object} The created jquery object of the provider
-	 * @since 1.0
+	 * This function creates a provider element and an append option is available
+	 * @param {object} provider  The JSON object with the provider data
+	 * @param {object} container The optional object to append to
+	 * @param {object} data      An optional JSON object with extra data 'element' = 'html attr name'
 	 */
-	addProvider : function(provider,obj,data) {
+	addProvider : function(provider,container,data) {
 		if (typeof provider == "object") {
-			var linkTag = $("<a></a>"); //Makes the a tag
 			var content = $("<img></img>"); //Makes the content img tag
+			var linkTag = $('<a></a>');
 			
 			//Adds the href to the a tag if its set
 			if (provider.Link != undefined && provider.Link != null) {
@@ -99,83 +91,77 @@
 			}
 			
 			content.addClass('provider');
-			linkTag.addClass('providerLink');
-			//Append the img tag to the a tag
 			linkTag.append(content);
+			var containerTag = $('<li></li>');
+			containerTag.append(linkTag);
 			
 			//If an append obj is set append the provider to it
-			if (typeof obj == "object" && obj != null) {
-				obj.append(linkTag);
+			if (typeof container == "object" && container != null) {
+				container.append(containerTag);
 			}
-			return linkTag;
+			return containerTag;
 		}	
 	},
 
 	/**
-	 * This function adds a page to the container with the specified parameters
-	 * @param {object} obj The container you wish to add the page div to
-	 * @param {string} type This is the type of the page, "user" or "default"/page
-	 * @param {string} name The name of the page div the final id will be the choosen keyoed user or page + name
-	 * @param {string} state The state of the page "Disabled" or "Active"
-	 * @returns {object} This function returns a jquery object
-	 * @since 1.0
+	 * This function creates a 'page' div and return it and if 'object',
+	 * is an appendable object then it append it to it.
+	 * @param {object} object The object to append to
+	 * @param {string} type   the type of the page 'user' or 'default'
+	 * @param {string} name   The name that will be put after the keyword defined in type
 	 */
-	addPage : function(obj,type,name,state) {
-		var div = $("<div></div>");
-		var objectName;
-		if (type === "default") {
-			div.addClass('page');
-			div.addClass('default');
-			div.attr("id",pageKeyword+name);
-			objectName = pageKeyword+name;
-		}
-		else if (type === "user") {
-			div.addClass('page');
-			div.addClass('user');
-			div.attr("id",userPageKeyword+name);
-			objectName = userPageKeyword+name;
-		}
-		/*if (state === "Active") {
-			div.addClass("Active");	
+	addPage : function(object,type,name) {
+		var page = $('<div></div>');
+		if (type == 'default'){
+			page.addClass('page');
+			page.addClass('default');
+			page.attr("id",pageKeyword+name);
 		} else {
-			div.addClass("Disabled");	
-		}*/
-		if (typeof obj == "object" && obj != null) {
-			obj.append(div);
+			page.addClass('page');
+			page.addClass('user');
+			page.attr("id",userPageKeyword+name);
 		}
-		return $('#'+objectName);
+		if(typeof object == 'object'){
+			object.append(page);
+		}
+		return page;
 	},
 
 	/**
-	 * This function creates a new row in a table with the tr tags,
-	 * and returns the jquery object if a table is deffined as an object in obj the row is appended to it.
-	 * @param {object} The jquery object of the table
-	 * @returns {object} The jquery object of the new row
-	 * @since 1.0
-	 * @example
-	 * provider.addRow(column)
+	 * This function adds a number of bulletin to a object
+	 * @param {int} number    the number of bulletins to add
+	 * @param {int} current   The active page/bulletin
+	 * @param {object} append    The object to append too
 	 */
-	addRow : function(obj) {
-		var row = $("<tr></tr>");
-		if (typeof obj == "object" && obj != null) {
-			obj.append(row);
+	addBullets : function(number,current,append){
+		if(typeof append == 'object'){
+			var currentObject;
+			for (var i = 0; i < number; i++) {
+				currentObject = $('<em>&bull;</em>');
+				if(i == current){
+					currentObject.addClass('on');
+				}
+				append.append(currentObject);
+			};
 		}
-		return row;
 	},
 
 	/**
-	 * This function adds a column to a table and if obj is specified the column will be appended too.
-	 * @param {object} obj The row/tr tag you wish to add the td/column too
-	 * @returns {object} The jquery object of the newly created column
-	 * @since 1.0
-	 * @example
-	 * provider.addColumn(container);
+	 * This function can be used to change the active bulletin
+	 * @param  {int} newBullet The index of the bulletin to activate
+	 * @param  {object} object    The object where to find the buletins
+	 * @return {object}
 	 */
-	addColumn : function(obj) {
-		var column = $("<td></td>");
-		if (typeof obj == "object" && obj != null) {
-			obj.append(column);
+	changeBullet : function(newBullet,object){
+		if(typeof append == 'object'){
+			if(typeof newBullet != 'number'){
+				newBullet = parseInt(newBullet);
+			}
+			var old = $(append).find('.on');
+			var newObject = $(append).find('em').eq(newBullet);
+			old.removeClass('on');
+			newObject.addClass('on');
+			return newObject;	
 		}
-		return column;
 	}
  }

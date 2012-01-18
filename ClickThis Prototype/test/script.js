@@ -11,6 +11,7 @@ var oldPage; //This variable stores the last disabled page
 var oldPageChangeType; //This variable is used in the edit box the re-create what it changed
 var changeing = false; //This variable stores the state of the page, true means that the page is changing
 var scrollToEnd = true; //Set this to false if you dont wan't the left arrow on the first page to send the user to the last page
+var standardProviders; //An object storing the standard providers
 
 /**
  * This event is fired when the edit button is clicked
@@ -121,17 +122,41 @@ function showUserProviders() {
 	}
 	var currentIndex = 0;
 	for(var i = 1;i <= numberOfPages;i++) {
-		var page = provider.addPage($("#providerContainer > :first"),"user",i,"Default");
+		var page = provider.addPage($("#providerContainer > :first"),"user",i);
 		var container = provider.addContainer(page);
-		var row1 = provider.addRow(container);
-		var row2 = provider.addRow(container);
+		//var row1 = provider.addRow(container);
+		//var row2 = provider.addRow(container);
 		for(var number = 0;number <= numberPerPage-1;number++) {
 			if (currentIndex < userProviders.length) {
 				if (number < numberPerRow) {
-					provider.addProvider(providers[userProviders[currentIndex]],provider.addColumn(row1));
+					provider.addProvider(providers[userProviders[currentIndex]],container);
 				} else if (number < numberPerPage) {
-					provider.addProvider(providers[userProviders[currentIndex]],provider.addColumn(row2));				
+					provider.addProvider(providers[userProviders[currentIndex]],container);				
 				}
+				currentIndex++;
+			}
+		}
+	}
+}
+
+/**
+ * This function generates the standard pages,
+ * and adds all the providers
+ */
+function showStandardProviders(){
+	var numberOfPages;
+	if (standardProviders.length % numberPerPage > 0) {
+		numberOfPages = ((standardProviders.length - (standardProviders.length % numberPerPage))/numberPerPage)+1;
+	} else {
+		numberOfPages = standardProviders.length/numberPerPage;
+	}
+	var currentIndex = 0;
+	for(var i = 1;i <= numberOfPages;i++) {
+		var page = provider.addPage($("#providerContainer > :first"),"default",i);
+		var container = provider.addContainer(page);
+		for(var number = 0;number <= numberPerPage-1;number++) {
+			if (currentIndex < standardProviders.length) {
+				provider.addProvider(providers[standardProviders[currentIndex]],container);
 				currentIndex++;
 			}
 		}
@@ -198,7 +223,7 @@ $(document).ready(function () {
 function slideTo(page){
 	var index = $(page).index();
 	if(page.length > 0){
-		window.loginSwipe.slide(index,500);
+		window.loginSwipe.slide(index,300);
 	}
 }
 
@@ -217,57 +242,18 @@ $(window).hashchange( function () {
 */
 function start(callback) {
 	var providerContainer = $("#providerContainer > :first");
-	//Page 1
-	var page1 = provider.addPage(providerContainer,"default","1","Disa"),
-		page1Container = provider.addContainer(page1),
-		page1Row1 = provider.addRow(page1Container),
-		page1Row2 = provider.addRow(page1Container),
-		//Page 2
-		page2 = provider.addPage(providerContainer,"default","2","Disabled"),
-		page2Container = provider.addContainer(page2),
-		page2Row1 = provider.addRow(page2Container),
-		page2Row2 = provider.addRow(page2Container),
-		//Page 3
-		page3 = provider.addPage(providerContainer,"default","3","Disabled"),
-		page3Container = provider.addContainer(page3),
-		page3Row1 = provider.addRow(page3Container),
-		page3Row2 = provider.addRow(page3Container);
-	
-	//Page One Row 1
-	provider.addProvider(providers.Google,provider.addColumn(page1Row1));
-	provider.addProvider(providers.ClickThis,provider.addColumn(page1Row1));
-	provider.addProvider(providers.MySpace,provider.addColumn(page1Row1));
-	
-	//Page One Row 2
-	provider.addProvider(providers.Facebook,provider.addColumn(page1Row2));
-	provider.addProvider(providers.Twitter,provider.addColumn(page1Row2));
-	provider.addProvider(providers.LinkedIn,provider.addColumn(page1Row2));
-	
-	//Page Two Row 1
-	provider.addProvider(providers.OpenId,provider.addColumn(page2Row1));
-	provider.addProvider(providers.GitHub,provider.addColumn(page2Row1));
-	provider.addProvider(providers.Vimeo,provider.addColumn(page2Row1));
-	
-	//Page Two Row 2
-	provider.addProvider(providers.StumbleUpon,provider.addColumn(page2Row2));
-	provider.addProvider(providers.Youtube,provider.addColumn(page2Row2));
-	provider.addProvider(providers.Tumblr,provider.addColumn(page2Row2));
-	
-	//Page Three Row 1
-	provider.addProvider(providers.GooglePlus,provider.addColumn(page3Row1));
-	provider.addProvider(providers.FriendFeed,provider.addColumn(page3Row1));
-	provider.addProvider(providers.Flickr,provider.addColumn(page3Row1));
-	
-	//Page Three Row 2
-	provider.addProvider(providers.Blogger,provider.addColumn(page3Row2));
-		
-	showUserProviders();
-	if (typeof callback == "function") {
-		callback();
-	}
-	window.loginSwipe = new Swipe(document.getElementById("providerContainer"),{
-		callback:swipeCallback
-	});
+	$.ajax('standardProviders.php',{
+		success: function (data) {
+			setStandardProviders(data);
+			showStandardProviders();
+			showUserProviders();
+			if (typeof callback == "function") {
+				callback();
+			}
+			window.loginSwipe = new Swipe(document.getElementById("providerContainer"),{
+				callback:swipeCallback
+			});
+	}});
 }
 
 /**
@@ -275,4 +261,12 @@ function start(callback) {
 */
 function setCurrentProvider(data) {
 	providers = data;
+}
+
+/**
+ * This function sets the standradProviders variable
+ * @param {string} data The return data of the ajax call
+ */
+function setStandardProviders(data){
+	standardProviders = $.parseJSON(data);
 }

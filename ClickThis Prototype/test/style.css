@@ -156,7 +156,7 @@ body {
 #position-container{
 	float: left; 
 	position: relative; 
-	bottom:20px;
+	bottom:0px;
 	left:50%;
 }
 
@@ -189,10 +189,11 @@ ul li{
 }
 .sortable-grid{
     width:100%; 
+    position: relative;
     height:100%;
     left:-18px;
-    top:0px;
-    position: absolute;
+     /*top:0px;
+    position: absolute;*/
 }
 
 /* Page Types */
