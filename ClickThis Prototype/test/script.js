@@ -10,6 +10,7 @@ var numberPerRow = 3; //This variable sets how many providers there will be show
 var oldPage; //This variable stores the last disabled page
 var oldPageChangeType; //This variable is used in the edit box the re-create what it changed
 var changeing = false; //This variable stores the state of the page, true means that the page is changing
+var scrollToEnd = true; //Set this to false if you dont wan't the left arrow on the first page to send the user to the last page
 
 /**
  * This event is fired when the edit button is clicked
@@ -35,12 +36,34 @@ $('#edit').click(function() {
 });
 
 /**
+ * This function finds the current bullet turned on,
+ * and turns it off and after that it finds the new bullet,
+ * from the indexin 'newBullet' and turned it on.
+ * @param  {int} newBullet The index of the new Bullet, this index begins from zero
+ * @param  {object} append    The object to append/ the container of the bullets
+ * @return {[object}
+ */
+function changeBullet(newBullet,append){
+	if(typeof append == 'object'){
+		if(typeof newBullet != 'number'){
+			newBullet = parseInt(newBullet);
+		}
+		var old = $(append).find('.on');
+		var newObject = $(append).find('em').eq(newBullet);
+		old.removeClass('on');
+		newObject.addClass('on');
+		return newObject;	
+	}
+}
+
+/**
 * This event is triggered when right arrow is clicked,
 * this event's callback function gets the next page,
 * and if it's the last page it returns to the first page
 */
 $('#right').click(function() {
 	window.loginSwipe.next();
+	changeBullet(window.loginSwipe.getPos(),$('#position'));
 });
 
 /**
@@ -51,14 +74,34 @@ $('#right').click(function() {
 $('#left').click(function () {
 	var currentPosition = loginSwipe.getPos();
 	var numberOfElements = $(pageChangeType).length;
-	console.log(numberOfElements);
-	if (currentPosition == 0){
+	if (currentPosition == 0 && scrollToEnd){
 		window.loginSwipe.slide(numberOfElements-1,800); 
 	}
 	else{
 		window.loginSwipe.prev();
 	}
-});
+	changeBullet(window.loginSwipe.getPos(),$('#position'));
+})
+
+/**
+ * This function creates the bullets
+ * @param {int} number This parameter determine how many bullets to create
+ * @param {int} current This is the current page, start at zero
+ * @param {object} append The object to append to
+ * @param {object} container An obtional container to have a width set
+ */
+function position(number,current,append,container){
+	if(typeof append == 'object'){
+		var currentObject;
+		for (var i = 0; i < number; i++) {
+			currentObject = $('<em>&bull;</em>');
+			if(i == current){
+				currentObject.addClass('on');
+			}
+			append.append(currentObject);
+		};
+	}
+}
 
 /**
 * This function gets all the user providers and add them to pages,
@@ -136,6 +179,7 @@ $(document).ready(function () {
 		setCurrentProvider(jQuery.parseJSON(data));
 		start(function () {
 			$(window).hashchange();
+			position($(pageChangeType).length,0,$('#position'),$('#position-container'));
 		});
 		if (location.hash == undefined || location.hash == '') {
 			currentPage = "page_p1";
@@ -143,20 +187,23 @@ $(document).ready(function () {
 	}});
 });
 
+/**
+ * This function slides to the page defined in 'page'
+ * @param  {object} page This is a jQuery object of the page to slide to
+ */
+function slideTo(page){
+	var index = $(page).index();
+	if(page.length > 0){
+		window.loginSwipe.slide(index,500);
+	}
+}
+
 /* This event is fired if the hash changes */
 $(window).hashchange( function () {
 	if (location.hash != null && location.hash != undefined && location.hash != '') {
 		var page = location.hash.replace('#','');
-		if (page[0] == "u") {
-			page = page.substring(1,page.length);
-			if ($('#'+userPageKeyword+page).length > 0 && !$('#'+userPageKeyword+page).hasClass('Active')) {
-				animate($('#'+userPageKeyword+page),$('#'+currentPage));
-			}
-		} else if ($('#'+pageKeyword+page).length > 0 && !$('#'+pageKeyword+page).hasClass('Active')) {
-			animate($('#'+pageKeyword+page),$('#'+currentPage));
-		} else if ($('#'+page).length > 0) {
-			animate($('#'+page),$('#'+currentPage));
-		}
+		page = page.substring(2,page.length);
+		slideTo($('#'+page));
 	}
 })
 
