@@ -65,7 +65,7 @@ function showUserProviders() {
 	}
 	var currentIndex = 0;
 	for(var i = 1;i <= numberOfPages;i++) {
-		var page = provider.addPage($("#providerContainer"),"user",i,"Default");
+		var page = provider.addPage($("#providerContainer > :first"),"user",i,"Default");
 		var container = provider.addContainer(page);
 		var row1 = provider.addRow(container);
 		var row2 = provider.addRow(container);
