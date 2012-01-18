@@ -35,6 +35,10 @@ $('#edit').click(function() {
 	}
 });
 
+function swipeCallback(){
+	changeBullet(window.loginSwipe.getPos(),$('#position'));
+}
+
 /**
  * This function finds the current bullet turned on,
  * and turns it off and after that it finds the new bullet,
@@ -261,7 +265,9 @@ function start(callback) {
 	if (typeof callback == "function") {
 		callback();
 	}
-	window.loginSwipe = new Swipe(document.getElementById("providerContainer"));
+	window.loginSwipe = new Swipe(document.getElementById("providerContainer"),{
+		callback:swipeCallback
+	});
 }
 
 /**
