@@ -5,7 +5,8 @@
 	background: url("images/Right.png") 0 0 no-repeat;
 	position:absolute;
 	top:45%;
-	right:-20px;	
+	right:-20px;
+	z-index: 9999;
 }
 .provider{}
 .providerLink{}
@@ -36,6 +37,7 @@
 	position:absolute;
 	top:45%;
 	left:-15px;	
+	z-index: 9999;
 }
 
 /* The upper arrow */
