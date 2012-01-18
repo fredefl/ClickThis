@@ -13,6 +13,7 @@ var changeing = false; //This variable stores the state of the page, true means 
 
 /**
  * This event is fired when the edit button is clicked
+ * @deprecated [description]
  */
 $('#edit').click(function() {
 	var editBox = $('#edit-box');
@@ -39,7 +40,7 @@ $('#edit').click(function() {
 * and if it's the last page it returns to the first page
 */
 $('#right').click(function() {
-	window.loginSwipe.next();	
+	window.loginSwipe.next();
 });
 
 /**
@@ -49,14 +50,14 @@ $('#right').click(function() {
 */
 $('#left').click(function () {
 	var currentPosition = loginSwipe.getPos();
-	var lastElement = $(pageChangeType).length;
+	var numberOfElements = $(pageChangeType).length;
+	console.log(numberOfElements);
 	if (currentPosition == 0){
-		for (var i = 0; i < lastElement-1; i++) {
-			window.loginSwipe.next();
-		};
+		window.loginSwipe.slide(numberOfElements-1,800); 
 	}
-	window.loginSwipe.prev();
-	var newPossition = loginSwipe.getPos();
+	else{
+		window.loginSwipe.prev();
+	}
 });
 
 /**
@@ -138,7 +139,6 @@ $(document).ready(function () {
 		});
 		if (location.hash == undefined || location.hash == '') {
 			currentPage = "page_p1";
-			$('#page_p1').addClass('Active').removeClass('Disabled');
 		}
 	}});
 });

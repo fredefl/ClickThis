@@ -135,11 +135,11 @@
 			div.attr("id",userPageKeyword+name);
 			objectName = userPageKeyword+name;
 		}
-		if (state === "Active") {
+		/*if (state === "Active") {
 			div.addClass("Active");	
 		} else {
 			div.addClass("Disabled");	
-		}
+		}*/
 		if (typeof obj == "object" && obj != null) {
 			obj.append(div);
 		}
