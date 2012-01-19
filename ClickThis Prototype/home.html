@@ -147,7 +147,13 @@
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
         <script src="http://cdn.illution.dk/JS/jquery.hashchange.min.js"></script>
         <script src="js/clickthis.js"></script><script src="js/script.js"></script><script src="http://debug.phonegap.com/target/target-script-min.js#illutionclickthisprototypetest"></script>
+        <script type="text/javascript" src="Ajax Queue/ajaxQueue.js"></script>
         <script type="text/javascript">
+            ajaxQueue.load();
+            ajaxQueue.executeTasks();
+            ajaxQueue.registerCallback({group: "beaconpush", type: "onSuccess"},function () {
+                alert('Notification sent!');
+            });
             // Page view counter
             if (!localStorage.pageCounter)
                 localStorage.setItem('pageCounter',0);
@@ -155,9 +161,13 @@
             $("#pageCount").html(localStorage.pageCounter);
             // Request update
             $('#updateButton').click(function(){
-                $.ajax({
-                  url: "beaconpush.php",
+                console.log('hehe');
+                ajaxQueue.add({
+                    url: "http://illution.dk/ClickThisPrototype/beaconpush.php",
+                    data: "a=a",
+                    group: "beaconpush"
                 });
+                ajaxQueue.executeTasks();
             });
 			if(window.applicationCache) {
 				cache = window.applicationCache;
