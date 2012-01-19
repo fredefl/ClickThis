@@ -254,6 +254,8 @@ function startEditMode(){
 	editMode = true;
 	window.loginSwipe = null;
 	$( "#providerContainer ul" ).sortable("option","disabled", false  );
+	$('#left').addClass('left-disabled').removeClass('left');
+	$('#right').addClass('right-disabled').removeClass('right');
 }
 
 /**
@@ -267,6 +269,8 @@ function endEditMode(){
 		startSlide : currentPage
 	});
 	$( "#providerContainer ul" ).sortable("option","disabled", true  );
+	$('#left').addClass('left').removeClass('left-disabled');
+	$('#right').addClass('right').removeClass('right-disabled');
 }
 
 /**
