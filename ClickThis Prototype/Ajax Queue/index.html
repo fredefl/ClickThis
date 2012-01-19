@@ -24,8 +24,16 @@
 	ajaxQueue.registerCallback({group: "test", type: "onError"},function () {
 		ajaxQueue.log("ERROR!!!!");
 	});
-	ajaxQueue.add({url: "ajax.php", data: "somemore=something", group: "test"});
-	ajaxQueue.add({url: "ajax.php", data: "somemore=something", group: "test"});
+	ajaxQueue.add({
+		url: "http://illution.dk/ClickThisPrototype/Ajax Queue/ajax.php", 
+		data: "somemore=something", 
+		group: "test"
+	});
+	ajaxQueue.add({
+		url: "http://illution.dk/ClickThisPrototype/Ajax Queue/ajax.php", 
+		data: "somemore=something", 
+		group: "test"
+	});
 	ajaxQueue.executeTasks();
 </script>
 </body>
