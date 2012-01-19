@@ -14,28 +14,8 @@ var scrollToEnd = true; //Set this to false if you dont wan't the left arrow on 
 var standardProviders; //An object storing the standard providers
 
 /**
- * This event is fired when the edit button is clicked
- * @deprecated [description]
+ * This function is called when the user starts a swipe
  */
-$('#edit').click(function() {
-	var editBox = $('#edit-box');
-	var newPage;
-	var thisPage = $('.Active');
-	if(changeing != true){
-		changeing = true;
-		if(editBox.hasClass('Active')){
-			newPage = $('#'+oldPage);
-			pageChangeType = oldPageChangeType;
-		}
-		else{
-			newPage = editBox;
-			oldPageChangeType = pageChangeType;
-			pageChangeType = '.edit';
-		}
-		animate(newPage,thisPage);
-	}
-});
-
 function swipeCallback(){
 	changeBullet(window.loginSwipe.getPos(),$('#position'));
 }
