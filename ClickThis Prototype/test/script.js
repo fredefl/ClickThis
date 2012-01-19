@@ -12,12 +12,14 @@ var oldPageChangeType; //This variable is used in the edit box the re-create wha
 var changeing = false; //This variable stores the state of the page, true means that the page is changing
 var scrollToEnd = true; //Set this to false if you dont wan't the left arrow on the first page to send the user to the last page
 var standardProviders; //An object storing the standard providers
+var editMode = false; //If is true then edit mode is enabled
 
 /**
  * This function is called when the user starts a swipe
  */
 function swipeCallback(){
 	changeBullet(window.loginSwipe.getPos(),$('#position'));
+	currentPage = window.loginSwipe.getPos();
 }
 
 /**
@@ -47,8 +49,11 @@ function changeBullet(newBullet,append){
 * and if it's the last page it returns to the first page
 */
 $('#right').click(function() {
-	window.loginSwipe.next();
-	changeBullet(window.loginSwipe.getPos(),$('#position'));
+	if(!editMode){
+		window.loginSwipe.next();
+		changeBullet(window.loginSwipe.getPos(),$('#position'));
+		currentPage = window.loginSwipe.getPos();	
+	}
 });
 
 /**
@@ -57,15 +62,18 @@ $('#right').click(function() {
 * @see $('#right').click(function ()
 */
 $('#left').click(function () {
-	var currentPosition = loginSwipe.getPos();
-	var numberOfElements = $(pageChangeType).length;
-	if (currentPosition == 0 && scrollToEnd){
-		window.loginSwipe.slide(numberOfElements-1,800); 
+	if(!editMode){
+		var currentPosition = loginSwipe.getPos();
+		var numberOfElements = $(pageChangeType).length;
+		if (currentPosition == 0 && scrollToEnd){
+			window.loginSwipe.slide(numberOfElements-1,800); 
+		}
+		else{
+			window.loginSwipe.prev();
+		}
+		changeBullet(window.loginSwipe.getPos(),$('#position'));
+		currentPage = window.loginSwipe.getPos();	
 	}
-	else{
-		window.loginSwipe.prev();
-	}
-	changeBullet(window.loginSwipe.getPos(),$('#position'));
 })
 
 /**
@@ -104,8 +112,6 @@ function showUserProviders() {
 	for(var i = 1;i <= numberOfPages;i++) {
 		var page = provider.addPage($("#providerContainer > :first"),"user",i);
 		var container = provider.addContainer(page);
-		//var row1 = provider.addRow(container);
-		//var row2 = provider.addRow(container);
 		for(var number = 0;number <= numberPerPage-1;number++) {
 			if (currentIndex < userProviders.length) {
 				if (number < numberPerRow) {
@@ -232,12 +238,35 @@ function start(callback) {
 			}
 			$('#providerContainer ul').sortable({
                 "items" : 'li',
+                "disabled" : true 
          	});
          	$('#providerContainer ul').disableSelection();
 			window.loginSwipe = new Swipe(document.getElementById("providerContainer"),{
 				callback:swipeCallback
 			});
 	}});
+}
+
+/**
+ * This function disables swipe and turn the sortable on.
+ */
+function startEditMode(){
+	editMode = true;
+	window.loginSwipe = null;
+	$( "#providerContainer ul" ).sortable("option","disabled", false  );
+}
+
+/**
+ * This function adds the disbled mode,
+ * to sortable elements.
+ */
+function endEditMode(){
+	editMode = false;
+	window.loginSwipe = new Swipe(document.getElementById("providerContainer"),{
+		callback:swipeCallback,
+		startSlide : currentPage
+	});
+	$( "#providerContainer ul" ).sortable("option","disabled", true  );
 }
 
 /**
