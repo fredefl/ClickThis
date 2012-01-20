@@ -13,7 +13,7 @@
 	height:34px;
 	width:35px;
 	background: url("images/Right.png") 0 0 no-repeat;
-	background-position: -141px 0;	
+	background-position:-176px 0;
 	position:absolute;
 	top:45%;
 	right:-20px;
@@ -25,8 +25,7 @@
 }
 
 
-.right:active{
-	background-position: -71px 0;	
+.right:active{	background-position: -71px 0;	
 }
 
 .provider{}
@@ -41,7 +40,7 @@
 	height:34px;
 	width:35px;	
 	background: url("images/Left.png") 0 0 no-repeat;
-	background-position: -141px 0;	
+	background-position:-174px 0;
 	position:absolute;
 	top:45%;
 	left:-15px;	
