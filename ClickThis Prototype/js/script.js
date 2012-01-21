@@ -40,17 +40,19 @@ document.addEventListener("orientationChanged",function () {
 });
 
 $(window).hashchange( function(){
-	var Hash = location.hash;
-	if(Hash != null && Hash != undefined && Hash != ''){
-		page = Hash.replace('#','');
-		changePage(page);
+	if(!isOnPage('multiplechoice.html')){
+		var Hash = location.hash;
+		if(Hash != null && Hash != undefined && Hash != ''){
+			page = Hash.replace('#','');
+			changePage(page);
+		}	
 	}
 });
 
 /* This event is fired if you click the back button */
 $('#backButton').click(function(){
 	if($('#backButton').attr('data-about') == 'true'){
-		hideAboutBox();	
+		hideAboutBox();
 	}
 	else{
 		window.location = $('#backButton').attr('data-href');
