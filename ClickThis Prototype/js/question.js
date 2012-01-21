@@ -21,6 +21,14 @@
 * 	[3] = id
 * 	[4] = redirect
 * 	[5] = location
+* 	
+* SubmitSwipe:
+* 	[0] = 'submitSwipe' : type
+* 	[1] = color
+* 	[2] = text
+* 	[3] = id
+* 	[4] = callback : string
+* 	[5]	= post location
 * </code>
 * @param {array} buttonsArray An array of the buttons values are defined on top.
 * @param {string} div The div to apply the buttons to
@@ -56,6 +64,8 @@ function question(buttonsArray,div,submit,single,group,header){
 		} else if(button[0] == 'multi'){
 			currentId++;
 			buttons += buttonGenerator.newButton(currentId,button[3],button[1],button[2],null,null,group);
+		} else if(button[0] == 'submitSwipe'){
+			buttons += buttonGenerator.newCustomSwipeSubmitButton(button[1],button[2],button[3],button[5],group,button[4]);
 		}
 	}
 	if(div != undefined && div != null){

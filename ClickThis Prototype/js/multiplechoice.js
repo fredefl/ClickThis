@@ -15,7 +15,8 @@ $(document).ready(function() {
 	question1[7] = new Array('multi','green','Volleyball',0);
 	question1[8] = new Array('multi','gold','Others',0);
 	question1[9] = new Array('button','red','None',0);
-	question1[10] = new Array('submit','orange','Send','send1','#question_2',null);
+	//question1[10] = new Array('submit','orange','Send','send1','#question_2',null);
+	question1[10] = new Array('submitSwipe','orange','Send','sendButton1','question_submit',null);
 	question(question1,'question_1',true,true,'1','#Title');
 	
 	/* Question 2 */
@@ -41,4 +42,11 @@ $(document).ready(function() {
 	
 	/* Check for page */
 	$(window).hashchange();
+
+	/* The swipe */
+	window.questionSwipe = new Swipe(document.getElementById("questionsContainer"));
 });
+
+function question_submit(){
+	window.questionSwipe.next();
+}
