@@ -47,17 +47,29 @@ $(document).ready(function() {
 	question2[16] = new Array('submitSwipe','orange','Send','sendButton2','question_submit',null);
 	question(question2,'question_2',true,true,'2','h1');
 
+
 	/* The swipe */
-	window.questionSwipe = new Swipe(document.getElementById("questionsContainer"));
+	window.questionSwipe = new Swipe(document.getElementById("questionsContainer"),{
+		callback:swipeCallback
+	});
 
 	$('#begin').click(function(){
-		window.scrollTo(0, 1);
 		window.questionSwipe.next();
 	})
 	$('#end_survey').click(function(){
 		window.location = 'http://illution.dk/ClickThisPrototype/home.html';
 	})
 });
+
+function swipeCallback(){
+	if($('#welcome').is('div')){
+		console.log($('#welcome'));
+		$('#welcome').remove();
+		window.questionSwipe = new Swipe(document.getElementById("questionsContainer"));
+	}
+	buttonResizer.resizeButtons();
+	window.scrollTo(0, 1);
+}
 
 function question_submit(){
 	window.scrollTo(0, 1);
