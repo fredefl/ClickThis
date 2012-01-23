@@ -20,12 +20,13 @@ function isOnPage(name) {
 * This function fill the about box with content
 */
 function addAboutBox() {
-	var aboutBox = $('#aboutBox'),
-		aboutBoxInner = $('#aboutBoxInner');
-	aboutBox.append('<ul class="rounded arrow"><li><a id="aboutBoxInner"></a></li></ul>');
+	var aboutBox = $('<ul class="rounded arrow"><li><a id="aboutBoxInner"></a></li></ul>');
+	$('#aboutBox').append(aboutBox);
+	var aboutBoxInner = $('#aboutBoxInner');
 	aboutBoxInner.append('If you want information about Illution,<br> or other of our products visit our site at illution.dk');
 	aboutBoxInner.append('<br>');
 	aboutBoxInner.append('&copy; Illution (c), 2012, illution.dk');
+	$('#aboutBox li').html(aboutBoxInner);
 }
 
 /**
@@ -160,6 +161,9 @@ function showAboutBox() {
 	backButton.removeClass('Disabled').addClass('Active');
 	currentPage.addClass('Disabled').removeClass('Active');
 	aboutBox.removeClass('Disabled').addClass('Active');
+	if(isOnPage('multiplechoice.html')){
+		$('#questionsContainer').addClass('Disabled')
+	}
 }
 
 /**
@@ -179,6 +183,9 @@ function hideAboutBox() {
 		backButton.addClass('Disabled');
 	}
 	aboutBox.addClass('Disabled').removeClass('Active');
+	if(isOnPage('multiplechoice.html')){
+		$('#questionsContainer').removeClass('Disabled')
+	}	
 }
 
 /**

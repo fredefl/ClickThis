@@ -3,6 +3,11 @@
 */
 $(document).ready(function() {
 	
+	$('#welcome').append($('<a class="mega button orange halfsize fullsize" id="begin">Begin the survey</a>'));
+	$('#end').append($('<a class="mega button orange halfsize fullsize" id="end_survey">End the survey</a>'));
+
+	addTitle('Which sport(s) do you practice?',$('#question_1'),'Title');
+
 	/* Question 1 */
 	question1 = new Array()
 	question1[0] = new Array('multi','green','Athletics',0);
@@ -15,9 +20,12 @@ $(document).ready(function() {
 	question1[7] = new Array('multi','green','Volleyball',0);
 	question1[8] = new Array('multi','gold','Others',0);
 	question1[9] = new Array('button','red','None',0);
-	question1[10] = new Array('submit','orange','Send','send1','#question_2',null);
+	//question1[10] = new Array('submit','orange','Send','send1','#question_2',null);
+	question1[10] = new Array('submitSwipe','orange','Send','sendButton1','question_submit',null);
 	question(question1,'question_1',true,true,'1','#Title');
 	
+	addTitle('Which sport(s) do you like to watch?',$('#question_2'));
+
 	/* Question 2 */
 	question2 = new Array()
 	question2[0] = new Array('multi','green','American Football',0);
@@ -36,9 +44,34 @@ $(document).ready(function() {
 	question2[13] = new Array('multi','green','Volleyball',0);
 	question2[14] = new Array('multi','gold','Others',0);
 	question2[15] = new Array('button','red','None',0);
-	question2[16] = new Array('submit','orange','Send','send2','http://illution.dk/ClickThisPrototype/home.html#thanks_sports',null);
+	question2[16] = new Array('submitSwipe','orange','Send','sendButton2','question_submit',null);
 	question(question2,'question_2',true,true,'2','h1');
-	
-	/* Check for page */
-	$(window).hashchange();
+
+
+	/* The swipe */
+	window.questionSwipe = new Swipe(document.getElementById("questionsContainer"),{
+		callback:swipeCallback
+	});
+
+	$('#begin').click(function(){
+		window.questionSwipe.next();
+	})
+	$('#end_survey').click(function(){
+		window.location = 'http://illution.dk/ClickThisPrototype/home.html';
+	})
 });
+
+function swipeCallback(){
+	if($('#welcome').is('div')){
+		console.log($('#welcome'));
+		$('#welcome').remove();
+		window.questionSwipe = new Swipe(document.getElementById("questionsContainer"));
+	}
+	buttonResizer.resizeButtons();
+	window.scrollTo(0, 1);
+}
+
+function question_submit(){
+	window.scrollTo(0, 1);
+	window.questionSwipe.next();
+}

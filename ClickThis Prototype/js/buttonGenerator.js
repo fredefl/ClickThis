@@ -166,6 +166,41 @@ var buttonGenerator = {
 		return html;
 	},
 	/**
+	 * This function creates a Submit button that can submit,
+	 * but doesn't redicret.
+	 * @param  {[string} color   The wished color of the button
+	 * @param  {string} text     The text of the button
+	 * @param  {string} id       The id of the button if wished
+	 * @param  {string} location The post location of the submit group
+	 * @param  {string} group    The submit group
+	 * @param  {string} clickCallbackString The name of the function to call when clicked
+	 * @param {string} callbackParameters The parameters to the callback function as string
+	 */
+	newCustomSwipeSubmitButton : function(color,text,id,location,group,clickCallbackString,callbackParameters){
+		var html = [
+				'<a  class="mega button ' + color + ' halfsize fullsize"',
+				'onClick="buttonGenerator.submitCustomSwipeData(this);"'
+			].join("");
+		if (id !== undefined && id !== null) {
+			html += 'id="' + id + '"';
+		}
+		if (location !== undefined && location !== null) {
+			html += 'data-location="' + location + '"';
+		}
+		if (group !== undefined && group !== null) {
+			html += 'data-submitgroup="' + group + '"';
+		}
+		if(clickCallbackString !== undefined && clickCallbackString !== null && typeof clickCallbackString == 'string'){
+			html += 'data-clickcallback="'+clickCallbackString+'"';
+		}
+		if(callbackParameters !== undefined && callbackParameters !== null && typeof callbackParameters == 'string'){
+			html += 'data-callbackParameters="'+callbackParameters+'"';
+		}
+		html += '\\>' + text + '</a>';
+		// Return the Html Code
+		return html;	
+	},
+	/**
 	 * Changes the button's state, from On to Off or from Off to On
 	 *
 	 * @param {object} button The button that it should change state on
@@ -251,6 +286,46 @@ var buttonGenerator = {
 		postString = postString.slice(0, -1);
 		if (redirectUrl !== undefined && redirectUrl !== null) {
 			window.location = redirectUrl;
+		}
+	},
+	/**
+	 * This function cretes a custom submit button,
+	 * the only different from 'submitCutstomData' is,
+	 * that this function doesn't redirect it call a callback function instead
+	 * @see submitCustomData
+	 * @param  {object} submitButton The submit button object that is clicked
+	 */
+	submitCustomSwipeData : function(submitButton){
+		var i = 0,
+			postString = "",
+			postLocation = submitButton.getAttribute("data-location"),
+			callback = submitButton.getAttribute('data-clickcallback'),
+			submitGroup = submitButton.getAttribute("data-submitgroup"),
+			callbackOptions = submitButton.getAttribute('data-callbackParameters'),
+			button = null;
+		for (i in $('.button.submit').toArray()) {
+			button = $('.button.submit').toArray()[i];
+			if (submitGroup !== undefined) {
+				if (button !== null && button.getAttribute("data-submitgroup") === submitGroup) {
+					if (button.getAttribute("data-id") !== null && button.getAttribute("data-id") !== 'null') {
+						postString += button.getAttribute("data-id") + "=" + button.getAttribute("data-value") + ", ";
+					}
+				}
+			} else {
+				if (button !== null && button.getAttribute("data-id") !== null) {
+					postString += button.getAttribute("data-id") + "=" + button.getAttribute("data-value") + ", ";
+				}
+			}
+		}
+		postString = postString.slice(0, -1);
+		if(callback !== null && callback !== undefined && typeof callback == 'string'){
+			if(callbackOptions !== undefined && callbackOptions !== null && typeof callbackOptions == 'string'){
+				eval(callback + '(' + callbackOptions + ')');
+			}
+			else{
+				eval(callback + '()');
+			}
+			
 		}
 	},
 	/**

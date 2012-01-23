@@ -47,7 +47,7 @@ else{
             </div>
             <div id="user_3" class="Disabled">
                 <div id="Avatar">
-                    <a title="Bo Thomsen" href="#"><img src="http://www.gravatar.com/avatar/dc07576afa6b5b172a378d6f5eb05f5f?s=256" title="Bo Thomsen" alt="Bo Thomsen" /></a>
+                    <a title="Bo Thomsen"><img src="http://www.gravatar.com/avatar/dc07576afa6b5b172a378d6f5eb05f5f?s=256" title="Bo Thomsen" alt="Bo Thomsen" /></a>
                 </div>
                 <div id="Profile">
                     <label for="Name">Name</label><br>
@@ -68,7 +68,7 @@ else{
             </div>
             <div id="user_32" class="Disabled">
                 <div id="Avatar">
-                    <a title="Car Magazine" href="#2"><img src="images/Grey Bugatti Veyron.png" title="Car Magazine" alt="Car Magazine" /></a>
+                    <a title="Car Magazine"><img src="images/Grey Bugatti Veyron.png" title="Car Magazine" alt="Car Magazine" /></a>
                 </div>
                 <div id="Profile">
                     <label for="Name">Name</label><br>

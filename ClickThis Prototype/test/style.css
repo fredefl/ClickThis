@@ -1,5 +1,5 @@
 /* The right arrow */
-#right{
+.right{
 	height:34px;
 	width:35px;
 	background: url("images/Right.png") 0 0 no-repeat;
@@ -8,29 +8,50 @@
 	right:-20px;
 	z-index: 9999;
 }
+
+.right-disabled{
+	height:34px;
+	width:35px;
+	background: url("images/Right.png") 0 0 no-repeat;
+	background-position:-176px 0;
+	position:absolute;
+	top:45%;
+	right:-20px;
+	z-index: 9999;
+}
+
+.right:hover{
+	background-position: -36px 0;
+}
+
+
+.right:active{	background-position: -71px 0;	
+}
+
 .provider{}
 .providerLink{}
 
-#right:hover{
-	background-position: -36px 0;
-}
-
-
-#right:active{
-	background-position: -71px 0;	
-}
-
 /* The left arrow */
-#left:hover{
+.left:hover{
 	background-position: -36px 0;
 }
 
+.left-disabled{
+	height:34px;
+	width:35px;	
+	background: url("images/Left.png") 0 0 no-repeat;
+	background-position:-174px 0;
+	position:absolute;
+	top:45%;
+	left:-15px;	
+	z-index: 9999;
+}
 
-#left:active{
+.left:active{
 	background-position: -71px 0;
 }
 
-#left{
+.left{
 	height:34px;
 	width:35px;	
 	background: url("images/Left.png") 0 0 no-repeat;
@@ -186,6 +207,8 @@ body {
 	position: relative; 
 	left: -50%;
 }
+
+.navigation{}
 
 #position em {
 	display:inline-block;
