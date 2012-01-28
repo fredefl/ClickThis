@@ -82,6 +82,11 @@
 			if (provider.Title != undefined && provider.Title != null) {
 				content.attr("title",provider.Title);
 			}
+
+			//Adds the data-provider
+			if(provider.Name !== undefined && provider.Name !== null && provider.Name != ''){
+				content.attr('data-provider',provider.Name);
+			}
 			
 			//If there is extra attributes to be set, defined in data then set em
 			if (typeof data == "object" && data != null) {

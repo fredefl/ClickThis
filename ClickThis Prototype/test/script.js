@@ -1,19 +1,85 @@
 "use strict";
-var providers; //This variable is filled with all the providers as an object when the document is ready
-var pageKeyword = "page_p"; //This variable holds the keyword that will be put infront of the standard page names/div names
-var userPageKeyword = "user_p"; //This keyword will be put infront of the name of each user generated page
-var currentPage = null; //This variable is set by the page changer function
-var userProviders; //The variable will be set with the content of the users localStorage key "userProviders" 
-var pageChangeType = '.page'; //This variable is used in the arrow system options are (".default",".page",".user",".edit",".edit-chose")
-var numberPerPage = 6; // This variable set how many providers there will be shown per page
-var numberPerRow = 3; //This variable sets how many providers there will be shown per row
-var oldPage; //This variable stores the last disabled page
-var oldPageChangeType; //This variable is used in the edit box the re-create what it changed
-var changeing = false; //This variable stores the state of the page, true means that the page is changing
-var scrollToEnd = true; //Set this to false if you dont wan't the left arrow on the first page to send the user to the last page
-var standardProviders; //An object storing the standard providers
-var editMode = false; //If is true then edit mode is enabled
-var navigationOnDisabled = true; //If this is true then the left and right button will be available
+/**
+ * This variable is filled with all the providers as an object when the document is ready
+ * @type {Object}
+ */
+var providers;
+/**
+ * This variable holds the keyword that will be put infront of the standard page names/div names
+ * @type {String}
+ */
+var pageKeyword = "page_p";
+/**
+ * This keyword will be put infront of the name of each user generated page
+ * @type {String}
+ */
+var userPageKeyword = "user_p";
+/**
+ * This variable is set by the page changer function
+ * @type {Number}
+ */
+var currentPage = null;
+/**
+ * The variable will be set with the content of the users localStorage key "userProviders" 
+ * @type Object}
+ */
+var userProviders;
+/**
+ * This variable is used in the arrow system options are (".default",".page",".user",".edit",".edit-chose")
+ * @type {String}
+ */
+var pageChangeType = '.page';
+/**
+ * This variable set how many providers there will be shown per page
+ * @type {Number}
+ */
+var numberPerPage = 6;
+/**
+ * This variable sets how many providers there will be shown per row
+ * @type {Number}
+ */
+var numberPerRow = 3;
+/**
+ * This variable stores the last disabled page
+ * @type {String}
+ */
+var oldPage;
+/**
+ * This variable is used in the edit box the re-create what it changed
+ * @type {String}
+ */
+var oldPageChangeType;
+/**
+ * This variable stores the state of the page, true means that the page is changing
+ * @type {Boolean}
+ */
+var changeing = false;
+/**
+ * Set this to false if you dont wan't the left arrow on the first page to send the user to the last page
+ * @type {Boolean}
+ */
+var scrollToEnd = true;
+/**
+ * An object storing the standard providers
+ * @type {Object}
+ */
+var standardProviders;
+/**
+ * If is true then edit mode is enabled
+ * @type {Boolean}
+ */
+var editMode = false;
+/**
+ * If this is true then the left and right button will be available
+ * @type {Boolean}
+ */
+var navigationOnDisabled = true;
+/**
+ * If this is set to true both standard and user providers,
+ * will be shown else only user providers will be shown if user providers exists
+ * @type {Boolean}
+ */
+var showStandardProvidersIfUSerProviders = false;
 
 /**
  * This function is called when the user starts a swipe
@@ -133,6 +199,66 @@ function showUserProviders() {
 		}
 	}
 }
+/* #######This is test functions###### */
+function alternativeShowUserProviders(){
+	var data = $.parseJSON(localStorage.getItem('test'));
+	var pageNumber = 1;
+	$(data).each(function(index,element){
+		var pages = splitPage(element); //This checks if the element contains more then one page and if it splits em
+		if(pages.length > 1){
+			$(pages).each(function(pageIndex,page){
+				renderPage(new Array(page),pageNumber);
+				pageNumber++;
+			});
+		} else{
+			renderPage(pages,pageNumber);
+			pageNumber++;
+		}
+	});
+}
+
+function renderPage(pageContent,pageIndex){
+	var page = provider.addPage($("#providerContainer > :first"),"user",pageIndex);
+	var container = provider.addContainer(page);
+	$(pageContent[0]).each(function(index,element){
+		provider.addProvider(providers[element],container);	
+	});
+}
+
+function splitPage(page){
+	var numberOfPages = 1;
+	if(page.length > 6){
+		numberOfPages = ((page.length - (page.length % numberPerPage))/numberPerPage)+1;
+	}
+	if(numberOfPages > 1){
+		var pages = new Array();
+		var offSet = 0;
+		for (var i = 0; i < numberOfPages; i++) {
+			var currentPageContent = new Array();
+			var runTo = 0;
+			if(offSet+numberPerPage-1 < page.length-1){
+				runTo = offSet+numberPerPage-1;
+			}
+			else {
+				runTo = page.length-1;
+			}
+			for (var j = offSet; j < runTo+1; j++) {
+				if(offSet == 0){
+					currentPageContent[j] = page[j];
+				} else {
+					currentPageContent[j-offSet] = page[j];
+				}
+			};
+			pages[i] = currentPageContent;
+			offSet += numberPerPage;
+		};
+		return pages;
+	} else {
+		return new Array(page);
+	}
+}
+
+/* #################################### */
 
 /**
  * This function generates the standard pages,
@@ -189,8 +315,8 @@ function getUserProviders() {
 		return true;
 	} else {
 		/* Only for testing */
-		localStorage.setItem('userProviders','["Google","LinkedIn","Facebook","Twitter","ClickThis","MySpace"]');
-		userProviders = $.parseJSON('["Google","LinkedIn","Facebook","Twitter","ClickThis","MySpace"]');
+		localStorage.setItem('userProviders','[["Google","LinkedIn","Facebook","Twitter","ClickThis","MySpace"]]');
+		userProviders = $.parseJSON('[["Google","LinkedIn","Facebook","Twitter","ClickThis","MySpace"]]');
 		return false;
 	}
 }
@@ -242,6 +368,7 @@ function start(callback) {
 			setStandardProviders(data);
 			showStandardProviders();
 			showUserProviders();
+			//alternativeShowUserProviders()
 			if (typeof callback == "function") {
 				callback();
 			}
@@ -263,6 +390,7 @@ function start(callback) {
 function startEditMode(){
 	editMode = true;
 	window.loginSwipe.disable();
+	$('#edit').removeClass('edit').addClass('edit-mode');
 	$( "#providerContainer ul" ).sortable("option","disabled", false  );
 	if(!navigationOnDisabled){
 		$('#left').addClass('left-disabled').removeClass('left');
@@ -276,12 +404,14 @@ function startEditMode(){
  */
 function endEditMode(){
 	editMode = false;
+	$('#edit').addClass('edit').removeClass('edit-mode');
 	window.loginSwipe.enable();
 	$( "#providerContainer ul" ).sortable("option","disabled", true  );
 	if(!navigationOnDisabled){
 		$('#left').addClass('left').removeClass('left-disabled');
 		$('#right').addClass('right').removeClass('right-disabled');	
 	}
+	saveUserProviders();
 }
 
 /**
@@ -297,4 +427,56 @@ function setCurrentProvider(data) {
  */
 function setStandardProviders(data){
 	standardProviders = $.parseJSON(data);
+}
+
+/**
+ * This function collects the user providers,
+ * save them to localStorage and send them to the server so it can be saved.
+ */
+function saveUserProviders(){
+	if($('.user img').length > 0){
+		var pageContent = "[";
+		$('.user').each(function(index,element){
+			var pageElements = "[";
+			$(element).find('img').each(function(elementIndex,providerElement){
+				if(elementIndex != $(element).find('img').length-1){
+					pageElements += '"'+$(providerElement).attr('data-provider')+'",';
+				} else {
+					pageElements += '"'+$(providerElement).attr('data-provider')+'"';
+				}
+			});
+			pageElements += "]";
+			if(index != $('.user').length-1){
+				pageContent += pageElements+',';
+			} else{
+				pageContent += pageElements;
+			}
+		});
+		pageContent += "]";
+		$.ajax('saveuserproviders.php',{
+			data:{data:pageContent},
+			success: function (data) {
+				saveUserProvidersSucces(data);
+			}
+		});
+		saveUserProvidersLocalStorage(pageContent);
+	}	
+}
+
+/**
+ * This function saves the data collected by saveUserProviders to localStorage
+ * @param  {String} data The data to be saved
+ */
+function saveUserProvidersLocalStorage(data){
+	localStorage.setItem('test',data);
+}
+
+/**
+ * This function is going to give the user updates on the progress,
+ * saving her/his data on the server.
+ * @param  {String} data The result from the server
+ * @todo Make the function show a message to the user
+ */
+function saveUserProvidersSucces(data){
+	console.log('Your data has succesfully been saved on the server');
 }

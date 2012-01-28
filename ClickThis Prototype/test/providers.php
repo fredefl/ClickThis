@@ -27,6 +27,9 @@ foreach($Providers as $Name => $Provider){
 	if(!isset($Provider["Alt"])){
 		$Provider["Alt"] = $Name;
 	}
+	if(!isset($Provider['Name'])){
+		$Provider['Name'] = $Name;
+	}
 	$Providers[$Name] = $Provider;
 }
 echo json_encode($Providers);

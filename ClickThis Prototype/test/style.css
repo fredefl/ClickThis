@@ -170,20 +170,39 @@ body {
 	padding:10px;
 }
 
-#edit:hover{
+.edit:hover{
 	background-position:-35px 0;
 }
 
-#edit:active{
+.edit:active{
 	background-position:-70px 0;
 }
 
-#edit{
+.edit-mode:hover{
+	background-position:-35px 0;
+}
+
+.edit-mode:active{
+	background-position:-70px 0;
+}
+
+.edit-mode{
 	width:34px;
 	height:35px;
 	position:absolute;
 	top:-15px;	
 	right:-15px;
+	background: url("images/circle.png") 0 0 no-repeat;
+	background-position:-105px 0;
+}
+
+.edit{
+	width:34px;
+	height:35px;
+	position:absolute;
+	top:-15px;	
+	right:-15px;
+	z-index:1;
 	background: url("images/circle.png") 0 0 no-repeat;
 }
 
