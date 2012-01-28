@@ -13,6 +13,7 @@ var changeing = false; //This variable stores the state of the page, true means 
 var scrollToEnd = true; //Set this to false if you dont wan't the left arrow on the first page to send the user to the last page
 var standardProviders; //An object storing the standard providers
 var editMode = false; //If is true then edit mode is enabled
+var navigationOnDisabled = true; //If this is true then the left and right button will be available
 
 /**
  * This function is called when the user starts a swipe
@@ -49,7 +50,7 @@ function changeBullet(newBullet,append){
 * and if it's the last page it returns to the first page
 */
 $('#right').click(function() {
-	if(!editMode){
+	if(!editMode || navigationOnDisabled){
 		window.loginSwipe.next();
 		changeBullet(window.loginSwipe.getPos(),$('#position'));
 		currentPage = window.loginSwipe.getPos();	
@@ -62,7 +63,7 @@ $('#right').click(function() {
 * @see $('#right').click(function ()
 */
 $('#left').click(function () {
-	if(!editMode){
+	if(!editMode || navigationOnDisabled){
 		var currentPosition = loginSwipe.getPos();
 		var numberOfElements = $(pageChangeType).length;
 		if (currentPosition == 0 && scrollToEnd){
@@ -73,6 +74,14 @@ $('#left').click(function () {
 		}
 		changeBullet(window.loginSwipe.getPos(),$('#position'));
 		currentPage = window.loginSwipe.getPos();	
+	}
+})
+
+$('#edit').click(function(){
+	if(editMode){
+		endEditMode();
+	} else {
+		startEditMode();
 	}
 })
 
@@ -242,7 +251,8 @@ function start(callback) {
          	});
          	$('#providerContainer ul').disableSelection();
 			window.loginSwipe = new Swipe(document.getElementById("providerContainer"),{
-				callback:swipeCallback
+				callback:swipeCallback,
+				navigationOnDisabled : true
 			});
 	}});
 }
@@ -252,10 +262,12 @@ function start(callback) {
  */
 function startEditMode(){
 	editMode = true;
-	window.loginSwipe = null;
+	window.loginSwipe.disable();
 	$( "#providerContainer ul" ).sortable("option","disabled", false  );
-	$('#left').addClass('left-disabled').removeClass('left');
-	$('#right').addClass('right-disabled').removeClass('right');
+	if(!navigationOnDisabled){
+		$('#left').addClass('left-disabled').removeClass('left');
+		$('#right').addClass('right-disabled').removeClass('right');
+	}
 }
 
 /**
@@ -264,13 +276,12 @@ function startEditMode(){
  */
 function endEditMode(){
 	editMode = false;
-	window.loginSwipe = new Swipe(document.getElementById("providerContainer"),{
-		callback:swipeCallback,
-		startSlide : currentPage
-	});
+	window.loginSwipe.enable();
 	$( "#providerContainer ul" ).sortable("option","disabled", true  );
-	$('#left').addClass('left').removeClass('left-disabled');
-	$('#right').addClass('right').removeClass('right-disabled');
+	if(!navigationOnDisabled){
+		$('#left').addClass('left').removeClass('left-disabled');
+		$('#right').addClass('right').removeClass('right-disabled');	
+	}
 }
 
 /**

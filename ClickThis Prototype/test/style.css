@@ -171,11 +171,11 @@ body {
 }
 
 #edit:hover{
-	background: url("images/circle.png") -35px 0 no-repeat;
+	background-position:-35px 0;
 }
 
 #edit:active{
-	background: url("images/circle.png") -70px 0 no-repeat;
+	background-position:-70px 0;
 }
 
 #edit{
