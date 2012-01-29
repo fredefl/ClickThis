@@ -1,6 +1,6 @@
 <?php
 	$StandardProviders = array(
-		"Google",
+		array("Google",
 		"ClickThis",
 		"MySpace",
 		"Facebook",
@@ -15,7 +15,7 @@
 		"GooglePlus",
 		"FriendFeed",
 		"Flickr",
-		"Blogger"
+		"Blogger")
 	);
 	echo json_encode($StandardProviders);
 ?>

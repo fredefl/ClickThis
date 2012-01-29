@@ -82,6 +82,12 @@ var navigationOnDisabled = true;
 var showStandardProvidersIfUSerProviders = false;
 
 /**
+ * This is the localStorage key for user providers
+ * @type {String}
+ */
+var userProviderKey = "userProviders";
+
+/**
  * This function is called when the user starts a swipe
  */
 function swipeCallback(){
@@ -174,6 +180,7 @@ function position(number,current,append,container){
 /**
 * This function gets all the user providers and add them to pages,
 * wth all the needed data
+* @deprecated This function is replace by alternativeShowProviders
 */
 function showUserProviders() {
 	var numberOfPages;
@@ -200,31 +207,41 @@ function showUserProviders() {
 	}
 }
 /* #######This is test functions###### */
-function alternativeShowUserProviders(){
-	var data = $.parseJSON(localStorage.getItem('test'));
+function alternativeShowProviders(data,type){
 	var pageNumber = 1;
 	$(data).each(function(index,element){
 		var pages = splitPage(element); //This checks if the element contains more then one page and if it splits em
 		if(pages.length > 1){
 			$(pages).each(function(pageIndex,page){
-				renderPage(new Array(page),pageNumber);
+				renderPage(new Array(page),pageNumber,type);
 				pageNumber++;
 			});
 		} else{
-			renderPage(pages,pageNumber);
+			renderPage(pages,pageNumber,type);
 			pageNumber++;
 		}
 	});
 }
 
-function renderPage(pageContent,pageIndex){
-	var page = provider.addPage($("#providerContainer > :first"),"user",pageIndex);
+/**
+ * This function loops through the providers in pageContent and renders it trough providers class
+ * @param  {Array} pageContent The content in array format of the providers to be shown.
+ * @param  {Number} pageIndex   The page number
+ * @uses provider This uses the provider class
+ */
+function renderPage(pageContent,pageIndex,type){
+	var page = provider.addPage($("#providerContainer > :first"),type,pageIndex);
 	var container = provider.addContainer(page);
 	$(pageContent[0]).each(function(index,element){
 		provider.addProvider(providers[element],container);	
 	});
 }
 
+/**
+ * This function ensures that there is only 6 objects per page and if there is more it is splitted to more pages.
+ * @param  {Object} page The json/array object to split into more pages
+ * @return {Array}
+ */
 function splitPage(page){
 	var numberOfPages = 1;
 	if(page.length > 6){
@@ -263,6 +280,7 @@ function splitPage(page){
 /**
  * This function generates the standard pages,
  * and adds all the providers
+ * @deprecated Replaced by alternativeShowProviders
  */
 function showStandardProviders(){
 	var numberOfPages;
@@ -287,9 +305,10 @@ function showStandardProviders(){
 /**
 * This function sets the local storage element for user providers
 * @param string data A json string of the wished providers
+* @deprecated Replace by saveUserProviderslocalStorage
 */
 function setUserProviders(data) {
-	localStorage.setItem('userProviders',data);
+	localStorage.setItem(userProviderKey,data);
 }
 
 /**
@@ -310,15 +329,7 @@ function pageCount() {
 * @returns boolean The status of the function
 */
 function getUserProviders() {
-	if (localStorage.getItem('userProviders') != undefined) {
-		userProviders = $.parseJSON(localStorage.getItem('userProviders'));
-		return true;
-	} else {
-		/* Only for testing */
-		localStorage.setItem('userProviders','[["Google","LinkedIn","Facebook","Twitter","ClickThis","MySpace"]]');
-		userProviders = $.parseJSON('[["Google","LinkedIn","Facebook","Twitter","ClickThis","MySpace"]]');
-		return false;
-	}
+	return $.parseJSON(localStorage.getItem(userProviderKey));
 }
 
 //This event fills the providers variable with data
@@ -365,9 +376,13 @@ function start(callback) {
 	var providerContainer = $("#providerContainer > :first");
 	$.ajax('standardProviders.php',{
 		success: function (data) {
-			setStandardProviders(data);
-			showStandardProviders();
-			showUserProviders();
+			if(IsUserProvidersSet() != true && isValidFormat() != true){
+				setStandardProviders(data);
+				//showStandardProviders();
+				alternativeShowProviders(standardProviders,"default");
+			} else {
+				alternativeShowProviders(getUserProviders(),"user");
+			}	
 			//alternativeShowUserProviders()
 			if (typeof callback == "function") {
 				callback();
@@ -385,9 +400,52 @@ function start(callback) {
 }
 
 /**
+ * [This function checks to see if the user provider data is in the right format
+ * @return {Boolean}
+ */
+function isValidFormat(){
+	var data = localStorage.getItem(userProviderKey);
+	if(data != null){
+		if(data.substring(0,2) == "[["){
+			return true
+		} else {
+			return false;
+		}
+	} else {
+		return false;
+	}
+}
+
+/**
+ * This function checks if the user provider key exists and is set
+ * @returns {Boolean} If exists and length is greater than 0
+ */
+function IsUserProvidersSet(){
+	if(localStorage.getItem("test") == null){
+		if(localStorage.getItem(userProviderKey) !== null && localStorage.getItem(userProviderKey) !== undefined){
+			if(localStorage.getItem(userProviderKey).length > 0){
+				return true
+			} else {
+				return false;
+			}
+			
+		} else {
+			return false;
+		}
+	} else {
+		localStorage.removeItem(userProviderKey);
+		localStorage.removeItem("test");
+		return false;
+	}	
+}
+
+/**
  * This function disables swipe and turn the sortable on.
  */
 function startEditMode(){
+	if(IsUserProvidersSet != true){
+		$(".default").addClass("user").removeClass("default");
+	}
 	editMode = true;
 	window.loginSwipe.disable();
 	$('#edit').removeClass('edit').addClass('edit-mode');
@@ -437,19 +495,21 @@ function saveUserProviders(){
 	if($('.user img').length > 0){
 		var pageContent = "[";
 		$('.user').each(function(index,element){
-			var pageElements = "[";
-			$(element).find('img').each(function(elementIndex,providerElement){
-				if(elementIndex != $(element).find('img').length-1){
-					pageElements += '"'+$(providerElement).attr('data-provider')+'",';
-				} else {
-					pageElements += '"'+$(providerElement).attr('data-provider')+'"';
-				}
-			});
-			pageElements += "]";
-			if(index != $('.user').length-1){
-				pageContent += pageElements+',';
-			} else{
-				pageContent += pageElements;
+			if($(element).find('img').length > 0){
+				var pageElements = "[";
+				$(element).find('img').each(function(elementIndex,providerElement){
+					if(elementIndex != $(element).find('img').length-1){
+						pageElements += '"'+$(providerElement).attr('data-provider')+'",';
+					} else {
+						pageElements += '"'+$(providerElement).attr('data-provider')+'"';
+					}
+				});
+				pageElements += "]";
+				if(index != $('.user').length-1){
+					pageContent += pageElements+',';
+				} else{
+					pageContent += pageElements;
+				}	
 			}
 		});
 		pageContent += "]";
@@ -468,7 +528,7 @@ function saveUserProviders(){
  * @param  {String} data The data to be saved
  */
 function saveUserProvidersLocalStorage(data){
-	localStorage.setItem('test',data);
+	localStorage.setItem(userProviderKey,data);
 }
 
 /**
