@@ -198,8 +198,10 @@ body {
 	top:-15px;	
 	right:-15px;
 	background: url("images/circle.png") 0 0 no-repeat;
-	background-position:-105px 0;
+	background-position:-70px 0;
 	z-index:99;
+	-webkit-transition: -webkit-transform 1s ease-in-out;
+	-webkit-transform: rotate(360deg);
 }
 
 .edit{
