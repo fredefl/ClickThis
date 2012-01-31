@@ -376,14 +376,12 @@ function start(callback) {
 	var providerContainer = $("#providerContainer > :first");
 	$.ajax('standardProviders.php',{
 		success: function (data) {
-			if(IsUserProvidersSet() != true && isValidFormat() != true){
-				setStandardProviders(data);
-				//showStandardProviders();
-				alternativeShowProviders(standardProviders,"default");
-			} else {
+			if(IsUserProvidersSet() === true && isValidFormat() === true){
 				alternativeShowProviders(getUserProviders(),"user");
+			} else {
+				setStandardProviders(data);
+				alternativeShowProviders(standardProviders,"default");
 			}	
-			//alternativeShowUserProviders()
 			if (typeof callback == "function") {
 				callback();
 			}
@@ -539,4 +537,39 @@ function saveUserProvidersLocalStorage(data){
  */
 function saveUserProvidersSucces(data){
 	console.log('Your data has succesfully been saved on the server');
+}
+
+/**
+ * This function adds a new page to the container
+ * @param {object} after The page to add after
+ */
+function addNewPage(after){
+	if(typeof after == "object"){
+		var name = after.attr("id");
+		name = name.replace(userPageKeyword,"");
+		name = parseInt(name)+1;
+		var newPage = provider.addPageAfter(after,"user",name);
+		window.loginSwipe = new Swipe(document.getElementById("providerContainer"),{
+				callback:swipeCallback,
+				navigationOnDisabled : true,
+				startSlide:currentPage
+		});
+		provider.addBullet($('#position'));
+		return newPage;
+	}
+}
+
+/**
+ * This function adds a new element to a container
+ * @param {string} newProvider The name of the new provider
+ * @param {object} page The page to add to
+ */
+function addNewElement(newProvider,page){
+	var container = page.find("ul:first");
+	if(container.find("li").length < numberPerPage){
+		provider.addProvider(providers[newProvider],container);
+		return 200;
+	} else {
+		return 500;
+	}
 }

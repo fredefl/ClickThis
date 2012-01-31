@@ -112,7 +112,7 @@
 	 * This function creates a 'page' div and return it and if 'object',
 	 * is an appendable object then it append it to it.
 	 * @param {object} object The object to append to
-	 * @param {string} type   the type of the page 'user' or 'default'
+	 * @param {string} type   The type of the page 'user' or 'default'
 	 * @param {string} name   The name that will be put after the keyword defined in type
 	 */
 	addPage : function(object,type,name) {
@@ -133,6 +133,29 @@
 	},
 
 	/**
+	 * [addPageAfter description]
+	 * @param {object} after The object to append after
+	 * @param {string} type  The type of the page 'user' or 'default'
+	 * @param {string} name  The name that will be put after the keyword defined in type
+	 */
+	addPageAfter : function(after,type,name){
+		var page = $('<div></div>');
+		if (type == 'default'){
+			page.addClass('page');
+			page.addClass('default');
+			page.attr("id",pageKeyword+name);
+		} else {
+			page.addClass('page');
+			page.addClass('user');
+			page.attr("id",userPageKeyword+name);
+		}
+		if(typeof after == 'object'){
+			after.after(page);
+		}
+		return page;
+	},
+
+	/**
 	 * This function adds a number of bulletin to a object
 	 * @param {int} number    the number of bulletins to add
 	 * @param {int} current   The active page/bulletin
@@ -147,7 +170,20 @@
 					currentObject.addClass('on');
 				}
 				append.append(currentObject);
+				return currentObject;
 			};
+		}
+	},
+	/**
+	 * This function adds one bullet to the append container
+	 * @param {object} append [The object to append too
+	 */
+	addBullet : function(append){
+		if(typeof append == "object"){
+			var currentObject;
+			currentObject = $('<em>&bull;</em>');
+			append.append(currentObject);
+			return currentObject;
 		}
 	},
 
