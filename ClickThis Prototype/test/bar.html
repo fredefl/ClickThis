@@ -1,0 +1,80 @@
+<!Doctype html>
+<html>
+<head>
+	<style type="text/css">
+		#wrapper {
+			left:20px;
+			top:20px;
+			position: absolute;
+			width:200px;
+			height:35px;
+		}
+		#menuBar > * {
+			width:34px;
+			height:35px;
+			margin: -2px 0 0 -2px;
+			float: left;
+		}
+		.testCircle {
+			background: url("images/circle.png") 0 0 no-repeat;
+		}
+		#menuBarButton {
+			width:34px;
+			height:35px;
+			position:absolute;
+			top:0px;	
+			right:0px;
+			z-index:1;
+			background: url("images/circle.png") 0 0 no-repeat;
+		}
+		#menuBar {
+			/* Position and size */
+			width:30px;
+			height:31px;
+			position:absolute;
+			top:0px;
+			right:0px;
+			z-index:1;
+
+			margin: 2px 2px 2px 2px;
+
+			/* Roundedness */
+			border-radius: 34px;
+			background-color:#ededed;
+			/* Background gradient */
+			background-image: -webkit-linear-gradient(bottom, rgb(240,240,240) 0%, rgb(246,246,246) 50%);
+
+			/* Border */
+			-webkit-box-shadow: 0 0 1px 1px rgba(174,174,174,0.7);
+		}
+	</style>
+</head>
+<body>
+	<div id="wrapper">
+		<div id="menuBar" style="display: none;">
+			<div class="testCircle"></div>
+			<div class="testCircle"></div>
+		</div>
+		<div id="menuBarButton"></div>
+	</div>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script type="text/javascript">
+		var menu = $("#menuBar");
+		$("#menuBarButton").click(function(){
+			if(menu.width() !== 120) {
+				$(menu).show();
+				menu.animate({
+		    		width: "120px"
+		  		}, 500);
+			} else {
+				menu.animate({
+		    		width: "30px"
+		  		}, 500,function () {
+		  			menu.hide();
+		  		})
+			}
+		});
+
+	</script>
+</body>
+</html>
