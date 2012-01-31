@@ -554,6 +554,7 @@ function addNewPage(after){
 				navigationOnDisabled : true,
 				startSlide:currentPage
 		});
+		//.addElement()
 		provider.addBullet($('#position'));
 		return newPage;
 	}
