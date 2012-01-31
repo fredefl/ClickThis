@@ -10,7 +10,6 @@
 		"GitHub",
 		"Vimeo",
 		"StumbleUpon",
-		"Youtube",
 		"Tumblr",
 		"GooglePlus",
 		"FriendFeed",

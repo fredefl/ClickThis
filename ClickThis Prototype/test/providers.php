@@ -14,7 +14,6 @@ $Providers = array(
 	"OpenId" => array("Image" => "images/providers/128/Openid.png"),
 	"StumbleUpon" => array("Image" => "images/providers/128/StumbleUpon.png"),
 	"Vimeo" => array("Image" => "images/providers/128/Vimeo.png"),
-	"Youtube" => array("Image" => "images/providers/128/Youtube.png"),
 	"Tumblr" => array("Image" => "images/providers/128/Tumblr.png"),
 	"GooglePlus" => array("Image" => "images/providers/128/GooglePlus.png","Alt" => "Google+","Title" => "Google+"),
 	"FriendFeed" => array("Image" => "images/providers/128/FriendFeed.png","Alt" => "friendfeed","Title" => "friendfeed"),
