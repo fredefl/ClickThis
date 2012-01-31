@@ -573,3 +573,20 @@ function addNewElement(newProvider,page){
 		return 500;
 	}
 }
+
+var menu = $("#menuBar");
+$("#edit","edit-mode").click(function(){
+	console.log("clicked on edit")
+	if(menu.width() !== 120) {
+		$(menu).show();
+		menu.animate({
+    		width: "120px"
+  		}, 500);
+	} else {
+		menu.animate({
+    		width: "30px"
+  		}, 500,function () {
+  			menu.hide();
+  		})
+	}
+});

@@ -199,6 +199,7 @@ body {
 	right:-15px;
 	background: url("images/circle.png") 0 0 no-repeat;
 	background-position:-105px 0;
+	z-index:99;
 }
 
 .edit{
@@ -207,7 +208,7 @@ body {
 	position:absolute;
 	top:-15px;	
 	right:-15px;
-	z-index:1;
+	z-index:99;
 	background: url("images/circle.png") 0 0 no-repeat;
 }
 
@@ -273,4 +274,33 @@ ul li{
 /* Page States */
 .disabled{
 	display: none;
+}
+#menuBar > * {
+	width:34px;
+	height:35px;
+	margin: -2px 0 0 -2px;
+	float: left;
+}
+.testCircle {
+	background: url("images/circle.png") 0 0 no-repeat;
+}
+#menuBar {
+	/* Position and size */
+	width:30px;
+	height:31px;
+	position:absolute;
+	top:-15px;	
+	right:-15px;
+	margin: 2px 2px 2px 2px;
+
+	z-index:1;
+
+	/* Roundedness */
+	border-radius: 34px;
+	background-color:#ededed;
+	/* Background gradient */
+	background-image: -webkit-linear-gradient(bottom, rgb(229,229,229) 0%, rgb(246,246,246) 50%);
+
+	/* Border */
+	-webkit-box-shadow: 0 0 1px 1px rgba(174,174,174,0.7);
 }
