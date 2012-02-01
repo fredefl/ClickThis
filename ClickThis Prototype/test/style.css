@@ -175,6 +175,10 @@ body {
 	padding:10px;
 }
 
+#edit {
+	-webkit-transition: -webkit-transform 1s ease-in-out;
+}
+
 .edit:hover{
 	background-position:-35px 0;
 }
@@ -200,7 +204,6 @@ body {
 	background: url("images/circle.png") 0 0 no-repeat;
 	background-position:-70px 0;
 	z-index:99;
-	-webkit-transition: -webkit-transform 1s ease-in-out;
 	-webkit-transform: rotate(360deg);
 }
 
@@ -305,4 +308,15 @@ ul li{
 
 	/* Border */
 	-webkit-box-shadow: 0 0 1px 1px rgba(174,174,174,0.7);
+}
+#blur {
+	-webkit-transition: all 1s ease-in-out;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: #000;
+    opacity: 0;
+    filter: alpha(opacity = 70); /* required for opacity to work in IE */
 }

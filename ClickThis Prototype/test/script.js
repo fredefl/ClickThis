@@ -150,23 +150,26 @@ $('#left').click(function () {
 })
 
 $('#edit').click(function(){
+	var menu = $("#menuBar");
 	if(editMode){
 		endEditMode();
-	} else {
-		startEditMode();
-	}
-	var menu = $("#menuBar");
-	if(menu.width() !== 120) {
-		$(menu).show();
-		menu.animate({
-    		width: "120px"
-  		}, 500);
-	} else {
 		menu.animate({
     		width: "30px"
   		}, 500,function () {
   			menu.hide();
   		})
+  		$("#blur").show().animate({
+  			opacity: 0,
+  		}, 500);
+	} else {
+		startEditMode();
+		$(menu).show();
+		menu.animate({
+    		width: "120px"
+  		}, 500);
+  		$("#blur").show().animate({
+  			opacity: 0.7,
+  		}, 500);
 	}
 })
 
