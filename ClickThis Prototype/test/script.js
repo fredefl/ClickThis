@@ -95,6 +95,15 @@ function swipeCallback(){
 	currentPage = window.loginSwipe.getPos();
 }
 
+/*$("#position em").hover(function(){
+	console.log("Hello");
+},function(){
+	
+});*/
+$(".bullet").click(function(){
+	console.log("hello");
+});
+
 /**
  * This function finds the current bullet turned on,
  * and turns it off and after that it finds the new bullet,
@@ -204,7 +213,7 @@ function position(number,current,append,container){
 	if(typeof append == 'object'){
 		var currentObject;
 		for (var i = 0; i < number; i++) {
-			currentObject = $('<em>&bull;</em>');
+			currentObject = $('<em class="bullet">&bull;</em>');
 			if(i == current){
 				currentObject.addClass('on');
 			}
