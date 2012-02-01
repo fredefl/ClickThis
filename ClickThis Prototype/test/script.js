@@ -117,6 +117,22 @@ function changeBullet(newBullet,append){
 }
 
 /**
+ * This event is called when a keyboard key is clicked
+ * @param  {object} e The keycode object
+ * @return {Boolean}
+ */
+$(document).keydown(function(e){
+    if (e.keyCode == 37) { 
+       $("#left").click();
+       return false;
+    }
+    if (e.keyCode == 39) { 
+       $("#right").click();
+       return false;
+    }
+});
+
+/**
 * This event is triggered when right arrow is clicked,
 * this event's callback function gets the next page,
 * and if it's the last page it returns to the first page
@@ -589,4 +605,19 @@ function addNewElement(newProvider,page){
 	} else {
 		return 500;
 	}
+}
+
+function showMessage(message){
+	var messageBox = $("#message");
+	if(typeof message == "string" && messageBox.css("display") == "none"){
+		var messageContainer = $("#message-container");
+		messageBox.html(message);
+		messageBox.show();
+	}
+}
+
+function hideMessage(){
+	var messageBox = $("#message");
+	var messageContainer = $("#message-container");
+	messageBox.html("").hide();
 }
