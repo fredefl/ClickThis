@@ -180,6 +180,7 @@ $('#edit').click(function(){
   		$("#blur").show().animate({
   			opacity: 0,
   		}, 500);
+  		
 	} else {
 		startEditMode();
 		$(menu).show();
@@ -415,10 +416,12 @@ function IsUserProvidersSet(){
  * This function disables swipe and turn the sortable on.
  */
 function startEditMode(){
+	editMode = true;
+	//This disables the tooltip
+	$(".tooltip").css("display","none");
 	if(IsUserProvidersSet != true){
 		$(".default").addClass("user").removeClass("default");
 	}
-	editMode = true;
 	window.loginSwipe.disable();
 	$('#edit').removeClass('edit').addClass('edit-mode');
 	$( "#providerContainer ul" ).sortable("option","disabled", false  );
@@ -434,6 +437,8 @@ function startEditMode(){
  */
 function endEditMode(){
 	editMode = false;
+	//This enables the tooltips again
+	$(".tooltip").css("display","block");
 	$('#edit').addClass('edit').removeClass('edit-mode');
 	window.loginSwipe.enable();
 	$( "#providerContainer ul" ).sortable("option","disabled", true  );
@@ -501,6 +506,7 @@ function saveUserProviders(){
  */
 function saveUserProvidersLocalStorage(data){
 	localStorage.setItem(userProviderKey,data);
+	showMessage("Your data has successfully been saved.");
 }
 
 /**
@@ -510,7 +516,6 @@ function saveUserProvidersLocalStorage(data){
  * @todo Make the function show a message to the user
  */
 function saveUserProvidersSucces(data){
-	console.log('Your data has succesfully been saved on the server');
 }
 
 /**
@@ -544,7 +549,8 @@ function addNewPage(after){
 /**
  * This function adds a new element to a container
  * @param {string} newProvider The name of the new provider
- * @param {object} page The page to add to
+ * @param {object} page The page to add too
+ * @returns {Number} An error code 500 if the operation failed an 200 if it was a success
  */
 function addNewElement(newProvider,page){
 	var container = page.find("ul:first");
@@ -556,19 +562,42 @@ function addNewElement(newProvider,page){
 	}
 }
 
-//## Exsperimental ##
-function showMessage(message){
+/**
+ * This function shows a message box in a special amount of time
+ * @param  {string} message  The message to show
+ * @param  {Number} speed    The speed to animate
+ * @param  {Number} duration The duration to show the message box
+ */
+function showMessage(message,speed,duration){
 	var messageBox = $("#message");
 	var messageContainer = $("#message-container");
+	duration = duration || 2000;
+	speed = speed || 500;
+	if(speed == null && speed == undefined){
+		speed = 500;
+	}
+	if(duration == null && duration == undefined){
+		duration = 2000;
+	}
 	if(typeof message == "string" && messageContainer.css("display") == "none"){
 		messageBox.html(message);
-		messageContainer.show();
+		messageContainer.slideToggle(parseInt(speed)).delay(parseInt(duration)).slideToggle(parseInt(speed),hideMessage);
+	} else if(typeof message == "string"){
+		var args = '';
+		$(arguments).each(function(index,element){
+			args +=  ',"'+element+'"';
+		});
+		args = args.substr(1);;
+		setTimeout("showMessage("+args+")",3500);
 	}
+	 
 }
 
+/**
+ * This function hides the message box
+ */
 function hideMessage(){
 	var messageBox = $("#message");
 	var messageContainer = $("#message-container");
 	messageBox.html("");
-	messageContainer.hide();
 }

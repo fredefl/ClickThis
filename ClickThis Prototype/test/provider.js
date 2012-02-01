@@ -74,14 +74,10 @@
 				content.attr("src",provider.Image);
 			}
 			
-			//Adds the image alt if its set
-			/*if (provider.Alt != undefined && provider.Alt != null) {
-				content.attr("alt",provider.Alt);
-			}*/
-			
 			//Adds the image title if its set
 			if (provider.Title != undefined && provider.Title != null) {
 				titleTag.append(provider.Title);
+				titleTag.addClass("tooltip");
 				linkTag.append(titleTag);
 			}
 
