@@ -62,6 +62,7 @@
 		if (typeof provider == "object") {
 			var content = $("<img></img>"); //Makes the content img tag
 			var linkTag = $('<a></a>');
+			var titleTag = $('<span></span>');
 			
 			//Adds the href to the a tag if its set
 			if (provider.Link != undefined && provider.Link != null) {
@@ -74,13 +75,14 @@
 			}
 			
 			//Adds the image alt if its set
-			if (provider.Alt != undefined && provider.Alt != null) {
+			/*if (provider.Alt != undefined && provider.Alt != null) {
 				content.attr("alt",provider.Alt);
-			}
+			}*/
 			
 			//Adds the image title if its set
 			if (provider.Title != undefined && provider.Title != null) {
-				content.attr("title",provider.Title);
+				titleTag.append(provider.Title);
+				linkTag.append(titleTag);
 			}
 
 			//Adds the data-provider
