@@ -118,17 +118,19 @@ function changeBullet(newBullet,append){
 
 /**
  * This event is called when a keyboard key is clicked
- * @param  {object} e The keycode object
- * @return {Boolean}
  */
-$(document).keydown(function(e){
-    if (e.keyCode == 37) { 
+$(document).bind("keydown", function(event) {
+	if (event.which == 37) { 
        $("#left").click();
        return false;
     }
-    if (e.keyCode == 39) { 
+    if (event.which == 39) { 
        $("#right").click();
        return false;
+    }
+    if(event.altKey && event.ctrlKey && event.which == 69) {
+   		$("#edit").click();
+   		return false;
     }
 });
 
