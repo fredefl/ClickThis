@@ -384,11 +384,11 @@ ul li{
 
 /* Message Box */
 #message-container{
-	top:0px;
+	top:-40px;
 	width:99%;
 	display: none;
 	position: absolute;
-	height:auto;
+	height:40px;
 }
 
 #message-header{
