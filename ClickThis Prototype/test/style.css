@@ -407,10 +407,10 @@ ul li{
 	width:100%;
 	position: relative;
 	height:auto;
+	display: none;
 }
 
 #message{
-	display: none;
 	text-align:center;
 	font-size:30px;
 }

@@ -81,6 +81,9 @@ Swipe.prototype = {
     // hide slider element but keep positioning during setup
     this.container.style.visibility = 'hidden';
 
+    //Test
+    this.width = this.width;
+
     // dynamic css
     this.element.style.width = (this.slides.length * this.width) + 'px';
     var index = this.slides.length;
@@ -98,13 +101,9 @@ Swipe.prototype = {
     this.container.style.visibility = 'visible';
 
   },
-  //WIÅ
+
   addElement : function(){
-    this.element.style.width = (this.slides.length * this.width) + 'px';
-    var el = this.slides[this.slides.length];
-    el.style.width = this.width + 'px';
-    el.style.display = 'table-cell';
-    el.style.verticalAlign = 'top';
+      this.setup();
   },
 
   slide: function(index, duration) {

@@ -165,6 +165,9 @@ $('#left').click(function () {
 	}
 })
 
+/**
+ * This event is fired when the edit button is clicked
+ */
 $('#edit').click(function(){
 	var menu = $("#menuBar");
 	if(editMode){
@@ -210,35 +213,10 @@ function position(number,current,append,container){
 }
 
 /**
-* This function gets all the user providers and add them to pages,
-* wth all the needed data
-* @deprecated This function is replace by alternativeShowProviders
-*/
-function showUserProviders() {
-	var numberOfPages;
-	var pages = new Array();
-	if (userProviders.length % numberPerPage > 0) {
-		numberOfPages = ((userProviders.length - (userProviders.length % numberPerPage))/numberPerPage)+1;
-	} else {
-		numberOfPages = userProviders.length/numberPerPage;
-	}
-	var currentIndex = 0;
-	for(var i = 1;i <= numberOfPages;i++) {
-		var page = provider.addPage($("#providerContainer > :first"),"user",i);
-		var container = provider.addContainer(page);
-		for(var number = 0;number <= numberPerPage-1;number++) {
-			if (currentIndex < userProviders.length) {
-				if (number < numberPerRow) {
-					provider.addProvider(providers[userProviders[currentIndex]],container);
-				} else if (number < numberPerPage) {
-					provider.addProvider(providers[userProviders[currentIndex]],container);				
-				}
-				currentIndex++;
-			}
-		}
-	}
-}
-/* #######This is test functions###### */
+ * This function render and error checks the data and add em to the container
+ * @param  {[type]} data The valid json data in the correct provider format
+ * @param  {[type]} type The page type "user" or "default"
+ */
 function alternativeShowProviders(data,type){
 	var pageNumber = 1;
 	$(data).each(function(index,element){
@@ -305,42 +283,6 @@ function splitPage(page){
 	} else {
 		return new Array(page);
 	}
-}
-
-/* #################################### */
-
-/**
- * This function generates the standard pages,
- * and adds all the providers
- * @deprecated Replaced by alternativeShowProviders
- */
-function showStandardProviders(){
-	var numberOfPages;
-	if (standardProviders.length % numberPerPage > 0) {
-		numberOfPages = ((standardProviders.length - (standardProviders.length % numberPerPage))/numberPerPage)+1;
-	} else {
-		numberOfPages = standardProviders.length/numberPerPage;
-	}
-	var currentIndex = 0;
-	for(var i = 1;i <= numberOfPages;i++) {
-		var page = provider.addPage($("#providerContainer > :first"),"default",i);
-		var container = provider.addContainer(page);
-		for(var number = 0;number <= numberPerPage-1;number++) {
-			if (currentIndex < standardProviders.length) {
-				provider.addProvider(providers[standardProviders[currentIndex]],container);
-				currentIndex++;
-			}
-		}
-	}
-}
-
-/**
-* This function sets the local storage element for user providers
-* @param string data A json string of the wished providers
-* @deprecated Replace by saveUserProviderslocalStorage
-*/
-function setUserProviders(data) {
-	localStorage.setItem(userProviderKey,data);
 }
 
 /**
@@ -577,16 +519,23 @@ function saveUserProvidersSucces(data){
  */
 function addNewPage(after){
 	if(typeof after == "object"){
-		var name = after.attr("id");
-		name = name.replace(userPageKeyword,"");
+		var name;
+		$(".page").each(function(index,element){
+			if(name == undefined){
+				name = $(element).attr("id");
+				name = name.replace(userPageKeyword,"")
+
+			} else {
+				var tempName = $(element).attr("id");
+				tempName = tempName.replace(userPageKeyword,"");
+				if(parseInt(tempName) > parseInt(name)){
+					name = tempName;
+				}
+			}
+		});
 		name = parseInt(name)+1;
 		var newPage = provider.addPageAfter(after,"user",name);
-		window.loginSwipe = new Swipe(document.getElementById("providerContainer"),{
-				callback:swipeCallback,
-				navigationOnDisabled : true,
-				startSlide:currentPage
-		});
-		//.addElement()
+		window.loginSwipe .addElement();
 		provider.addBullet($('#position'));
 		return newPage;
 	}
@@ -607,17 +556,19 @@ function addNewElement(newProvider,page){
 	}
 }
 
+//## Exsperimental ##
 function showMessage(message){
 	var messageBox = $("#message");
-	if(typeof message == "string" && messageBox.css("display") == "none"){
-		var messageContainer = $("#message-container");
+	var messageContainer = $("#message-container");
+	if(typeof message == "string" && messageContainer.css("display") == "none"){
 		messageBox.html(message);
-		messageBox.show();
+		messageContainer.show();
 	}
 }
 
 function hideMessage(){
 	var messageBox = $("#message");
 	var messageContainer = $("#message-container");
-	messageBox.html("").hide();
+	messageBox.html("");
+	messageContainer.hide();
 }
