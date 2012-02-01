@@ -163,7 +163,7 @@
 		if(typeof append == 'object'){
 			var currentObject;
 			for (var i = 0; i < number; i++) {
-				currentObject = $('<em>&bull;</em>');
+				currentObject = $('<em class="bullet">&bull;</em>');
 				if(i == current){
 					currentObject.addClass('on');
 				}
@@ -173,13 +173,26 @@
 		}
 	},
 	/**
+	 * This function removes a bullet and if it was the current it find a new current
+	 * @param  {object} object   The object to remoce
+	 * @param  {object} container The position container
+	 */
+	removeBullet : function(object,container){
+		if(object.hasClass("on")){
+			object.remove();
+			container.find(".bullet:first").addClass("on");
+		} else {
+			object.remove();
+		}
+	},
+	/**
 	 * This function adds one bullet to the append container
 	 * @param {object} append [The object to append too
 	 */
 	addBullet : function(append){
 		if(typeof append == "object"){
 			var currentObject;
-			currentObject = $('<em>&bull;</em>');
+			currentObject = $('<em class="bullet">&bull;</em>');
 			append.append(currentObject);
 			return currentObject;
 		}

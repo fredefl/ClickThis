@@ -296,7 +296,7 @@ ul li{
 	height:31px;
 	position:absolute;
 	top:-15px;	
-	right:-15px;
+	right:-13px;
 	margin: 2px 2px 2px 2px;
 
 	z-index:1;
@@ -325,8 +325,40 @@ ul li{
 }
 
 /* Menu Bar Tools */
-#menuBar-add-page{}
-#menuBar-add-element{}
+#menuBar-add-page{
+	width:35px;
+	height:34px;
+	top:-2.5px;
+	margin: 2px 2px 2px 2px;
+	right:65px;
+	position:absolute;	
+	background: url("images/Page.png") 0 0 no-repeat;
+}
+
+#menuBar-add-page:hover{
+	background-position:-35px 0;	
+}
+
+#menuBar-add-page:active{
+	background-position:-70px 0;
+}
+
+#menuBar-add-element{
+	width:35px;
+	height:34px;
+	top:-2.5px;
+	margin: 2px 2px 2px 2px;
+	right:30px;
+	position:absolute;	
+	/*right:-15px;*/
+	background: url("images/Provider.png") 0 0 no-repeat;
+}
+#menuBar-add-element:hover{
+	background-position:-35px 0;
+}
+#menuBar-add-element:active{
+	background-position:-70px 0;
+}
 #menuBar-remove-element{}
 #menuBar-remove-page{}
 

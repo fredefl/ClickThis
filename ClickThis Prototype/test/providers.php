@@ -11,7 +11,7 @@ $Providers = array(
 	"LinkedIn" => array("Image" => "images/providers/128/LinkedIn.png"),
 	"Blogger" => array("Image" => "images/providers/128/Blogger.png"),
 	"GitHub" => array("Image" => "images/providers/128/github.png"),
-	"OpenId" => array("Image" => "images/providers/128/Openid.png"),
+	//"OpenId" => array("Image" => "images/providers/128/Openid.png"),
 	"StumbleUpon" => array("Image" => "images/providers/128/StumbleUpon.png"),
 	"Vimeo" => array("Image" => "images/providers/128/Vimeo.png"),
 	"Tumblr" => array("Image" => "images/providers/128/Tumblr.png"),

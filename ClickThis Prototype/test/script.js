@@ -143,6 +143,15 @@ $(document).bind("keydown", function(event) {
     }
 });
 
+$("#menuBar-add-element").click(function(){
+	//Show a box to choose an element
+});
+
+$("#menuBar-add-page").click(function(){
+	var after = $(".page").eq(currentPage);
+	addNewPage(after);
+});
+
 /**
 * This event is triggered when right arrow is clicked,
 * this event's callback function gets the next page,
@@ -182,6 +191,7 @@ $('#left').click(function () {
 $('#edit').click(function(){
 	var menu = $("#menuBar");
 	if(editMode){
+		menu.find("a").hide();
 		menu.animate({
     		width: "30px"
   		}, 500,function () {
@@ -194,16 +204,19 @@ $('#edit').click(function(){
   		});
   		
 	} else {
+		$(menu).find("a").show();
 		startEditMode();
 		$(menu).show();
 		menu.animate({
-    		width: "120px"
+    		width: "140px"
   		}, 500);
   		$("#blur").show().animate({
   			opacity: 0.7,
   		}, 500);
 	}
 })
+
+jQuery.fn.reverse = [].reverse;
 
 /**
  * This function creates the bullets
@@ -244,6 +257,44 @@ function alternativeShowProviders(data,type){
 			pageNumber++;
 		}
 	});
+	checkForEmptyPages();
+}
+
+/**
+ * This functions finds the index of an element
+ * @param  {object} elementToFind The jquery element to find
+ * @param  {string} selector      The selector to loopup for an index of
+ */
+function findIndex(elementToFind,selector){
+	var i = 0;
+	var current = "Lama";
+	$(selector).reverse().each(function(index,object){
+		if($(object).attr("id") == elementToFind.attr("id")){
+			current = i;
+		} else {
+			i++;	
+		}
+	});
+	if(current != "Lama"){
+		return current;
+	}
+}
+
+/**
+ * This function removes the empty pages
+ */
+function checkForEmptyPages(){
+	$(".page").each(function(index,element){
+		if($(element).find("img").length < 1){
+			//var name = parseInt($(element).attr("id").replace(userPageKeyword,"").replace(pageKeyword,""))-1;
+			if(element != undefined){
+				var objectIndex = findIndex($(element),".page");
+				provider.removeBullet($("#position em").eq(objectIndex),$("#position"));
+				$(element).remove();
+				window.loginSwipe.addElement();
+			}
+		}
+	});
 }
 
 /**
@@ -256,7 +307,9 @@ function renderPage(pageContent,pageIndex,type){
 	var page = provider.addPage($("#providerContainer > :first"),type,pageIndex);
 	var container = provider.addContainer(page);
 	$(pageContent[0]).each(function(index,element){
-		provider.addProvider(providers[element],container);	
+		if(providers[element] != null && providers[element] != undefined){
+			provider.addProvider(providers[element],container);	
+		}
 	});
 }
 
@@ -481,10 +534,11 @@ function setStandardProviders(data){
  * save them to localStorage and send them to the server so it can be saved.
  */
 function saveUserProviders(){
+	checkForEmptyPages();
 	if($('.user img').length > 0){
 		var pageContent = "[";
 		$('.user').each(function(index,element){
-			if($(element).find('img').length > 0){
+			if($(element).find('li').length > 0){
 				var pageElements = "[";
 				$(element).find('img').each(function(elementIndex,providerElement){
 					if(elementIndex != $(element).find('img').length-1){
@@ -494,7 +548,7 @@ function saveUserProviders(){
 					}
 				});
 				pageElements += "]";
-				if(index != $('.user').length-1){
+				if(index < $('.user').length -1){
 					pageContent += pageElements+',';
 				} else{
 					pageContent += pageElements;
@@ -579,10 +633,12 @@ function addNewElement(newProvider,page){
  * @param  {string} message  The message to show
  * @param  {Number} speed    The speed to animate
  * @param  {Number} duration The duration to show the message box
+ * @param {object} container The container to animate
+ * @param {obkect} content The content div of the message
  */
-function showMessage(message,speed,duration){
-	var messageBox = $("#message");
-	var messageContainer = $("#message-container");
+function showMessage(message,speed,duration,container,content){
+	var messageBox = container || $("#message");
+	var messageContainer = content || $("#message-container");
 	duration = duration || 2000;
 	speed = speed || 500;
 	if(speed == null && speed == undefined){
@@ -591,7 +647,7 @@ function showMessage(message,speed,duration){
 	if(duration == null && duration == undefined){
 		duration = 2000;
 	}
-	if(typeof message == "string" && messageContainer.css("display") == "none"){
+	if(message != undefined && messageContainer.css("display") == "none"){
 		messageBox.html(message);
 		messageContainer.show().animate({
 		    top: "0px"
@@ -600,7 +656,7 @@ function showMessage(message,speed,duration){
 		}, speed,function(){
 			messageContainer.hide();
 		});
-	} else if(typeof message == "string"){
+	} else if(message != undefined){
 		var args = '';
 		$(arguments).each(function(index,element){
 			args +=  ',"'+element+'"';
