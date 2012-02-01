@@ -28,7 +28,9 @@
 .right:active{	background-position: -71px 0;	
 }
 
-.provider{}
+.provider{
+	cursor: pointer;
+}
 .providerLink{}
 
 /* The left arrow */
@@ -328,7 +330,7 @@ ul li{
 #menuBar-remove-page{}
 
 /* Tooltip */
-.page li a span{
+.tooltip{
 	width: 100px;
 	height: auto;
 	line-height: 20px;
@@ -353,28 +355,18 @@ ul li{
 	transition: all 0.3s ease-in-out;
 }
 
-/*.page li a span:before,
-.page li a span:after{
-	content: '';
-	position: absolute;
-	top:-10px;
-	left: 50%;
-	margin-left: -9px;
-	width: 0;
-	height: 0;
-}*/
-.page li a span:after{
+.tooltip{
+	cursor: pointer;
+}
+
+.tooltip:after{
 	margin-left: -10px;
 	border-top: 10px solid #fff;
 }
-.page li a:hover span{
+.page li a:hover .tooltip{
 	opacity: 100;
 	bottom:64px;
 }
-
-/**.page li{
-	float: left;
-}*/
 
 .page li a{
 	width: 128px;
