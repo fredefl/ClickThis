@@ -22,7 +22,10 @@
                     <h1><a href="http://illution.dk/ClickThisPrototype/home.html" title="Home" style="text-decoration:none; color:#FFF;">ClickThis</a></h1>
                     <a class="button slideup" onClick="showAboutBox();" id="infoButton">About</a>
                     <a class="back Disabled" id="backButton" data-href="home.html" data-app-onClick="ClickThisApp.terminateApp()">Back</a>
-                </div>   
+                </div>
+                <div id="notification" style="display:none;height:0px">
+                    Some data has not been sent!
+                </div>
                 
                 <!-- User front page -->
                 <div id="user">
@@ -149,8 +152,26 @@
         <script src="js/clickthis.js"></script><script src="js/script.js"></script><script src="http://debug.phonegap.com/target/target-script-min.js#illutionclickthisprototypetest"></script>
         <script type="text/javascript" src="Ajax Queue/ajaxQueue.js"></script>
         <script type="text/javascript">
+            ajaxQueue.registerCallback({type:"onStatusCodeChange"}, function () {
+                var statusCode = ajaxQueue.getStatusCode();
+                var notification = $("#notification");
+                if(statusCode === 0 && notification.css("heigth") !== 0) {
+                    notification.animate({
+                        height: "0px"
+                    }, 500,function () {
+                        notification.hide();
+                    });
+                }
+                if(statusCode !== 0 && notification.css("heigth") !== 45) {
+                    $(notification).show();
+                    $(notification).animate({
+                        height: "45px"
+                    }, 500);  
+                }
+            })
             ajaxQueue.load();
             ajaxQueue.executeTasks();
+            ajaxQueue.setConfig({ajaxTimeout: 6000})
             ajaxQueue.registerCallback({group: "beaconpush", type: "onSuccess"},function () {
                 alert('Notification sent!');
             });
@@ -192,7 +213,6 @@
 					window.ClickThisApp.test();
 				}
             });
-
         </script>
 	</body>
 </html>
