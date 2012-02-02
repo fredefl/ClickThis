@@ -172,7 +172,7 @@
             ajaxQueue.executeTasks();
             ajaxQueue.setConfig({ajaxTimeout: 6000})
             ajaxQueue.registerCallback({group: "beaconpush", type: "onSuccess"},function () {
-                
+                console.log('Notification sent!');
             });
             // Page view counter
             if (!localStorage.pageCounter)

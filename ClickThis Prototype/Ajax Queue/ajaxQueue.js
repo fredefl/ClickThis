@@ -1,15 +1,16 @@
 /**
- * ClickThis ajaxQueue
+ * ClickThis AjaxQueue
  * http://illution.dk
  *
- * THIS CLASS REQUIRES JQUERY AND THE JSON LIBRARY
- *
- * Copyright (c) 2011 illution
+ * Copyright Illution (c) 2011 
  *
  * @author Illution
+ * @copyright This file is copyright to Illution
  * @version 1.0
+ * @package ClickThis
+ * @subpackage AjaxQueue
  * @requires jQuery
- * @requires JSON Library
+ * @requires JSON
  */
 /**
  * ajaxQueue Class
@@ -18,37 +19,52 @@
 "use strict";
 var ajaxQueue = {
 	/**
-	 * The name for the localStorage key 
+	 * The name for the localStorage key. 
+	 * Set it with the setConfig function, instead of changing it here.
+	 * 
+	 * @private
 	 * @type {String}
 	 */
 	localStorageKeyName: "ajaxQueue",
 
 	/**
 	 * The length of the unique task id
+	 * 
+	 * @private
 	 * @type {Number}
 	 */
 	idLength: 5,
 
 	/**
-	 * The number of milliseconds between each retry, where false means do not retry
+	 * The number of milliseconds between each retry. False means do not retry.
+	 * Set it with the setConfig function, instead of changing it here.
+	 * 
+	 * @private
 	 * @type {Number}
 	 */
 	retryTimeout: 5000,
 
 	/**
 	 * The ajax timeout in milliseconds
+	 * Set it with the setConfig function, instead of changing it here.
+	 * 
+	 * @private
 	 * @type {Number}
 	 */
 	ajaxTimeout: 6000,
 
 	/**
-	 * The queue array
+	 * The queue array that cointains the tasks
+	 * 
+	 * @private
 	 * @type {Array}
 	 */
 	queueArray: {},
 
 	/**
-	 * The array the holds the function(s) to callback to
+	 * The array the holds the function(s) to call back to
+	 * 
+	 * @private
 	 * @type {Array}
 	 */
 	callbackArray: {
@@ -59,27 +75,33 @@ var ajaxQueue = {
 	},
 
 	/**
-	 * The current status of the ajaxQueue
+	 * The current status of the AjaxQueue
 	 * Status Codes:
 	 * 	false: 	Unknown
 	 * 	0: 		Queue is empty
 	 * 	1:  	Queue contains tasks, but is not active
 	 * 	2: 		Queue contains tasks, and is active 
+	 * 	
+	 * @private
 	 * @type {Number}
 	 */
 	statusCode: false,
 
 	/**
-	 * The status of sending
+	 * The status of sending in the AjaxQueue
 	 * Status Codes:
 	 * false	Is not sending
 	 * true 	Is sending
+	 * 
+	 * @private
 	 * @type {Boolean}
 	 */
 	sendingStatusCode: false,
 
 	/**
 	 * Logs the specified message
+	 * 
+	 * @private
 	 * @param  {String} message The message to log
 	 * @example
 	 * ajaxQueue.log("Hello world!");
@@ -90,7 +112,9 @@ var ajaxQueue = {
 
 	/**
 	 * Loads the queue from localStorage
-	 * @return {boolean} True if data was loaded from localStorage, false if no data was found in localStorage and a new queue has been created.
+	 * 
+	 * @static
+	 * @return {boolean} True if data was loaded from localStorage, false if no data was found in localStorage, and a new queue has been created.
 	 * @example
 	 * ajaxQueue.load();
 	 */
@@ -111,6 +135,8 @@ var ajaxQueue = {
 
 	/**
 	 * Saves the queue array to localStorage
+	 * 
+	 * @static
 	 * @example
 	 * ajaxQueue.save();
 	 */
@@ -124,6 +150,7 @@ var ajaxQueue = {
 	/**
 	 * Adds an element to the queue array
 	 *
+	 * @static
 	 * @param {String} json The json element to add.
 	 * @returns {String} The new id of the element, false in case of error
 	 * @example
@@ -157,6 +184,8 @@ var ajaxQueue = {
 
 	/**
 	 * Removes the specified task from the queue
+	 * 
+	 * @static
 	 * @param {String} id The id of the task to remove
 	 * @example
 	 * ajaxQueue.remove("5kB6");
@@ -177,6 +206,8 @@ var ajaxQueue = {
 
 	/**
 	 * Clears the queue
+	 * 
+	 * @static
 	 * @example
 	 * ajaxQueue.clear();
 	 */
@@ -190,6 +221,10 @@ var ajaxQueue = {
 
 	/**
 	 * Gets the length of the queue
+	 * 
+	 * @static
+	 * @example
+	 * ajaxQueue.getQueueLength()
 	 * @return {Number}
 	 */
 	getQueueLength: function () {
@@ -198,6 +233,10 @@ var ajaxQueue = {
 
 	/**
 	 * Sets the status code
+	 * 
+	 * @private
+	 * @example
+	 * ajaxQueue.setStatusCode(1)
 	 * @param {Number} newStatusCode The new status code
 	 */
 	setStatusCode: function (newStatusCode) {
@@ -206,6 +245,10 @@ var ajaxQueue = {
 
 	/**
 	 * Gets the status code
+	 * 
+	 * @static
+	 * @example
+	 * ajaxQueue.getStatusCode()
 	 * @return {Number}
 	 */
 	getStatusCode: function () {
@@ -214,7 +257,11 @@ var ajaxQueue = {
 	},
 
 	/**
-	 * Checks the status code by counting the number of tasks and the value in sendingStatusCode
+	 * Checks the status code by counting the number of tasks, and checking the value in sendingStatusCode
+	 * 
+	 * @private
+	 * @example
+	 * ajaxQueue.checkStatusCode()
 	 */
 	checkStatusCode: function () {
 		var i = 0,
@@ -247,6 +294,8 @@ var ajaxQueue = {
 
 	/**
 	 * Executes the tasks in the queue
+	 * 
+	 * @static
 	 * @example
 	 * ajaxQueue.executeTasks();
 	 */
@@ -313,6 +362,7 @@ var ajaxQueue = {
 	/**
 	 * Set the configuration
 	 * 
+	 * @static
 	 * @param {JSON} config The settings to change
 	 * @example
 	 * ajaxQueue.setConfig({
@@ -342,8 +392,15 @@ var ajaxQueue = {
 	},
 
 	/**
-	 * Registers a callback function
-	 * @param  {JSON}     options	The json string containing the type and group
+	 * Registers a callback function.
+	 * Callback types:
+	 * 	onSuccess
+	 * 	onError
+	 * 	onTimeout
+	 * 	onStatusCodeChange
+	 * 
+	 * @static
+	 * @param  {JSON}     options	The json string containing the type and group. Note that the group should not be speecified when using the onStatusCodeChange type.
 	 * @param  {Function} callback	The function to call
 	 * @return {Boolean} Whenever the callback could be registered of not
 	 * @example
@@ -358,6 +415,10 @@ var ajaxQueue = {
 	 *  type: "onSuccess",
 	 *  group: "testGroup23"
 	 * }, testFunction);
+	 * @example
+	 * ajaxQueue.registerCallback({
+	 * 	type: "onStatusCodeChange"
+	 * }, testFunction)
 	 */
 	registerCallback: function (json, callback) {
 		if(json.type === "onStatusCodeChange") {
@@ -375,7 +436,9 @@ var ajaxQueue = {
 	},
 
 	/**
-	 * Generates a random Id
+	 * Generates a random Id at the length specified by the configuration
+	 * 
+	 * @private
 	 * @return {String} The newly created Id
 	 * @example
 	 * ajaxQueue.generateId(); // Returns id
@@ -387,6 +450,7 @@ var ajaxQueue = {
 	/**
 	 * Generates a random string at the specified length
 	 *
+	 * @private
 	 * @param {Number} length The length of the string
 	 * @returns {String} The random string
 	 * @example
