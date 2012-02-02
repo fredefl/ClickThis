@@ -135,7 +135,10 @@ var ajaxQueue = {
 	 */
 	add: function (json) {
 		var id = null;
-		if (json.url && json.data && json.group) {
+		if(json.data === undefined) {
+			json.data = "";
+		}
+		if (json.url && json.group) {
 			// Create a random string
 			id = ajaxQueue.generateId();
 			// Insert the task into the queue
