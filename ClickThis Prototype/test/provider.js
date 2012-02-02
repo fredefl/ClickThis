@@ -62,7 +62,6 @@
 		if (typeof provider == "object") {
 			var content = $("<img></img>"); //Makes the content img tag
 			var linkTag = $('<a></a>');
-			var titleTag = $('<span></span>');
 			
 			//Adds the href to the a tag if its set
 			if (provider.Link != undefined && provider.Link != null) {
@@ -75,7 +74,8 @@
 			}
 			
 			//Adds the image title if its set
-			if (provider.Title != undefined && provider.Title != null) {
+			if (provider.Title != undefined && provider.Title != null && this.isTouchDevice() == false) {
+				var titleTag = $('<span></span>');
 				titleTag.append(provider.Title);
 				titleTag.addClass("tooltip");
 				linkTag.append(titleTag);
@@ -215,5 +215,13 @@
 			newObject.addClass('on');
 			return newObject;	
 		}
+	},
+
+	isTouchDevice : function() {
+		return "ontouchstart" in window;
+	},
+
+	addPageLast : function(container,type,name){
+		return this.addPageAfter(container.find(".page:last"),type,name);
 	}
  }

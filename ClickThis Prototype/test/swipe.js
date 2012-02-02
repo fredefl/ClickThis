@@ -102,8 +102,11 @@ Swipe.prototype = {
 
   },
 
-  addElement : function(){
+  addElement : function(callback){
       this.setup();
+      if(typeof callback == "function"){
+        callback();
+      }
   },
 
   slide: function(index, duration) {
