@@ -255,7 +255,8 @@ var ajaxQueue = {
 			ajaxQueue.sendingStatusCode = true;
 			ajaxQueue.checkStatusCode();
 			var currentTask = this.queueArray.Tasks[0],
-				callback = null;
+				callback = null,
+				result = {};
 			ajaxQueue.log("Sending '" + currentTask.data + "' to '" + currentTask.url + "'.");/*LOG*/
 			$.ajax({
 				type: 'POST',
@@ -271,7 +272,10 @@ var ajaxQueue = {
 					callback = ajaxQueue.callbackArray.onSuccess[currentTask.group];
 					if (callback && typeof (callback) === "function") {
 						ajaxQueue.log("Calling back!");
-						callback();
+						result.data = data;
+						result.url = currentTask.url;
+						result.sentdata = currentTask.data;
+						callback(result);
 					}
 					// Loop on...
 					ajaxQueue.executeTasks();

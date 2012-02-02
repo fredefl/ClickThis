@@ -15,8 +15,9 @@
 		ajaxTimeout: 6000
 	})
 	ajaxQueue.load();
-	ajaxQueue.registerCallback({group: "test", type: "onSuccess"}, function () {
+	ajaxQueue.registerCallback({group: "test", type: "onSuccess"}, function (result) {
 		ajaxQueue.log("Recieved callback!");
+		// Use the result data with the "result" variable.
 	});
 	ajaxQueue.registerCallback({group: "test", type: "onTimeout"}, function () {
 		ajaxQueue.log("...timeout....booring!!!");
