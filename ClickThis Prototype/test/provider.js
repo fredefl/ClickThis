@@ -56,13 +56,14 @@
 	 * This function creates a provider element and an append option is available
 	 * @param {object} provider  The JSON object with the provider data
 	 * @param {object} container The optional object to append to
+	 * @param {string} imageSize The image size
 	 * @param {object} data      An optional JSON object with extra data 'element' = 'html attr name'
 	 */
-	addProvider : function(provider,container,data) {
+	addProvider : function(provider,container,imageSize,data) {
 		if (typeof provider == "object") {
+			imageSize = imageSize || "128";
 			var content = $("<img></img>"); //Makes the content img tag
 			var linkTag = $('<a></a>');
-			var titleTag = $('<span></span>');
 			
 			//Adds the href to the a tag if its set
 			if (provider.Link != undefined && provider.Link != null) {
@@ -71,11 +72,12 @@
 			
 			//Adds the image src if its set
 			if (provider.Image != undefined && provider.Image != null) {
-				content.attr("src",provider.Image);
+				content.attr("src",provider.Image.replace("{size}",imageSize));
 			}
 			
 			//Adds the image title if its set
-			if (provider.Title != undefined && provider.Title != null) {
+			if (provider.Title != undefined && provider.Title != null && this.isTouchDevice() == false) {
+				var titleTag = $('<span></span>');
 				titleTag.append(provider.Title);
 				titleTag.addClass("tooltip");
 				linkTag.append(titleTag);
@@ -119,10 +121,13 @@
 			page.addClass('page');
 			page.addClass('default');
 			page.attr("id",pageKeyword+name);
-		} else {
+		} else if(type == "user"){
 			page.addClass('page');
 			page.addClass('user');
 			page.attr("id",userPageKeyword+name);
+		} else if(type == "show"){
+			page.addClass('show');
+			page.attr("id","show_p"+name);
 		}
 		if(typeof object == 'object'){
 			object.append(page);
@@ -142,10 +147,13 @@
 			page.addClass('page');
 			page.addClass('default');
 			page.attr("id",pageKeyword+name);
-		} else {
+		} else if(type == "user"){
 			page.addClass('page');
 			page.addClass('user');
 			page.attr("id",userPageKeyword+name);
+		} else if(type == "show"){
+			page.addClass('show');
+			page.attr("id","show_p"+name);
 		}
 		if(typeof after == 'object'){
 			after.after(page);
@@ -214,6 +222,43 @@
 			old.removeClass('on');
 			newObject.addClass('on');
 			return newObject;	
+		}
+	},
+
+	isTouchDevice : function() {
+		return "ontouchstart" in window;
+	},
+
+	addPageLast : function(container,type,name){
+		return this.addPageAfter(container.find(".page:last"),type,name);
+	},
+
+	addShowProvider : function(provider,container,imageSize){
+		if(typeof provider == "object"){
+			imageSize = imageSize || "128";
+			var content = $("<img></img>"); //Makes the content img tag
+			var linkTag = $('<a></a>');
+			
+			//Adds the data-provider
+			if(provider.Name !== undefined && provider.Name !== null && provider.Name != ''){
+				content.attr('data-provider',provider.Name);
+			}
+
+			//Adds the image src if its set
+			if (provider.Image != undefined && provider.Image != null) {
+				content.attr("src",src.replace("{size}",imageSize));
+			}
+
+			linkTag.append(content);
+			var containerTag = $('<li></li>');
+			containerTag.append(linkTag);
+			containerTag.append(linkTag);
+			
+			//If an append obj is set append the provider to it
+			if (typeof container == "object" && container != null) {
+				container.append(containerTag);
+			}
+			return containerTag;
 		}
 	}
  }

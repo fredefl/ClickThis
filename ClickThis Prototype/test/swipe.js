@@ -51,12 +51,16 @@ window.Swipe = function(element, options) {
 
 Swipe.prototype = {
 
-  disable : function(){
+  disable : function(navigationOnDisabled){
     this.disabled = true;
+    if(navigationOnDisabled != null && navigationOnDisabled != undefined){
+      this.navigationOnDisabled = navigationOnDisabled;
+    }
   },
 
   enable : function(){
     this.disabled = false;
+    this.navigationOnDisabled = this.options.navigationOnDisabled;
   },
 
   setup: function() {
@@ -102,8 +106,11 @@ Swipe.prototype = {
 
   },
 
-  addElement : function(){
+  addElement : function(callback){
       this.setup();
+      if(typeof callback == "function"){
+        callback();
+      }
   },
 
   slide: function(index, duration) {

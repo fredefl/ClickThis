@@ -1,5 +1,10 @@
 "use strict";
 /**
+ * This variable contains a list of all providers
+ * @type {Object}
+ */
+var providerList;
+/**
  * This variable is filled with all the providers as an object when the document is ready
  * @type {Object}
  */
@@ -95,15 +100,6 @@ function swipeCallback(){
 	currentPage = window.loginSwipe.getPos();
 }
 
-/*$("#position em").hover(function(){
-	console.log("Hello");
-},function(){
-	
-});*/
-$(".bullet").click(function(){
-	console.log("hello");
-});
-
 /**
  * This function finds the current bullet turned on,
  * and turns it off and after that it finds the new bullet,
@@ -119,11 +115,35 @@ function changeBullet(newBullet,append){
 		}
 		var old = $(append).find('.on');
 		var newObject = $(append).find('em').eq(newBullet);
-		old.removeClass('on');
+		if(typeof old == "object"){
+			old.removeClass('on');
+		}
+		
 		newObject.addClass('on');
 		return newObject;	
 	}
 }
+
+function getProviderList(callback){
+	$.ajax('providers.php?list=1',{
+		success:function(data){
+			if(typeof callback == "function"){
+				callback(data);
+			}	
+		}
+	});	
+}
+
+function renderAddElement(data){
+	data = jQuery.parseJSON(data);
+	providerList = data;
+	var page = provider.addPage($("#searchProviders"),"show","1");
+	var container = provider.addContainer(page,"showContainer");
+	$(data).each(function(i,el){
+		
+	});	
+}
+
 
 /**
  * This event is called when a keyboard key is clicked
@@ -144,12 +164,23 @@ $(document).bind("keydown", function(event) {
 });
 
 $("#menuBar-add-element").click(function(){
-	//Show a box to choose an element
+	var elementBox = $("#searchProviders");
+	if($(elementBox).css("display") != "none"){
+		$(elementBox).animate({
+			opacity:0
+		},500,function(){
+			$(this).hide();
+		});
+	} else {
+		$(elementBox).show().animate({
+			opacity:1.0
+		},500);
+	}
 });
 
 $("#menuBar-add-page").click(function(){
-	var after = $(".page").eq(currentPage);
-	addNewPage(after);
+	//var after = $(".page").eq(currentPage);
+	addNewPage($("#providerContainer"));
 });
 
 /**
@@ -208,7 +239,7 @@ $('#edit').click(function(){
 		startEditMode();
 		$(menu).show();
 		menu.animate({
-    		width: "140px"
+    		width: "100px"
   		}, 500);
   		$("#blur").show().animate({
   			opacity: 0.7,
@@ -295,6 +326,9 @@ function checkForEmptyPages(){
 			}
 		}
 	});
+	if(window.loginSwipe != undefined){
+		changeBullet(window.loginSwipe.getPos(),$('#position'));
+	}
 }
 
 /**
@@ -381,6 +415,7 @@ $(document).ready(function () {
 		start(function () {
 			$(window).hashchange();
 			position($(pageChangeType).length,0,$('#position'),$('#position-container'));
+			getProviderList(renderAddElement);
 		});
 		if (location.hash == undefined || location.hash == '') {
 			currentPage = "page_p1";
@@ -586,10 +621,10 @@ function saveUserProvidersSucces(data){
 
 /**
  * This function adds a new page to the container
- * @param {object} after The page to add after
+ * @param {object} container The pages container
  */
-function addNewPage(after){
-	if(typeof after == "object"){
+function addNewPage(container){
+	if(typeof container == "object"){
 		var name;
 		$(".page").each(function(index,element){
 			if(name == undefined){
@@ -605,11 +640,23 @@ function addNewPage(after){
 			}
 		});
 		name = parseInt(name)+1;
-		var newPage = provider.addPageAfter(after,"user",name);
-		window.loginSwipe .addElement();
-		provider.addBullet($('#position'));
+		var newPage = provider.addPageLast(container,"user",name);
+		window.loginSwipe.addElement(function(){
+			setTimeout(function(){slideAfter(newPage)}, 200);
+		});
+		if(newPage != undefined){
+			provider.addBullet($('#position'));
+		}
 		return newPage;
 	}
+}
+
+/**
+ * This function is called when a new page is added
+ */
+function slideAfter(newPage){
+	slideTo(newPage);
+	changeBullet(window.loginSwipe.getPos(),$("#position"));
 }
 
 /**
@@ -673,4 +720,12 @@ function hideMessage(){
 	var messageBox = $("#message");
 	var messageContainer = $("#message-container");
 	messageBox.html("");
+}
+
+/**
+ * This function returns if the current device is an touch device
+ * @return {Boolean}
+ */
+function isTouchDevice() {
+	return "ontouchstart" in window;
 }
