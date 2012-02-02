@@ -202,7 +202,7 @@ $('#edit').click(function(){
 		startEditMode();
 		$(menu).show();
 		menu.animate({
-    		width: "140px"
+    		width: "100px"
   		}, 500);
   		$("#blur").show().animate({
   			opacity: 0.7,
