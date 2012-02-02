@@ -55,7 +55,7 @@
 			Documentation generator: <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0<br />
 			Template: <a href="http://www.thebrightlines.com/2010/05/06/new-template-for-jsdoctoolkit-codeview/" target="_blank">Codeview</a> 1.2<br />
 			Generated on:
-			<time datetime='2012-0-18' pubdate>2012-0-18 18:26</time>
+			<time datetime='2012-1-2' pubdate>2012-1-2 20:52</time>
 		</footer>
 	</div>
 </div>
@@ -107,7 +107,7 @@
 										<div class="fixedFont">
 											<b><a href="../symbols/provider.html#constructor">provider</a></b>()
 										</div>
-										<div class="description">This class can add a provider,page,container,column,row and a provider tag with image and a tag to a specific jQuery object.</div>
+										<div class="description">This class can add a provider,and what else is needed for itto a specific jQuery object.</div>
 									</td>
 								</tr>
 							</tbody>
@@ -116,6 +116,52 @@
 				</section>
 			
 			
+			
+				
+				<section>
+					
+						<nav>
+							<div class="props">
+								<table class="summaryTable" cellspacing="0" summary="A summary of the fields documented in the class provider.">
+									<caption class="sectionTitle">Field Summary</caption>
+									
+									<thead>
+										<tr>
+											<th scope="col">Field Attributes</th>
+											<th scope="col">Field Name and Description</th>
+										</tr>
+									</thead>
+									
+									<tbody>
+										
+											<tr>
+												<td class="attributes">&lt;static&gt; &nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont">
+													provider.<b><a href="../symbols/provider.html#.pageKeyword">pageKeyword</a></b>
+													</div>
+													<div class="description">The keyword to put in front of normal pages</div>
+												</td>
+											</tr>
+										
+											<tr>
+												<td class="attributes">&lt;static&gt; &nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont">
+													provider.<b><a href="../symbols/provider.html#.userPageKeyword">userPageKeyword</a></b>
+													</div>
+													<div class="description">The front keyword in front of pages with user content</div>
+												</td>
+											</tr>
+										
+									</tbody>
+								</table>
+							</div>
+						</nav>
+					
+					
+					
+				</section>
 			
 	<!--
 	#### METHODS SUMMARY
@@ -145,9 +191,9 @@
 											>
 												<td class="attributes">&lt;static&gt; &nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont">provider.<b><a href="../symbols/provider.html#.addColumn">addColumn</a></b>(obj)
+													<div class="fixedFont">provider.<b><a href="../symbols/provider.html#.addBullet">addBullet</a></b>(append)
 													</div>
-													<div class="description">This function adds a column to a table and if obj is specified the column will be appended too.</div>
+													<div class="description">This function adds one bullet to the append container</div>
 												</td>
 											</tr>
 										
@@ -156,9 +202,9 @@
 											>
 												<td class="attributes">&lt;static&gt; &nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont">provider.<b><a href="../symbols/provider.html#.addContainer">addContainer</a></b>(obj, cellspacing)
+													<div class="fixedFont">provider.<b><a href="../symbols/provider.html#.addBullets">addBullets</a></b>(number, current, append)
 													</div>
-													<div class="description">This function creates a table, this function will be used to create the page tables</div>
+													<div class="description">This function adds a number of bulletin to a object</div>
 												</td>
 											</tr>
 										
@@ -167,9 +213,9 @@
 											>
 												<td class="attributes">&lt;static&gt; &nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont">provider.<b><a href="../symbols/provider.html#.addPage">addPage</a></b>(obj, type, name, state)
+													<div class="fixedFont">provider.<b><a href="../symbols/provider.html#.addContainer">addContainer</a></b>(page, attrclass)
 													</div>
-													<div class="description">This function adds a page to the container with the specified parameters</div>
+													<div class="description">This function creates a container/ul container and returns it,if the page object is set then it is append to</div>
 												</td>
 											</tr>
 										
@@ -178,9 +224,9 @@
 											>
 												<td class="attributes">&lt;static&gt; &nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont">provider.<b><a href="../symbols/provider.html#.addProvider">addProvider</a></b>(obj, data, data)
+													<div class="fixedFont">provider.<b><a href="../symbols/provider.html#.addPage">addPage</a></b>(object, type, name)
 													</div>
-													<div class="description">This function adds the necesary html code for provider element,and if obj is specified the element will also be append to to obj</div>
+													<div class="description">This function creates a 'page' div and return it and if 'object',is an appendable object then it append it to it.</div>
 												</td>
 											</tr>
 										
@@ -189,9 +235,75 @@
 											>
 												<td class="attributes">&lt;static&gt; &nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont">provider.<b><a href="../symbols/provider.html#.addRow">addRow</a></b>(The)
+													<div class="fixedFont">provider.<b><a href="../symbols/provider.html#.addPageAfter">addPageAfter</a></b>(after, type, name)
 													</div>
-													<div class="description">This function creates a new row in a table with the tr tags,and returns the jquery object if a table is deffined as an object in obj the row is appended to it.</div>
+													<div class="description">[addPageAfter description]</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item5'
+											>
+												<td class="attributes">&lt;static&gt; &nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont">provider.<b><a href="../symbols/provider.html#.addPageLast">addPageLast</a></b>(container, type, name)
+													</div>
+													<div class="description"></div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item6'
+											>
+												<td class="attributes">&lt;static&gt; &nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont">provider.<b><a href="../symbols/provider.html#.addProvider">addProvider</a></b>(provider, container, imageSize, data)
+													</div>
+													<div class="description">This function creates a provider element and an append option is available</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item7'
+											>
+												<td class="attributes">&lt;static&gt; &nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont">provider.<b><a href="../symbols/provider.html#.addShowProvider">addShowProvider</a></b>(provider, container, imageSize)
+													</div>
+													<div class="description"></div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item8'
+											>
+												<td class="attributes">&lt;static&gt; &nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont">provider.<b><a href="../symbols/provider.html#.changeBullet">changeBullet</a></b>(newBullet, object)
+													</div>
+													<div class="description">This function can be used to change the active bulletin</div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item9'
+											>
+												<td class="attributes">&lt;static&gt; &nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont">provider.<b><a href="../symbols/provider.html#.isTouchDevice">isTouchDevice</a></b>()
+													</div>
+													<div class="description"></div>
+												</td>
+											</tr>
+										
+											<tr
+												 class='item10'
+											>
+												<td class="attributes">&lt;static&gt; &nbsp;</td>
+												<td class="nameDescription">
+													<div class="fixedFont">provider.<b><a href="../symbols/provider.html#.removeBullet">removeBullet</a></b>(object, container)
+													</div>
+													<div class="description">This function removes a bullet and if it was the current it find a new current</div>
 												</td>
 											</tr>
 										
@@ -225,7 +337,7 @@
 							</div>
 							
 							<div class="description">
-								This class can add a provider,page,container,column,row and a provider tag with image and a tag to a specific jQuery object.
+								This class can add a provider,and what else is needed for itto a specific jQuery object.
 								
 							</div>
 							
@@ -241,6 +353,62 @@
 	<!--
 	#### FIELD DETAILS
 	-->
+			
+				<section>
+					<div class="details props">
+						<div class="innerProps">
+							<h2 class="sectionTitle">
+								Field Detail
+							</h2>
+							
+							
+								<div class="fixedFont heading" id=".pageKeyword">
+									<span class='lighter'>
+									&lt;static&gt; 
+									</span>
+									
+									
+									
+									<span class="light">provider.</span><b>pageKeyword</b>							
+								</div>
+								
+								<div class="description">
+									The keyword to put in front of normal pages
+									
+									
+									
+								</div>
+								
+								
+									
+								
+								<div class="hr"></div>
+							
+								<div class="fixedFont heading" id=".userPageKeyword">
+									<span class='lighter'>
+									&lt;static&gt; 
+									</span>
+									
+									
+									
+									<span class="light">provider.</span><b>userPageKeyword</b>							
+								</div>
+								
+								<div class="description">
+									The front keyword in front of pages with user content
+									
+									
+									
+								</div>
+								
+								
+									
+								
+								
+							
+						</div>
+					</div>
+				</section>
 			
 	<!--
 	#### METHOD DETAILS
@@ -259,28 +427,24 @@
 									<li 
 										 class='item0'
 									>
-										<div class="fixedFont heading" id=".addColumn">
+										<div class="fixedFont heading" id=".addBullet">
 											<span class='lighter'>
 											&lt;static&gt; 
 											</span>
 											
-											<span class="light">{object}</span>
 											
-											<span class="light">provider.</span><b>addColumn</b>(obj)
+											
+											<span class="light">provider.</span><b>addBullet</b>(append)
 										</div>
 										
 										<div class="description">
-											This function adds a column to a table and if obj is specified the column will be appended too.
+											This function adds one bullet to the append container
 											
 											
 											
 											
 										</div>
 										
-										
-											
-												<pre class="code">provider.addColumn(container);</pre>
-											
 										
 										
 										
@@ -288,38 +452,14 @@
 												<dt class="heading">Parameters:</dt>
 												
 													<dt>
-														<span class="light fixedFont">{object}</span> <b>obj</b>
+														<span class="light fixedFont">{object}</span> <b>append</b>
 														
 													</dt>
-													<dd>The row/tr tag you wish to add the td/column too</dd>
+													<dd>[The object to append too</dd>
 												
 											</dl>
 										
 										
-										
-											<dl class="detailList nomargin">
-											
-												
-												
-												
-													<dt class="heading">Since:</dt>
-													<dd>1.0</dd>
-												
-												
-												
-												
-												
-													<dt class="heading">Returns:</dt>
-													
-														<dd><span class="light fixedFont">{object}</span> The jquery object of the newly created column</dd>
-													
-												
-												
-												
-												
-												
-											
-											</dl>
 										
 										<div class="hr"></div>
 									</li>
@@ -327,34 +467,24 @@
 									<li 
 										 class='item1'
 									>
-										<div class="fixedFont heading" id=".addContainer">
+										<div class="fixedFont heading" id=".addBullets">
 											<span class='lighter'>
 											&lt;static&gt; 
 											</span>
 											
-											<span class="light">{object}</span>
 											
-											<span class="light">provider.</span><b>addContainer</b>(obj, cellspacing)
+											
+											<span class="light">provider.</span><b>addBullets</b>(number, current, append)
 										</div>
 										
 										<div class="description">
-											This function creates a table, this function will be used to create the page tables
+											This function adds a number of bulletin to a object
 											
 											
 											
 											
 										</div>
 										
-										
-											
-												<pre class="code">//This function uses a jquery object and a optional integer with the cellspacing valueprovider.addContainer($('#box'),10)</pre>
-											
-												<pre class="code">var container = provider.addContainer();</pre>
-											
-												<pre class="code">//This example will not do anything because, an append object is not defined and nothing is done with the result.var box = null;provider.addContainer(box,null);</pre>
-											
-												<pre class="code">//This example will not append anything but the result will be stored in 'container'.var container;container = provider.addProvider(null,10);</pre>
-											
 										
 										
 										
@@ -362,44 +492,26 @@
 												<dt class="heading">Parameters:</dt>
 												
 													<dt>
-														<span class="light fixedFont">{object}</span> <b>obj</b>
+														<span class="light fixedFont">{int}</span> <b>number</b>
 														
 													</dt>
-													<dd>This parameter is the jquery object of the outer div or outer container</dd>
+													<dd>the number of bulletins to add</dd>
 												
 													<dt>
-														<span class="light fixedFont">{object}</span> <b>cellspacing</b>
+														<span class="light fixedFont">{int}</span> <b>current</b>
 														
 													</dt>
-													<dd>This is an optional parameter, to set the table cellspacing if its not set then the value will be 10</dd>
+													<dd>The active page/bulletin</dd>
+												
+													<dt>
+														<span class="light fixedFont">{object}</span> <b>append</b>
+														
+													</dt>
+													<dd>The object to append too</dd>
 												
 											</dl>
 										
 										
-										
-											<dl class="detailList nomargin">
-											
-												
-												
-												
-													<dt class="heading">Since:</dt>
-													<dd>1.0</dd>
-												
-												
-												
-												
-												
-													<dt class="heading">Returns:</dt>
-													
-														<dd><span class="light fixedFont">{object}</span> This function returns the jquery object of the container</dd>
-													
-												
-												
-												
-												
-												
-											
-											</dl>
 										
 										<div class="hr"></div>
 									</li>
@@ -407,18 +519,18 @@
 									<li 
 										 class='item2'
 									>
-										<div class="fixedFont heading" id=".addPage">
+										<div class="fixedFont heading" id=".addContainer">
 											<span class='lighter'>
 											&lt;static&gt; 
 											</span>
 											
-											<span class="light">{object}</span>
 											
-											<span class="light">provider.</span><b>addPage</b>(obj, type, name, state)
+											
+											<span class="light">provider.</span><b>addContainer</b>(page, attrclass)
 										</div>
 										
 										<div class="description">
-											This function adds a page to the container with the specified parameters
+											This function creates a container/ul container and returns it,if the page object is set then it is append to
 											
 											
 											
@@ -432,56 +544,20 @@
 												<dt class="heading">Parameters:</dt>
 												
 													<dt>
-														<span class="light fixedFont">{object}</span> <b>obj</b>
+														<span class="light fixedFont">{object}</span> <b>page</b>
 														
 													</dt>
-													<dd>The container you wish to add the page div to</dd>
+													<dd>The page object to append to</dd>
 												
 													<dt>
-														<span class="light fixedFont">{string}</span> <b>type</b>
+														<span class="light fixedFont">{string}</span> <b>attrclass</b>
 														
 													</dt>
-													<dd>This is the type of the page, "user" or "default"/page</dd>
-												
-													<dt>
-														<span class="light fixedFont">{string}</span> <b>name</b>
-														
-													</dt>
-													<dd>The name of the page div the final id will be the choosen keyoed user or page + name</dd>
-												
-													<dt>
-														<span class="light fixedFont">{string}</span> <b>state</b>
-														
-													</dt>
-													<dd>The state of the page "Disabled" or "Active"</dd>
+													<dd>The wished class to add to the container,standard value is 'sortable-grid'</dd>
 												
 											</dl>
 										
 										
-										
-											<dl class="detailList nomargin">
-											
-												
-												
-												
-													<dt class="heading">Since:</dt>
-													<dd>1.0</dd>
-												
-												
-												
-												
-												
-													<dt class="heading">Returns:</dt>
-													
-														<dd><span class="light fixedFont">{object}</span> This function returns a jquery object</dd>
-													
-												
-												
-												
-												
-												
-											
-											</dl>
 										
 										<div class="hr"></div>
 									</li>
@@ -489,18 +565,18 @@
 									<li 
 										 class='item3'
 									>
-										<div class="fixedFont heading" id=".addProvider">
+										<div class="fixedFont heading" id=".addPage">
 											<span class='lighter'>
 											&lt;static&gt; 
 											</span>
 											
-											<span class="light">{object}</span>
 											
-											<span class="light">provider.</span><b>addProvider</b>(obj, data, data)
+											
+											<span class="light">provider.</span><b>addPage</b>(object, type, name)
 										</div>
 										
 										<div class="description">
-											This function adds the necesary html code for provider element,and if obj is specified the element will also be append to to obj
+											This function creates a 'page' div and return it and if 'object',is an appendable object then it append it to it.
 											
 											
 											
@@ -514,19 +590,123 @@
 												<dt class="heading">Parameters:</dt>
 												
 													<dt>
-														<span class="light fixedFont">{object}</span> <b>obj</b>
+														<span class="light fixedFont">{object}</span> <b>object</b>
 														
 													</dt>
-													<dd>The jquery object you wish to add the provider to</dd>
+													<dd>The object to append to</dd>
 												
 													<dt>
-														<span class="light fixedFont">{array}</span> <b>data</b>
+														<span class="light fixedFont">{string}</span> <b>type</b>
 														
 													</dt>
-													<dd>This parameter is optional it's used to specify other rows then standard,but beaware that the html tag and the class variable must be the same.</dd>
+													<dd>The type of the page 'user' or 'default'</dd>
 												
 													<dt>
-														<b>data</b>
+														<span class="light fixedFont">{string}</span> <b>name</b>
+														
+													</dt>
+													<dd>The name that will be put after the keyword defined in type</dd>
+												
+											</dl>
+										
+										
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item4'
+									>
+										<div class="fixedFont heading" id=".addPageAfter">
+											<span class='lighter'>
+											&lt;static&gt; 
+											</span>
+											
+											
+											
+											<span class="light">provider.</span><b>addPageAfter</b>(after, type, name)
+										</div>
+										
+										<div class="description">
+											[addPageAfter description]
+											
+											
+											
+											
+										</div>
+										
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<span class="light fixedFont">{object}</span> <b>after</b>
+														
+													</dt>
+													<dd>The object to append after</dd>
+												
+													<dt>
+														<span class="light fixedFont">{string}</span> <b>type</b>
+														
+													</dt>
+													<dd>The type of the page 'user' or 'default'</dd>
+												
+													<dt>
+														<span class="light fixedFont">{string}</span> <b>name</b>
+														
+													</dt>
+													<dd>The name that will be put after the keyword defined in type</dd>
+												
+											</dl>
+										
+										
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item5'
+									>
+										<div class="fixedFont heading" id=".addPageLast">
+											<span class='lighter'>
+											&lt;static&gt; 
+											</span>
+											
+											
+											
+											<span class="light">provider.</span><b>addPageLast</b>(container, type, name)
+										</div>
+										
+										<div class="description">
+											
+											
+											
+											
+											
+										</div>
+										
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<b>container</b>
+														
+													</dt>
+													<dd></dd>
+												
+													<dt>
+														<b>type</b>
+														
+													</dt>
+													<dd></dd>
+												
+													<dt>
+														<b>name</b>
 														
 													</dt>
 													<dd></dd>
@@ -535,13 +715,166 @@
 										
 										
 										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item6'
+									>
+										<div class="fixedFont heading" id=".addProvider">
+											<span class='lighter'>
+											&lt;static&gt; 
+											</span>
+											
+											
+											
+											<span class="light">provider.</span><b>addProvider</b>(provider, container, imageSize, data)
+										</div>
+										
+										<div class="description">
+											This function creates a provider element and an append option is available
+											
+											
+											
+											
+										</div>
+										
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<span class="light fixedFont">{object}</span> <b>provider</b>
+														
+													</dt>
+													<dd>The JSON object with the provider data</dd>
+												
+													<dt>
+														<span class="light fixedFont">{object}</span> <b>container</b>
+														
+													</dt>
+													<dd>The optional object to append to</dd>
+												
+													<dt>
+														<span class="light fixedFont">{string}</span> <b>imageSize</b>
+														
+													</dt>
+													<dd>The image size</dd>
+												
+													<dt>
+														<span class="light fixedFont">{object}</span> <b>data</b>
+														
+													</dt>
+													<dd>An optional JSON object with extra data 'element' = 'html attr name'</dd>
+												
+											</dl>
+										
+										
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item7'
+									>
+										<div class="fixedFont heading" id=".addShowProvider">
+											<span class='lighter'>
+											&lt;static&gt; 
+											</span>
+											
+											
+											
+											<span class="light">provider.</span><b>addShowProvider</b>(provider, container, imageSize)
+										</div>
+										
+										<div class="description">
+											
+											
+											
+											
+											
+										</div>
+										
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<b>provider</b>
+														
+													</dt>
+													<dd></dd>
+												
+													<dt>
+														<b>container</b>
+														
+													</dt>
+													<dd></dd>
+												
+													<dt>
+														<b>imageSize</b>
+														
+													</dt>
+													<dd></dd>
+												
+											</dl>
+										
+										
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item8'
+									>
+										<div class="fixedFont heading" id=".changeBullet">
+											<span class='lighter'>
+											&lt;static&gt; 
+											</span>
+											
+											<span class="light">{object}</span>
+											
+											<span class="light">provider.</span><b>changeBullet</b>(newBullet, object)
+										</div>
+										
+										<div class="description">
+											This function can be used to change the active bulletin
+											
+											
+											
+											
+										</div>
+										
+										
+										
+										
+											<dl class="detailList params">
+												<dt class="heading">Parameters:</dt>
+												
+													<dt>
+														<span class="light fixedFont">{int}</span> <b>newBullet</b>
+														
+													</dt>
+													<dd>The index of the bulletin to activate</dd>
+												
+													<dt>
+														<span class="light fixedFont">{object}</span> <b>object</b>
+														
+													</dt>
+													<dd>The object where to find the buletins</dd>
+												
+											</dl>
+										
+										
+										
 											<dl class="detailList nomargin">
 											
 												
 												
-												
-													<dt class="heading">Since:</dt>
-													<dd>1.0</dd>
 												
 												
 												
@@ -549,7 +882,7 @@
 												
 													<dt class="heading">Returns:</dt>
 													
-														<dd><span class="light fixedFont">{object}</span> The created jquery object of the provider</dd>
+														<dd><span class="light fixedFont">{object}</span> </dd>
 													
 												
 												
@@ -563,20 +896,20 @@
 									</li>
 								
 									<li 
-										 class='item4'
+										 class='item9'
 									>
-										<div class="fixedFont heading" id=".addRow">
+										<div class="fixedFont heading" id=".isTouchDevice">
 											<span class='lighter'>
 											&lt;static&gt; 
 											</span>
 											
-											<span class="light">{object}</span>
 											
-											<span class="light">provider.</span><b>addRow</b>(The)
+											
+											<span class="light">provider.</span><b>isTouchDevice</b>()
 										</div>
 										
 										<div class="description">
-											This function creates a new row in a table with the tr tags,and returns the jquery object if a table is deffined as an object in obj the row is appended to it.
+											
 											
 											
 											
@@ -584,9 +917,34 @@
 										</div>
 										
 										
+										
+										
+										
+										
+										<div class="hr"></div>
+									</li>
+								
+									<li 
+										 class='item10'
+									>
+										<div class="fixedFont heading" id=".removeBullet">
+											<span class='lighter'>
+											&lt;static&gt; 
+											</span>
 											
-												<pre class="code">provider.addRow(column)</pre>
 											
+											
+											<span class="light">provider.</span><b>removeBullet</b>(object, container)
+										</div>
+										
+										<div class="description">
+											This function removes a bullet and if it was the current it find a new current
+											
+											
+											
+											
+										</div>
+										
 										
 										
 										
@@ -594,38 +952,20 @@
 												<dt class="heading">Parameters:</dt>
 												
 													<dt>
-														<span class="light fixedFont">{object}</span> <b>The</b>
+														<span class="light fixedFont">{object}</span> <b>object</b>
 														
 													</dt>
-													<dd>jquery object of the table</dd>
+													<dd>The object to remoce</dd>
+												
+													<dt>
+														<span class="light fixedFont">{object}</span> <b>container</b>
+														
+													</dt>
+													<dd>The position container</dd>
 												
 											</dl>
 										
 										
-										
-											<dl class="detailList nomargin">
-											
-												
-												
-												
-													<dt class="heading">Since:</dt>
-													<dd>1.0</dd>
-												
-												
-												
-												
-												
-													<dt class="heading">Returns:</dt>
-													
-														<dd><span class="light fixedFont">{object}</span> The jquery object of the new row</dd>
-													
-												
-												
-												
-												
-												
-											
-											</dl>
 										
 										
 									</li>
