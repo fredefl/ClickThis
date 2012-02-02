@@ -30,78 +30,103 @@ function addAboutBox() {
 }
 
 /**
+ * This function checks if the input isset
+ * @param  {string]||{Number}}||{Object} data The data to check if isset
+ * @return {[Boolean}
+ */
+function isset(data){
+	if(data != undefined && data != null && data != "" && typeof data != "undefined"){
+		return true;
+	} else {
+		return false;
+	}
+}
+
+/**
 * This function checks all the different data parameters,
 * and choose if the about button is to be shown and what text to be shown
 */
 function aboutText() {
-	var backButton = $('#backButton'),
-		backText = $('#backtext'),
-		backButtonPageText = '',
-		backButtonAboutText = '',
-		startDisabled = true;
-	if (backButton.attr('data-start-mode') !== undefined) {
-		if (backButton.attr('data-start-mode') === 'active') {
+	var back = $("#backButton");
+	var pageText = "Home";
+	var aboutBoxText = "Back";
+	var startDisabled = false;
+
+	//Set the start mode
+	if (isset(back.attr('data-start-mode'))) {
+		if (back.attr('data-start-mode') === 'active') {
 			startDisabled = false;
 		}
-		if (backButton.attr('data-start-mode') === 'disabled') {
+		if (back.attr('data-start-mode') === 'disabled') {
 			startDisabled = true;
 		}
 	}
-	if (window.ClickThisApp) {
-		if (backButton.attr('data-app-onClick') !== undefined && backButton.attr('onClick') !== backButton.attr('data-app-onClick')) {
-			backButton.attr('onClick', backButton.attr('data-app-onClick'));
-		}
-		if (backText.attr('data-app') !== undefined) {
-			backButtonPageText = backText.attr('data-app');
+
+	if(isset(back.attr("data-about-text"))){
+		aboutBoxText = back.attr("data-about-text");
+	}
+	if(isset(back.attr("data-text"))){
+		pageText = back.attr("data-text");
+	}
+
+	//If the user is in the ClickThisApp
+	if(window.ClickThisApp){
+		if (isset(back.attr('data-app-onClick')) && back.attr('onClick') !== back.attr('data-app-onClick')) {
+			back.attr('onClick', back.attr('data-app-onClick'));
 		} else {
-			if (backText.attr('data-mobile') !== undefined) {
-				backButtonPageText = backText.attr('data-mobile');
-			} else {
-				if (backText.attr('data-page') !== undefined) {
-					backButtonPageText = backText.attr('data-page');
-				} else {
-					backButtonPageText = 'Home';
-				}
+			back.attr('onClick', "");
+		}
+		if(isset(back.attr("data-app-about-text"))){
+			aboutBoxText = back.attr("data-app-about-text");
+		}
+		if(isset(back.attr("data-app-text"))){
+			pageText = back.attr("data-app-text");
+		}
+
+		//Set the start mode
+		if (isset(back.attr('data-app-start-mode'))) {
+			if (back.attr('data-start-mode') === 'active') {
+				startDisabled = false;
+			}
+			if (back.attr('data-app-start-mode') === 'disabled') {
+				startDisabled = true;
 			}
 		}
-		if (backText.attr('data-app-about') !== undefined) {
-			backButtonAboutText = backText.attr('data-app-about');
-		} else {
-			if (backText.attr('data-mobile-about') !== undefined) {
-				backButtonAboutText = backText.attr('data-mobile-about');
-			} else {
-				if (backText.attr('data-about') !== undefined) {
-					backButtonAboutText = backText.attr('data-about');
-				} else {
-					backButtonAboutText = 'Back';
-				}
-			}
-		}
+	//Else the user is using a browser
 	} else {
-		if (backText.attr('data-mobile-about') !== undefined) {
-			backButtonAboutText = backText.attr('data-mobile-about');
-		} else if (backText.attr('data-about') !== undefined) {
-			backButtonAboutText = backText.attr('data-about');
-		} else {
-			backButtonAboutText = 'Back';
+		if(isset(back.attr("data-page-text"))){
+			pageText = back.attr("data-text");
 		}
-		if (backText.attr('data-mobile') !== undefined) {
-			backButtonPageText = backText.attr('data-mobile');
-		} else if (backText.attr('data-page') !== undefined) {
-			backButtonPageText = backText.attr('data-page');
-		} else {
-			backButtonPageText = 'Home';
+		if(isset(back.attr("data-page-about"))){
+			aboutBoxText = back.attr("data-about-text");
+		}
+		//Set the start mode
+		if (isset(back.attr('data-page-start-mode'))) {
+			if (back.attr('data-page-start-mode') === 'active') {
+				startDisabled = false;
+			}
+			if (back.attr('data-page-start-mode') === 'disabled') {
+				startDisabled = true;
+			}
 		}
 	}
+
+	if(location.hash == "#welcome_cars"){
+		startDisabled = false;
+		pageText = "Back";
+	}
+
+	//Do something with all the values
 	if (startDisabled) {
-		backButton.addClass('Disabled').removeClass('Active');
+		back.addClass('Disabled').removeClass('Active');
 	} else {
-		backButton.addClass('Active').removeClass('Disabled');
+		back.addClass('Active').removeClass('Disabled');
 	}
-	if (backButton.attr('data-about') !== undefined && backButton.attr('data-about') === 'true') {
-		backButton.html(backButtonAboutText);
+
+	if (isset(back.attr('data-about')) && back.attr('data-about') == 'true') {
+		back.html(aboutBoxText);
 	} else {
-		backButton.html(backButtonPageText);
+		back.html(pageText);
 	}
 }
 
@@ -132,6 +157,7 @@ function changePage(Page) {
 	if (isOnPage('home.html')) {
 		shortenTitle();
 	}
+	aboutText();
 }
 
 /**
@@ -153,8 +179,7 @@ function showAboutBox() {
 	var currentPage = $('#' + $('#currentpage').val()),
 		page = '#' + $('#currentpage').val(),
 		aboutBox = $('#aboutBox'),
-		backButton = $('#backButton'),
-		backText = $('#backtext');
+		backButton = $('#backButton');
 	backButton.attr('data-href', page);
 	backButton.attr('data-about', 'true');
 	aboutText();
@@ -166,6 +191,40 @@ function showAboutBox() {
 	}
 }
 
+function startmode(){
+	var startDisabled;
+	var back = $("#backButton");
+
+	if (isset(back.attr('data-start-mode'))) {
+		if (back.attr('data-start-mode') === 'active') {
+			startDisabled = false;
+		}
+		if (back.attr('data-start-mode') === 'disabled') {
+			startDisabled = true;
+		}
+	}
+	if(window.ClickThisApp){
+		if (isset(back.attr('data-app-start-mode'))) {
+			if (back.attr('data-start-mode') === 'active') {
+				startDisabled = false;
+			}
+			if (back.attr('data-app-start-mode') === 'disabled') {
+				startDisabled = true;
+			}
+		}
+	} else {
+		if (isset(back.attr('data-page-start-mode'))) {
+			if (back.attr('data-page-start-mode') === 'active') {
+				startDisabled = false;
+			}
+			if (back.attr('data-page-start-mode') === 'disabled') {
+				startDisabled = true;
+			}
+		}	
+	}
+	return startDisabled;	
+}
+
 /**
 * This function hides the aboutbox
 */
@@ -173,15 +232,17 @@ function hideAboutBox() {
 	var aboutBox = $('#aboutBox'),
 		backButton = $('#backButton'),
 		currentPage = $('#' + $('#currentpage').val()),
-		page = '#' + $('#currentpage').val(),
-		backText = $('#backtext');
+		page = '#' + $('#currentpage').val();
 	currentPage.removeClass('Disabled').addClass('Active');
 	backButton.attr('data-href', 'home.html');
 	backButton.removeAttr('data-about');
 	aboutText();
-	if ($('#currentpage').val() === 'user') {
-		backButton.addClass('Disabled');
+	if(window.ClickThisApp && isOnPage("home.html")){
+		backButton.removeClass('Disabled').addClass('Active');
 	}
+	/*if ($('#currentpage').val() == 'user') {
+		backButton.addClass('Disabled');
+	}*/
 	aboutBox.addClass('Disabled').removeClass('Active');
 	if(isOnPage('multiplechoice.html')){
 		$('#questionsContainer').removeClass('Disabled')

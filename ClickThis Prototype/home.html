@@ -13,15 +13,14 @@
 	</head>
 	<body>
     <input type="hidden" id="currentpage" value="user" />
-    <input type="hidden" id="backtext" data-about="Back" data-page="Back" data-mobile="Back" data-start-mode="active" data-app="Quit"  data-mobile-about="Back" data-app-about="Back" />
         <div id="jqt">
         	<!-- The full page div -->
-            <div id="home" class="current">
+            <div id="home" class="current" >
             	<!-- Toolbar -->
             	<div class="toolbar">
                     <h1><a href="http://illution.dk/ClickThisPrototype/home.html" title="Home" style="text-decoration:none; color:#FFF;">ClickThis</a></h1>
                     <a class="button slideup" onClick="showAboutBox();" id="infoButton">About</a>
-                    <a class="back Disabled" id="backButton" data-href="home.html" data-app-onClick="ClickThisApp.terminateApp()">Back</a>
+                    <a class="back Active" id="backButton" data-href="home.html" data-app-onClick="ClickThisApp.terminateApp()" data-app-text="Quit" data-app-start-mode="active" data-page-start-mode="disabled">Back</a>
                 </div>
                 <div id="notification" style="display:none;height:0px">
                     Some data has not been sent!
@@ -173,7 +172,7 @@
             ajaxQueue.executeTasks();
             ajaxQueue.setConfig({ajaxTimeout: 6000})
             ajaxQueue.registerCallback({group: "beaconpush", type: "onSuccess"},function () {
-                alert('Notification sent!');
+                
             });
             // Page view counter
             if (!localStorage.pageCounter)
