@@ -1,5 +1,10 @@
 "use strict";
 /**
+ * This variable contains a list of all providers
+ * @type {Object}
+ */
+var providerList;
+/**
  * This variable is filled with all the providers as an object when the document is ready
  * @type {Object}
  */
@@ -119,6 +124,27 @@ function changeBullet(newBullet,append){
 	}
 }
 
+function getProviderList(callback){
+	$.ajax('providers.php?list=1',{
+		success:function(data){
+			if(typeof callback == "function"){
+				callback(data);
+			}	
+		}
+	});	
+}
+
+function renderAddElement(data){
+	data = jQuery.parseJSON(data);
+	providerList = data;
+	var page = provider.addPage($("#searchProviders"),"show","1");
+	var container = provider.addContainer(page,"showContainer");
+	$(data).each(function(i,el){
+		
+	});	
+}
+
+
 /**
  * This event is called when a keyboard key is clicked
  */
@@ -138,7 +164,18 @@ $(document).bind("keydown", function(event) {
 });
 
 $("#menuBar-add-element").click(function(){
-	//Show a box to choose an element
+	var elementBox = $("#searchProviders");
+	if($(elementBox).css("display") != "none"){
+		$(elementBox).animate({
+			opacity:0
+		},500,function(){
+			$(this).hide();
+		});
+	} else {
+		$(elementBox).show().animate({
+			opacity:1.0
+		},500);
+	}
 });
 
 $("#menuBar-add-page").click(function(){
@@ -378,6 +415,7 @@ $(document).ready(function () {
 		start(function () {
 			$(window).hashchange();
 			position($(pageChangeType).length,0,$('#position'),$('#position-container'));
+			getProviderList(renderAddElement);
 		});
 		if (location.hash == undefined || location.hash == '') {
 			currentPage = "page_p1";
