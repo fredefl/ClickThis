@@ -439,6 +439,7 @@ ul li{
 	display: none;
 	position: absolute;
 	height:40px;
+	z-index:9999;
 }
 
 #message-header{
