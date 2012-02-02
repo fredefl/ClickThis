@@ -54,8 +54,29 @@ var ajaxQueue = {
 	callbackArray: {
 		onSuccess: {},
 		onError: {},
-		onTimeout: {}
+		onTimeout: {},
+		onStatusCodeChange: []
 	},
+
+	/**
+	 * The current status of the ajaxQueue
+	 * Status Codes:
+	 * 	false: 	Unknown
+	 * 	0: 		Queue is empty
+	 * 	1:  	Queue contains tasks, but is not active
+	 * 	2: 		Queue contains tasks, and is active 
+	 * @type {Number}
+	 */
+	statusCode: false,
+
+	/**
+	 * The status of sending
+	 * Status Codes:
+	 * false	Is not sending
+	 * true 	Is sending
+	 * @type {Boolean}
+	 */
+	sendingStatusCode: false,
 
 	/**
 	 * Logs the specified message
@@ -85,6 +106,7 @@ var ajaxQueue = {
 			ajaxQueue.log("No data in localstorage, adding new key.");/*LOG*/
 			return false;
 		}
+		ajaxQueue.checkStatusCode();
 	},
 
 	/**
@@ -125,6 +147,7 @@ var ajaxQueue = {
 			// Incate that an error occoured
 			id = false;
 		}
+		ajaxQueue.checkStatusCode();
 		// Return the new id for the task
 		return id;
 	},
@@ -145,6 +168,7 @@ var ajaxQueue = {
         });
 		this.save();
 		ajaxQueue.log("Removed " + id);/*LOG*/
+		ajaxQueue.checkStatusCode();
 		return result;
 	},
 
@@ -157,7 +181,65 @@ var ajaxQueue = {
 		this.queueArray = {};
 		this.save();
 		ajaxQueue.log("Cleared queue");/*LOG*/
+		ajaxQueue.checkStatusCode();
 		return true;
+	},
+
+	/**
+	 * Gets the length of the queue
+	 * @return {Number}
+	 */
+	getQueueLength: function () {
+		return ajaxQueue.queueArray.Tasks.length;
+	},
+
+	/**
+	 * Sets the status code
+	 * @param {Number} newStatusCode The new status code
+	 */
+	setStatusCode: function (newStatusCode) {
+		ajaxQueue.statusCode = newStatusCode;
+	},
+
+	/**
+	 * Gets the status code
+	 * @return {Number}
+	 */
+	getStatusCode: function () {
+		ajaxQueue.checkStatusCode();
+		return ajaxQueue.statusCode;
+	},
+
+	/**
+	 * Checks the status code by counting the number of tasks and the value in sendingStatusCode
+	 */
+	checkStatusCode: function () {
+		var i = 0,
+			oldStatusCode = ajaxQueue.statusCode,
+			callback;
+		if(ajaxQueue.getQueueLength() > 0) {
+			if(ajaxQueue.sendingStatusCode) {
+				// Is sending, and there is tasks in the queue
+				ajaxQueue.setStatusCode(2);
+			} else {
+				// Is not sending, but there is tasks in the queue
+				ajaxQueue.setStatusCode(1);
+			}
+		} else {
+			// No tasks in queue, and is therefore not sending
+			ajaxQueue.setStatusCode(0);
+		}
+
+		if(oldStatusCode !== ajaxQueue.statusCode) {
+			if(ajaxQueue.callbackArray.onStatusCodeChange.length > 0) {
+				for (i = 0; i <= ajaxQueue.callbackArray.onStatusCodeChange.length - 1; i++) {
+					callback = ajaxQueue.callbackArray.onStatusCodeChange[i];
+					if (callback && typeof (callback) === "function") {
+						callback();
+					}
+				};
+			}
+		}
 	},
 
 	/**
@@ -167,6 +249,8 @@ var ajaxQueue = {
 	 */
 	executeTasks: function () {
 		if (this.queueArray.Tasks.length > 0) {
+			ajaxQueue.sendingStatusCode = true;
+			ajaxQueue.checkStatusCode();
 			var currentTask = this.queueArray.Tasks[0],
 				callback = null;
 			ajaxQueue.log("Sending '" + currentTask.data + "' to '" + currentTask.url + "'.");/*LOG*/
@@ -212,6 +296,9 @@ var ajaxQueue = {
 					}
 				}
 			});
+		} else {
+			ajaxQueue.sendingStatusCode = false;
+			ajaxQueue.checkStatusCode();
 		}
 		return true;
 	},
@@ -266,7 +353,12 @@ var ajaxQueue = {
 	 * }, testFunction);
 	 */
 	registerCallback: function (json, callback) {
-		if (callback && typeof (callback) === "function" && json.group && json.type) {
+		if(json.type === "onStatusCodeChange") {
+			var current = ajaxQueue.callbackArray[json.type];
+			current.push(callback);
+			return true;
+		}
+		if (callback && typeof (callback) === "function" && json.type && json.group) {
 			var current = ajaxQueue.callbackArray[json.type];
 			current[json.group] = callback;
 			return true;
