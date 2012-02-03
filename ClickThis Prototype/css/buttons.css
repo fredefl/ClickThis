@@ -19,6 +19,8 @@
 
 		-moz-hyphens:auto;
 		-webkit-hyphens:auto;
+		-o-hyphens:auto;
+		hyphens:auto;
 	}
 	/* Mega Button */								  
 	.mega.button, .mega.button:visited {
