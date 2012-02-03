@@ -33,7 +33,7 @@ $(document).ready(function() {
 	question4 = new Array()
 	question4[0] = new Array('button','green','Denmark',0);
 	question4[1] = new Array('button','green','Germany',0);
-	question4[2] = new Array('button','green','France',0);
+	question4[2] = new Array('button','green','Pneumonoultramicroscopicsilicovolcanoconiosis',0);
 	question4[3] = new Array('button','red','Don\'t know',0);
 	question4[4] = new Array('submit','orange','Send','send4','#question_5',null);
 	question(question4,'question_4',true,true,'4','h1');

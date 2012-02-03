@@ -16,6 +16,11 @@
 		-webkit-box-shadow:0 1px 3px rgba(0,0,0,0.6);
 		-ms-box-shadow:0 1px 3px rgba(0,0,0,0.6);
 		-o-box-shadow:0 1px 3px rgba(0,0,0,0.6);
+
+		-moz-hyphens:auto;
+		-webkit-hyphens:auto;
+		-o-hyphens:auto;
+		hyphens:auto;
 	}
 	/* Mega Button */								  
 	.mega.button, .mega.button:visited {
