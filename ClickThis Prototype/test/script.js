@@ -134,14 +134,38 @@ function getProviderList(callback){
 	});	
 }
 
+function addElementSwipeCallback(){
+	
+}
+
+/**
+ * [renderAddElement description]
+ * @param  {[type]} data [description]
+ * @return {[type]}
+ * @todo Disabled the normal slider and enable the new slider
+ */
 function renderAddElement(data){
 	data = jQuery.parseJSON(data);
 	providerList = data;
-	var page = provider.addPage($("#searchProviders"),"show","1");
+	var offSet = 0;
+	var pageCount = 1;
+	/*$('#addElementContainer ul').sortable({
+                "items" : 'li',
+                "disabled" : true 
+     });
+     $('#addElementContainer ul').disableSelection();*/
+	var page = provider.addPage($("#addElementContainer > :first"),"show","1");
 	var container = provider.addContainer(page,"showContainer");
 	$(data).each(function(i,el){
-		
-	});	
+		if(i > offSet+14){
+			console.log("New Page");
+			offSet = offSet+14;
+			pageCount++;
+			page = provider.addPage($("#addElementContainer > :first"),"show",pageCount);
+			container = provider.addContainer(page,"showContainer");
+		}
+		provider.addShowProvider(providers[el],container,"64");
+	});
 }
 
 
@@ -416,6 +440,9 @@ $(document).ready(function () {
 			$(window).hashchange();
 			position($(pageChangeType).length,0,$('#position'),$('#position-container'));
 			getProviderList(renderAddElement);
+			window.addElementSwipe = new Swipe(document.getElementById("addElementContainer"),{
+				callback:addElementSwipeCallback
+			});	
 		});
 		if (location.hash == undefined || location.hash == '') {
 			currentPage = "page_p1";

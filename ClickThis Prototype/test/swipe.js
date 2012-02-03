@@ -81,7 +81,6 @@ Swipe.prototype = {
 
     // return immediately if measurement fails
     if (!this.width) return null;
-
     // hide slider element but keep positioning during setup
     this.container.style.visibility = 'hidden';
 

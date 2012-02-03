@@ -246,7 +246,7 @@
 
 			//Adds the image src if its set
 			if (provider.Image != undefined && provider.Image != null) {
-				content.attr("src",src.replace("{size}",imageSize));
+				content.attr("src",provider.Image.replace("{size}",imageSize));
 			}
 
 			linkTag.append(content);

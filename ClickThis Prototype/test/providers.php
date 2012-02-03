@@ -39,6 +39,7 @@ if(count($_GET) == 0){
 			$Array = array();
 			foreach($Providers as $ArrayName => $Data){
 				array_push($Array,$ArrayName);
+				array_push($Array,$ArrayName);
 			}
 			echo json_encode($Array);
 		}
