@@ -93,11 +93,18 @@ var showStandardProvidersIfUSerProviders = false;
 var userProviderKey = "userProviders";
 
 /**
+ * The element of the current loginSwipe page
+ * @type {object}
+ */
+var currentPageElement;
+
+/**
  * This function is called when the user starts a swipe
  */
-function swipeCallback(){
+function swipeCallback(event, index, elem){
 	changeBullet(window.loginSwipe.getPos(),$('#position'));
 	currentPage = window.loginSwipe.getPos();
+	currentPageElement = elem;
 }
 
 /**
@@ -134,7 +141,7 @@ function getProviderList(callback){
 	});	
 }
 
-function addElementSwipeCallback(){
+function addElementSwipeCallback(event, index, elem){
 	changeBullet(window.addElementSwipe.getPos(),$("#add-element-position"));
 }
 
@@ -149,19 +156,21 @@ function renderAddElement(data){
 	providerList = data;
 	var offSet = 0;
 	var pageCount = 1;
-	var page = provider.addPage($("#addElementContainer > :first"),"show","1");
+	var page = provider.addPage($("#searchProviders > :first"),"show","1");
 	var container = provider.addContainer(page,"showContainer");
 	$(data).each(function(i,el){
 		if(i > offSet+14){
-			console.log("New Page");
 			offSet = offSet+14;
 			pageCount++;
-			page = provider.addPage($("#addElementContainer > :first"),"show",pageCount);
+			page = provider.addPage($("#searchProviders > :first"),"show",pageCount);
 			container = provider.addContainer(page,"showContainer");
 		}
-		provider.addShowProvider(providers[el],container,"64");
+		provider.addShowProvider(providers[el],container,"64","show-provider");
 	});
-	provider.addBullets(pageCount-1,window.addElementSwipe.getPos(),$("#add-element-position"));
+	if(pageCount-1 != 0){
+		provider.addBullets(pageCount-1,0,$("#add-element-position"));
+	}
+
 }
 
 
@@ -183,9 +192,14 @@ $(document).bind("keydown", function(event) {
     }
 });
 
+function addProviderToPage(element){
+	addNewElement($(element).attr("data-provider"),$(currentPageElement));
+}
+
 $("#menuBar-add-element").click(function(){
 	var elementBox = $("#searchProviders");
-	if($(elementBox).css("display") != "none"){
+	//if($(elementBox).css("display") != "none"){
+	if($(elementBox).css("opacity") != "0"){
 		$(elementBox).animate({
 			opacity:0
 		},500,function(){
@@ -197,13 +211,12 @@ $("#menuBar-add-element").click(function(){
 		$(elementBox).show().animate({
 			opacity:1.0
 		},500);
-		window.loginSwipe.disable();
+		window.loginSwipe.disable(false);
 		window.addElementSwipe.enable();
 	}
 });
 
 $("#menuBar-add-page").click(function(){
-	//var after = $(".page").eq(currentPage);
 	addNewPage($("#providerContainer"));
 });
 
@@ -443,14 +456,13 @@ $(document).ready(function () {
 	$.ajax('providers.php',{
 	  success: function (data) {
 		setCurrentProvider(jQuery.parseJSON(data));
+		getProviderList(renderAddElement);
 		start(function () {
 			$(window).hashchange();
 			position($(pageChangeType).length,0,$('#position'),$('#position-container'));
-			getProviderList(renderAddElement);
-			window.addElementSwipe = new Swipe(document.getElementById("addElementContainer"),{
-				callback:addElementSwipeCallback
-			});	
-			window.addElementSwipe.disable();
+			$(".show-provider").click(function(){
+				addProviderToPage(this);
+			});
 		});
 		if (location.hash == undefined || location.hash == '') {
 			currentPage = "page_p1";
@@ -467,6 +479,7 @@ function slideTo(page){
 	if(page.length > 0){
 		window.loginSwipe.slide(index,300);
 	}
+	currentPageElement = $(page);
 }
 
 /* This event is fired if the hash changes */
@@ -499,11 +512,16 @@ function start(callback) {
                 "items" : 'li',
                 "disabled" : true 
          	});
-         	$('#providerContainer ul').disableSelection();
+         	//$('#providerContainer ul').disableSelection();
+         	window.addElementSwipe = new Swipe(document.getElementById("searchProviders"),{
+				callback:addElementSwipeCallback
+			});	
+			window.addElementSwipe.disable();
 			window.loginSwipe = new Swipe(document.getElementById("providerContainer"),{
 				callback:swipeCallback,
 				navigationOnDisabled : true
 			});
+			currentPageElement = window.loginSwipe.slides[0];
 	}});
 }
 
@@ -679,9 +697,21 @@ function addNewPage(container){
 		window.loginSwipe.addElement(function(){
 			setTimeout(function(){slideAfter(newPage)}, 200);
 		});
+		var ul = provider.addContainer(newPage);
 		if(newPage != undefined){
 			provider.addBullet($('#position'));
 		}
+		var disableSelection = false;
+        if(editMode){
+         	$(".tooltip").css("display","none");
+         	disableSelection = false;
+        } else {
+        	disableSelection = true;
+        }
+		$(newPage).find("ul").sortable({
+                "items" : 'li',
+                "disabled":disableSelection
+         });
 		return newPage;
 	}
 }
@@ -692,6 +722,8 @@ function addNewPage(container){
 function slideAfter(newPage){
 	slideTo(newPage);
 	changeBullet(window.loginSwipe.getPos(),$("#position"));
+	currentPageElement = $(newPage);
+
 }
 
 /**
@@ -704,6 +736,9 @@ function addNewElement(newProvider,page){
 	var container = page.find("ul:first");
 	if(container.find("li").length < numberPerPage){
 		provider.addProvider(providers[newProvider],container);
+		if(editMode){
+			$(".tooltip").css("display","none");
+		}
 		return 200;
 	} else {
 		return 500;

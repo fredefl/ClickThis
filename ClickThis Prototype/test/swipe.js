@@ -76,6 +76,7 @@ Swipe.prototype = {
     // return immediately if their are less than two slides
     if (this.length < 2) return null;
 
+
     // determine width of each slide
     this.width = this.container.getBoundingClientRect().width;
 
@@ -105,27 +106,31 @@ Swipe.prototype = {
 
   },
 
+  refresh : function(){
+    this.setup();
+  },
+
   addElement : function(callback){
-      this.setup();
-      if(typeof callback == "function"){
-        callback();
-      }
+    this.setup();
+    if(typeof callback == "function"){
+      callback();
+    }
   },
 
   slide: function(index, duration) {
+    if(this.navigationOnDisabled == true || this.disabled == false){
+      var style = this.element.style;
 
-    var style = this.element.style;
+      // set duration speed (0 represents 1-to-1 scrolling)
+      style.webkitTransitionDuration = style.MozTransitionDuration = style.msTransitionDuration = style.OTransitionDuration = style.transitionDuration = duration + 'ms';
 
-    // set duration speed (0 represents 1-to-1 scrolling)
-    style.webkitTransitionDuration = style.MozTransitionDuration = style.msTransitionDuration = style.OTransitionDuration = style.transitionDuration = duration + 'ms';
+      // translate to given index position
+      style.webkitTransform = 'translate3d(' + -(index * this.width) + 'px,0,0)';
+      style.msTransform = style.MozTransform = style.OTransform = 'translateX(' + -(index * this.width) + 'px)';
 
-    // translate to given index position
-    style.webkitTransform = 'translate3d(' + -(index * this.width) + 'px,0,0)';
-    style.msTransform = style.MozTransform = style.OTransform = 'translateX(' + -(index * this.width) + 'px)';
-
-    // set new index to allow for expression arguments
-    this.index = index;
-
+      // set new index to allow for expression arguments
+      this.index = index;
+    }
   },
 
   getPos: function() {
@@ -136,7 +141,7 @@ Swipe.prototype = {
   },
 
   prev: function(delay) {
-    if(this.navigationOnDisabled == true || this.disabled === false){
+    if(this.navigationOnDisabled == true || this.disabled == false){
       // cancel next scheduled automatic transition, if any
       this.delay = delay || 0;
       clearTimeout(this.interval);
@@ -147,7 +152,7 @@ Swipe.prototype = {
   },
 
   next: function(delay) {
-    if(this.navigationOnDisabled == true || this.disabled === false){
+    if(this.navigationOnDisabled == true || this.disabled == false){
       // cancel next scheduled automatic transition, if any
       this.delay = delay || 0;
       clearTimeout(this.interval);
