@@ -135,7 +135,7 @@ function getProviderList(callback){
 }
 
 function addElementSwipeCallback(){
-	
+	changeBullet(window.addElementSwipe.getPos(),$("#add-element-position"));
 }
 
 /**
@@ -149,11 +149,6 @@ function renderAddElement(data){
 	providerList = data;
 	var offSet = 0;
 	var pageCount = 1;
-	/*$('#addElementContainer ul').sortable({
-                "items" : 'li',
-                "disabled" : true 
-     });
-     $('#addElementContainer ul').disableSelection();*/
 	var page = provider.addPage($("#addElementContainer > :first"),"show","1");
 	var container = provider.addContainer(page,"showContainer");
 	$(data).each(function(i,el){
@@ -166,6 +161,7 @@ function renderAddElement(data){
 		}
 		provider.addShowProvider(providers[el],container,"64");
 	});
+	provider.addBullets(pageCount-1,window.addElementSwipe.getPos(),$("#add-element-position"));
 }
 
 
@@ -195,10 +191,14 @@ $("#menuBar-add-element").click(function(){
 		},500,function(){
 			$(this).hide();
 		});
+		window.loginSwipe.enable();
+		window.addElementSwipe.disable();
 	} else {
 		$(elementBox).show().animate({
 			opacity:1.0
 		},500);
+		window.loginSwipe.disable();
+		window.addElementSwipe.enable();
 	}
 });
 
@@ -245,7 +245,15 @@ $('#left').click(function () {
  */
 $('#edit').click(function(){
 	var menu = $("#menuBar");
+	var elementBox = $("#searchProviders");
 	if(editMode){
+		if($(elementBox).css("display") != "none"){
+			$(elementBox).animate({
+				opacity:0
+			},500,function(){
+				$(this).hide();
+			});
+		}
 		menu.find("a").hide();
 		menu.animate({
     		width: "30px"
@@ -257,7 +265,6 @@ $('#edit').click(function(){
   		}, 500,function(){
   			 endEditMode()
   		});
-  		
 	} else {
 		$(menu).find("a").show();
 		startEditMode();
@@ -443,6 +450,7 @@ $(document).ready(function () {
 			window.addElementSwipe = new Swipe(document.getElementById("addElementContainer"),{
 				callback:addElementSwipeCallback
 			});	
+			window.addElementSwipe.disable();
 		});
 		if (location.hash == undefined || location.hash == '') {
 			currentPage = "page_p1";

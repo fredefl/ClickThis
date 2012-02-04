@@ -170,13 +170,12 @@
 	addBullets : function(number,current,append){
 		if(typeof append == 'object'){
 			var currentObject;
-			for (var i = 0; i < number; i++) {
+			for (var i = 0; i <= number; i++) {
 				currentObject = $('<em class="bullet">&bull;</em>');
 				if(i == current){
 					currentObject.addClass('on');
 				}
 				append.append(currentObject);
-				return currentObject;
 			};
 		}
 	},
