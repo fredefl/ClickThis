@@ -17,18 +17,20 @@
 		-ms-box-shadow:0 1px 3px rgba(0,0,0,0.6);
 		-o-box-shadow:0 1px 3px rgba(0,0,0,0.6);
 
+		/* CSS3 Hyphens */
 		-moz-hyphens:auto;
 		-webkit-hyphens:auto;
 		-o-hyphens:auto;
 		hyphens:auto;
 	}
+
 	/* Mega Button */								  
 	.mega.button, .mega.button:visited {
 		font-size: 4em;
 		padding: 20px 0 20px 0;
 	}
 		
-	/* Mobile Button */						
+	/* Halfsize Button */						
 	.halfsize.button, .halfsize.button:visited {
 		width:43.3%;
 		left:2.5%; 
@@ -47,6 +49,7 @@
 		margin-top:25px;	
 	}
 }
+/* ------------------------------------------------- */
 /* Phones */
 @media all and (max-width: 767px) {
 	/* Button */
@@ -86,6 +89,8 @@
 		margin-top:10px;	
 	}
 }
+/* ------------------------------------------------- */
+/* General */
 
 /* Button */
 .button, .button:visited {
@@ -115,11 +120,14 @@
 }
 
 /* Button Active */		
+/*
 .button:active {
 	top:1px;
 }
+*/
 
 /* Colors & Glow */
+
 /* Pink */
 .pink.button, .pink.button:visited {
 	background-color: #e22092;

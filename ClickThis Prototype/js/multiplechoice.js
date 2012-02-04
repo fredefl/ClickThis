@@ -67,7 +67,7 @@ function swipeCallback(){
 		$('#welcome').remove();
 		window.questionSwipe = new Swipe(document.getElementById("questionsContainer"));
 	}
-	buttonResizer.resizeButtons();
+	buttonResizer.resizeButtons(document.body);
 	window.scrollTo(0, 1);
 }
 
