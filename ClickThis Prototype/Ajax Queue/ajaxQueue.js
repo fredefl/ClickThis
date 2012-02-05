@@ -360,7 +360,7 @@ var ajaxQueue = {
 	},
 
 	/**
-	 * Set the configuration
+	 * Sets the configuration
 	 * 
 	 * @static
 	 * @param {JSON} config The settings to change
@@ -389,6 +389,21 @@ var ajaxQueue = {
 		if (config.ajaxTimeout !== undefined) {
 			ajaxQueue.ajaxTimeout = config.ajaxTimeout;
 		}
+	},
+
+	/**
+	 * Gets the cofiguration
+	 * @return {JSON}
+	 * @example
+	 * ajaxQueue.getConfig(); // Returns config
+	 */
+	getConfig: function () {
+		return {
+			idLength: ajaxQueue.idLength,
+			localStorageKeyName: ajaxQueue.localStorageKeyName,
+			retryTimeout: ajaxQueue.retryTimeout,
+			ajaxTimeout: ajaxQueue.ajaxTimeout
+		};
 	},
 
 	/**
