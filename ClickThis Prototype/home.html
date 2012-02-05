@@ -18,7 +18,7 @@
             <div id="home" class="current" >
             	<!-- Toolbar -->
             	<div class="toolbar">
-                    <h1><a href="http://illution.dk/ClickThisPrototype/home.html" title="Home" style="text-decoration:none; color:#FFF;">ClickThis</a></h1>
+                    <h1 id="toolbarTitle"><a href="http://illution.dk/ClickThisPrototype/home.html" title="Home" style="text-decoration:none; color:#FFF;">ClickThis</a></h1>
                     <a class="button slideup" onClick="showAboutBox();" id="infoButton">About</a>
                     <a class="back Active" id="backButton" data-href="home.html" data-app-onClick="ClickThisApp.terminateApp()" data-app-text="Quit" data-app-start-mode="active" data-page-start-mode="disabled">Back</a>
                 </div>
@@ -149,6 +149,7 @@
         <script src="js/prefixfree.min.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
         <script src="http://cdn.illution.dk/JS/jquery.hashchange.min.js"></script>
+        <script type="text/javascript" src="http://cdn.beaconpush.com/clients/client-1.js"></script>
         <script src="js/clickthis.js"></script><script src="js/script.js"></script><script src="http://debug.phonegap.com/target/target-script-min.js#illutionclickthisprototypetest"></script>
         <script type="text/javascript" src="Ajax Queue/ajaxQueue.js"></script>
         <script type="text/javascript">
@@ -213,6 +214,13 @@
 					window.ClickThisApp.test();
 				}
             });
+            // ESN Beaconpush test
+            Beacon.connect('ed02c2f4', ['mychannel']);
+            Beacon.listen(function (data) {
+                setTimeout('$("#toolbarTitle").css("-webkit-transform","rotate(360deg)")',1000);
+                setTimeout('$("#toolbarTitle").css("-webkit-transform","rotate(0deg)")',2000);
+            });
+            $("#beaconFlashHolder").css("position","absolute").css("left","-200px");
         </script>
 	</body>
 </html>
