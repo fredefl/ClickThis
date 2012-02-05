@@ -77,11 +77,11 @@ var ajaxQueue = {
 	/**
 	 * The current status of the AjaxQueue
 	 * Status Codes:
-	 * 	false: 	Unknown
-	 * 	0: 		Queue is empty
-	 * 	1:  	Queue contains tasks, but is not active
-	 * 	2: 		Queue contains tasks, and is active 
-	 * 	
+	 *  false:	Unknown
+	 *  0:		Queue is empty
+	 *  1:		Queue contains tasks, but is not active
+	 *  2:		Queue contains tasks, and is active 
+	 * 
 	 * @private
 	 * @type {Number}
 	 */
@@ -91,7 +91,7 @@ var ajaxQueue = {
 	 * The status of sending in the AjaxQueue
 	 * Status Codes:
 	 * false	Is not sending
-	 * true 	Is sending
+	 * true		Is sending
 	 * 
 	 * @private
 	 * @type {Boolean}
@@ -124,13 +124,14 @@ var ajaxQueue = {
 				jsonArray = JSON.parse(localStorageItem);
 			this.queueArray = jsonArray;
 			ajaxQueue.log("Data loaded from localstorage, added " + jsonArray.Tasks.length + " items to queue.");/*LOG*/
+			ajaxQueue.checkStatusCode();
 			return true;
 		} else {
 			this.queueArray = {Tasks: []};
 			ajaxQueue.log("No data in localstorage, adding new key.");/*LOG*/
+			ajaxQueue.checkStatusCode();
 			return false;
 		}
-		ajaxQueue.checkStatusCode();
 	},
 
 	/**
@@ -162,7 +163,7 @@ var ajaxQueue = {
 	 */
 	add: function (json) {
 		var id = null;
-		if(json.data === undefined) {
+		if (json.data === undefined) {
 			json.data = "";
 		}
 		if (json.url && json.group) {
@@ -267,8 +268,8 @@ var ajaxQueue = {
 		var i = 0,
 			oldStatusCode = ajaxQueue.statusCode,
 			callback;
-		if(ajaxQueue.getQueueLength() > 0) {
-			if(ajaxQueue.sendingStatusCode) {
+		if (ajaxQueue.getQueueLength() > 0) {
+			if (ajaxQueue.sendingStatusCode) {
 				// Is sending, and there is tasks in the queue
 				ajaxQueue.setStatusCode(2);
 			} else {
@@ -280,14 +281,14 @@ var ajaxQueue = {
 			ajaxQueue.setStatusCode(0);
 		}
 
-		if(oldStatusCode !== ajaxQueue.statusCode) {
-			if(ajaxQueue.callbackArray.onStatusCodeChange.length > 0) {
+		if (oldStatusCode !== ajaxQueue.statusCode) {
+			if (ajaxQueue.callbackArray.onStatusCodeChange.length > 0) {
 				for (i = 0; i <= ajaxQueue.callbackArray.onStatusCodeChange.length - 1; i++) {
 					callback = ajaxQueue.callbackArray.onStatusCodeChange[i];
 					if (callback && typeof (callback) === "function") {
 						callback();
 					}
-				};
+				}
 			}
 		}
 	},
@@ -348,7 +349,7 @@ var ajaxQueue = {
 					if (ajaxQueue.retryTimeout !== false) {
 						ajaxQueue.log("Coming back around(in a bit)!!!");
 						// Try againg in a bit
-						setTimeout("ajaxQueue.executeTasks()", ajaxQueue.retryTimeout);
+						setTimeout(ajaxQueue.executeTasks, ajaxQueue.retryTimeout);
 					}
 				}
 			});
@@ -409,10 +410,10 @@ var ajaxQueue = {
 	/**
 	 * Registers a callback function.
 	 * Callback types:
-	 * 	onSuccess
-	 * 	onError
-	 * 	onTimeout
-	 * 	onStatusCodeChange
+	 *  onSuccess
+	 *  onError
+	 *  onTimeout
+	 *  onStatusCodeChange
 	 * 
 	 * @static
 	 * @param  {JSON}     options	The json string containing the type and group. Note that the group should not be speecified when using the onStatusCodeChange type.
@@ -432,17 +433,18 @@ var ajaxQueue = {
 	 * }, testFunction);
 	 * @example
 	 * ajaxQueue.registerCallback({
-	 * 	type: "onStatusCodeChange"
+	 *  type: "onStatusCodeChange"
 	 * }, testFunction)
 	 */
 	registerCallback: function (json, callback) {
-		if(json.type === "onStatusCodeChange") {
-			var current = ajaxQueue.callbackArray[json.type];
+		var current;
+		if (json.type === "onStatusCodeChange") {
+			current = ajaxQueue.callbackArray[json.type];
 			current.push(callback);
 			return true;
 		}
 		if (callback && typeof (callback) === "function" && json.type && json.group) {
-			var current = ajaxQueue.callbackArray[json.type];
+			current = ajaxQueue.callbackArray[json.type];
 			current[json.group] = callback;
 			return true;
 		} else {
