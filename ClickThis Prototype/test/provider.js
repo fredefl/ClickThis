@@ -81,6 +81,7 @@
 				titleTag.append(provider.Title);
 				titleTag.addClass("tooltip");
 				linkTag.append(titleTag);
+				content.attr("data-title",provider.Title);
 			}
 
 			//Adds the data-provider
@@ -224,15 +225,32 @@
 		}
 	},
 
+	/**
+	 * This function returns true if the current device is a touch device
+	 * @return {Boolean}
+	 */
 	isTouchDevice : function() {
 		return "ontouchstart" in window;
 	},
 
+	/**
+	 * This function adds a page as last page
+	 * @param {object} container The container to add the page too
+	 * @param {string} type      The page type "user","show" or "default"
+	 * @param {string} name      The name after the keyword
+	 */
 	addPageLast : function(container,type,name){
 		return this.addPageAfter(container.find(".page:last"),type,name);
 	},
 
-	addShowProvider : function(provider,container,imageSize){
+	/**
+	 * This function create a striped provider
+	 * @param {object} provider  The provider data
+	 * @param {object} container The container to append too
+	 * @param {string} imageSize The image size etc "128"
+	 * @param {string} addClass     The class to append to the object
+	 */
+	addShowProvider : function(provider,container,imageSize,addClass){
 		if(typeof provider == "object"){
 			imageSize = imageSize || "128";
 			var content = $("<img></img>"); //Makes the content img tag
@@ -246,6 +264,10 @@
 			//Adds the image src if its set
 			if (provider.Image != undefined && provider.Image != null) {
 				content.attr("src",provider.Image.replace("{size}",imageSize));
+			}
+
+			if(typeof addClass == "string" && addClass != ""){
+				content.addClass(addClass);
 			}
 
 			linkTag.append(content);
