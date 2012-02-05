@@ -131,6 +131,10 @@ function changeBullet(newBullet,append){
 	}
 }
 
+/**
+ * This function gets a list of all providers from the server
+ * @param  {Function} callback The callback function
+ */
 function getProviderList(callback){
 	$.ajax('providers.php?list=1',{
 		success:function(data){
@@ -141,6 +145,12 @@ function getProviderList(callback){
 	});	
 }
 
+/**
+ * This function is called when you change page inside the select add element menu
+ * @param {string} event The event that happened
+ * @param {Number} index The index of the new page
+ * @param {object} elem  The new page object
+ */
 function addElementSwipeCallback(event, index, elem){
 	changeBullet(window.addElementSwipe.getPos(),$("#add-element-position"));
 }
@@ -192,32 +202,37 @@ $(document).bind("keydown", function(event) {
     }
 });
 
+/**
+ * This function acts as a callback function and it calls the addNewElement function
+ * @param {object} element The element to add
+ */
 function addProviderToPage(element){
 	addNewElement($(element).attr("data-provider"),$(currentPageElement));
 }
 
 $("#menuBar-add-element").click(function(){
 	var elementBox = $("#searchProviders");
-	//if($(elementBox).css("display") != "none"){
 	if($(elementBox).css("opacity") != "0"){
 		$(elementBox).animate({
 			opacity:0
 		},500,function(){
 			$(this).hide();
 		});
-		window.loginSwipe.enable();
 		window.addElementSwipe.disable();
 	} else {
 		$(elementBox).show().animate({
 			opacity:1.0
 		},500);
-		window.loginSwipe.disable(false);
 		window.addElementSwipe.enable();
 	}
 });
 
 $("#menuBar-add-page").click(function(){
 	addNewPage($("#providerContainer"));
+});
+
+$("#menuBarRemove").click(function(){
+	removeElement($(".selected"));
 });
 
 /**
@@ -283,7 +298,7 @@ $('#edit').click(function(){
 		startEditMode();
 		$(menu).show();
 		menu.animate({
-    		width: "100px"
+    		width: "135px"
   		}, 500);
   		$("#blur").show().animate({
   			opacity: 0.7,
@@ -508,11 +523,31 @@ function start(callback) {
 			if (typeof callback == "function") {
 				callback();
 			}
+			var dropped = false;
+    		var draggable_sibling;
 			$('#providerContainer ul').sortable({
                 "items" : 'li',
-                "disabled" : true 
+                "disabled" : true,
+                start: function(event, ui) {
+           			 draggable_sibling = $(ui.item).prev();
+        		},
+        		stop: function(event, ui) {
+            		if (dropped) {
+               		if (draggable_sibling.length == 0)
+                    $('#providerContainer ul').prepend(ui.item);
+                	draggable_sibling.after(ui.item);
+                	dropped = false;
+                	removeElement(ui.item[0]);
+           		}
+        }
          	});
-         	//$('#providerContainer ul').disableSelection();
+         	$("#menuBarRemove").droppable({
+       			activeClass: 'active',
+        		hoverClass:'hovered',
+		        drop:function(event,ui){
+		            dropped = true;
+		        }
+    		});
          	window.addElementSwipe = new Swipe(document.getElementById("searchProviders"),{
 				callback:addElementSwipeCallback
 			});	
@@ -521,8 +556,18 @@ function start(callback) {
 				callback:swipeCallback,
 				navigationOnDisabled : true
 			});
+			$(".page li").click(function(){
+				if(editMode){
+					$(".selected").removeClass("selected");
+					$(this).addClass("selected");
+				}
+			});
 			currentPageElement = window.loginSwipe.slides[0];
 	}});
+}
+
+function removeElement(element){
+	$(element).remove();
 }
 
 /**
@@ -582,6 +627,8 @@ function startEditMode(){
 		$('#left').addClass('left-disabled').removeClass('left');
 		$('#right').addClass('right-disabled').removeClass('right');
 	}
+	$("#searchProviders").hide();
+	/*$( "#providerContainer ul li" ).draggable( "option", "disabled", false );*/
 }
 
 /**
@@ -600,6 +647,7 @@ function endEditMode(){
 		$('#right').addClass('right').removeClass('right-disabled');	
 	}
 	saveUserProviders();
+	/*$( "#providerContainer ul li" ).draggable( "option", "disabled",true );*/
 }
 
 /**

@@ -382,7 +382,7 @@ ul li{
 	height:34px;
 	top:-2.5px;
 	margin: 2px 2px 2px 2px;
-	right:68px;
+	right:65px;
 	position:absolute;	
 	background: url("images/Page.png") 0 0 no-repeat;
 }
@@ -412,8 +412,25 @@ ul li{
 	background-position:-70px 0;
 }
 
-#menuBar-remove-element{}
-#menuBar-remove-page{}
+#menuBarRemove{
+	width:35px;
+	height:34px;
+	top:-2.5px;
+	margin: 2px 2px 2px 2px;
+	right:102px;
+	position:absolute;
+	background: url("images/Delete.png") 0 0 no-repeat;
+}
+
+#menuBarRemove:hover{
+	background-position:-35px 0;
+}
+
+#menuBarRemove:active{
+	background-position:-70px 0;
+}
+
+/*#menuBar-remove-page{}*/
 
 /* Tooltip */
 .tooltip{
@@ -513,3 +530,19 @@ ul li{
 .show-provider:hover{
 	margin-top: 2px;
 }
+
+/*.page li{
+    /*clear:both;
+    float:left;
+}
+
+/*.droppable {
+    clear:both;
+    height:300px;
+    width:400px;
+    background-color:#CCC;
+}
+
+/*.droppable.active { background: #CFC; }
+.droppable.hovered { background: #CCF; }
+.dropped { background: #f52; }*/
