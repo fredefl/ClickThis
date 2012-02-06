@@ -29,6 +29,7 @@ body {
 }
 
 /*
+DESKTOP HOVER
 #jqt ul li:hover {
 	background-image: 
 		-webkit-gradient(linear, left top, left bottom, color-stop(0%,#5C5D5E), color-stop(100%,#404142)) !important;
@@ -50,8 +51,6 @@ body {
 		url("http://illution.dk/ClickThisPrototype/css/jqt/img/chevron.png"), 
 		-webkit-gradient(linear, left top, left bottom, color-stop(0%,#3C3D3E), color-stop(100%,#303132)) !important;
 } 
-
-#jqt ul li a.active{-webkit-box-shadow:#5cc801 0 1px 0px inset;box-shadow:#5cc801 0 1px 0px inset;color:white;text-shadow:#3c8101 0 -1px 0}
 */
 
 h1 {
