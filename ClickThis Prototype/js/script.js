@@ -14,6 +14,16 @@ window.addEventListener('load', function(e) {
 	}
 }, false);
 
+$('#jqt ul li').bind('touchstart', function() {
+	$(this).addClass("touchActive");
+	//$(this).children().addClass("touchActive");
+});
+
+$('#jqt ul li').bind('touchend', function() {
+	$(this).removeClass("touchActive");
+	$(this).children().removeClass("touchActive");
+});
+
 $(document).ready(function(){
 	if(isOnPage('home.html')){
 		shortenTitle();
