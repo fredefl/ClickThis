@@ -34,18 +34,18 @@
         <script src="http://cdn.illution.dk/JS/jquery.hashchange.min.js"></script>
         <script src="js/clickthis.js"></script><script src="js/script.js"></script><!--<script src="http://debug.phonegap.com/target/target-script-min.js#illutionclickthisprototypetest"></script>-->
         <script type="text/javascript">
-        function OnOff(Element)
-        {
-            if(Element.src.indexOf("OnSwitch.png") != -1)
+            function OnOff(Element)
             {
-                Element.src = "images/OffSwitch.png";
+                if(Element.src.indexOf("OnSwitch.png") != -1)
+                {
+                    Element.src = "images/OffSwitch.png";
+                }
+                else if(Element.src.indexOf("OffSwitch.png") != -1)
+                {
+                    Element.src = "images/OnSwitch.png";
+                };
+                    
             }
-            else if(Element.src.indexOf("OffSwitch.png") != -1)
-            {
-                Element.src = "images/OnSwitch.png";
-            };
-                
-        }
         </script>
     </body>
 </html>
