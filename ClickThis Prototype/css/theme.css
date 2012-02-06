@@ -13,7 +13,7 @@ body {
     border-bottom: 1px solid #000;
     padding: 10px;
     height: 45px;
-    background: url(img/toolbar.png) #000000 repeat-x;
+    background: url(../images/toolbar.png) #000000 repeat-x;
     position: relative;
     z-index: 999999;
 }
@@ -61,14 +61,14 @@ body {
     text-decoration: none;
     white-space: nowrap;
     background: none;
-	border-image: url(img/button.png) 0 5 0 5;
-    -webkit-border-image: url(img/button.png) 0 5 0 5;
+	border-image: url(../images/button.png) 0 5 0 5;
+    -webkit-border-image: url(../images/button.png) 0 5 0 5;
 }
 #jqt .button.active, #jqt .cancel.active, #jqt .add.active {
-	border-image: url(img/button_clicked.png) 0 5 0 5;
+	border-image: url(../images/button_clicked.png) 0 5 0 5;
 }
 #jqt .blueButton {
-	border-image: url(img/blueButton.png) 0 5 0 5;
+	border-image: url(../images/blueButton.png) 0 5 0 5;
     border-width: 0 5px;
 }
 #jqt .back {
@@ -77,11 +77,11 @@ body {
     padding: 0;
     max-width: 55px;
     border-width: 0 8px 0 14px;
-	border-image: url(img/back_button.png) 0 8 0 14;
-    -webkit-border-image: url(img/back_button.png) 0 8 0 14;
+	border-image: url(../images/back_button.png) 0 8 0 14;
+    -webkit-border-image: url(../images/back_button.png) 0 8 0 14;
 }
 #jqt .back.active {
-	border-image: url(img/back_button_clicked.png) 0 8 0 14;
+	border-image: url(../images/back_button_clicked.png) 0 8 0 14;
 }
 #jqt .leftButton, #jqt .cancel {
     left: 6px;
@@ -107,22 +107,22 @@ body {
 
 #jqt .whiteButton.active, #jqt .grayButton.active, #jqt .redButton.active, #jqt .blueButton.active, #jqt .greenButton.active,
 #jqt .whiteButton:active, #jqt .grayButton:active, #jqt .redButton:active, #jqt .blueButton:active, #jqt .greenButton:active {
-	border-image: url(img/activeButton.png) 0 12 0 12;
+	border-image: url(../images/activeButton.png) 0 12 0 12;
 }
 #jqt .whiteButton {
-	border-image: url(img/whiteButton.png) 0 12 0 12;
+	border-image: url(../images/whiteButton.png) 0 12 0 12;
 }
 #jqt .grayButton {
-	border-image: url(img/grayButton.png) 0 12 0 12;
+	border-image: url(../images/grayButton.png) 0 12 0 12;
     color: #FFFFFF;
 }
 
 #jqt .redButton {
-	border-image: url(img/redButton.png) 0 12 0 12;
+	border-image: url(../images/redButton.png) 0 12 0 12;
 }
 
 #jqt .greenButton {
-	border-image: url(img/greenButton.png) 0 12 0 12;
+	border-image: url(../images/greenButton.png) 0 12 0 12;
 }
 
 
@@ -165,9 +165,9 @@ body {
 }
 #jqt ul li.arrow {
     background-color: #4c4d4e;
-	background-image: url(img/chevron.png), linear-gradient( 0% 0%, 0% 100%, from(#4c4d4e), to(#404142)) !important;
-	background-image: url(img/chevron.png), -webkit-linear-gradient(top, #4c4d4e, #404142) !important;
-	background-image: url(img/chevron.png), -webkit-gradient(linear, left top, left bottom, color-stop(0%,#4c4d4e), color-stop(100%,#404142)); !important;
+	background-image: url(../images/chevron.png), linear-gradient( 0% 0%, 0% 100%, from(#4c4d4e), to(#404142)) !important;
+	background-image: url(../images/chevron.png), -webkit-linear-gradient(top, #4c4d4e, #404142) !important;
+	background-image: url(../images/chevron.png), -webkit-gradient(linear, left top, left bottom, color-stop(0%,#4c4d4e), color-stop(100%,#404142)); !important;
     background-position: right center !important;
     background-repeat: no-repeat !important;
 }
@@ -179,7 +179,7 @@ body {
 
 #jqt ul li.forward {
     -webkit-user-select:none;
-	background-image: url(img/chevron_circle.png), linear-gradient( 0% 0%, 0% 100%, from(#4c4d4e), to(#404142));
+	background-image: url(../images/chevron_circle.png), linear-gradient( 0% 0%, 0% 100%, from(#4c4d4e), to(#404142));
     background-position: right center;
     background-repeat: no-repeat;
 }
@@ -200,17 +200,17 @@ body {
     color: #fff;
 }
 #jqt ul li a.active.loading {
-    background-image: url(img/loading.gif);
+    background-image: url(../images/loading.gif);
     background-position: 95% center;
     background-repeat: no-repeat;
 }
 #jqt ul li.arrow a.active {
-    background-image: url(img/chevron.png);
+    background-image: url(../images/chevron.png);
     background-position: right center;
     background-repeat: no-repeat;
 }
 #jqt ul li.forward a.active {
-    background-image: url(img/chevron_circle.png);
+    background-image: url(../images/chevron_circle.png);
     background-position: right center;
     background-repeat: no-repeat;
 }
@@ -298,7 +298,7 @@ body {
 }
 #jqt ul li select {
     text-indent: 0px;
-    background: transparent url(img/chevron.png) no-repeat right center;
+    background: transparent url(../images/chevron.png) no-repeat right center;
     appearance: textfield;
     margin-left: -6px;
     width: 104%;
@@ -409,7 +409,7 @@ body {
     tap-highlight-color: rgba(0,0,0,0);
     transition: background-position .15s;
     background-color: transparent;
-    background: #fff url(img/on_off.png) -55px 0 no-repeat;
+    background: #fff url(../images/on_off.png) -55px 0 no-repeat;
     border: 0;
     height: 27px;
     margin: 0;
@@ -446,7 +446,7 @@ body {
 }
 #jqt ul.edgetoedge li.arrow {
     background-color: #404142 !important;
-	background-image: url(img/chevron.png), linear-gradient( 0% 0%, 0% 100%, from(#1e1f21), to(#272729));
+	background-image: url(../images/chevron.png), linear-gradient( 0% 0%, 0% 100%, from(#1e1f21), to(#272729));
     background-position: right center;
     background-repeat: no-repeat;
 }
@@ -488,7 +488,7 @@ body {
     padding: 10px 10px 10px 10px;
 }
 #jqt ul.plastic li a.active.loading {
-    background-image: url(img/loading.gif);
+    background-image: url(../images/loading.gif);
     background-position: 95% center;
     background-repeat: no-repeat;
 }
@@ -503,22 +503,22 @@ body {
     background-color: #1c1c1f;
 }
 #jqt ul.plastic li.arrow {
-    background-image: url(img/chevron.png);
+    background-image: url(../images/chevron.png);
     background-position: right center;
     background-repeat: no-repeat;
 }
 #jqt ul.plastic li.arrow a.active {
-    background-image: url(img/chevron.png);
+    background-image: url(../images/chevron.png);
     background-position: right center;
     background-repeat: no-repeat;
 }
 #jqt ul.plastic li.forward {
-    background-image: url(img/chevron_circle.png);
+    background-image: url(../images/chevron_circle.png);
     background-position: right center;
     background-repeat: no-repeat;
 }
 #jqt ul.plastic li.forward a.active {
-    background-image: url(img/chevron_circle.png);
+    background-image: url(../images/chevron_circle.png);
     background-position: right center;
     background-repeat: no-repeat;
 }
@@ -561,10 +561,10 @@ body {
     font-weight: bold;
 }
 #jqt ul.metal li.arrow {
-    background-image: url(img/chevron.png);
+    background-image: url(../images/chevron.png);
     background-position: right center;
     background-repeat: no-repeat;
-	background-image: url(img/chevron.png), linear-gradient( 0% 0%, 0% 100%, from(rgba(238,238,238,1)), to(rgba(156,158,160,1)));
+	background-image: url(../images/chevron.png), linear-gradient( 0% 0%, 0% 100%, from(rgba(238,238,238,1)), to(rgba(156,158,160,1)));
     background-repeat: no-repeat;
     background-position: right center;
 }
