@@ -22,6 +22,10 @@ $('#jqt ul li').bind('touchend', function() {
 	$(this).removeClass("touchActive");
 });
 
+$('#jqt ul li').bind('touchmove', function() {
+	$(this).removeClass("touchActive");
+});
+
 $(document).ready(function(){
 	if(isOnPage('home.html')){
 		shortenTitle();
