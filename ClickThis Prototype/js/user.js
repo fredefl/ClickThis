@@ -1,4 +1,6 @@
-$(document).ready(function() {
+"use strict";
+
+$(document).ready(function () {
 	var page = $('#user').val();
 	changePage(page);
 });
@@ -8,10 +10,10 @@ $(document).ready(function() {
 *
 * @param {string} page The id without the # of the page content container
 */
-function changePage(Page){
-	var NewPage = $('#'+Page);
-	var oldPage = $('#'+$('#currentpage').val());
-	if(Page != null && Page != undefined){
+function changePage(Page) {
+	var NewPage = $('#' + Page),
+		oldPage = $('#' + $('#currentpage').val());
+	if (Page !== null && Page !== undefined) {
 		//oldPage.removeClass('Active');
 		oldPage.addClass('Disabled');
 		$('#currentpage').val(Page);

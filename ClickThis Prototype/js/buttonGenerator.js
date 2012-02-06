@@ -176,7 +176,7 @@ var buttonGenerator = {
 	 * @param  {string} clickCallbackString The name of the function to call when clicked
 	 * @param {string} callbackParameters The parameters to the callback function as string
 	 */
-	newCustomSwipeSubmitButton : function(color,text,id,location,group,clickCallbackString,callbackParameters){
+	newCustomSwipeSubmitButton : function (color, text, id, location, group, clickCallbackString, callbackParameters) {
 		var html = [
 				'<a  class="mega button ' + color + ' halfsize fullsize"',
 				'onClick="buttonGenerator.submitCustomSwipeData(this);"'
@@ -190,15 +190,15 @@ var buttonGenerator = {
 		if (group !== undefined && group !== null) {
 			html += 'data-submitgroup="' + group + '"';
 		}
-		if(clickCallbackString !== undefined && clickCallbackString !== null && typeof clickCallbackString == 'string'){
-			html += 'data-clickcallback="'+clickCallbackString+'"';
+		if (clickCallbackString !== undefined && clickCallbackString !== null && typeof clickCallbackString === 'string') {
+			html += 'data-clickcallback="' + clickCallbackString + '"';
 		}
-		if(callbackParameters !== undefined && callbackParameters !== null && typeof callbackParameters == 'string'){
-			html += 'data-callbackParameters="'+callbackParameters+'"';
+		if (callbackParameters !== undefined && callbackParameters !== null && typeof callbackParameters === 'string') {
+			html += 'data-callbackParameters="' + callbackParameters + '"';
 		}
 		html += '\\>' + text + '</a>';
 		// Return the Html Code
-		return html;	
+		return html;
 	},
 	/**
 	 * Changes the button's state, from On to Off or from Off to On
@@ -295,7 +295,7 @@ var buttonGenerator = {
 	 * @see submitCustomData
 	 * @param  {object} submitButton The submit button object that is clicked
 	 */
-	submitCustomSwipeData : function(submitButton){
+	submitCustomSwipeData : function (submitButton) {
 		var i = 0,
 			postString = "",
 			postLocation = submitButton.getAttribute("data-location"),
@@ -317,15 +317,14 @@ var buttonGenerator = {
 				}
 			}
 		}
+
 		postString = postString.slice(0, -1);
-		if(callback !== null && callback !== undefined && typeof callback == 'string'){
-			if(callbackOptions !== undefined && callbackOptions !== null && typeof callbackOptions == 'string'){
+		if (callback !== null && callback !== undefined && typeof callback === 'string') {
+			if (callbackOptions !== undefined && callbackOptions !== null && typeof callbackOptions === 'string') {
 				eval(callback + '(' + callbackOptions + ')');
-			}
-			else{
+			} else {
 				eval(callback + '()');
 			}
-			
 		}
 	},
 	/**

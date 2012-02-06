@@ -46,7 +46,7 @@ var buttonResizer = {
 	resizeButtons: function (element) {
 		// Initialize arrays & variables
 		var i = 0,
-			elementArray = new Array(),
+			elementArray = [],
 			elementArrayLength = 0,
 			mobile = false,
 			button1 = null,
