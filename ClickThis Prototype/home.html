@@ -23,7 +23,7 @@
                     <a class="back Active" id="backButton" data-href="home.html" data-app-onClick="ClickThisApp.terminateApp()" data-app-text="Quit" data-app-start-mode="active" data-page-start-mode="disabled">Back</a>
                 </div>
                 <div id="notification" style="display:none;height:0px">
-                    Some data has not been sent!
+                    Some data has not been sent! [ <small id="notificationCount"></small> ]
                 </div>
                 
                 <!-- User front page -->
@@ -157,6 +157,7 @@
             ajaxQueue.registerCallback({type:"onStatusCodeChange"}, function () {
                 var statusCode = ajaxQueue.getStatusCode();
                 var notification = $("#notification");
+                $("#notificationCount").html(ajaxQueue.getQueueLength());
                 if(statusCode === 0 && notification.css("heigth") !== 0) {
                     notification.animate({
                         height: "0px"
@@ -170,7 +171,10 @@
                         height: "45px"
                     }, 500);  
                 }
-            })
+            });
+            ajaxQueue.registerCallback({type: "onQueueLengthChange"}, function () {
+                $("#notificationCount").html(ajaxQueue.getQueueLength());
+            });
             ajaxQueue.load();
             ajaxQueue.executeTasks();
             ajaxQueue.setConfig({ajaxTimeout: 6000})

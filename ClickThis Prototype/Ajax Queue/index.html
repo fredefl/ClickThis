@@ -28,6 +28,9 @@
 	ajaxQueue.registerCallback({type: "onStatusCodeChange"}, function () {
 		ajaxQueue.log("Changed status code, new status code: " + ajaxQueue.getStatusCode());
 	});
+	ajaxQueue.registerCallback({type: "onQueueLengthChange"}, function () {
+		console.log("Queue length changed!", ajaxQueue.getQueueLength())
+	})
 	ajaxQueue.add({
 		url: "http://illution.dk/ClickThisPrototype/Ajax Queue/ajax.php", 
 		data: "", 

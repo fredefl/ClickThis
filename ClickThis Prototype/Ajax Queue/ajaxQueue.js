@@ -71,7 +71,8 @@ var ajaxQueue = {
 		onSuccess: {},
 		onError: {},
 		onTimeout: {},
-		onStatusCodeChange: []
+		onStatusCodeChange: [],
+		onQueueLengthChange: []
 	},
 
 	/**
@@ -179,6 +180,7 @@ var ajaxQueue = {
 			id = false;
 		}
 		ajaxQueue.checkStatusCode();
+		ajaxQueue.queueLengthChanged();
 		// Return the new id for the task
 		return id;
 	},
@@ -202,6 +204,7 @@ var ajaxQueue = {
 		this.save();
 		ajaxQueue.log("Removed " + id);/*LOG*/
 		ajaxQueue.checkStatusCode();
+		ajaxQueue.queueLengthChanged();
 		return result;
 	},
 
@@ -217,6 +220,7 @@ var ajaxQueue = {
 		this.save();
 		ajaxQueue.log("Cleared queue");/*LOG*/
 		ajaxQueue.checkStatusCode();
+		ajaxQueue.queueLengthChanged();
 		return true;
 	},
 
@@ -408,12 +412,30 @@ var ajaxQueue = {
 	},
 
 	/**
+	 * Executed when a task is deleted or added. It is used to perform the onQueueLengthChange callback.
+	 * @private
+	 */
+	queueLengthChanged: function () {
+		var i,
+			callback;
+		if (ajaxQueue.callbackArray.onQueueLengthChange.length > 0) {
+			for (i = 0; i <= ajaxQueue.callbackArray.onQueueLengthChange.length - 1; i++) {
+				callback = ajaxQueue.callbackArray.onQueueLengthChange[i];
+				if (callback && typeof (callback) === "function") {
+					callback();
+				}
+			}
+		}
+	},
+
+	/**
 	 * Registers a callback function.
 	 * Callback types:
 	 *  onSuccess
 	 *  onError
 	 *  onTimeout
 	 *  onStatusCodeChange
+	 *  onQueueLengthChange
 	 * 
 	 * @static
 	 * @param  {JSON}     options	The json string containing the type and group. Note that the group should not be speecified when using the onStatusCodeChange type.
@@ -438,7 +460,7 @@ var ajaxQueue = {
 	 */
 	registerCallback: function (json, callback) {
 		var current;
-		if (json.type === "onStatusCodeChange") {
+		if (json.type === "onStatusCodeChange" || json.type === "onQueueLengthChange") {
 			current = ajaxQueue.callbackArray[json.type];
 			current.push(callback);
 			return true;
