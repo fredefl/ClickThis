@@ -56,7 +56,8 @@
 function question(buttonsArray, div, submit, single, group, header) {
 	var i,
 		currentId = 0,
-		buttons =  "";
+		button = "",
+		buttons = "";
 	for (i in buttonsArray) {
 		button = buttonsArray[i];
 		if (button[0] === 'submit') {

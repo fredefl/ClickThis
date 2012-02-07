@@ -20,10 +20,11 @@ function isOnPage(name) {
 * This function fill the about box with content
 */
 function addAboutBox() {
-	var aboutBox = $('<ul class="rounded arrow"><li><a id="aboutBoxInner"></a></li></ul>'),
-		aboutBoxInner = $('#aboutBoxInner');
+	var aboutBox = '<ul class="rounded arrow"><li><a id="aboutBoxInner"></a></li></ul>',
+		aboutBoxInner;
 
 	$('#aboutBox').append(aboutBox);
+	aboutBoxInner = $('#aboutBoxInner');
 	aboutBoxInner.append('If you want information about Illution,<br> or other of our products visit our site at illution.dk');
 	aboutBoxInner.append('<br>');
 	aboutBoxInner.append('&copy; Illution (c), 2012, illution.dk');

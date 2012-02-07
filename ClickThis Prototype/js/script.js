@@ -54,8 +54,10 @@ document.addEventListener("orientationChanged", function () {
 });
 
 $(window).hashchange(function () {
+	var Hash,
+		page;
 	if (!isOnPage('multiplechoice.html')) {
-		var Hash = location.hash;
+		Hash = location.hash;
 		if (Hash !== null && Hash !== undefined && Hash !== '') {
 			page = Hash.replace('#', '');
 			changePage(page);
