@@ -113,7 +113,7 @@ function aboutText() {
 		}
 	}
 
-	if (location.hash === "#welcome_cars") {
+	if (location.hash === "#welcome_cars" || location.hash === "#add_issue" ) {
 		startDisabled = false;
 		pageText = "Back";
 	}
