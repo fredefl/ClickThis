@@ -154,7 +154,7 @@
         <!--<script src="http://debug.phonegap.com/target/target-script-min.js#illutionclickthisprototypetest"></script>-->
         <script src="Ajax Queue/ajaxQueue.js"></script>
         <script type="text/javascript">
-            $(document).ready(function () {
+            $(window).load(function () {
                 ajaxQueue.registerCallback({type:"onStatusCodeChange"}, function () {
                     var statusCode = ajaxQueue.getStatusCode();
                     var notification = $("#notification");
@@ -221,12 +221,6 @@
 			};
 			$(document).ready(function(e) {
 				aboutText();
-				// Check for android app
-				if(window.ClickThisApp) {
-					$('#backButton').removeClass('Disabled');
-					$('#backButton').html('Quit');	
-					window.ClickThisApp.test();
-				}
             });
         </script>
 	</body>
