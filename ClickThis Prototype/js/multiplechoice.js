@@ -64,9 +64,9 @@ $(document).ready(function () {
 
 function swipeCallback() {
 	if ($('#welcome').is('div')) {
-		console.log($('#welcome'));
-		$('#welcome').remove();
-		window.questionSwipe = new Swipe(document.getElementById("questionsContainer"));
+		//console.log($('#welcome'));
+		//$('#welcome').remove();
+		//window.questionSwipe = new Swipe(document.getElementById("questionsContainer"));
 	}
 	buttonResizer.resizeButtons(document.body);
 	window.scrollTo(0, 1);
