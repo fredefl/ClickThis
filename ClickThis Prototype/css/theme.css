@@ -68,6 +68,7 @@ body {
     -moz-border-image: url(../images/button.png) 0 5 0 5;
     -o-border-image: url(../images/button.png) 0 5 0 5;
     -ms-border-image: url(../images/button.png) 0 5 0 5;
+    -webkit-touch-callout:none;
 }
 #jqt .button.active, #jqt .cancel.active, #jqt .add.active {
 	border-image: url(../images/button_clicked.png) 0 5 0 5;
@@ -164,6 +165,7 @@ body {
     -webkit-user-select:none;
     -moz-user-select:none;
     -ms-user-select:none;
+    -webkit-touch-callout:none;
     color: #666;
     border-top: 1px solid #333;
     border-bottom: #555858;
@@ -195,6 +197,7 @@ body {
     -webkit-user-select:none;
     -moz-user-select:none;
     -ms-user-select:none;
+    -webkit-touch-callout:none;
     padding: 12px 22px 12px 10px;
 }
 
@@ -203,6 +206,7 @@ body {
     -webkit-user-select:none;
     -moz-user-select:none;
     -ms-user-select:none;
+    -webkit-touch-callout:none;
 	background-image: url(../images/chevron_circle.png), linear-gradient( 0% 0%, 0% 100%, from(#4c4d4e), to(#404142));
     background-position: right center;
     background-repeat: no-repeat;
