@@ -160,7 +160,10 @@ body {
 	border-bottom-right-radius: 8px;
 }
 #jqt ul li {
+    user-select:none;
     -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
     color: #666;
     border-top: 1px solid #333;
     border-bottom: #555858;
@@ -188,12 +191,18 @@ body {
 }
 
 #jqt ul li.arrow a {
+    user-select:none;
     -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
     padding: 12px 22px 12px 10px;
 }
 
 #jqt ul li.forward {
+    user-select:none;
     -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
 	background-image: url(../images/chevron_circle.png), linear-gradient( 0% 0%, 0% 100%, from(#4c4d4e), to(#404142));
     background-position: right center;
     background-repeat: no-repeat;
