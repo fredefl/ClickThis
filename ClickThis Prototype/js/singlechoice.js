@@ -52,4 +52,10 @@ $(document).ready(function() {
 	
 	/* Check for page */
 	$(window).hashchange();
+
+	Hyphenator.config({
+		displaytogglebox : true,
+		minwordlength : 4
+    });
+	Hyphenator.run();
 });

@@ -77,7 +77,7 @@ var buttonGenerator = {
 			currentText = textOff;
 		}
 		// Get the cssClass
-		cssClass += "mega button " + currentColor + " halfsize ";
+		cssClass += "mega button hyphenate " + currentColor + " halfsize ";
 		// If it is a submittable button, add submit Class
 		if (submit && submit !== undefined && submit !== null) {
 			cssClass += "submit ";
@@ -111,6 +111,7 @@ var buttonGenerator = {
 			'data-coloron="' + colorOn + '"',
 			'data-textoff="' + textOff + '"',
 			'data-texton="' + textOn + '"',
+			'lang="en"',
 			specialClass,
 			'>' + currentText + '</a>\r\n'
 		].join("");
