@@ -73,3 +73,11 @@ $('#backButton').click(function () {
 		window.location = $('#backButton').attr('data-href');
 	}
 });
+
+/*
+$(document).ready(function () {
+	$("#series li:first-child").animate({
+		height:"75px"
+	},500);
+})
+*/
