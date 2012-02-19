@@ -23,7 +23,7 @@ var userPageKeyword = "user_p";
  * This variable is set by the page changer function
  * @type {Number}
  */
-var currentPage = null;
+var currentPage = 0;
 /**
  * The variable will be set with the content of the users localStorage key "userProviders" 
  * @type Object}
@@ -183,7 +183,6 @@ function renderAddElement(data){
 
 }
 
-
 /**
  * This event is called when a keyboard key is clicked
  */
@@ -234,6 +233,17 @@ $("#menuBar-add-page").click(function(){
 $("#menuBarRemove").click(function(){
 	removeElement($(".selected"));
 });
+
+
+$("#menuBar-remove-page").click(function(){
+	var pageToRemove = $(".page").eq(currentPage);
+	if(typeof pageToRemove != "object" || pageToRemove == undefined || pageToRemove == null){
+		pageToRemove = $(".page:first");
+	}
+	console.log(pageToRemove);
+	removePage(pageToRemove);
+});
+
 
 /**
 * This event is triggered when right arrow is clicked,
@@ -298,7 +308,7 @@ $('#edit').click(function(){
 		startEditMode();
 		$(menu).show();
 		menu.animate({
-    		width: "135px"
+    		width: "168px"
   		}, 500);
   		$("#blur").show().animate({
   			opacity: 0.7,
@@ -558,14 +568,22 @@ function start(callback) {
 			});
 			$(".page li").click(function(){
 				if(editMode){
-					$(".selected").removeClass("selected");
-					$(this).addClass("selected");
+					if($(this).hasClass("selected")){
+						$(".selected").removeClass("selected");
+					} else {
+						//$(".selected").removeClass("selected");
+						$(this).addClass("selected");
+					}	
 				}
 			});
 			currentPageElement = window.loginSwipe.slides[0];
 	}});
 }
 
+/**
+ * This function removes a dom element
+ * @param  {object} element The element to remove
+ */
 function removeElement(element){
 	$(element).remove();
 }
@@ -628,7 +646,6 @@ function startEditMode(){
 		$('#right').addClass('right-disabled').removeClass('right');
 	}
 	$("#searchProviders").hide();
-	/*$( "#providerContainer ul li" ).draggable( "option", "disabled", false );*/
 }
 
 /**
@@ -647,7 +664,6 @@ function endEditMode(){
 		$('#right').addClass('right').removeClass('right-disabled');	
 	}
 	saveUserProviders();
-	/*$( "#providerContainer ul li" ).draggable( "option", "disabled",true );*/
 }
 
 /**
@@ -762,6 +778,20 @@ function addNewPage(container){
          });
 		return newPage;
 	}
+}
+
+/**
+ * This function removes a page from swipe, the bullet and from the DOM
+ */
+function removePage(PageToRemove){
+	if(typeof PageToRemove != "object"){
+		var currentPagePos = window.loginSwipe.getPos(),
+		PageToRemove = $(".page").eq(currentPagePos);
+	}
+	window.loginSwipe.prev();
+	PageToRemove.remove();
+	provider.removeBullet($(".bullet").eq(currentPagePos),$("#position"));
+	window.loginSwipe.refresh();
 }
 
 /**

@@ -52,11 +52,6 @@
 .right:active{	background-position: -71px 0;	
 }
 
-.provider{
-	cursor: pointer;
-}
-.providerLink{}
-
 /* The left arrow */
 .left:hover{
 	background-position: -36px 0;
@@ -96,26 +91,13 @@
 	background: url("images/Up.png") 0 0 no-repeat;
 	position:absolute;
 }
-@font-face {  
-  font-family: Colveti;  
-  src:url(fonts/COOLVETI.TTF)
-}
 
-.Button{
-	text-align:center;
-	color:#666;
-	font-family:"Colveti";
-	position:absolute;
-	height:32px;
-	width:64px;
-	background: url("images/Button.png") 0 0 no-repeat;
-}
-
+/* the up arrow */
 #up:hover{
 	background-position: -36px 0;
 }
 
-/* The arrow down */
+/* The down arrow */
 #down{
 	height:34px;
 	width:35px;		
@@ -157,7 +139,6 @@
 
 /* The html body style the makes the background */
 body {
-	/*background: url(images/Back.png) repeat;*/
 	background-color: #131313;
   background-size: 20px 20px;
   background:
@@ -178,20 +159,11 @@ body {
   background-color:#282828;
   background-size:16px 16px;
 
-  /*-webkit-font-smoothing: antialiased;*/
 	width:100%; 
 	height:100%;
 }
-/* Page Changer Disabled */
-.Disabled{
-	display:none;	
-}
-/* Page Active */
-.Active{
-	
-}
 
-/* Editt */
+/* Edit Box */
 #edit-bar{}
 #edit-box{
 	padding:10px;
@@ -241,14 +213,7 @@ body {
 	background: url("images/circle.png") 0 0 no-repeat;
 }
 
-#button{
-	width:64px;
-	height:32px;
-	position:absolute;
-	text-align:center;
-	background: url("images/Button.png") 0 0 no-repeat;
-}
-
+/* Add Element */
 #add-element-position-container{
 	float: left; 
 	position: relative; 
@@ -276,51 +241,6 @@ body {
 	color:#666;
 }
 
-#position-container{
-	float: left; 
-	position: relative; 
-	bottom:0px;
-	left:50%;
-}
-
-#position{
-	float: left; 
-	position: relative; 
-	left: -50%;
-}
-
-.navigation{}
-
-#position em {
-	display:inline-block;
-	padding:0 3px;
-	/*width:22px;*/
-	height:22px;
-	font-style:normal;
-	text-shadow: 0 -1px 0 rgba(0,0,0,.35);
-	font-family:sans-serif;
-	font-size:22px;
-}
-
-#position em.on {
-	color:#fff;
-}
-
-ul{
-    list-style-type:none;
-}
-ul li{
-    float: left;
-    width:128px;
-    height:128px;
-}
-.sortable-grid{
-    width:100%; 
-    position: relative;
-    height:100%;
-    left:-18px;
-}
-
 /* Page Types */
 .user{ }
 .page{ }
@@ -331,16 +251,30 @@ ul li{
 .disabled{
 	display: none;
 }
+
+/* Blur  */
+#blur {
+	-webkit-transition: all 1s ease-in-out;
+	transition: all 1s ease-in-out;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: #000;
+    opacity: 0;
+    filter: alpha(opacity = 70); /* required for opacity to work in IE */
+}
+
+
+/* Menu Bar */
+
 #menuBar > * {
 	width:34px;
 	height:35px;
 	margin: -2px 0 0 -2px;
 	float: left;
 }
-.testCircle {
-	background: url("images/circle.png") 0 0 no-repeat;
-}
-/* Menu Bar */
 
 #menuBar {
 	/* Position and size */
@@ -363,20 +297,7 @@ ul li{
 	-webkit-box-shadow: 0 0 1px 1px rgba(174,174,174,0.7);
 }
 
-#blur {
-	-webkit-transition: all 1s ease-in-out;
-	transition: all 1s ease-in-out;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    background: #000;
-    opacity: 0;
-    filter: alpha(opacity = 70); /* required for opacity to work in IE */
-}
-
-/* Menu Bar Tools */
+/* MenuBar Tools */
 #menuBar-add-page{
 	width:35px;
 	height:34px;
@@ -430,7 +351,23 @@ ul li{
 	background-position:-70px 0;
 }
 
-/*#menuBar-remove-page{}*/
+#menuBar-remove-page{
+	width:35px;
+	height:34px;
+	top:-2.5px;
+	margin: 2px 2px 2px 2px;
+	right:134px;
+	position:absolute;
+	background: url("images/Remove Page.png") 0 0 no-repeat;	
+}
+
+#menuBar-remove-page:hover{
+	background-position:-35px 0;
+}
+
+#menuBar-remove-page:active{
+	background-position:-70px 0;
+}
 
 /* Tooltip */
 .tooltip{
@@ -440,32 +377,31 @@ ul li{
 	left: 50%;
 	margin-left: -50px;
 	font-family: 'Arial', Georgia, serif;
-	font-weight: 400;	
+	font-weight: 400;
 	font-size: 14px;
-	color: #000;
+	color: black;
 	text-align: center;
-	background: rgba(255,255,255,0.8);
+	background: rgba(255, 255, 255, 0.8);
 	text-indent: 0px;
 	border-radius: 5px;
 	position: absolute;
 	opacity: 0;
-	z-index:999999999;
+	cursor: pointer;
+	z-index: 999;
 	box-shadow: 1px 1px 2px rgba(0,0,0,0.1);
 	-webkit-transition: all 0.3s ease-in-out;
 	-moz-transition: all 0.3s ease-in-out;
 	-o-transition: all 0.3s ease-in-out;
 	-ms-transition: all 0.3s ease-in-out;
-	transition: all 0.3s ease-in-out;
-}
-
-.tooltip{
-	cursor: pointer;
+	-webkit-transition: all 0.3s ease-in-out;
 }
 
 .tooltip:after{
 	margin-left: -10px;
 	border-top: 10px solid #fff;
 }
+
+/* Page Element Styles */
 .page li a:hover .tooltip{
 	opacity: 100;
 	bottom:64px;
@@ -507,6 +443,7 @@ ul li{
     text-align: center;
 }
 
+/* Chose provider styles */
 .showContainer li{
 	width:64px;
 	height:64px;
@@ -531,18 +468,77 @@ ul li{
 	margin-top: 2px;
 }
 
-/*.page li{
-    /*clear:both;
-    float:left;
+/* Provider styles */
+.provider{
+	cursor: pointer;
+}
+.providerLink{}
+
+#providerContainer ul {
+	cursor: pointer;
+ 	margin-top: 15px;
+    -webkit-transition: margin-top 0.2s ease-out;
+    -moz-transition: margin-top 0.2s ease-out;
+    -o-transition: margin-top 0.2s ease-out;
 }
 
-/*.droppable {
-    clear:both;
-    height:300px;
-    width:400px;
-    background-color:#CCC;
+#providerContainer ul li{
+	width:128px;
+	height:128px;
+	z-index:9;
 }
 
-/*.droppable.active { background: #CFC; }
-.droppable.hovered { background: #CCF; }
-.dropped { background: #f52; }*/
+.selected{
+	opacity: 0.5;
+	-moz-opacity: 0.5;
+	filter:alpha(opacity=50);
+}
+
+/* Position */
+#position-container{
+	float: left; 
+	position: relative; 
+	bottom:0px;
+	left:50%;
+}
+
+#position{
+	float: left; 
+	position: relative; 
+	left: -50%;
+}
+
+#position em {
+	display:inline-block;
+	padding:0 3px;
+	/*width:22px;*/
+	z-index:999;
+	height:22px;
+	font-style:normal;
+	text-shadow: 0 -1px 0 rgba(0,0,0,.35);
+	font-family:sans-serif;
+	font-size:22px;
+}
+
+#position em.on {
+	color:#fff;
+}
+
+/* Other */
+.navigation{}
+
+ul{
+    list-style-type:none;
+}
+ul li{
+    float: left;
+    width:128px;
+    height:128px;
+}
+
+.sortable-grid{
+    width:100%; 
+    position: relative;
+    height:100%;
+    left:-18px;
+}
