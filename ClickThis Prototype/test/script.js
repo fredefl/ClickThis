@@ -1,148 +1,12 @@
 "use strict";
-/**
- * This variable contains a list of all providers
- * @type {Object}
- */
-var providerList;
-/**
- * This variable is filled with all the providers as an object when the document is ready
- * @type {Object}
- */
-var providers;
-/**
- * This variable holds the keyword that will be put infront of the standard page names/div names
- * @type {String}
- */
-var pageKeyword = "page_p";
-/**
- * This keyword will be put infront of the name of each user generated page
- * @type {String}
- */
-var userPageKeyword = "user_p";
-/**
- * This variable is set by the page changer function
- * @type {Number}
- */
-var currentPage = 0;
-/**
- * The variable will be set with the content of the users localStorage key "userProviders" 
- * @type Object}
- */
-var userProviders;
-/**
- * This variable is used in the arrow system options are (".default",".page",".user",".edit",".edit-chose")
- * @type {String}
- */
-var pageChangeType = '.page';
-/**
- * This variable set how many providers there will be shown per page
- * @type {Number}
- */
-var numberPerPage = 6;
-/**
- * This variable sets how many providers there will be shown per row
- * @type {Number}
- */
-var numberPerRow = 3;
-/**
- * This variable stores the last disabled page
- * @type {String}
- */
-var oldPage;
-/**
- * This variable is used in the edit box the re-create what it changed
- * @type {String}
- */
-var oldPageChangeType;
-/**
- * This variable stores the state of the page, true means that the page is changing
- * @type {Boolean}
- */
-var changeing = false;
-/**
- * Set this to false if you dont wan't the left arrow on the first page to send the user to the last page
- * @type {Boolean}
- */
-var scrollToEnd = true;
-/**
- * An object storing the standard providers
- * @type {Object}
- */
-var standardProviders;
-/**
- * If is true then edit mode is enabled
- * @type {Boolean}
- */
-var editMode = false;
-/**
- * If this is true then the left and right button will be available
- * @type {Boolean}
- */
-var navigationOnDisabled = true;
-/**
- * If this is set to true both standard and user providers,
- * will be shown else only user providers will be shown if user providers exists
- * @type {Boolean}
- */
-var showStandardProvidersIfUSerProviders = false;
-
-/**
- * This is the localStorage key for user providers
- * @type {String}
- */
-var userProviderKey = "userProviders";
-
-/**
- * The element of the current loginSwipe page
- * @type {object}
- */
-var currentPageElement;
 
 /**
  * This function is called when the user starts a swipe
  */
 function swipeCallback(event, index, elem){
-	changeBullet(window.loginSwipe.getPos(),$('#position'));
+	provider.changeBullet(window.loginSwipe.getPos(),$('#position'));
 	currentPage = window.loginSwipe.getPos();
 	currentPageElement = elem;
-}
-
-/**
- * This function finds the current bullet turned on,
- * and turns it off and after that it finds the new bullet,
- * from the indexin 'newBullet' and turned it on.
- * @param  {int} newBullet The index of the new Bullet, this index begins from zero
- * @param  {object} append    The object to append/ the container of the bullets
- * @return {[object}
- */
-function changeBullet(newBullet,append){
-	if(typeof append == 'object'){
-		if(typeof newBullet != 'number'){
-			newBullet = parseInt(newBullet);
-		}
-		var old = $(append).find('.on');
-		var newObject = $(append).find('em').eq(newBullet);
-		if(typeof old == "object"){
-			old.removeClass('on');
-		}
-		
-		newObject.addClass('on');
-		return newObject;	
-	}
-}
-
-/**
- * This function gets a list of all providers from the server
- * @param  {Function} callback The callback function
- */
-function getProviderList(callback){
-	$.ajax('providers.php?list=1',{
-		success:function(data){
-			if(typeof callback == "function"){
-				callback(data);
-			}	
-		}
-	});	
 }
 
 /**
@@ -152,7 +16,7 @@ function getProviderList(callback){
  * @param {object} elem  The new page object
  */
 function addElementSwipeCallback(event, index, elem){
-	changeBullet(window.addElementSwipe.getPos(),$("#add-element-position"));
+	provider.changeBullet(window.addElementSwipe.getPos(),$("#add-element-position"));
 }
 
 /**
@@ -182,159 +46,7 @@ function renderAddElement(data){
 
 }
 
-/**
- * This event is called when a keyboard key is clicked
- */
-$(document).bind("keydown", function(event) {
-	if (event.which == 37) { 
-       $("#left").click();
-       return false;
-    }
-    if (event.which == 39) { 
-       $("#right").click();
-       return false;
-    }
-    if(event.altKey && event.ctrlKey && event.which == 69) {
-   		$("#edit").click();
-   		return false;
-    }
-});
-
-/**
- * This function acts as a callback function and it calls the addNewElement function
- * @param {object} element The element to add
- */
-function addProviderToPage(element){
-	addNewElement($(element).attr("data-provider"),$(currentPageElement));
-}
-
-$("#menuBar-add-element").click(function(){
-	var elementBox = $("#searchProviders");
-	if($(elementBox).css("opacity") != "0"){
-		$(elementBox).animate({
-			opacity:0
-		},500,function(){
-			$(this).hide();
-		});
-		window.addElementSwipe.disable();
-	} else {
-		$(elementBox).show().animate({
-			opacity:1.0
-		},500);
-		window.addElementSwipe.enable();
-	}
-});
-
-$("#menuBar-add-page").click(function(){
-	addNewPage($("#providerContainer"));
-});
-
-$("#menuBarRemove").click(function(){
-	removeElement($(".selected"));
-});
-
-
-$("#menuBar-remove-page").click(function(){
-	var pageToRemove = $(".page").eq(currentPage);
-	if(typeof pageToRemove != "object" || typeof pageToRemove == "undefined" || pageToRemove == null || pageToRemove.length == 0){
-		pageToRemove = $(".page:first");
-	}
-	removePage(pageToRemove);
-});
-
-
-/**
-* This event is triggered when right arrow is clicked,
-* this event's callback function gets the next page,
-* and if it's the last page it returns to the first page
-*/
-$('#right').click(function() {
-	if(!editMode || navigationOnDisabled){
-		window.loginSwipe.next();
-		changeBullet(window.loginSwipe.getPos(),$('#position'));
-		currentPage = window.loginSwipe.getPos();	
-	}
-});
-
-/**
-* This event is called when the left arrow is clicked it does the same as,
-* the event for the right button just reverses
-* @see $('#right').click(function ()
-*/
-$('#left').click(function () {
-	if(!editMode || navigationOnDisabled){
-		var currentPosition = loginSwipe.getPos();
-		var numberOfElements = $(pageChangeType).length;
-		if (currentPosition == 0 && scrollToEnd){
-			window.loginSwipe.slide(numberOfElements-1,800); 
-		}
-		else{
-			window.loginSwipe.prev();
-		}
-		changeBullet(window.loginSwipe.getPos(),$('#position'));
-		currentPage = window.loginSwipe.getPos();	
-	}
-})
-
-/**
- * This event is fired when the edit button is clicked
- */
-$('#edit').click(function(){
-	var menu = $("#menuBar");
-	var elementBox = $("#searchProviders");
-	if(editMode){
-		if($(elementBox).css("display") != "none"){
-			$(elementBox).animate({
-				opacity:0
-			},500,function(){
-				$(this).hide();
-			});
-		}
-		menu.find("a").hide();
-		menu.animate({
-    		width: "30px"
-  		}, 500,function () {
-  			menu.hide();
-  		})
-  		$("#blur").show().animate({
-  			opacity: 0,
-  		}, 500,function(){
-  			 endEditMode()
-  		});
-	} else {
-		$(menu).find("a").show();
-		startEditMode();
-		$(menu).show();
-		menu.animate({
-    		width: "168px"
-  		}, 500);
-  		$("#blur").show().animate({
-  			opacity: 0.7,
-  		}, 500);
-	}
-})
-
 jQuery.fn.reverse = [].reverse;
-
-/**
- * This function creates the bullets
- * @param {int} number This parameter determine how many bullets to create
- * @param {int} current This is the current page, start at zero
- * @param {object} append The object to append to
- * @param {object} container An obtional container to have a width set
- */
-function position(number,current,append,container){
-	if(typeof append == 'object'){
-		var currentObject;
-		for (var i = 0; i < number; i++) {
-			currentObject = $('<em class="bullet">&bull;</em>');
-			if(i == current){
-				currentObject.addClass('on');
-			}
-			append.append(currentObject);
-		};
-	}
-}
 
 /**
  * This function render and error checks the data and add em to the container
@@ -394,7 +106,7 @@ function checkForEmptyPages(){
 		}
 	});
 	if(window.loginSwipe != undefined){
-		changeBullet(window.loginSwipe.getPos(),$('#position'));
+		provider.changeBullet(window.loginSwipe.getPos(),$('#position'));
 	}
 }
 
@@ -453,18 +165,6 @@ function splitPage(page){
 }
 
 /**
-* This function is only for testing of localStorage,
-* it sets the localStorage data pageCount and it updates it every time you visit the site
-*/
-function pageCount() {
-	if (localStorage.pageCount <= undefined) {
-		localStorage.pageCount = 1;
-	} else {
-		localStorage.pageCount = parseInt(localStorage.pageCount)+1;
-	}
-}
-
-/**
 * This function gets the users userProviders from localStorage,
 * and if the user doens't have any false will be returned.
 * @returns boolean The status of the function
@@ -472,26 +172,6 @@ function pageCount() {
 function getUserProviders() {
 	return $.parseJSON(localStorage.getItem(userProviderKey));
 }
-
-//This event fills the providers variable with data
-$(document).ready(function () {
-	getUserProviders();
-	$.ajax('providers.php',{
-	  success: function (data) {
-		setCurrentProvider(jQuery.parseJSON(data));
-		getProviderList(renderAddElement);
-		start(function () {
-			$(window).hashchange();
-			position($(pageChangeType).length,0,$('#position'),$('#position-container'));
-			$(".show-provider").click(function(){
-				addProviderToPage(this);
-			});
-		});
-		if (location.hash == undefined || location.hash == '') {
-			currentPage = "page_p1";
-		}
-	}});
-});
 
 /**
  * This function slides to the page defined in 'page'
@@ -505,14 +185,14 @@ function slideTo(page){
 	currentPageElement = $(page);
 }
 
-/* This event is fired if the hash changes */
-$(window).hashchange( function () {
-	if (location.hash != null && location.hash != undefined && location.hash != '') {
-		var page = location.hash.replace('#','');
-		page = page.substring(2,page.length);
-		slideTo($('#'+page));
-	}
-})
+/**
+ * This function is called when a new page is added
+ */
+function slideAfter(newPage){
+	slideTo(newPage);
+	changeBullet(window.loginSwipe.getPos(),$("#position"));
+	currentPageElement = $(newPage);
+}
 
 /**
 * This function is called by the succes callback of the providers ajax request.
@@ -576,54 +256,6 @@ function start(callback) {
 			});
 			currentPageElement = window.loginSwipe.slides[0];
 	}});
-}
-
-/**
- * This function removes a dom element
- * @param  {object} element The element to remove
- */
-function removeElement(element){
-	$(element).remove();
-}
-
-/**
- * [This function checks to see if the user provider data is in the right format
- * @return {Boolean}
- */
-function isValidFormat(){
-	var data = localStorage.getItem(userProviderKey);
-	if(data != null){
-		if(data.substring(0,2) == "[["){
-			return true
-		} else {
-			return false;
-		}
-	} else {
-		return false;
-	}
-}
-
-/**
- * This function checks if the user provider key exists and is set
- * @returns {Boolean} If exists and length is greater than 0
- */
-function IsUserProvidersSet(){
-	if(localStorage.getItem("test") == null){
-		if(localStorage.getItem(userProviderKey) !== null && localStorage.getItem(userProviderKey) !== undefined){
-			if(localStorage.getItem(userProviderKey).length > 0){
-				return true
-			} else {
-				return false;
-			}
-			
-		} else {
-			return false;
-		}
-	} else {
-		localStorage.removeItem(userProviderKey);
-		localStorage.removeItem("test");
-		return false;
-	}	
 }
 
 /**
@@ -717,6 +349,20 @@ function saveUserProviders(){
 }
 
 /**
+ * This function gets a list of all providers from the server
+ * @param  {Function} callback The callback function
+ */
+function getProviderList(callback){
+	$.ajax('providers.php?list=1',{
+		success:function(data){
+			if(typeof callback == "function"){
+				callback(data);
+			}	
+		}
+	});	
+}
+
+/**
  * This function saves the data collected by saveUserProviders to localStorage
  * @param  {String} data The data to be saved
  */
@@ -735,10 +381,27 @@ function saveUserProvidersSucces(data){
 }
 
 /**
+ * This function removes a dom element
+ * @param  {object} element The element to remove
+ */
+function removeElement(element){
+	$(element).remove();
+}
+
+/**
+ * This function acts as a callback function and it calls the addNewElement function
+ * @param {object} element The element to add
+ */
+function addProviderToPage(element){
+	addNewElement($(element).attr("data-provider"),$(currentPageElement));
+}
+
+/**
  * This function adds a new page to the container
  * @param {object} container The pages container
+ * @param {boolean} editMode If edit mode
  */
-function addNewPage(container){
+function addNewPage(container,editMode){
 	if(typeof container == "object"){
 		var name;
 		$(".page").each(function(index,element){
@@ -794,18 +457,8 @@ function removePage(PageToRemove){
 	if($(".page").length == 0){
 		alternativeShowProviders(standardProviders,"default");
 		window.loginSwipe.refresh();
-		position($(".page").length,0,$('#position'),$('#position-container'));
+		provider.addBullets($(".page").length,0,$('#position'),$('#position-container'));
 	}
-}
-
-/**
- * This function is called when a new page is added
- */
-function slideAfter(newPage){
-	slideTo(newPage);
-	changeBullet(window.loginSwipe.getPos(),$("#position"));
-	currentPageElement = $(newPage);
-
 }
 
 /**
@@ -828,56 +481,49 @@ function addNewElement(newProvider,page){
 }
 
 /**
- * This function shows a message box in a special amount of time
- * @param  {string} message  The message to show
- * @param  {Number} speed    The speed to animate
- * @param  {Number} duration The duration to show the message box
- * @param {object} container The container to animate
- * @param {obkect} content The content div of the message
- */
-function showMessage(message,speed,duration,container,content){
-	var messageBox = container || $("#message");
-	var messageContainer = content || $("#message-container");
-	duration = duration || 2000;
-	speed = speed || 500;
-	if(speed == null && speed == undefined){
-		speed = 500;
-	}
-	if(duration == null && duration == undefined){
-		duration = 2000;
-	}
-	if(message != undefined && messageContainer.css("display") == "none"){
-		messageBox.html(message);
-		messageContainer.show().animate({
-		    top: "0px"
-		}, parseInt(speed)).delay(parseInt(duration)).animate({
-		    top: '-40px'
-		}, speed,function(){
-			messageContainer.hide();
-		});
-	} else if(message != undefined){
-		var args = '';
-		$(arguments).each(function(index,element){
-			args +=  ',"'+element+'"';
-		});
-		args = args.substr(1);;
-		setTimeout("showMessage("+args+")",3000);
-	}	 
-}
-
-/**
- * This function hides the message box
- */
-function hideMessage(){
-	var messageBox = $("#message");
-	var messageContainer = $("#message-container");
-	messageBox.html("");
-}
-
-/**
  * This function returns if the current device is an touch device
  * @return {Boolean}
  */
 function isTouchDevice() {
 	return "ontouchstart" in window;
+}
+
+/**
+ * [This function checks to see if the user provider data is in the right format
+ * @return {Boolean}
+ */
+function isValidFormat(){
+	var data = localStorage.getItem(userProviderKey);
+	if(data != null){
+		if(data.substring(0,2) == "[["){
+			return true
+		} else {
+			return false;
+		}
+	} else {
+		return false;
+	}
+}
+
+/**
+ * This function checks if the user provider key exists and is set
+ * @returns {Boolean} If exists and length is greater than 0
+ */
+function IsUserProvidersSet(){
+	if(localStorage.getItem("test") == null){
+		if(localStorage.getItem(userProviderKey) !== null && localStorage.getItem(userProviderKey) !== undefined){
+			if(localStorage.getItem(userProviderKey).length > 0){
+				return true
+			} else {
+				return false;
+			}
+			
+		} else {
+			return false;
+		}
+	} else {
+		localStorage.removeItem(userProviderKey);
+		localStorage.removeItem("test");
+		return false;
+	}	
 }
