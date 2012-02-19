@@ -182,7 +182,7 @@
 	},
 	/**
 	 * This function removes a bullet and if it was the current it find a new current
-	 * @param  {object} object   The object to remoce
+	 * @param  {object} object   The object to remove
 	 * @param  {object} container The position container
 	 */
 	removeBullet : function(object,container){

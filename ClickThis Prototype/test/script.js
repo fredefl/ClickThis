@@ -156,9 +156,8 @@ function addElementSwipeCallback(event, index, elem){
 }
 
 /**
- * [renderAddElement description]
- * @param  {[type]} data [description]
- * @return {[type]}
+ * This function renders the add element elements
+ * @param  {object} data The data to render
  * @todo Disabled the normal slider and enable the new slider
  */
 function renderAddElement(data){
@@ -237,10 +236,9 @@ $("#menuBarRemove").click(function(){
 
 $("#menuBar-remove-page").click(function(){
 	var pageToRemove = $(".page").eq(currentPage);
-	if(typeof pageToRemove != "object" || pageToRemove == undefined || pageToRemove == null){
+	if(typeof pageToRemove != "object" || typeof pageToRemove == "undefined" || pageToRemove == null || pageToRemove.length == 0){
 		pageToRemove = $(".page:first");
 	}
-	console.log(pageToRemove);
 	removePage(pageToRemove);
 });
 
@@ -524,10 +522,10 @@ function start(callback) {
 	var providerContainer = $("#providerContainer > :first");
 	$.ajax('standardProviders.php',{
 		success: function (data) {
+			setStandardProviders(data);
 			if(IsUserProvidersSet() === true && isValidFormat() === true){
 				alternativeShowProviders(getUserProviders(),"user");
 			} else {
-				setStandardProviders(data);
 				alternativeShowProviders(standardProviders,"default");
 			}	
 			if (typeof callback == "function") {
@@ -784,14 +782,20 @@ function addNewPage(container){
  * This function removes a page from swipe, the bullet and from the DOM
  */
 function removePage(PageToRemove){
+	var currentPagePos = window.loginSwipe.getPos(),
+	bullet = $("#position em").eq(currentPagePos);
 	if(typeof PageToRemove != "object"){
-		var currentPagePos = window.loginSwipe.getPos(),
-		PageToRemove = $(".page").eq(currentPagePos);
+		var PageToRemove = $(".page").eq(currentPagePos);
 	}
+	provider.removeBullet($(bullet),$("#position"));
 	window.loginSwipe.prev();
 	PageToRemove.remove();
-	provider.removeBullet($(".bullet").eq(currentPagePos),$("#position"));
 	window.loginSwipe.refresh();
+	if($(".page").length == 0){
+		alternativeShowProviders(standardProviders,"default");
+		window.loginSwipe.refresh();
+		position($(".page").length,0,$('#position'),$('#position-container'));
+	}
 }
 
 /**
