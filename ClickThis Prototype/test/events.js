@@ -1,3 +1,6 @@
+/**
+ * This event is called when the add element button is pressed
+ */
 $("#menuBar-add-element").click(function(){
 	var elementBox = $("#searchProviders");
 	if($(elementBox).css("opacity") != "0"){
