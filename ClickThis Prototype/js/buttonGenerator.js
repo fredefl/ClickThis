@@ -27,9 +27,12 @@ var buttonGenerator = {
 	 * @param {boolean} submit Wherever it should submit its data
 	 * @param {boolean} single Wherever it should deselect all other buttons (Single choice)
 	 * @param {string} group The submit group of the button, this parameter is optional
+	 * @param {boolean} form If is set to true then it will be a textfield
+	 * @param {string} placeholder The form field placeholder text
+	 * @param {boolean} spellcheck A boolean to set if the form element spellcheck should be on
 	 * @returns {string} The html for the button
 	 */
-	newButton: function (id, value, color, text, submit, single, group) {
+	newButton: function (id, value, color, text, submit, single, group, form, placeholder,spellcheck) {
 		if (!submit) {
 			submit = true;
 		}
@@ -39,7 +42,7 @@ var buttonGenerator = {
 		if (group === undefined) {
 			group = null;
 		}
-		return this.newCustomButton(id, value, color, this.defaultColor, text, text, submit, single, group);
+		return this.newCustomButton(id, value, color, this.defaultColor, text, text, submit, single, group, form , placeholder, spellcheck);
 	},
 	/**
 	 * Creates a new custom button
@@ -53,9 +56,12 @@ var buttonGenerator = {
 	 * @param {boolean} submit Wherever it should submit its data
 	 * @param {boolean} single Wherever it should deselect all other buttons (Single choice)
 	 * @param {string} group The submit group of the button
+	 * @param {boolean} form If is set to true then it will be a textfield
+	 * @param {string} placeholder The form field placeholder text
+	 * @param {boolean} spellcheck A boolean to set if the form element spellcheck should be on
 	 * @returns {string} The html for the button
 	 */
-	newCustomButton: function (id, value, colorOff, colorOn, textOff, textOn, submit, single, group) {
+	newCustomButton: function (id, value, colorOff, colorOn, textOff, textOn, submit, single, group, form, placeholder,spellcheck) {
 		var cssClass = "",
 			groupHTML = "",
 			currentColor = "",
@@ -63,18 +69,25 @@ var buttonGenerator = {
 			onClickFunctions = "",
 			specialClass = "",
 			html = "";
-
+		
+		spellcheck = spellcheck || false;
+		form = form || false;
+		placeholder = placeholder || "";
 		// Get the current color for the button
 		if (value) {
 			currentColor = colorOn;
 		} else {
 			currentColor = colorOff;
 		}
-		// Get the current text for the button
-		if (value) {
-			currentText = textOn;
+		if(form) {
+			currentText = '<textarea placeholder="'+placeholder+'" class="textfield" spellcheck="'+spellcheck+'" lang="en" data-value="0" data-id="1" data-submitgroup="1"></textarea>';
 		} else {
-			currentText = textOff;
+			// Get the current text for the button
+			if (value) {
+				currentText = textOn;
+			} else {
+				currentText = textOff;
+			}
 		}
 		// Get the cssClass
 		cssClass += "mega button hyphenate " + currentColor + " halfsize ";
@@ -89,9 +102,9 @@ var buttonGenerator = {
 		cssClass = $.trim(cssClass);
 		// Get the javascript functions
 		if (single && single !== undefined && single !== null) {
-			onClickFunctions += "buttonGenerator.singleChoice(this);";
+			onClickFunctions += "buttonGenerator.singleChoice(this,"+form+");";
 		} else {
-			onClickFunctions += "buttonGenerator.multipleChoice(this);";
+			onClickFunctions += "buttonGenerator.multipleChoice(this,"+form+");";
 		}
 		// Special Classes
 		if (single && single !== undefined && single !== null) {
@@ -344,7 +357,11 @@ var buttonGenerator = {
 			button = $('.button.submit').toArray()[i];
 			if (button !== null) {
 				if (button.getAttribute("data-value") === "1") {
-					this.changeState(button);
+					if($(button).find(".textfield").length > 0){
+						this.changeState(button,true);
+					} else {
+						this.changeState(button);
+					}
 				}
 			}
 		}

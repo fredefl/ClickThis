@@ -22,6 +22,22 @@
  *   [4] = redirect
  *   [5] = location
  *   
+ * Form:
+ *   [0] = 'form' : type
+ *   [1] = color
+ *   [2] = text
+ *   [3] = value
+ *   [4] = spellcheck
+ *   [5] = placeholder
+ *   
+ * Form multi:
+ *   [0] = 'formmulti' : type
+ *   [1] = color
+ *   [2] = text
+ *   [3] = value
+ *   [4] = spellcheck
+ *   [5] = placeholder
+ *         
  * SubmitSwipe:
  *   [0] = 'submitSwipe' : type
  *   [1] = color
@@ -70,6 +86,12 @@ function question(buttonsArray, div, submit, single, group, header) {
 			buttons += buttonGenerator.newButton(currentId, button[3], button[1], button[2], null, null, group);
 		} else if (button[0] === 'submitSwipe') {
 			buttons += buttonGenerator.newCustomSwipeSubmitButton(button[1], button[2], button[3], button[6], group, button[4], button[5]);
+		} else if (button[0] === 'form'){
+			currentId++;
+			buttons += buttonGenerator.newButton(currentId, button[3], button[1], button[2], submit, single, group ,true , button[5], button[7]);
+		} else if(button[0] === "formmulti"){
+			currentId++;
+			buttons += buttonGenerator.newButton(currentId, button[3], button[1], button[2], null, null, group, true, button[4], button[5]);
 		}
 	}
 	if (div !== undefined && div !== null) {
