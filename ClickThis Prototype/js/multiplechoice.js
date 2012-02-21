@@ -62,6 +62,7 @@ $(document).ready(function () {
 	$('#end_survey').click(function () {
 		window.location = 'http://illution.dk/ClickThisPrototype/home.html';
 	});
+	$('.textfield').ata();
 });
 
 function swipeCallback() {

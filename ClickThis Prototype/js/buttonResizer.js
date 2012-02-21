@@ -154,9 +154,5 @@ var buttonResizer = {
 		} else {
 			return false;
 		}
-		if (!$("script[scr='" + url + "']").length) {
-        	$('head').append("<script type='text/javascript' src='js/jquery.ata.js'></script>"); 
-    	}
-		$('.textfield').ata();
 	}
 };
