@@ -6,8 +6,8 @@ $(document).ready(function () {
 	var question1 = [],
 		question2 = [];
 
-	$('#welcome').append($('<a class="mega button orange halfsize fullsize" id="begin">Begin the survey</a>'));
-	$('#end').append($('<a class="mega button orange halfsize fullsize" id="end_survey">End the survey</a>'));
+	$('#welcome').append($('<a class="mega button color-orange halfsize fullsize" id="begin">Begin the survey</a>'));
+	$('#end').append($('<a class="mega button color-orange halfsize fullsize" id="end_survey">End the survey</a>'));
 
 	addTitle('Which sport(s) do you practice?', $('#question_1'), 'Title');
 

@@ -129,170 +129,170 @@
 /* Colors & Glow */
 
 /* Pink */
-.pink.button, .pink.button:visited {
+.color-pink.button, .color-pink.button:visited {
 	background-color: #e22092;
 }
-.glow.pink.button {
+.glow.color-pink.button {
 	box-shadow: 0px 0px 30px #e22092;
 	-moz-box-shadow: 0px 0px 30px #e22092;
 	-webkit-box-shadow: 0px 0px 30px #e22092;
 }
 	
 /* Green */
-.green.button, .green.button:visited {
+.color-green.button, .color-green.button:visited {
 	background-color: #91bd09;
 }
-.glow.green.button {
+.glow.color-green.button {
 	box-shadow: 0px 0px 30px #91bd09;
 	-moz-box-shadow: 0px 0px 30px #91bd09;
 	-webkit-box-shadow: 0px 0px 30px #91bd09;
 }
 /* Red */ 
-.red.button, .red.button:visited {
+.color-red.button, .color-red.button:visited {
 	background-color: #e62727;
 }
-.glow.red.button {
+.glow.color-red.button {
 	box-shadow: 0px 0px 30px #e62727;
 	-moz-box-shadow: 0px 0px 30px #e62727;
 	-webkit-box-shadow: 0px 0px 30px #e62727;
 }
 
 /* Orange */
-.orange.button, .orange.button:visited {
+.color-orange.button, .color-orange.button:visited {
 	background-color: #ff5c00;
 }
-.glow.orange.button {
+.glow.color-orange.button {
 	box-shadow: 0px 0px 30px #ff5c00;
 	-moz-box-shadow: 0px 0px 30px #ff5c00;
 	-webkit-box-shadow: 0px 0px 30px #ff5c00;
 }
 	
 /* Blue */
-.blue.button, .blue.button:visited { 
+.color-blue.button, .color-blue.button:visited { 
 	background-color: #2981e4; 
 }
-.glow.blue.button {
+.glow.color-blue.button {
 	box-shadow: 0px 0px 30px #2981e4;
 	-moz-box-shadow: 0px 0px 30px #2981e4;
 	-webkit-box-shadow: 0px 0px 30px #2981e4;
 }	
 
 /* Yellow */
-.yellow.button, .yellow.button:visited {
+.color-yellow.button, .color-yellow.button:visited {
 	background-color: #ffb515;
 }
-.glow.yellow.button {
+.glow.color-yellow.button {
 	box-shadow: 0px 0px 30px #ffb515;
 	-moz-box-shadow: 0px 0px 30px #ffb515;
 	-webkit-box-shadow: 0px 0px 30px #ffb515;
 }
 	
 /* Black */
-.black.button, .black.button:visited {
+.color-black.button, .color-black.button:visited {
 	background-color: #000000;
 }
-.glow.black.button {
+.glow.color-black.button {
 	box-shadow: 0px 0px 30px #000000;
 	-moz-box-shadow: 0px 0px 30px #000000;
 	-webkit-box-shadow: 0px 0px 30px #000000;
 }
 	
 /* Gray */
-.gray.button, .gray.button:visited {
+.color-gray.button, .color-gray.button:visited {
 	background-color: #5D5D5D;
 }
-.glow.gray.button {
+.glow.color-gray.button {
 	box-shadow: 0px 0px 30px #5D5D5D;
 	-moz-box-shadow: 0px 0px 30px #5D5D5D;
 	-webkit-box-shadow: 0px 0px 30px #5D5D5D;
 }
 
 /* White */
-.white.button, .white.button:visited {
+.color-white.button, .color-white.button:visited {
 	background-color: #FFFFFF;
 	color:#D1D1D1;
 }
-.glow.white.button {
+.glow.color-white.button {
 	box-shadow: 0px 0px 30px #FFFFFF;
 	-moz-box-shadow: 0px 0px 30px #FFFFFF;
 	-webkit-box-shadow: 0px 0px 30px #FFFFFF;
 }
 	
 /* Purple */
-.purple.button, .purple.button:visited {
+.color-purple.button, .color-purple.button:visited {
 	background-color: #C0C;
 }
-.glow.purple.button {
+.glow.color-purple.button {
 	box-shadow: 0px 0px 30px #C0C;
 	-moz-box-shadow: 0px 0px 30px #C0C;
 	-webkit-box-shadow: 0px 0px 30px #C0C;
 }
 	
 /* Brown */	
-.brown.button, .brown.button:visited {
+.color-brown.button, .color-brown.button:visited {
 	background-color: #630;
 }
-.glow.brown.button {
+.glow.color-brown.button {
 	box-shadow: 0px 0px 30px #630;
 	-moz-box-shadow: 0px 0px 30px #630;
 	-webkit-box-shadow: 0px 0px 30px #630;
 }
 	
 /* Gold */	
-.gold.button, .gold.button:visited {
+.color-gold.button, .color-gold.button:visited {
 	background-color: #D4A017;
 }
-.glow.gold.button {
+.glow.color-gold.button {
 	box-shadow: 0px 0px 30px #D4A017;
 	-moz-box-shadow: 0px 0px 30px #D4A017;
 	-webkit-box-shadow: 0px 0px 30px #D4A017;
 }
 	
 /* Cyan */	
-.cyan.button, .cyan.button:visited {
+.color-cyan.button, .color-cyan.button:visited {
 	background-color: #00FFFF;
 }
-.glow.cyan.button {
+.glow.color-cyan.button {
 	box-shadow: 0px 0px 30px #00FFFF;
 	-moz-box-shadow: 0px 0px 30px #00FFFF;
 	-webkit-box-shadow: 0px 0px 30px #00FFFF;
 }
 	
 /* Lime */	
-.lime.button, .lime.button:visited {
+.color-lime.button, .color-lime.button:visited {
 	background-color: #00FF00;
 }
-.glow.lime.button {
+.glow.color-lime.button {
 	box-shadow: 0px 0px 30px #00FF00;
 	-moz-box-shadow: 0px 0px 30px #00FF00;
 	-webkit-box-shadow: 0px 0px 30px #00FF00;
 }
 	
 /* Silver */	
-.silver.button, .silver.button:visited {
+.color-silver.button, .color-silver.button:visited {
 	background-color: #C0C0C0;
 }
-.glow.silver.button {
+.glow.color-silver.button {
 	box-shadow: 0px 0px 30px #C0C0C0;
 	-moz-box-shadow: 0px 0px 30px #C0C0C0;
 	-webkit-box-shadow: 0px 0px 30px #C0C0C0;
 }
 	
 /* Maroon */	
-.maroon.button, .maroon.button:visited {
+.color-maroon.button, .color-maroon.button:visited {
 	background-color: #800000;
 }
-.glow.maroon.button {
+.glow.color-maroon.button {
 	box-shadow: 0px 0px 30px #800000;
 	-moz-box-shadow: 0px 0px 30px #800000;
 	-webkit-box-shadow: 0px 0px 30px #800000;
 }
 
 /* Olive */	
-.olive.button, .olive.button:visited {
+.color-olive.button, .color-olive.button:visited {
 	background-color: #808000;
 }
-.glow.olive.button {
+.glow.color-olive.button {
 	box-shadow: 0px 0px 30px #808000;
 	-moz-box-shadow: 0px 0px 30px #808000;
 	-webkit-box-shadow: 0px 0px 30px #808000;
