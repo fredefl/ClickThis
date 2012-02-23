@@ -1,0 +1,235 @@
+/* ---------- RESET ---------- */
+/* ---------- Based upon 'reset.css' in the 
+Yahoo! User Interface Library: 
+http://developer.yahoo.com/yui ---------- */
+*, html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, 
+h5, h6, pre, form, label, fieldset, input, p, blockquote, th, td {
+	margin: 0;
+	padding: 0;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+fieldset, img {	border: 0; }
+
+address, caption, cite, code, dfn, em, strong, th, var {
+	font-style: normal;
+	font-weight: normal;
+}
+
+caption, th { text-align: left; }
+
+h1, h2, h3, h4, h5, h6 {
+	font-weight: normal;
+}
+
+q:before, q:after { content: ''; }
+
+strong { font-weight: bold; }
+
+em { font-style: italic; }
+
+a img {	border: none; } /* Gets rid of IE's blue borders */
+
+a { text-decoration: none; }
+
+body { font-size: 1em; /* Prevents an IE bug where em's scale out of proportion */ }
+
+/* ---------- CLEARFIX ---------- */
+/* For modern browsers */
+.cf:before,
+.cf:after {
+    content: "";
+    display: table;
+}
+
+.cf:after { clear:both; }
+
+/* For IE 6/7 (trigger hasLayout) */
+.cf { zoom: 1; }
+
+@media only screen and (max-width: 480px) {
+	.full-width {
+		width: 20em !important;
+	}
+
+}
+
+@media only screen and (min-width: 480px) {
+	
+}
+/* ---------- GENERAL ---------- */
+
+.round {
+	border-radius: 0.3125em;
+	-webkit-border-radius: 0.3125em;
+	-moz-border-radius: 0.3125em;
+}
+
+.text-upper {
+	text-transform: uppercase;
+}
+
+.fl {
+	float:left;
+}
+
+.fr {
+	float:right;
+}
+
+p {
+	margin-bottom: 1.667em;
+}
+
+/* ---------- BUTTONS ---------- */
+.button {
+	padding: 0.833em;
+	display: inline-block;
+	background-repeat: no-repeat;
+	-webkit-transition: all 0.1s linear;
+}
+
+.image-left {
+	background-position: 0.833em center;
+	padding-left: 3em;
+}
+
+.image-right {
+	background-position: right center;
+	padding-right: 3em;
+}
+
+.ic-left-arrow {
+	background-image: url("../img/ic_left.png");
+}
+
+.ic-right-arrow {
+	background-image: url("../img/ic_right.png");
+}
+
+/* ---------- COLORS ---------- */
+.dark {
+	background-color: #3f4551;
+	color:white;
+}
+
+.dark:hover {
+	background-color: #5d6677;
+	color:white;
+}
+
+.blue {
+	background-color: #2069b4;
+	color:white;
+}
+
+.blue:hover {
+	background-color: #5081b3;
+	color:white;
+}
+
+a {
+	color: #2069b4;
+}
+
+a:hover {
+	color: #2a2e36;
+}
+
+p a {
+border-bottom: 1px dotted #2069b4;
+}
+
+p a:hover {
+border-bottom: 1px dotted #2a2e36;
+}
+
+/* ---------- TYPOGRAPHY ---------- */
+body {
+	font-family: 'Droid Sans', Helvetica, Arial, sans-serif;
+}
+
+p, .button  {
+	font-size: 0.75em; /* 12px */
+}
+
+h1 {
+	font-size: 1.125em;
+}
+
+
+/* ---------- TYP BAR & HEADER ---------- */
+div#top-bar {
+	background-color: #2a2e36;
+	padding: 0.625em 0;
+}
+
+div#header {
+	padding: 1.25em 0;
+}
+
+div#login-intro {
+	background: transparent url('../img/lock-icon.png') no-repeat left center;
+	padding: 0.3125em 0 0.3125em 3.125em;
+}
+
+
+/* ---------- CONTENT ---------- */
+
+div#content {
+	background: #f8f9fa;
+	padding: 1.875em;
+	border: 1px solid #eeefef;
+}
+
+/* ---------- FORMS ---------- */
+
+form#login-form {
+	width:18.75em;
+	margin: 0 auto;
+}
+
+form label {
+	display:block;
+	text-transform: uppercase;
+	color:#2a2e36;
+	margin-bottom: 0.41667em;
+}
+
+form input[type="text"], form input[type="password"] {
+	border: 1px solid #d9dbdd;
+	padding: 1.25em 0.833em;
+	outline: none;
+	-webkit-transition: all 0.1s linear;
+}
+
+form input[type="text"]:hover, form input[type="password"]:hover,
+form input[type="text"]:focus, form input[type="password"]:focus {
+	border:1px solid #bbbdbe;
+}
+
+form input[type="submit"] {
+	border: none;
+	cursor: pointer;
+}
+
+/* ---------- FOOTER ---------- */
+
+div#footer {
+	padding: 1.875em;
+	text-align:center;
+}
+
+/* ---------- WIDTHS ---------- */
+
+.full-width {
+	width:94%;
+}
+
+.page-full-width {
+	padding: 0 1.875em;
+}
