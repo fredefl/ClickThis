@@ -109,6 +109,9 @@ var buttonResizer = {
 				// Get buttons
 				button1 = elementArray[i];
 				button2 = elementArray[i + 1];
+				// Reset margins
+				$(button1).css("margin-bottom","");
+				$(button2).css("margin-bottom","");
 				// Get button heigth
 				button1Heigth = $(button1).height();
 				button2Heigth = $(button2).height();
@@ -140,6 +143,7 @@ var buttonResizer = {
 					// Add the extra height(padding) to the button
 					$(buttonToResize).css("padding", paddingAddition + "px 0 " + paddingAddition + "px 0");
 					$(buttonToResize).css("top", "-" + topAddition + "px");
+					$(buttonToResize).css("margin-bottom","0px");
 				}
 			}
 		}
