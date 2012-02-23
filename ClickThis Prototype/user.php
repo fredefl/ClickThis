@@ -24,7 +24,7 @@ else{
 <link rel="stylesheet" href="css/jqtouch.css"/>
 <link rel="stylesheet" href="css/theme.css"/>
 <link rel="stylesheet" href="css/style.css"/>
-<link rel="apple-touch-icon" href="images/ClickThis64.png" />
+<link rel="apple-touch-icon-precomposed" href="images/ClickThis64.png" />
 <meta charset="utf-8">
 <title><?php echo $name; ?></title>
 </head>

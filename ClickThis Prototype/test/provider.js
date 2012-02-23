@@ -171,7 +171,7 @@
 	addBullets : function(number,current,append){
 		if(typeof append == 'object'){
 			var currentObject;
-			for (var i = 0; i <= number; i++) {
+			for (var i = 0; i < number; i++) {
 				currentObject = $('<em class="bullet">&bull;</em>');
 				if(i == current){
 					currentObject.addClass('on');
@@ -182,7 +182,7 @@
 	},
 	/**
 	 * This function removes a bullet and if it was the current it find a new current
-	 * @param  {object} object   The object to remoce
+	 * @param  {object} object   The object to remove
 	 * @param  {object} container The position container
 	 */
 	removeBullet : function(object,container){
@@ -207,19 +207,24 @@
 	},
 
 	/**
-	 * This function can be used to change the active bulletin
-	 * @param  {int} newBullet The index of the bulletin to activate
-	 * @param  {object} object    The object where to find the buletins
-	 * @return {object}
+	 * This function finds the current bullet turned on,
+	 * and turns it off and after that it finds the new bullet,
+	 * from the indexin 'newBullet' and turned it on.
+	 * @param  {int} newBullet The index of the new Bullet, this index begins from zero
+	 * @param  {object} object    The object to append/ the container of the bullets
+	 * @return {[object}
 	 */
 	changeBullet : function(newBullet,object){
-		if(typeof append == 'object'){
+		if(typeof object == 'object'){
 			if(typeof newBullet != 'number'){
 				newBullet = parseInt(newBullet);
 			}
-			var old = $(append).find('.on');
-			var newObject = $(append).find('em').eq(newBullet);
-			old.removeClass('on');
+			var old = $(object).find('.on');
+			var newObject = $(object).find('em').eq(newBullet);
+			if(typeof old == "object"){
+				old.removeClass('on');
+			}
+			
 			newObject.addClass('on');
 			return newObject;	
 		}

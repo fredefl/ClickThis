@@ -6,8 +6,8 @@ $(document).ready(function () {
 	var question1 = [],
 		question2 = [];
 
-	$('#welcome').append($('<a class="mega button orange halfsize fullsize" id="begin">Begin the survey</a>'));
-	$('#end').append($('<a class="mega button orange halfsize fullsize" id="end_survey">End the survey</a>'));
+	$('#welcome').append($('<a class="mega button color-orange halfsize fullsize" id="begin">Begin the survey</a>'));
+	$('#end').append($('<a class="mega button color-orange halfsize fullsize" id="end_survey">End the survey</a>'));
 
 	addTitle('Which sport(s) do you practice?', $('#question_1'), 'Title');
 
@@ -22,8 +22,10 @@ $(document).ready(function () {
 	question1[7] = ['multi', 'green', 'Volleyball', 0];
 	question1[8] = ['multi', 'gold', 'Others', 0];
 	question1[9] = ['button', 'red', 'None', 0];
+	question1[10] = ['formmulti', 'green', "", 0, "Enter shit here", false];
+	question1[11] = ['formmulti', 'green', "", 0, "This is for llama's", false];
 	//question1[10] = ['submit', 'orange', 'Send', 'send1', '#question_2',null);
-	question1[10] = ['submitSwipe', 'orange', 'Send', 'sendButton1', 'question_submit', null];
+	question1[12] = ['submitSwipe', 'orange', 'Send', 'sendButton1', 'question_submit', null];
 	question(question1, 'question_1', true, true, '1', '#Title');
 
 	addTitle('Which sport(s) do you like to watch?', $('#question_2'));
@@ -60,6 +62,7 @@ $(document).ready(function () {
 	$('#end_survey').click(function () {
 		window.location = 'http://illution.dk/ClickThisPrototype/home.html';
 	});
+	$('.textfield').ata();
 });
 
 function swipeCallback() {
