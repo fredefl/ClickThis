@@ -32,7 +32,7 @@ var buttonGenerator = {
 	 * @param {boolean} spellcheck A boolean to set if the form element spellcheck should be on
 	 * @returns {string} The html for the button
 	 */
-	newButton: function (id, value, color, text, submit, single, group, form, placeholder,spellcheck) {
+	newButton: function (id, value, color, text, submit, single, group, form, placeholder, spellcheck) {
 		if (!submit) {
 			submit = true;
 		}
@@ -42,7 +42,7 @@ var buttonGenerator = {
 		if (group === undefined) {
 			group = null;
 		}
-		return this.newCustomButton(id, value, color, this.defaultColor, text, text, submit, single, group, form , placeholder, spellcheck);
+		return this.newCustomButton(id, value, color, this.defaultColor, text, text, submit, single, group, form, placeholder, spellcheck);
 	},
 	/**
 	 * Creates a new custom button
@@ -61,7 +61,7 @@ var buttonGenerator = {
 	 * @param {boolean} spellcheck A boolean to set if the form element spellcheck should be on
 	 * @returns {string} The html for the button
 	 */
-	newCustomButton: function (id, value, color, random1, text, random2, submit, single, group, form, placeholder,spellcheck) {
+	newCustomButton: function (id, value, color, random1, text, random2, submit, single, group, form, placeholder, spellcheck) {
 		var cssClass = "",
 			groupHTML = "",
 			currentColor = "",
@@ -69,7 +69,7 @@ var buttonGenerator = {
 			onClickFunctions = "",
 			specialClass = "",
 			html = "";
-		
+
 		spellcheck = spellcheck || false;
 		form = form || false;
 		placeholder = placeholder || "";
@@ -79,8 +79,8 @@ var buttonGenerator = {
 		} else {
 			currentColor = color;
 		}
-		if(form) {
-			currentText = '<textarea placeholder="'+placeholder+'" class="textfield" spellcheck="'+spellcheck+'" lang="en" data-value="0" data-id="1" data-submitgroup="1"></textarea>';
+		if (form) {
+			currentText = '<textarea placeholder="' + placeholder + '" class="textfield" spellcheck="' + spellcheck + '" lang="en" data-value="0" data-id="1" data-submitgroup="1"></textarea>';
 		} else {
 			currentText = text;
 		}
@@ -98,9 +98,9 @@ var buttonGenerator = {
 		cssClass = $.trim(cssClass);
 		// Get the javascript functions
 		if (single && single !== undefined && single !== null) {
-			onClickFunctions += "buttonGenerator.singleChoice(this,"+form+");";
+			onClickFunctions += "buttonGenerator.singleChoice(this," + form + ");";
 		} else {
-			onClickFunctions += "buttonGenerator.multipleChoice(this,"+form+");";
+			onClickFunctions += "buttonGenerator.multipleChoice(this," + form + ");";
 		}
 		// Special Classes
 		if (single && single !== undefined && single !== null) {
@@ -209,12 +209,13 @@ var buttonGenerator = {
 		return html;
 	},
 	/**
-	 * Changes the button's state, from On to Off or from Off to On
+	 * Changes the button's state from On to Off, or from Off to On.
 	 *
 	 * @param {object} button The button that it should change state on
 	 * @param {boolean} form Boolean to set if the current element is a form element
 	 */
-	changeState: function (button,form) {
+	changeState: function (button, form) {
+		// Variable decleration
 		var i = 0,
 			value = button.getAttribute("data-value"),
 			color = button.getAttribute("data-color"),
@@ -224,36 +225,36 @@ var buttonGenerator = {
 			isFormElement = form || false,
 			classArray = null;
 
+		// Get and convert the elements class string to an array
 		classArray = $(button).attr("class").split(" ");
 
-		
+		// Remove all classes with "color-" in its name
 		for (i = classArray.length - 1; i >= 0; i--) {
-			if(classArray[i].indexOf("color-") !== -1) {
-				classArray.splice(i,1);
+			if (classArray[i].indexOf("color-") !== -1) {
+				classArray.splice(i, 1);
 			}
 		}
 
-		if (specialClass) {
-			specialClass = " " + specialClass;
-		} else {
-			specialClass = "";
-		}
+		// Change the state of the button
 		if (value === "1") {
 			button.setAttribute("data-value", "0");
 			classArray.push("color-" + color);
-			if(!isFormElement) {
+			if (!isFormElement) {
 				button.innerHTML = text;
 			}
 		} else {
 			button.setAttribute("data-value", "1");
 			classArray.push("color-" + buttonGenerator.defaultColor);
-			if(!isFormElement){
+			if (!isFormElement) {
 				button.innerHTML = text;
 			}
 		}
+
+		// Join the class array, and put it back on the element
 		$(button).attr("class", classArray.join(" "));
 
-		if (specialClass !== " single") {
+		// If this is a single choice button 
+		if (specialClass.indexOf("single") === -1) {
 			for (i in $('.single').toArray()) {
 				singleButton = $('.single').toArray()[i];
 				if (singleButton !== null) {
@@ -361,8 +362,8 @@ var buttonGenerator = {
 			button = $('.button.submit').toArray()[i];
 			if (button !== null) {
 				if (button.getAttribute("data-value") === "1") {
-					if($(button).find(".textfield").length > 0){
-						this.changeState(button,true);
+					if ($(button).find(".textfield").length > 0) {
+						this.changeState(button, true);
 					} else {
 						this.changeState(button);
 					}
@@ -376,14 +377,14 @@ var buttonGenerator = {
 	 * @param {object} button The button to perform actions on
 	 * @param {boolean} form A boolean to set if the element is a form element
 	 */
-	singleChoice: function (button,form) {
+	singleChoice: function (button, form) {
 		form = form || false;
 		var value = button.getAttribute("data-value");
 		if (value === "1") {
 			this.unCheckAll();
 		} else {
 			this.unCheckAll();
-			this.changeState(button,form);
+			this.changeState(button, form);
 		}
 	},
 	/**
@@ -392,8 +393,8 @@ var buttonGenerator = {
 	 * @param {object} button The button to perform actions on
 	 * @param {boolean} form A boolean to set if the element is a form element
 	 */
-	multipleChoice: function (button,form) {
+	multipleChoice: function (button, form) {
 		form = form || false;
-		this.changeState(button,form);
+		this.changeState(button, form);
 	}
 };
