@@ -1,0 +1,29 @@
+.iphone{
+	width:255px;
+	max-height:500px;
+	background: url("../images/Iphone 4 Black.png") 0 0 no-repeat;;
+}
+
+.iphone-browser{
+	height:500px;
+	width:255px;
+}
+
+.ipad{
+	width:546px;
+	height:700px;
+}
+
+.ipad-browser{
+	width:546px;
+	height:700px;
+}
+
+/*
+Ipad
+	Height: 24.13 cm
+	Width: 18.5674 cm
+Iphone
+	Height: 11.52 cm
+	Width: 5.86 cm
+*/
