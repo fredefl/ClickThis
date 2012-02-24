@@ -254,7 +254,7 @@ var buttonGenerator = {
 
 		// Create an array of single choice buttons
 		singleButtons = $('.single').toArray();
-		console.log(singleButtons);
+
 		// If this is a single choice button 
 		if (specialClass.indexOf("single") === -1) {
 			for (i in singleButtons) {
