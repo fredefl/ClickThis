@@ -42,17 +42,15 @@ var buttonGenerator = {
 		if (group === undefined) {
 			group = null;
 		}
-		return this.newCustomButton(id, value, color, this.defaultColor, text, text, submit, single, group, form, placeholder, spellcheck);
+		return this.newCustomButton(id, value, color, text, submit, single, group, form, placeholder, spellcheck);
 	},
 	/**
 	 * Creates a new custom button
 	 *
 	 * @param {integer} id The id of the button
 	 * @param {integer} value The on/off value (1/0)
-	 * @param {string} colorOff The color of the button when its off
-	 * @param {string} colorOn The color of the buttonwhen its on
-	 * @param {string} textOff The button text when its on
-	 * @param {string} textOn The button text when its off
+	 * @param {string} color The color of the button when its on
+	 * @param {string} text The button text
 	 * @param {boolean} submit Wherever it should submit its data
 	 * @param {boolean} single Wherever it should deselect all other buttons (Single choice)
 	 * @param {string} group The submit group of the button
@@ -61,7 +59,7 @@ var buttonGenerator = {
 	 * @param {boolean} spellcheck A boolean to set if the form element spellcheck should be on
 	 * @returns {string} The html for the button
 	 */
-	newCustomButton: function (id, value, color, random1, text, random2, submit, single, group, form, placeholder, spellcheck) {
+	newCustomButton: function (id, value, color, text, submit, single, group, form, placeholder, spellcheck) {
 		var cssClass = "",
 			groupHTML = "",
 			currentColor = "",
@@ -217,11 +215,12 @@ var buttonGenerator = {
 	changeState: function (button, form) {
 		// Variable decleration
 		var i = 0,
-			value = button.getAttribute("data-value"),
-			color = button.getAttribute("data-color"),
-			text = button.getAttribute("data-text"),
-			specialClass = button.getAttribute("data-specialclass"),
+			value = button.getAttribute("data-value") || "",
+			color = button.getAttribute("data-color") || "",
+			text = button.getAttribute("data-text") || "",
+			specialClass = button.getAttribute("data-specialclass") || "",
 			singleButton = null,
+			singleButtons = null,
 			isFormElement = form || false,
 			classArray = null;
 
@@ -253,10 +252,13 @@ var buttonGenerator = {
 		// Join the class array, and put it back on the element
 		$(button).attr("class", classArray.join(" "));
 
+		// Create an array of single choice buttons
+		singleButtons = $('.single').toArray();
+		console.log(singleButtons);
 		// If this is a single choice button 
 		if (specialClass.indexOf("single") === -1) {
-			for (i in $('.single').toArray()) {
-				singleButton = $('.single').toArray()[i];
+			for (i in singleButtons) {
+				singleButton = singleButtons[i];
 				if (singleButton !== null) {
 					if (singleButton.getAttribute("data-value") === "1") {
 						this.changeState(singleButton);
