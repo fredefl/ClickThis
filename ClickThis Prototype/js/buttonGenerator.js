@@ -239,13 +239,13 @@ var buttonGenerator = {
 			button.setAttribute("data-value", "0");
 			classArray.push("color-" + color);
 			if (!isFormElement) {
-				button.innerHTML = text;
+				//button.innerHTML = text;
 			}
 		} else {
 			button.setAttribute("data-value", "1");
 			classArray.push("color-" + buttonGenerator.defaultColor);
 			if (!isFormElement) {
-				button.innerHTML = text;
+				//button.innerHTML = text;
 			}
 		}
 
