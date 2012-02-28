@@ -55,7 +55,8 @@ $(document).ready(function() {
 
 	Hyphenator.config({
 		displaytogglebox : true,
-		minwordlength : 4
+		minwordlength : 4,
+        useCSS3hyphenation: true
     });
 	Hyphenator.run();
 });
