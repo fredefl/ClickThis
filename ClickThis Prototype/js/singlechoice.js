@@ -48,7 +48,6 @@ $(document).ready(function() {
 	question5[5] = new Array('multi','green','Red',0);
 	question5[6] = new Array('submit','orange','Send','send5','http://illution.dk/ClickThisPrototype/home.html#thanks_cars',null);
 	question(question5,'question_5',true,true,'5','h1');
-	buttonResizer.resizeButtons(document.body);
 	
 	/* Check for page */
 	$(window).hashchange();
@@ -56,7 +55,12 @@ $(document).ready(function() {
 	Hyphenator.config({
 		displaytogglebox : true,
 		minwordlength : 4,
-        useCSS3hyphenation: true
+        useCSS3hyphenation: true,
+        onhyphenationdonecallback : function () {
+        	buttonResizer.resizeButtons(document.body);
+        }
     });
 	Hyphenator.run();
+
+	buttonResizer.resizeButtons(document.body);
 });

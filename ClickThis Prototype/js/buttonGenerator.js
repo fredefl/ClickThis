@@ -84,7 +84,7 @@ var buttonGenerator = {
 		}
 
 		// Get the cssClass
-		cssClass += "mega button hyphenate color-" + currentColor + " halfsize ";
+		cssClass += "mega button color-" + currentColor + " halfsize ";
 		// If it is a submittable button, add submit Class
 		if (submit && submit !== undefined && submit !== null) {
 			cssClass += "submit ";
