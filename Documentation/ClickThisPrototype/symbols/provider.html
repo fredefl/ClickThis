@@ -55,7 +55,7 @@
 			Documentation generator: <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0<br />
 			Template: <a href="http://www.thebrightlines.com/2010/05/06/new-template-for-jsdoctoolkit-codeview/" target="_blank">Codeview</a> 1.2<br />
 			Generated on:
-			<time datetime='2012-1-6' pubdate>2012-1-6 18:49</time>
+			<time datetime='2012-1-28' pubdate>2012-1-28 22:29</time>
 		</footer>
 	</div>
 </div>
@@ -281,7 +281,7 @@
 												<td class="nameDescription">
 													<div class="fixedFont">provider.<b><a href="../symbols/provider.html#.changeBullet">changeBullet</a></b>(newBullet, object)
 													</div>
-													<div class="description">This function can be used to change the active bulletin</div>
+													<div class="description">This function finds the current bullet turned on,and turns it off and after that it finds the new bullet,from the indexin 'newBullet' and turned it on.</div>
 												</td>
 											</tr>
 										
@@ -842,13 +842,13 @@
 											&lt;static&gt; 
 											</span>
 											
-											<span class="light">{object}</span>
+											<span class="light">{[object}</span>
 											
 											<span class="light">provider.</span><b>changeBullet</b>(newBullet, object)
 										</div>
 										
 										<div class="description">
-											This function can be used to change the active bulletin
+											This function finds the current bullet turned on,and turns it off and after that it finds the new bullet,from the indexin 'newBullet' and turned it on.
 											
 											
 											
@@ -865,13 +865,13 @@
 														<span class="light fixedFont">{int}</span> <b>newBullet</b>
 														
 													</dt>
-													<dd>The index of the bulletin to activate</dd>
+													<dd>The index of the new Bullet, this index begins from zero</dd>
 												
 													<dt>
 														<span class="light fixedFont">{object}</span> <b>object</b>
 														
 													</dt>
-													<dd>The object where to find the buletins</dd>
+													<dd>The object to append/ the container of the bullets</dd>
 												
 											</dl>
 										
@@ -888,7 +888,7 @@
 												
 													<dt class="heading">Returns:</dt>
 													
-														<dd><span class="light fixedFont">{object}</span> </dd>
+														<dd><span class="light fixedFont">{[object}</span> </dd>
 													
 												
 												
@@ -982,7 +982,7 @@
 														<span class="light fixedFont">{object}</span> <b>object</b>
 														
 													</dt>
-													<dd>The object to remoce</dd>
+													<dd>The object to remove</dd>
 												
 													<dt>
 														<span class="light fixedFont">{object}</span> <b>container</b>

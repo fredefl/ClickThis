@@ -143,7 +143,7 @@ var buttonResizer = {
 					// Add the extra height(padding) to the button
 					$(buttonToResize).css("padding", paddingAddition + "px 0 " + paddingAddition + "px 0");
 					$(buttonToResize).css("top", "-" + topAddition + "px");
-					$(buttonToResize).css("margin-bottom","0px");
+					$(buttonToResize).css("margin-bottom","-3000px");
 				}
 			}
 		}

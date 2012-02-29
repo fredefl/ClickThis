@@ -55,7 +55,7 @@
 			Documentation generator: <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0<br />
 			Template: <a href="http://www.thebrightlines.com/2010/05/06/new-template-for-jsdoctoolkit-codeview/" target="_blank">Codeview</a> 1.2<br />
 			Generated on:
-			<time datetime='2012-1-6' pubdate>2012-1-6 18:49</time>
+			<time datetime='2012-1-28' pubdate>2012-1-28 22:29</time>
 		</footer>
 	</div>
 </div>
@@ -181,9 +181,9 @@
 											>
 												<td class="attributes">&lt;static&gt; &nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont">buttonGenerator.<b><a href="../symbols/buttonGenerator.html#.changeState">changeState</a></b>(button)
+													<div class="fixedFont">buttonGenerator.<b><a href="../symbols/buttonGenerator.html#.changeState">changeState</a></b>(button, form)
 													</div>
-													<div class="description">Changes the button's state, from On to Off or from Off to On</div>
+													<div class="description">Changes the button's state from On to Off, or from Off to On.</div>
 												</td>
 											</tr>
 										
@@ -192,7 +192,7 @@
 											>
 												<td class="attributes">&lt;static&gt; &nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont">buttonGenerator.<b><a href="../symbols/buttonGenerator.html#.multipleChoice">multipleChoice</a></b>(button)
+													<div class="fixedFont">buttonGenerator.<b><a href="../symbols/buttonGenerator.html#.multipleChoice">multipleChoice</a></b>(button, form)
 													</div>
 													<div class="description">Multiple Choice button click</div>
 												</td>
@@ -203,7 +203,7 @@
 											>
 												<td class="attributes">&lt;static&gt; &nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont">buttonGenerator.<b><a href="../symbols/buttonGenerator.html#.newButton">newButton</a></b>(id, value, color, text, submit, single, group)
+													<div class="fixedFont">buttonGenerator.<b><a href="../symbols/buttonGenerator.html#.newButton">newButton</a></b>(id, value, color, text, submit, single, group, form, placeholder, spellcheck)
 													</div>
 													<div class="description">Creates a new button</div>
 												</td>
@@ -214,7 +214,7 @@
 											>
 												<td class="attributes">&lt;static&gt; &nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont">buttonGenerator.<b><a href="../symbols/buttonGenerator.html#.newCustomButton">newCustomButton</a></b>(id, value, colorOff, colorOn, textOff, textOn, submit, single, group)
+													<div class="fixedFont">buttonGenerator.<b><a href="../symbols/buttonGenerator.html#.newCustomButton">newCustomButton</a></b>(id, value, color, text, submit, single, group, form, placeholder, spellcheck)
 													</div>
 													<div class="description">Creates a new custom button</div>
 												</td>
@@ -258,7 +258,7 @@
 											>
 												<td class="attributes">&lt;static&gt; &nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont">buttonGenerator.<b><a href="../symbols/buttonGenerator.html#.singleChoice">singleChoice</a></b>(button)
+													<div class="fixedFont">buttonGenerator.<b><a href="../symbols/buttonGenerator.html#.singleChoice">singleChoice</a></b>(button, form)
 													</div>
 													<div class="description">Single Choice button click</div>
 												</td>
@@ -413,11 +413,11 @@
 											
 											
 											
-											<span class="light">buttonGenerator.</span><b>changeState</b>(button)
+											<span class="light">buttonGenerator.</span><b>changeState</b>(button, form)
 										</div>
 										
 										<div class="description">
-											Changes the button's state, from On to Off or from Off to On
+											Changes the button's state from On to Off, or from Off to On.
 											
 											
 											
@@ -436,6 +436,12 @@
 													</dt>
 													<dd>The button that it should change state on</dd>
 												
+													<dt>
+														<span class="light fixedFont">{boolean}</span> <b>form</b>
+														
+													</dt>
+													<dd>Boolean to set if the current element is a form element</dd>
+												
 											</dl>
 										
 										
@@ -453,7 +459,7 @@
 											
 											
 											
-											<span class="light">buttonGenerator.</span><b>multipleChoice</b>(button)
+											<span class="light">buttonGenerator.</span><b>multipleChoice</b>(button, form)
 										</div>
 										
 										<div class="description">
@@ -476,6 +482,12 @@
 													</dt>
 													<dd>The button to perform actions on</dd>
 												
+													<dt>
+														<span class="light fixedFont">{boolean}</span> <b>form</b>
+														
+													</dt>
+													<dd>A boolean to set if the element is a form element</dd>
+												
 											</dl>
 										
 										
@@ -493,7 +505,7 @@
 											
 											<span class="light">{string}</span>
 											
-											<span class="light">buttonGenerator.</span><b>newButton</b>(id, value, color, text, submit, single, group)
+											<span class="light">buttonGenerator.</span><b>newButton</b>(id, value, color, text, submit, single, group, form, placeholder, spellcheck)
 										</div>
 										
 										<div class="description">
@@ -552,6 +564,24 @@
 													</dt>
 													<dd>The submit group of the button, this parameter is optional</dd>
 												
+													<dt>
+														<span class="light fixedFont">{boolean}</span> <b>form</b>
+														
+													</dt>
+													<dd>If is set to true then it will be a textfield</dd>
+												
+													<dt>
+														<span class="light fixedFont">{string}</span> <b>placeholder</b>
+														
+													</dt>
+													<dd>The form field placeholder text</dd>
+												
+													<dt>
+														<span class="light fixedFont">{boolean}</span> <b>spellcheck</b>
+														
+													</dt>
+													<dd>A boolean to set if the form element spellcheck should be on</dd>
+												
 											</dl>
 										
 										
@@ -590,7 +620,7 @@
 											
 											<span class="light">{string}</span>
 											
-											<span class="light">buttonGenerator.</span><b>newCustomButton</b>(id, value, colorOff, colorOn, textOff, textOn, submit, single, group)
+											<span class="light">buttonGenerator.</span><b>newCustomButton</b>(id, value, color, text, submit, single, group, form, placeholder, spellcheck)
 										</div>
 										
 										<div class="description">
@@ -620,28 +650,16 @@
 													<dd>The on/off value (1/0)</dd>
 												
 													<dt>
-														<span class="light fixedFont">{string}</span> <b>colorOff</b>
+														<span class="light fixedFont">{string}</span> <b>color</b>
 														
 													</dt>
-													<dd>The color of the button when its off</dd>
+													<dd>The color of the button when its on</dd>
 												
 													<dt>
-														<span class="light fixedFont">{string}</span> <b>colorOn</b>
+														<span class="light fixedFont">{string}</span> <b>text</b>
 														
 													</dt>
-													<dd>The color of the buttonwhen its on</dd>
-												
-													<dt>
-														<span class="light fixedFont">{string}</span> <b>textOff</b>
-														
-													</dt>
-													<dd>The button text when its on</dd>
-												
-													<dt>
-														<span class="light fixedFont">{string}</span> <b>textOn</b>
-														
-													</dt>
-													<dd>The button text when its off</dd>
+													<dd>The button text</dd>
 												
 													<dt>
 														<span class="light fixedFont">{boolean}</span> <b>submit</b>
@@ -660,6 +678,24 @@
 														
 													</dt>
 													<dd>The submit group of the button</dd>
+												
+													<dt>
+														<span class="light fixedFont">{boolean}</span> <b>form</b>
+														
+													</dt>
+													<dd>If is set to true then it will be a textfield</dd>
+												
+													<dt>
+														<span class="light fixedFont">{string}</span> <b>placeholder</b>
+														
+													</dt>
+													<dd>The form field placeholder text</dd>
+												
+													<dt>
+														<span class="light fixedFont">{boolean}</span> <b>spellcheck</b>
+														
+													</dt>
+													<dd>A boolean to set if the form element spellcheck should be on</dd>
 												
 											</dl>
 										
@@ -933,7 +969,7 @@
 											
 											
 											
-											<span class="light">buttonGenerator.</span><b>singleChoice</b>(button)
+											<span class="light">buttonGenerator.</span><b>singleChoice</b>(button, form)
 										</div>
 										
 										<div class="description">
@@ -955,6 +991,12 @@
 														
 													</dt>
 													<dd>The button to perform actions on</dd>
+												
+													<dt>
+														<span class="light fixedFont">{boolean}</span> <b>form</b>
+														
+													</dt>
+													<dd>A boolean to set if the element is a form element</dd>
 												
 											</dl>
 										
