@@ -302,30 +302,6 @@
 				"buffer_size": 3101,
 				"line_ending": "Windows"
 			}
-		},
-		{
-			"file": "ClickThis/application/libraries/dataconverter.php",
-			"settings":
-			{
-				"buffer_size": 1406,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "ClickThis/application/libraries/lang.php",
-			"settings":
-			{
-				"buffer_size": 1979,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "ClickThis/application/libraries/question.php",
-			"settings":
-			{
-				"buffer_size": 3375,
-				"line_ending": "Windows"
-			}
 		}
 	],
 	"build_system": "",
@@ -360,6 +336,9 @@
 	},
 	"file_history":
 	[
+		"/C/Users/Bo/SVN/ClickThis/ClickThis/application/libraries/dataconverter.php",
+		"/C/Users/Bo/SVN/ClickThis/ClickThis/application/libraries/lang.php",
+		"/C/Users/Bo/SVN/ClickThis/ClickThis/application/libraries/question.php",
 		"/C/Users/Bo/SVN/ClickThis/ClickThis/application/controllers/admin.php",
 		"/C/Users/Bo/SVN/ClickThis/ClickThis Prototype/test/style.css",
 		"/C/Users/Bo/SVN/ClickThis/ClickThis Prototype/test/designer/style.css",
@@ -518,7 +497,7 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -533,8 +512,8 @@
 						"selection":
 						[
 							[
-								3101,
-								3101
+								423,
+								423
 							]
 						],
 						"settings":
@@ -543,97 +522,9 @@
 							"synced": false,
 							"syntax": "Packages/PHP/PHP.tmLanguage",
 							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1202.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "ClickThis/application/libraries/dataconverter.php",
-					"settings":
-					{
-						"buffer_size": 1406,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "ClickThis/application/libraries/lang.php",
-					"settings":
-					{
-						"buffer_size": 1979,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1886,
-								1886
-							]
-						],
-						"settings":
-						{
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 377.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "ClickThis/application/libraries/question.php",
-					"settings":
-					{
-						"buffer_size": 3375,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3375,
-								3375
-							]
-						],
-						"settings":
-						{
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1562.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
