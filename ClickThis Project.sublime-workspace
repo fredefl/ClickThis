@@ -295,14 +295,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "ClickThis/application/libraries/answer.php",
-			"settings":
-			{
-				"buffer_size": 3101,
-				"line_ending": "Windows"
-			}
-		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -336,6 +328,9 @@
 	},
 	"file_history":
 	[
+		"//BoNethard/BoDrev/Bo/Web Projects/GoogleAPI/googlepagespeed.php",
+		"/C/Users/Bo/SVN/ClickThis/README.md",
+		"/C/Users/Bo/SVN/ClickThis/ClickThis/application/libraries/answer.php",
 		"/C/Users/Bo/SVN/ClickThis/ClickThis/application/libraries/dataconverter.php",
 		"/C/Users/Bo/SVN/ClickThis/ClickThis/application/libraries/lang.php",
 		"/C/Users/Bo/SVN/ClickThis/ClickThis/application/libraries/question.php",
@@ -497,38 +492,8 @@
 	"groups":
 	[
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "ClickThis/application/libraries/answer.php",
-					"settings":
-					{
-						"buffer_size": 3101,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								423,
-								423
-							]
-						],
-						"settings":
-						{
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				}
 			]
 		}
 	],
