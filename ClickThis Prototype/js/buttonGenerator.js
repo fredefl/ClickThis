@@ -66,7 +66,9 @@ var buttonGenerator = {
 			currentText = "",
 			onClickFunctions = "",
 			specialClass = "",
-			html = "";
+			html = "",
+			onClickType = "onclick",
+			specialFunctions = "";
 
 		spellcheck = spellcheck || false;
 		form = form || false;
@@ -96,8 +98,14 @@ var buttonGenerator = {
 		cssClass = $.trim(cssClass);
 		// Get the javascript functions
 		if (single && single !== undefined && single !== null) {
+			if(form){
+				specialFunctions = 'ondblclick="buttonGenerator.singleChoice(this,' + form + ',true);"'
+			}
 			onClickFunctions += "buttonGenerator.singleChoice(this," + form + ");";
 		} else {
+			if(form){
+				specialFunctions = 'ondblclick="buttonGenerator.multipleChoice(this,' + form + ',true);"'
+			}
 			onClickFunctions += "buttonGenerator.multipleChoice(this," + form + ");";
 		}
 		// Special Classes
@@ -110,7 +118,7 @@ var buttonGenerator = {
 		// Create Html Code
 		html = [
 			'<a class="' + cssClass + '"',
-			'onClick="' + onClickFunctions + '"',
+			onClickType+'="' + onClickFunctions + '"',
 			'data-value="' + value + '"',
 			'data-id="' + id + '"',
 			groupHTML,
@@ -118,6 +126,7 @@ var buttonGenerator = {
 			'data-text="' + text + '"',
 			'lang="en"',
 			specialClass,
+			specialFunctions,
 			'>' + currentText + '</a>\r\n'
 		].join("");
 		// Return the Html Code
@@ -211,8 +220,9 @@ var buttonGenerator = {
 	 *
 	 * @param {object} button The button that it should change state on
 	 * @param {boolean} form Boolean to set if the current element is a form element
+	 * @param {boolean} formDeselect If this parameter is set to true other form deselect options will be overruled
 	 */
-	changeState: function (button, form) {
+	changeState: function (button, form , formDeselect) {
 		// Variable decleration
 		var i = 0,
 			value = button.getAttribute("data-value") || "",
@@ -231,6 +241,12 @@ var buttonGenerator = {
 		for (i = classArray.length - 1; i >= 0; i--) {
 			if (classArray[i].indexOf("color-") !== -1) {
 				classArray.splice(i, 1);
+			}
+		}
+
+		if(form && $(button).find(".textfield").val() != "" && formDeselect != true){
+			if(value === "1"){
+				return;
 			}
 		}
 
@@ -378,15 +394,17 @@ var buttonGenerator = {
 	 *
 	 * @param {object} button The button to perform actions on
 	 * @param {boolean} form A boolean to set if the element is a form element
+	 * @param {boolean} formDeselect If this is set to true all other form select/deselect options will be overwritten
 	 */
-	singleChoice: function (button, form) {
+	singleChoice: function (button, form , formDeselect) {
 		form = form || false;
+		formDeselect = formDeselect || false;
 		var value = button.getAttribute("data-value");
 		if (value === "1") {
 			this.unCheckAll();
 		} else {
 			this.unCheckAll();
-			this.changeState(button, form);
+			this.changeState(button, form , formDeselect);
 		}
 	},
 	/**
@@ -394,9 +412,11 @@ var buttonGenerator = {
 	 *
 	 * @param {object} button The button to perform actions on
 	 * @param {boolean} form A boolean to set if the element is a form element
+	 * @param {boolean} formDeselect If this is set to true all other form select/deselect options will be overwritten
 	 */
-	multipleChoice: function (button, form) {
+	multipleChoice: function (button, form, formDeselect) {
 		form = form || false;
-		this.changeState(button, form);
+		formDeselect = formDeselect || false;
+		this.changeState(button, form, formDeselect);
 	}
 };
