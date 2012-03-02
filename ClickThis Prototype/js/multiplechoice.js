@@ -50,6 +50,9 @@ $(document).ready(function () {
 	question2[16] = ['submitSwipe', 'orange', 'Send', 'sendButton2', 'question_submit', null];
 	question(question2, 'question_2', true, true, '2', 'h1');
 
+
+	buttonCreateCallback();
+
 	/* The swipe */
 	window.questionSwipe = new Swipe(document.getElementById("questionsContainer"), {
 		callback: swipeCallback
@@ -64,6 +67,21 @@ $(document).ready(function () {
 	});
 	$('.textfield').ata();
 });
+
+function buttonCreateCallback(){
+	$(".textfield").click(function(){
+		$(this).parent( "a" ).click();
+	});
+
+	$(".mega").click(function(){
+		$(this).find(".textfield").focus();
+		if($(this).find(".textfield").length > 0){
+			if($(this).attr("data-value") == "1"){
+				$(this).find(".textfield").focus();
+			}
+		}
+	});
+}
 
 function swipeCallback() {
 	if ($('#welcome').is('div')) {

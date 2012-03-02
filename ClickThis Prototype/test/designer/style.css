@@ -1,6 +1,12 @@
 @charset "utf-8";
 /* CSS Document */
 
+/* Phones */
+#phone-container{
+	display: none;
+}
+
+/* Apple Iphone */
 .iphone{
 	width:255px;
 	height:500px;
@@ -19,6 +25,7 @@
 	overflow:hidden;
 }
 
+/* Apple Ipad */
 .ipad{
 	width:546px;
 	height:700px;
@@ -29,14 +36,15 @@
 }
 
 .ipad-browser{
-	width:420px;
-	height:550px;
+	width:421px;
+	height:552px;
 	position: absolute;
 	top:80px;
 	left:63px;
 	overflow:hidden;
 }
 
+/* Google/Samsung Galaxy Nexus */
 .nexus{
 	width:255px;
 	height:500px;
@@ -47,14 +55,15 @@
 }
 
 .nexus-browser{
-	height:338px;
-	width:214px;
+	height:340px;
+	width:215px;
 	position: absolute;
-	top:80px;
-	left:21px;
+	top:79px;
+	left:20px;
 	overflow:hidden;
 }
 
+/* Motorola Xoom */
 .motorola{
 	width:539px;
 	height:800px;
@@ -65,11 +74,61 @@
 }
 
 .motorola-browser{
-	width:390px;
+	width:391px;
 	height:670px;
 	top:50px;
 	left:100px;
 	position: absolute;
 	z-index: 999;
 	overflow:hidden;
+}
+
+/* Preview */
+
+.preview{
+	list-style-type:none;
+	width:100%;
+	border:0px;
+	height:100%;
+}
+
+.preview li{
+	float: left;
+    width:64px;
+    height:22px;
+}
+
+.iframe{
+  	zoom: 0.69;
+    -moz-transform: scale(0.69, 0.69); 
+    -webkit-transform: scale(0.69, 0.69); 
+    -o-transform: scale(0.69, 0.69);
+    -ms-transform: scale(0.69, 0.69);
+    transform: scale(0.69, 0.69); 
+    -moz-transform-origin: top left;
+    -webkit-transform-origin: top left;
+    -o-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+}
+
+/* Other */
+.sortable-grid{
+    width:100%; 
+    position: relative;
+    height:100%;
+    left:-18px;
+}
+
+html, body {
+	height: 95%;
+	width:95%;	
+}
+
+/* Select Element */
+#select-container{
+	width:25%;
+	border:0px;
+	height:70%;
+	background-color: #DDD;
 }

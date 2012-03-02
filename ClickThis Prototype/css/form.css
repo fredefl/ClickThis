@@ -32,3 +32,25 @@
 .textfield:-ms-input-placeholder{
 	color:#fff;
 }
+
+.textfield-close {
+  float: right;
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 18px;
+  position: absolute;
+  top:0px;
+  z-index:99999; 
+  right:5px;
+  color: #000000;
+  text-shadow: 0 1px 0 #ffffff;
+  opacity: 0.2;
+  filter: alpha(opacity=20);
+}
+.textfield-close:hover {
+  color: #000000;
+  text-decoration: none;
+  opacity: 0.4;
+  filter: alpha(opacity=40);
+  cursor: pointer;
+}
