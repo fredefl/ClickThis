@@ -24,7 +24,25 @@ class Mobile extends CI_Controller {
 		}
 	}
 
-	public function Home(){
+	public function Home () {
 		echo "You are at home"," and you are using mobile";
 	}
+
+	public function User ($Id = NULL) {
+		//User id is deffined
+		if(!is_null($Id)){
+			echo "User Id : ",$Id;
+		} else {
+			redirect($this->_Platform."/home");
+		}
+	}
+
+	public function Profile () {
+
+	}
+
+	public function Settings () {
+
+	}
+
 }
