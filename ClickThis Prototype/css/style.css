@@ -4,6 +4,9 @@ html {
 #toolbar {
 	z-index: 99999999;
 }
+#home {
+	padding-top: 45px !important;
+}
 body {
 	height: 100%;
 	min-height: 100%;
