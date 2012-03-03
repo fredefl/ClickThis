@@ -8,9 +8,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebSettings.RenderPriority;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	WebView mainWebView;
@@ -26,17 +27,18 @@ public class MainActivity extends Activity {
     public void setUpWebView () {
     	// Find the WebView element
         mainWebView = (WebView) findViewById(R.id.mainWebView);
+        mainWebView.loadUrl("http://illution.dk/ClickThisPrototype");
         
-        // Make the DOM storage persistent
-        mainWebView.getSettings().setDatabaseEnabled(true);
-        mainWebView.getSettings().setDatabasePath("/data/data/dk.illution.clickthis/databases/");
-       
-        
-        // Enable JavaScript and DOM storage (for example localStorage)
-        mainWebView.getSettings()
-        	.setJavaScriptEnabled(true);
-        mainWebView.getSettings()
-        	.setDomStorageEnabled(true);
+        // Get settings once
+        WebSettings settings = mainWebView.getSettings();
+        // Set some settings
+        settings.setDatabaseEnabled(true);
+        settings.setDatabasePath("/data/data/dk.illution.clickthis/databases/");
+        settings.setJavaScriptEnabled(true);
+        settings.setDomStorageEnabled(true);
+        settings.setPluginsEnabled(true);
+        settings.setSupportZoom(false);
+        settings.setRenderPriority(RenderPriority.HIGH);
 
         // Make the the scroll bar more beautiful
         mainWebView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
@@ -56,7 +58,7 @@ public class MainActivity extends Activity {
         // Clear cache
         mainWebView.clearCache(true);
         // Load the ClickThis Prototype
-        mainWebView.loadUrl("http://illution.dk/ClickThisPrototype/home.html");
+        mainWebView.loadUrl("http://illution.dk/ClickThisPrototype");
     }
     
     protected void sendNotification (String title, String message) {
@@ -80,7 +82,7 @@ public class MainActivity extends Activity {
  	   mNotificationManager.notify(1, notification);
  	}
    
-   protected void clearnotification () {
+   protected void clearNotification () {
  	  String ns = Context.NOTIFICATION_SERVICE;
        NotificationManager mNotificationManager = (NotificationManager) getSystemService(ns);
        mNotificationManager.cancelAll();
@@ -95,26 +97,19 @@ public class MainActivity extends Activity {
             mContext = c;
         }
         
-        // Terminates the native android app, FROM JAVASCRIPT!!!
+        // Terminates the native android app
         public void terminateApp () {
         	
         	MainActivity.this.moveTaskToBack(true);
         	
         }
         
-         
         public void startSeries () {
         	sendNotification("ClickThis","A Series Is Open");
         }
         
-        public void test () {
-        	
-        	Context context = getApplicationContext();
-        	CharSequence text = "Hello toast!";
-        	int duration = Toast.LENGTH_SHORT;
-
-        	Toast toast = Toast.makeText(context, text, duration);
-        	toast.show();
+        public void endSeries () {
+        	clearNotification();
         }
     }
 
