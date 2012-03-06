@@ -1,44 +1,224 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
+/**
+ * This class is used for storing user data, such as Facebook id's etc
+ * @package Login
+ * @license http://creativecommons.org/licenses/by/3.0/ Creative Commons 3.0
+ * @subpackage User Class
+ * @category User Data
+ * @version 1.0
+ * @author Illution <support@illution.dk>
+ * @todo Documentation
+ */ 
 class User {
 	
-	/*###### VARIABLES ######*/
-	private $CI = ''; //An instance of Codde Igniter
+	/*#### VARIABLEs ####*/
+
+	/**
+	 * A local instance of Code Igniter
+	 * @access private
+	 * @since 1.0
+	 * @var object
+	 */
+	private $CI = NULL;
 	
 	/*#### USER INFORMATION ####*/
-	public $Name = ''; //The Name of the User
-	public $Id = 0; //The Database Id of the User
-	public $Country = ''; //The Country of the User
-	public $Email = ''; //The Email of the User
-	public $Type = 0; //The Type of the User
-	public $Method = ''; //The Method of the User to Store Other Logon Methods Then User etc Teacher,Pupil
-	public $Status = 0; //The Status of the user activated or not 1/0
-	public $TargetGroup = array(); //Array of the Users Groups
-	public $Language = ''; //The Users language
-	public $UserGroup = array(); //The Users Group etc Admin or User
-	public $State = ''; // The State of the User
-	public $Username = ''; //The Click This Username if the user has a registred Click This User
-	public $TOPT = ''; //TOPT Token
+
+	/**
+	 * The name of the user
+	 * @var string
+	 * @access public
+	 * @since 1.0
+	 */
+	public $Name = '';
+
+	/**
+	 * The database id of the user
+	 * @var integer
+	 * @access public
+	 * @since 1.0
+	 */
+	public $Id = 0;
+
+	/**
+	 * This variable holds the country of the user
+	 * @access public
+	 * @since 1.0
+	 * @var string
+	 */
+	public $Country = '';
+
+	/**
+	 * This variable holds the email of the user if deffined
+	 * @access public
+	 * @since 1.0
+	 * @var string
+	 */
+	public $Email = '';
+
+	/**
+	 * This contains the users type
+	 * @var integer
+	 * @access public
+	 * @since 1.0
+	 */
+	public $Type = 0;
+
+	/**
+	 * This holds the user's login method
+	 * @var string
+	 * @access public
+	 * @since 1.0
+	 * @example
+	 * "User"/Teacher/Pupil
+	 */
+	public $Method = '';
+
+	/**
+	 * This variable contains the users activation status,
+	 * 1 means activated and0 means not activated yet
+	 * @var integer
+	 * @access public
+	 * @since 1.0
+	 */
+	public $Status = 0;
+
+	/**
+	 * This array contains the ClickThis subscription groups that the user is member of
+	 * @var array
+	 * @access public
+	 * @since 1.0
+	 */
+	public $TargetGroup = array();
+
+	/**
+	 * This variable contains the users preferable language
+	 * @var string
+	 * @access public
+	 * @since 1.0
+	 * @example
+	 * "da_DK"
+	 */
+	public $Language = '';
+
+	/**
+	 * This array contains the user's privilige groups, etc admin, user
+	 * @var array
+	 */
+	public $UserGroup = array();
+
+	/**
+	 * This variable contains the state that the user lives in
+	 * @var string
+	 * @access public
+	 * @since 1.0
+	 * @example
+	 * Virginia
+	 */
+	public $State = '';
+
+	/**
+	 * This variable contains the ClickThis username, if the user has deffined one
+	 * @var string
+	 * @access public
+	 * @since 1.0
+	 */
+	public $Username = '';
+
+	/**
+	 * This variable contains the user's TOPT token, if the user has 2 step verification turned on.
+	 * @var string
+	 * @access public
+	 * @since 1.0
+	 */
+	public $TOPT = '';
 	
 	/*#### USER TOKENS ####*/
-	public $Twitter_Id = ''; //A variable for storing the twitter id associated with the user if set
-	public $Facebook_Id = ''; //A variable to store the associated Facebook code/id
+
+	/**
+	 * This variable stores the user's Twitter user id, if the user has a Twitter account linked.
+	 * @var string
+	 * @access public
+	 * @since 1.0
+	 */
+	public $Twitter_Id = '';
+
+	/**
+	 * This variable stores the user's Facebook Id/alias if the user has a Facebook account linked
+	 * @var string
+	 * @access public
+	 * @since 1.0
+	 */
+	public $Facebook_Id = '';
+
+	/**
+	 * [$LinkedIn_Id description]
+	 * @var string
+	 */
 	public $LinkedIn_Id = ''; //A variable to store the associated id from linked if the user has it set
+
+	/**
+	 * [$Google_Id description]
+	 * @var string
+	 */
 	public $Google_Id = ''; //Stores the Google id if the user has it specified
-	public $Illution_Id = ''; //Stores the Illution database Id for the user if the user has an Illution Account **DEPRECATED**
+
+	/**
+	 * Stores the Illution database Id for the user if the user has an Illution Account
+	 * @var string
+	 * @access public
+	 * @since 1.0
+	 * @deprecated This login method is deprecated as of version 1, it's only implemented for testing purposes
+	 */
+	public $Illution_Id = '';
+
+	/**
+	 * [$OpenId_Token description]
+	 * @var string
+	 */
 	public $OpenId_Token = ''; //Stores the Token to OpenId if the user has it specified
+
+	/**
+	 * [$ClickThis_Id description]
+	 * @var string
+	 */
 	public $ClickThis_Id = ''; // Stores the Id which links to the User datebase Id
+
+	/**
+	 * [$Flickr_Id description]
+	 * @var string
+	 */
 	public $Flickr_Id = ''; // Stores the Id which links to the Users Flick Account
+
+	/**
+	 * [$Myspace_Id description]
+	 * @var string
+	 */
 	public $Myspace_Id = ''; // Stores the Myspace id to the Users Myspace account
+
+	/**
+	 * [$Yahoo_Id description]
+	 * @var string
+	 */
 	public $Yahoo_Id = ''; // Stores the Yahoo id to the Users Yahoo account
+
+	/**
+	 * [$Wordpress_Id description]
+	 * @var string
+	 */
 	public $Wordpress_Id = ''; // Stores the Wordpress.com Id fpr the Users Wordpress.com Account
 	
-	//The Contructor
+	/**
+	 * [User description]
+	 */
 	public function User() {
 		//Get the current instance of Code igniter
 		$this->CI =& get_instance();
 	}
 	
-	//Import
+	/**
+	 * [Import description]
+	 * @param [type] $Array [description]
+	 */
 	public function Import($Array){
 		foreach($Array as $Name => $Value){
 			if(property_exists($this,$Name)){
@@ -47,12 +227,17 @@ class User {
 		}
 	}
 	
-	//Export
+	/**
+	 * [Export description]
+	 */
 	public function Export(){
 		return array('Name' => $this->Name,'Id' => $this->Id,'Country' => $this->Country,'Email' => $this->Email,'Type' => $this->Type,'Method' => $this->Method,'Status' => $this->	Status,'TargetGroup' => $this->TargetGroup,'Language' => $this->Language,'UserGroup' => $this->UserGroup,'State' => $this->State,'Username' => $this->Username,'TOPT' => $this->TOPT	,'Twitter_Id' => $this->Twitter_Id,'Facebook_Id' => $this->Facebook_Id,'Linkedin_Id' => $this->LinkedIn_Id,'Google_Id' => $this->Google_Id,'Illution_Id' => $this->Illution_Id,'OpenId_Token' => $this->OpenId_Token,'ClickThis_Id' => $this->ClickThis_Id,'Flick_Id' => $this->Flickr_Id,'Myspace_Id' => $this->Myspace_Id,'Yahoo_Id' => $this->Yahoo_Id,'Wordpress_Id' => $this->Wordpress_Id);	
 	}
 	
-	//Load
+	/**
+	 * [Load description]
+	 * @param [type] $Id [description]
+	 */
 	public function Load($Id) {
 		if($this->Id == 0){
 			$this->Id = $Id;
@@ -61,7 +246,9 @@ class User {
 		$this->CI->Load_User->LoadById($Id,$this);
 	}
 	
-	//Save
+	/**
+	 * [Save description]
+	 */
 	public function Save() {
 		$this->CI->load->model('Save_User');
 		if($this->Id != 0){
@@ -72,7 +259,10 @@ class User {
 		}
 	}
 	
-	//Remove User Data
+	/**
+	 * [RemoveUserData description]
+	 * @param boolean $Id [description]
+	 */
 	private function RemoveUserData($Id = false){
 		$this->ClickThis_Id = 0;
 		$this->Country = '';
@@ -102,12 +292,18 @@ class User {
 		}
 	}
 	
-	//Set Data Array
+	/**
+	 * [SetDataArray description]
+	 * @param [type] $Array [description]
+	 */
 	private function SetDataArray($Array){
 		self::Import($Array);
 	}
 	
-	//Set Data Class
+	/**
+	 * [SetDataClass description]
+	 * @param [type] &$User [description]
+	 */
 	private function SetDataClass(&$User){
 		$this->ClickThis_Id = $User->ClickThis_Id;
 		$this->Country = $User->Country;
@@ -135,22 +331,32 @@ class User {
 		$this->Id = $User->Id;
 	}
 	
-	//Remove Databse Data
+	/**
+	 * [RemoveDatabaseData description]
+	 * @param [type] $Id [description]
+	 */
 	private function RemoveDatabaseData($Id){
 		$this->CI->db->query("DELETE FROM Users WHERE Id='?'",array($Id));
 	}
 	
-	//Clear
+	/**
+	 * [Clear description]
+	 */
 	public function Clear(){
 		self::RemoveUserData(false);
 	}
 	
-	//Refresh
+	/**
+	 * [Refresh description]
+	 */
 	public function Refresh(){
 		self::Load($this->Id);
 	}
 	
-	//Delete
+	/**
+	 * [Delete description]
+	 * @param boolean $Database [description]
+	 */
 	public function Delete($Database = false){
 		if($Database){
 			self::RemoveDatabaseData($this->Id);
@@ -161,7 +367,12 @@ class User {
 		}
 	}
 	
-	//Add
+	/**
+	 * [Add description]
+	 * @param [type]  &$User    [description]
+	 * @param [type]  $Array    [description]
+	 * @param boolean $Database [description]
+	 */
 	public function Add(&$User = NULL,$Array = NULL,$Database = false){
 		if(!is_null($Answer)){
 			self::SetDataClass($User);
@@ -181,7 +392,11 @@ class User {
 		}
 	}
 	
-	//Create
+	/**
+	 * [Create description]
+	 * @param [type]  $Array    [description]
+	 * @param boolean $Database [description]
+	 */
 	public function Create($Array,$Database = false){
 		self::SetDataArray($Array);
 		if($Database){
@@ -191,28 +406,42 @@ class User {
 		}
 	}
 	
+	/**
+	 * [Login_Twitter description]
+	 * @param [type] $Id [description]
+	 */
 	public function Login_Twitter($Id) {
 		
 	}
 	
+	/**
+	 * [Login_Facebook description]
+	 * @param [type] $Id [description]
+	 */
 	public function Login_Facebook($Id) {
 		
 	}
 	
+	/**
+	 * [Login_LinkedIn description]
+	 * @param [type] $Id [description]
+	 */
 	public function Login_LinkedIn($Id) {
 		
 	}
 	
+	/**
+	 * [Login_Google description]
+	 * @param [type] $Id [description]
+	 */
 	public function Login_Google($Id) {
 		
 	}
 	
-	/*
-	public function Login_($Id) {
-		
-	}
-	*/
-	
+	/**
+	 * [Login_ClickThis description]
+	 * @param [type] $Id [description]
+	 */
 	public function Login_ClickThis($Id) {
 		
 	}
