@@ -70,28 +70,28 @@ class Group{
 	
 	//SetDataClass
 	public function SetDataClass($Group){
-		$this->Administrators = $Group->Administrators;
-		$this->Creator = $Group->Creator;
-		$this->Description = $Group->Description;
+		$this->Administrators = @$Group->Administrators;
+		$this->Creator = @$Group->Creator;
+		$this->Description = @$Group->Description;
 		if(isset($Group->Id)){
-			$this->Id = $Group->Id;
+			$this->Id = @$Group->Id;
 		}
-		$this->Members = $Group->Members;
-		$this->Name = $Group->Name;
-		$this->Title = $Group->Title;
+		$this->Members = @$Group->Members;
+		$this->Name = @$Group->Name;
+		$this->Title = @$Group->Title;
 	}
 	
 	//SetDataArray
 	public function SerDataArray($Array){
-		$this->Administrators = $Array['Administrators'];
-		$this->Creator = $Array['Creator'];
-		$this->Description = $Array['Description'];
+		$this->Administrators = @$Array['Administrators'];
+		$this->Creator = @$Array['Creator'];
+		$this->Description = @$Array['Description'];
 		if(isset($Array['Id'])){
-			$this->Id = $Array['Id'];
+			$this->Id = @$Array['Id'];
 		}
-		$this->Members = $Array['Members'];
-		$this->Name = $Array['Name'];
-		$this->Title = $Array['Title'];
+		$this->Members = @$Array['Members'];
+		$this->Name = @$Array['Name'];
+		$this->Title = @$Array['Title'];
 	}
 	
 	//Refresh

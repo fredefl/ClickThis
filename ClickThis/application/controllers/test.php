@@ -146,11 +146,15 @@ class Test extends CI_Controller {
 	//Needs More Work
 	private function UserTest(){
 		$this->load->library('User');
+		$this->load->library('Teacher');
 		$User = new User();
-		$User->Load(21);
+		/*$User->Load(21);
 		$User->Name = 'Llama';
 		$User->Country = 'Denmark';
-		$User->Save();
+		$User->Save();*/
+		$Data = new Teacher();
+		$Data->Country = "Denmark";
+		$User->Add($Data);
 		self::Debug($User->Export());
 	}
 	

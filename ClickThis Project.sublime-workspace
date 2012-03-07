@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"In",
+				"Input"
+			],
+			[
+				"Mone",
+				"Monkey"
+			],
+			[
 				"button",
 				"button"
 			],
@@ -296,26 +304,26 @@
 	"buffers":
 	[
 		{
-			"file": "ClickThis Prototype/multiplechoice.html",
+			"file": "ClickThis/application/libraries/user.php",
 			"settings":
 			{
-				"buffer_size": 2861,
+				"buffer_size": 12219,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "ClickThis Prototype/js/buttonGenerator.js",
+			"file": "ClickThis/application/controllers/test.php",
 			"settings":
 			{
-				"buffer_size": 14554,
+				"buffer_size": 3916,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "ClickThis Prototype/css/form.css",
+			"file": "ClickThis/application/libraries/group.php",
 			"settings":
 			{
-				"buffer_size": 942,
+				"buffer_size": 3617,
 				"line_ending": "Windows"
 			}
 		}
@@ -352,6 +360,10 @@
 	},
 	"file_history":
 	[
+		"/R/ClickThis/ClickThis/application/libraries/state.php",
+		"//BoNethard/BoDrev/Bo/Web Projects/CM/application/libraries/login_security.php",
+		"/R/ClickThis/ClickThis/application/libraries/didanswer.php",
+		"/R/ClickThis/ClickThis/application/libraries/teacher.php",
 		"/C/Users/Bo/SVN/ClickThis/ClickThis Prototype/js/multiplechoice.js",
 		"/C/Users/Bo/SVN/ClickThis/ClickThis Prototype/bootstrap/css/bootstrap.css",
 		"/C/Users/Bo/SVN/ClickThis/ClickThis Prototype/js/buttonGenerator.js",
@@ -449,6 +461,21 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"SetDataArray",
+			"RemoveUserData",
+			"CheckData",
+			"RemoveDatabaseData",
+			"SetDataClass",
+			",$User->",
+			"$this->",
+			"self::CheckData(&1,&2);",
+			"@",
+			";",
+			" = ",
+			"		",
+			"\\n",
+			"		",
+			"\\n",
 			"close",
 			"0.25",
 			"460",
@@ -503,6 +530,23 @@
 		"regex": false,
 		"replace_history":
 		[
+			"_SetDataArray",
+			"_RemoveUserData",
+			"_CheckData",
+			"_RemoveDatabaseData",
+			"_SetDataClass",
+			",$this->",
+			"$this->",
+			"$User->",
+			"self::CheckData(&2,&1);",
+			"",
+			");",
+			",",
+			"		self::CheckData(",
+			"\\nself::CheckData(",
+			"\\n		self::CheckData(",
+			"\\nself::CheckData(",
+			"self::CheckData(",
 			"0.69",
 			"provider.addBullets(",
 			"searchProviders",
@@ -524,88 +568,87 @@
 			[
 				{
 					"buffer": 0,
-					"file": "ClickThis Prototype/multiplechoice.html",
+					"file": "ClickThis/application/libraries/user.php",
 					"settings":
 					{
-						"buffer_size": 2861,
+						"buffer_size": 12219,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								960,
-								960
+								1042,
+								1042
 							]
 						],
 						"settings":
 						{
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 90.0,
+						"translation.y": 4590.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "ClickThis Prototype/js/buttonGenerator.js",
+					"file": "ClickThis/application/controllers/test.php",
 					"settings":
 					{
-						"buffer_size": 14554,
+						"buffer_size": 3916,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2704,
-								2704
+								3392,
+								3392
 							]
 						],
 						"settings":
 						{
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"syntax": "Packages/PHP/PHP.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 855.0,
+						"translation.y": 1980.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "ClickThis Prototype/css/form.css",
+					"file": "ClickThis/application/libraries/group.php",
 					"settings":
 					{
-						"buffer_size": 942,
+						"buffer_size": 3617,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								942,
-								551
+								2574,
+								2574
 							]
 						],
 						"settings":
 						{
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/CSS/CSS.tmLanguage",
+							"syntax": "Packages/PHP/PHP.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 107.0,
+						"translation.y": 1845.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
