@@ -7,7 +7,6 @@
  * @category User Data
  * @version 1.0
  * @author Illution <support@illution.dk>
- * @todo Documentation
  */ 
 class User {
 	
@@ -29,7 +28,7 @@ class User {
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Name = '';
+	public $Name = NULL;
 
 	/**
 	 * The database id of the user
@@ -37,7 +36,7 @@ class User {
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Id = 0;
+	public $Id = NULL;
 
 	/**
 	 * This variable holds the country of the user
@@ -45,7 +44,7 @@ class User {
 	 * @since 1.0
 	 * @var string
 	 */
-	public $Country = '';
+	public $Country = NULL;
 
 	/**
 	 * This variable holds the email of the user if deffined
@@ -53,7 +52,7 @@ class User {
 	 * @since 1.0
 	 * @var string
 	 */
-	public $Email = '';
+	public $Email = NULL;
 
 	/**
 	 * This contains the users type
@@ -61,7 +60,7 @@ class User {
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Type = 0;
+	public $Type = NULL;
 
 	/**
 	 * This holds the user's login method
@@ -71,7 +70,7 @@ class User {
 	 * @example
 	 * "User"/Teacher/Pupil
 	 */
-	public $Method = '';
+	public $Method = NULL;
 
 	/**
 	 * This variable contains the users activation status,
@@ -80,7 +79,7 @@ class User {
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Status = 0;
+	public $Status = NULL;
 
 	/**
 	 * This array contains the ClickThis subscription groups that the user is member of
@@ -88,7 +87,7 @@ class User {
 	 * @access public
 	 * @since 1.0
 	 */
-	public $TargetGroup = array();
+	public $TargetGroup = NULL;
 
 	/**
 	 * This variable contains the users preferable language
@@ -98,13 +97,15 @@ class User {
 	 * @example
 	 * "da_DK"
 	 */
-	public $Language = '';
+	public $Language = NULL;
 
 	/**
 	 * This array contains the user's privilige groups, etc admin, user
 	 * @var array
+	 * @since 1.0
+	 * @access public
 	 */
-	public $UserGroup = array();
+	public $UserGroup = NULL;
 
 	/**
 	 * This variable contains the state that the user lives in
@@ -114,7 +115,7 @@ class User {
 	 * @example
 	 * Virginia
 	 */
-	public $State = '';
+	public $State = NULL;
 
 	/**
 	 * This variable contains the ClickThis username, if the user has deffined one
@@ -122,7 +123,7 @@ class User {
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Username = '';
+	public $Username = NULL;
 
 	/**
 	 * This variable contains the user's TOPT token, if the user has 2 step verification turned on.
@@ -130,7 +131,7 @@ class User {
 	 * @access public
 	 * @since 1.0
 	 */
-	public $TOPT = '';
+	public $TOPT = NULL;
 	
 	/*#### USER TOKENS ####*/
 
@@ -140,7 +141,7 @@ class User {
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Twitter_Id = '';
+	public $Twitter_Id = NULL;
 
 	/**
 	 * This variable stores the user's Facebook Id/alias if the user has a Facebook account linked
@@ -148,20 +149,24 @@ class User {
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Facebook_Id = '';
+	public $Facebook_Id = NULL;
 
 	/**
 	 * This variable stores a id associated with the users Linked In,
 	 * if it is linked.
 	 * @var string
+	 * @since 1.0
+	 * @access public
 	 */
-	public $LinkedIn_Id = '';
+	public $LinkedIn_Id = NULL;
 
 	/**
 	 * This variable stores the Google Id/Google Email if the user has a Google account linked
 	 * @var string
+	 * @access public
+	 * @since 1.0
 	 */
-	public $Google_Id = '';
+	public $Google_Id = NULL;
 
 	/**
 	 * Stores the Illution database Id for the user if the user has an Illution Account
@@ -170,46 +175,61 @@ class User {
 	 * @since 1.0
 	 * @deprecated This login method is deprecated as of version 1, it's only implemented for testing purposes
 	 */
-	public $Illution_Id = '';
+	public $Illution_Id = NULL;
 
 	/**
-	 * [$OpenId_Token description]
+	 * This property stores the OpenId, user id if the user has one specified
 	 * @var string
+	 * @since 1.0
+	 * @access public
 	 */
-	public $OpenId_Token = ''; //Stores the Token to OpenId if the user has it specified
+	public $OpenId_Token = NULL;
 
 	/**
-	 * [$ClickThis_Id description]
+	 * This property stores the Users database id row value
 	 * @var string
+	 * @see $this->Id
+	 * @since 1.0
+	 * @access public
 	 */
-	public $ClickThis_Id = ''; // Stores the Id which links to the User datebase Id
+	public $ClickThis_Id = NULL;
 
 	/**
-	 * [$Flickr_Id description]
+	 * This property stores the users Flick user id/username if the user has one linked
 	 * @var string
+	 * @since 1.0
+	 * @access public
 	 */
-	public $Flickr_Id = ''; // Stores the Id which links to the Users Flick Account
+	public $Flickr_Id = NULL;
 
 	/**
-	 * [$Myspace_Id description]
+	 * This property stores the Myspace user id/username if the user has a Myspace account linked
 	 * @var string
+	 * @access public
+	 * @since 1.0
 	 */
-	public $Myspace_Id = ''; // Stores the Myspace id to the Users Myspace account
+	public $Myspace_Id = NULL;
 
 	/**
-	 * [$Yahoo_Id description]
+	 * This property stores the Yahoo user name/id if the user has an Yahoo account linked
 	 * @var string
+	 * @since 1.0
+	 * @access public
 	 */
-	public $Yahoo_Id = ''; // Stores the Yahoo id to the Users Yahoo account
+	public $Yahoo_Id = NULL;
 
 	/**
-	 * [$Wordpress_Id description]
+	 * This property stores the wordpress.com user id if the user has one account linked
 	 * @var string
+	 * @since 1.0
+	 * @access public
 	 */
-	public $Wordpress_Id = ''; // Stores the Wordpress.com Id fpr the Users Wordpress.com Account
+	public $Wordpress_Id = NULL;
 	
 	/**
-	 * [User description]
+	 * This function is the constructor, it makes an instance of CodeIgniter and put it in the $this->CI property
+	 * @since 1.0
+	 * @access public
 	 */
 	public function User() {
 		//Get the current instance of Code igniter
@@ -217,42 +237,63 @@ class User {
 	}
 	
 	/**
-	 * [Import description]
-	 * @param [type] $Array [description]
+	 * This function imports data from an array with the same key name as the local property to import too.
+	 * @param array $Array The data to import in Name => Value format
+	 * @since 1.0
+	 * @access public
 	 */
-	public function Import($Array){
-		foreach($Array as $Name => $Value){
-			if(property_exists($this,$Name)){
-				$this->$Name = $Value;	
+	public function Import($Array = NULL){
+		if(!is_null($Array)){
+			foreach($Array as $Name => $Value){
+				if(property_exists($this,$Name)){
+					$this->$Name = $Value;	
+				}
 			}
 		}
 	}
 	
 	/**
-	 * [Export description]
+	 * This function returns all the class variable with name and values as an array
+	 * @return array All the class vars and values
+	 * @since 1.0
+	 * @access public
 	 */
 	public function Export(){
-		return array('Name' => $this->Name,'Id' => $this->Id,'Country' => $this->Country,'Email' => $this->Email,'Type' => $this->Type,'Method' => $this->Method,'Status' => $this->Status,'TargetGroup' => $this->TargetGroup,'Language' => $this->Language,'UserGroup' => $this->UserGroup,'State' => $this->State,'Username' => $this->Username,'TOPT' => $this->TOPT	,'Twitter_Id' => $this->Twitter_Id,'Facebook_Id' => $this->Facebook_Id,'Linkedin_Id' => $this->LinkedIn_Id,'Google_Id' => $this->Google_Id,'Illution_Id' => $this->Illution_Id,'OpenId_Token' => $this->OpenId_Token,'ClickThis_Id' => $this->ClickThis_Id,'Flick_Id' => $this->Flickr_Id,'Myspace_Id' => $this->Myspace_Id,'Yahoo_Id' => $this->Yahoo_Id,'Wordpress_Id' => $this->Wordpress_Id);	
+		$Array = array();
+		foreach(get_class_vars(get_class($this)) as $Name => $Value){
+			if($Name != "CI"){
+				$Array[$Name] = $this->{$Name};
+			}
+		}
+		return $Array;
 	}
 	
 	/**
-	 * [Load description]
-	 * @param [type] $Id [description]
+	 * This function loads data either by the $Id parameter or by the $Id property
+	 * @param integer $Id The database id to load data from, this parameter is optional,
+	 * if it's not deffined the $Id property value will be used
+	 * @since 1.0
+	 * @access public
 	 */
-	public function Load($Id) {
-		if($this->Id == 0){
+	public function Load($Id = NULL) {
+		if(!is_null($Id)){
 			$this->Id = $Id;
 		}
-		$this->CI->load->model("Load_User");
-		$this->CI->Load_User->LoadById($Id,$this);
+		if(!is_null($this->Id)){
+			$this->CI->load->model("Load_User");
+			$this->CI->Load_User->LoadById($this->Id,$this);
+		}
 	}
 	
 	/**
-	 * [Save description]
+	 * This function saves the local class data to the database row of the Id property
+	 * @return string This function can return a error string
+	 * @since 1.0
+	 * @access public
 	 */
 	public function Save() {
 		$this->CI->load->model('Save_User');
-		if($this->Id != 0){
+		if(!is_null($this->Id)){
 			$this->CI->Save_User->Save($this);
 		}
 		else{
@@ -267,31 +308,15 @@ class User {
 	 * @access private
 	 */
 	private function _RemoveUserData($Id = false){
-		$this->ClickThis_Id = 0;
-		$this->Country = '';
-		$this->Email = '';
-		$this->Type = 0;
-		$this->Method = '';
-		$this->Status = 0;
-		$this->TargetGroup = array();
-		$this->Language = '';
-		$this->UserGroup = array();
-		$this->State = '';
-		$this->Username = '';
-		$this->TOPT = '';
-		$this->Twitter_Id = '';
-		$this->Facebook_Id = '';
-		$this->LinkedIn_Id = '';
-		$this->Google_Id = '';
-		$this->Illution_Id = '';
-		$this->OpenId_Token = '';
-		$this->ClickThis_Id = '';
-		$this->Flickr_Id = '';
-		$this->Myspace_Id = '';
-		$this->Yahoo_Id = '';
-		$this->Wordpress_Id = '';
-		if($Id){
-			$this->Id = 0;
+		foreach(get_class_vars(get_class($this)) as $Name => $Value){
+			if($Name != "CI"){
+				if($Name != "Id"){
+					$this->{$Name} = NULL;
+				}
+				if($Id == true && $Name == "Id"){
+					$this->{$Name} = NULL;
+				}
+			}
 		}
 	}
 	
@@ -302,18 +327,24 @@ class User {
 	 * @since 1.0
 	 * @access private
 	 */
-	private function _SetDataArray($Array){
-		self::Import($Array);
+	private function _SetDataArray($Array = NULL){
+		if(!is_null($Array)){
+			self::Import($Array);
+		}
 	}
 
 	/**
 	 * This function only sets the output if input exists
 	 * @param object||string||number &$Input  The input data to check if exists
 	 * @param object||string||number &$Output The output data to set if the input isset
+	 * @since 1.0
+	 * @access private
 	 */
-	private function _CheckData(&$Input,&$Output){
-		if(isset($Input) && @!is_null($Input)){
-			$Output = $Input;
+	private function _CheckData(&$Input = NULL,&$Output = NULL){
+		if(!is_null($Input) && !is_null($Output)){
+			if(isset($Input) && @!is_null($Input)){
+				$Output = $Input;
+			}
 		}
 	}
 	
@@ -323,41 +354,32 @@ class User {
 	 * @access private
 	 * @since 1.0
 	 */
-	private function _SetDataClass(&$User){
-		self::_CheckData($User->ClickThis_Id,$this->ClickThis_Id);
-		self::_CheckData($User->Country,$this->Country);
-		self::_CheckData($User->Email,$this->Email);
-		self::_CheckData($User->Type,$this->Type);
-		self::_CheckData($User->Method,$this->Method);
-		self::_CheckData($User->Status,$this->Status);
-		self::_CheckData($User->TargetGroup,$this->TargetGroup);
-		self::_CheckData($User->Language,$this->Language);
-		self::_CheckData($User->UserGroup,$this->UserGroup);
-		self::_CheckData($User->State,$this->State);
-		self::_CheckData($User->Username,$this->Username);
-		self::_CheckData($User->TOPT,$this->TOPT);
-		self::_CheckData($User->Twitter_Id,$this->Twitter_Id);
-		self::_CheckData($User->Facebook_Id,$this->Facebook_Id);
-		self::_CheckData($User->LinkedIn_Id,$this->LinkedIn_Id);
-		self::_CheckData($User->Google_Id,$this->Google_Id);
-		self::_CheckData($User->Illution_Id,$this->Illution_Id);
-		self::_CheckData($User->OpenId_Token,$this->OpenId_Token);
-		self::_CheckData($User->ClickThis_Id,$this->ClickThis_Id);
-		self::_CheckData($User->Flickr_Id,$this->Flickr_Id);
-		self::_CheckData($User->Myspace_Id,$this->Myspace_Id);
-		self::_CheckData($User->Yahoo_Id,$this->Yahoo_Id);
-		self::_CheckData($User->Wordpress_Id,$this->Wordpress_Id);
-		self::_CheckData($User->Id,$this->Id);
+	private function _SetDataClass(&$User = NULL){
+		if(!is_null($User)){
+			foreach (get_object_vars($User) as $Key => $Value) {
+				if(property_exists($this, $Key)){
+					if(!is_null($User->{$Key}) && $User->{$Key} != "" && $Key != "CI"){
+						$this->{$Key} = $User->{$Key};
+					}
+				}
+			}
+			
+		}
 	}
 	
 	/**
-	 * [_RemoveDatabaseData description]
-	 * @param [type] $Id [description]
+	 * This function removes data from the specified row in the $Id parameter
+	 * @param integer $Id The database row id to remove
 	 * @since 1.0
 	 * @access private
 	 */
-	private function _RemoveDatabaseData($Id){
-		$this->CI->db->delete("Users",array("Id" => $Id));
+	private function _RemoveDatabaseData($Id = NULL){
+		if(!is_null($Id)){
+			$this->Id = $Id;
+		}
+		if(!is_null($this->Id)){
+			$this->CI->db->delete("Users",array("Id" => $Id));
+		}
 	}
 	
 	/**
@@ -376,7 +398,9 @@ class User {
 	 * @access public
 	 */
 	public function Refresh(){
-		self::Load($this->Id);
+		if(!is_null($this->Id)){
+			self::Load($this->Id);
+		}
 	}
 	
 	/**
@@ -417,7 +441,7 @@ class User {
 				return "Error Wrong Input";	
 			}
 		}
-		if($Database){
+		if($Database && !is_null($this->Id)){
 			$this->CI->load->model('Save_User');
 			$this->Id = $this->CI->Save_User->Create($this);
 			return $this->Id;
@@ -432,53 +456,15 @@ class User {
 	 * @access public
 	 * @since 1.0
 	 */
-	public function Create($Array,$Database = false){
-		self::_SetDataArray($Array);
-		if($Database){
-			$this->CI->load->model('Save_User');
-			$this->Id = $this->CI->Save_User->Create($this);
-			return $this->Id;
+	public function Create($Array =  NULL,$Database = false){
+		if(!is_null($Array)){
+			self::_SetDataArray($Array);
+			if($Database){
+				$this->CI->load->model('Save_User');
+				$this->Id = $this->CI->Save_User->Create($this);
+				return $this->Id;
+			}
 		}
-	}
-	
-	/**
-	 * [Login_Twitter description]
-	 * @param [type] $Id [description]
-	 */
-	public function Login_Twitter($Id) {
-		
-	}
-	
-	/**
-	 * [Login_Facebook description]
-	 * @param [type] $Id [description]
-	 */
-	public function Login_Facebook($Id) {
-		
-	}
-	
-	/**
-	 * [Login_LinkedIn description]
-	 * @param [type] $Id [description]
-	 */
-	public function Login_LinkedIn($Id) {
-		
-	}
-	
-	/**
-	 * [Login_Google description]
-	 * @param [type] $Id [description]
-	 */
-	public function Login_Google($Id) {
-		
-	}
-	
-	/**
-	 * [Login_ClickThis description]
-	 * @param [type] $Id [description]
-	 */
-	public function Login_ClickThis($Id) {
-		
 	}
 }
 ?>

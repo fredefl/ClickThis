@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"proper",
+				"property_exists"
+			],
+			[
+				"A",
+				"Array"
+			],
+			[
 				"In",
 				"Input"
 			],
@@ -102,10 +110,6 @@
 			[
 				"provider",
 				"providerList"
-			],
-			[
-				"A",
-				"ArrayName"
 			],
 			[
 				"Arra",
@@ -304,18 +308,18 @@
 	"buffers":
 	[
 		{
-			"file": "ClickThis/application/libraries/user.php",
+			"file": "ClickThis/application/controllers/test.php",
 			"settings":
 			{
-				"buffer_size": 12219,
+				"buffer_size": 3979,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "ClickThis/application/controllers/test.php",
+			"file": "ClickThis/application/libraries/user.php",
 			"settings":
 			{
-				"buffer_size": 3916,
+				"buffer_size": 11132,
 				"line_ending": "Windows"
 			}
 		},
@@ -323,7 +327,7 @@
 			"file": "ClickThis/application/libraries/group.php",
 			"settings":
 			{
-				"buffer_size": 3617,
+				"buffer_size": 7248,
 				"line_ending": "Windows"
 			}
 		}
@@ -360,6 +364,8 @@
 	},
 	"file_history":
 	[
+		"/R/ClickThis/ClickThis/application/libraries/group.php",
+		"/R/ClickThis/ClickThis/application/libraries/user.php",
 		"/R/ClickThis/ClickThis/application/libraries/state.php",
 		"//BoNethard/BoDrev/Bo/Web Projects/CM/application/libraries/login_security.php",
 		"/R/ClickThis/ClickThis/application/libraries/didanswer.php",
@@ -461,6 +467,12 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"CI",
+			"$CI",
+			"SetDataClass",
+			"$User",
+			"ClearDatabase",
+			"SerDataArray",
 			"SetDataArray",
 			"RemoveUserData",
 			"CheckData",
@@ -530,6 +542,11 @@
 		"regex": false,
 		"replace_history":
 		[
+			"_CI",
+			"$_CI",
+			"_SetDataClass",
+			"$Group",
+			"_ClearDatabase",
 			"_SetDataArray",
 			"_RemoveUserData",
 			"_CheckData",
@@ -563,23 +580,23 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 2,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "ClickThis/application/libraries/user.php",
+					"file": "ClickThis/application/controllers/test.php",
 					"settings":
 					{
-						"buffer_size": 12219,
+						"buffer_size": 3979,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1042,
-								1042
+								2401,
+								2401
 							]
 						],
 						"settings":
@@ -590,25 +607,25 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 4590.0,
+						"translation.y": 1395.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "ClickThis/application/controllers/test.php",
+					"file": "ClickThis/application/libraries/user.php",
 					"settings":
 					{
-						"buffer_size": 3916,
+						"buffer_size": 11132,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3392,
-								3392
+								6993,
+								6517
 							]
 						],
 						"settings":
@@ -619,7 +636,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1980.0,
+						"translation.y": 4335.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -629,15 +646,15 @@
 					"file": "ClickThis/application/libraries/group.php",
 					"settings":
 					{
-						"buffer_size": 3617,
+						"buffer_size": 7248,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2574,
-								2574
+								2806,
+								2806
 							]
 						],
 						"settings":
@@ -648,7 +665,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1845.0,
+						"translation.y": 4140.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

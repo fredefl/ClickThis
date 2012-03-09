@@ -113,6 +113,8 @@ class Test extends CI_Controller {
 	private function GroupTest(){
 		$this->load->library('Group');
 		$Group = new Group();
+		$Group->Name = "Llama";
+		self::Debug($Group->Export());
 	}
 	
 	private function PupilTest(){
@@ -148,10 +150,10 @@ class Test extends CI_Controller {
 		$this->load->library('User');
 		$this->load->library('Teacher');
 		$User = new User();
-		/*$User->Load(21);
+		//$User->Load(21);
 		$User->Name = 'Llama';
-		$User->Country = 'Denmark';
-		$User->Save();*/
+		//$User->Country = 'Denmark';
+		//$User->Save();*/
 		$Data = new Teacher();
 		$Data->Country = "Denmark";
 		$User->Add($Data);
