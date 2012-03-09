@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html> <!-- manifest="offline.manifest"-->
+	<head>
+    	<title>ClickThis - Home</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="stylesheet" href="css/jqtouch.css"/>
+        <link rel="stylesheet" href="css/theme.css"/>
+        <link rel="stylesheet" href="css/style.css"/>
+        <link rel="apple-touch-icon" href="images/ClickThis64.png" />
+	</head>
+	<body>
+    <input type="hidden" id="currentpage" value="user" />
+        <div id="jqt">
+        	<!-- The full page div -->
+            <div id="home" class="current" >
+            	<!-- Toolbar -->
+            	<div class="toolbar">
+                    <h1 id="toolbarTitle"><a href="http://illution.dk/ClickThisPrototype/home.html" title="Home" style="text-decoration:none; color:#FFF;">ClickThis</a></h1>
+                    <a class="button slideup" onClick="showAboutBox();" id="infoButton">About</a>
+                    <a class="back Active" id="backButton" data-href="home.html" data-app-onClick="ClickThisApp.terminateApp()" data-app-text="Quit" data-app-start-mode="active" data-page-start-mode="disabled">Back</a>
+                </div>
+                <div id="notification" style="display:none;height:0px">
+                    Some data has not been sent! [ <small id="notificationCount"></small> ]
+                </div>
+                <div class="Disabled" id="add_issue">
+                    <form method="POST" action="http://illution.dk/ClickThisIssueCreator/index.php">
+                        <span style="margin-left:5%; font:Arial, Helvetica, sans-serif; font-size:18px; font-weight:bold; color:#FFF;">Title:</span><br>
+                        <input type="text" name="title" style="width:90%;margin-left:5%;"/><br>
+                        <span style="margin-left:5%; font:Arial, Helvetica, sans-serif; font-size:18px; font-weight:bold; color:#FFF;">Description:</span><br>
+                        <textarea name="description" style="width:90%;margin-left:5%; height:256px;"></textarea>
+                        <br>
+                        <input type="submit" value="Submit!" style="width:90%;margin-left:5%;"/>
+                    </form>
+                </div>
+                <!-- About Box -->
+                <div id="aboutBox" class="Disabled">
+                </div>
+
+            </div>
+            
+        </div>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script src="http://cdn.illution.dk/JS/jquery.hashchange.min.js"></script>
+        <script src="http://cdn.beaconpush.com/clients/client-1.js"></script>
+        <script src="js/clickthis.js"></script><script src="js/script.js"></script>
+        <script src="Ajax Queue/ajaxQueue.js"></script>
+        <script src="js/home.js"></script>
+	</body>
+</html>
