@@ -9,8 +9,6 @@
  * @author Illution <support@illution.dk>
  */ 
 class User {
-	
-	/*#### VARIABLEs ####*/
 
 	/**
 	 * A local instance of Code Igniter
@@ -378,7 +376,7 @@ class User {
 			$this->Id = $Id;
 		}
 		if(!is_null($this->Id)){
-			$this->CI->db->delete("Users",array("Id" => $Id));
+			$this->CI->db->delete("Users",array("Id" => $this->Id));
 		}
 	}
 	

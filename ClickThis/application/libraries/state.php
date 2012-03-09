@@ -1,71 +1,89 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
-class State {
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+/**
+ * This class stores data about a state
+ * @package School Data
+ * @license http://creativecommons.org/licenses/by/3.0/ Creative Commons 3.0
+ * @subpackage State
+ * @category School Data
+ * @version 1.0
+ * @author Illution <support@illution.dk>
+ * 
+ */  
+class State extends Std_Library {
 
-	//The Variables
-	public $Id = 0; //The Database Id of the State
-	public $Name = ""; //The Name of the State written in plain text
-	public $Country = ""; //The Country of the State written in plain text
-	private $CI = ""; //An Instance of Code Igniter
+	/**
+	 * The database id of the state
+	 * @var integer
+	 * @access public
+	 * @since 1.0
+	 */
+	public $Id = NULL;
+
+	/**
+	 * The name of the state, in plain text
+	 * @access public
+	 * @since 1.0
+	 * @var string
+	 */
+	public $Name = NULL;
+
+	/**
+	 * The country the state is located in, in plain text
+	 * @var string
+	 * @access public
+	 * @since 1.0
+	 */
+	public $Country = NULL;
+
+	/**
+	 * A local instance of CodeIgniter
+	 * @var object
+	 * @access private
+	 * @since 1.0
+	 */
+	private $CI = NULL;
 	
-	//The Constructor
+	/**
+	 * This function is the constructor, it create's a local instance of CodeIgniter
+	 */
 	public function State () {
-		//Get the current instance of Code igniter
 		$this->CI =& get_instance();
 	}
 	
-	//Import
-	public function Import($Array){
-		foreach($Array as $Name => $Value){
-			if(property_exists($this,$Name)){
-				$this->$Name = $Value;	
-			}
-		}
-	}
-	
-	//Export
-	public function Export(){
-		$data = array(
-			'Id' => $this->Id,
-			'Name' => $this->Name,
-			'Country' => $this->Country 
-		);
-		return $data;
-	}
-	
-	//Load
+	/**
+	 * [Load description]
+	 * @access public
+	 * @since 1.0
+	 */
 	public function Load(){
 		
 	}
 	
-	//Save
+	/**
+	 * [Save description]
+	 * @access public
+	 * @since 1.0
+	 */
 	public function Save(){
 		
 	}
 	
-	//Refresh
-	public function Refresh(){
-		
-	}
-	
-	//Delete
-	public function Delete(){
-		
-	}
-	
-	//Add
+	/**
+	 * [Add description]
+	 * @access public
+	 * @since 1.0
+	 */
 	public function Add(){
 		
 	}
 	
-	//Create
+	/**
+	 * [Create description]
+	 * @access public
+	 * @since 1.0
+	 */
 	public function Create(){
 		
 	}
-	
-	//Clear
-	public function Clear(){
-		
-	}
-	
 }
 ?>

@@ -1,90 +1,106 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
-class School {
+/**
+ * This class stores information about an educational institute
+ * @package School
+ * @license http://creativecommons.org/licenses/by/3.0/ Creative Commons 3.0
+ * @subpackage School
+ * @category Education
+ * @version 1.0
+ * @author Illution <support@illution.dk>
+ */ 
+class School extends Std_Library{
 
-	//The Variables
-	public $State = ""; //The State of the School written in plain text
-	public $Country = ""; //The Country of the School written in plain text
-	public $Name = ""; //The Name of the School written in plain text
-	public $Id = 0; //The Database Id of the School
-	public $Abbrevation = ""; //The Abrrevation of the School
-	private $CI = ""; //An Instance of Code Igniter
+	/**
+	 * The state the school is located in
+	 * @var string
+	 * @access public
+	 * @since 1.0
+	 */
+	public $State = NULL;
+
+	/**
+	 * The country thes school is located in
+	 * @var string
+	 * @access public
+	 * @since 1.0
+	 */
+	public $Country = NULL;
+
+	/**
+	 * The name of the school
+	 * @var string
+	 * @access public
+	 * @since 1.0
+	 */
+	public $Name = NULL;
+
+	/**
+	 * The database id of the school
+	 * @var integer
+	 * @access public
+	 * @since 1.0
+	 */
+	public $Id = NULL;
+
+	/**
+	 * The abbrevation of the school
+	 * @var string
+	 * @access public
+	 * @since 1.0
+	 */
+	public $Abbrevation = NULL;
+
+	/**
+	 * A local instance of CodeIgniter
+	 * @since 1.0
+	 * @access private
+	 * @var object
+	 */
+	private $_CI = NULL;
 	
-	//The Constructor
+	/**
+	 * This function is the constructor it creates a local instance of CodeIgniter
+	 * @since 1.0
+	 * @access public
+	 */
 	public function School () {
-		//Get the current instance of Code igniter
-		$this->CI =& get_instance();
+		$this->_CI =& get_instance();
 	}
 	
-	//Get School By Id
-	public function getSchoolById(){
-		$this->CI->load->model("Load_School");
-		//Load School Data
-		$this->CI->Load_School->getSchoolById($this);
-	}
-	
-	//Get School By Name
-	public function getSchoolbyName(){
-		$this->CI->load->model("Load_School");
-		$this->CI->Load_School->getSchoolByName($this);
-	}
-	
-	//Get School by Abbrevation
-	public function getSchoolByAbbrevation(){
-		$this->CI->load->model("Load_School");
-		$this->CI->Load_School->getSchoolByAbbrevation($this);
-	}
-	
-	//Import
-	public function Import($Array){
-		foreach($Array as $Name => $Value){
-			if(property_exists($this,$Name)){
-				$this->$Name = $Value;	
-			}
-		}
-	}
-	
-	//Export
-	public function Export(){
-		$Output = array("State" => $this->State,"Country" => $this->Country,"Id" => $this->Id,"Name" => $this->Name,"Abbrevation" => $this->Abbrevation);
-		return $Output;	
-	}
-	
-	//Save
+	/**
+	 * [Save description]
+	 */
 	public function Save(){
 		
 	}
 	
-	//Load
-	public function Load($Id){
-		//Check if id is set
-		if($this->Id == 0){
+	/**
+	 * This function loads data from the database and adds it to this class
+	 * @param integer $Id The database id of the School
+	 * @access public
+	 * @since 1.0
+	 */
+	public function Load($Id = NULL){
+		if(!is_null($Id)){
 			$this->Id = $Id;
 		}
-		self::getSchoolById();
+		if(!is_null($this->Id)){
+			$this->_CI->load->model("Load_School");
+			$this->_CI->Load_School->getSchoolById($this);
+		}
 	}
 	
-	//Refresh
-	public function Refresh(){
-		
-	}
-	
-	//Delete
-	public function Delete(){
-		
-	}
-	
-	//Add
+	/**
+	 * [Add description]
+	 */
 	public function Add(){
 		
 	}
 	
-	//Create
+	/**
+	 * [Create description]
+	 */
 	public function Create(){
-		
-	}
-	
-	//Clear
-	public function Clear(){
 		
 	}
 }

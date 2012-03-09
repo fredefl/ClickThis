@@ -81,7 +81,6 @@ class Group{
 	 * @access public
 	 */
 	public function Group(){
-		// Create an instance of CI
 		$this->_CI =& get_instance();
 		$this->_CI->load->model("Load_Groups");
 	}

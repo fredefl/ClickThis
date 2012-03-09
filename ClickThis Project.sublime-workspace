@@ -311,23 +311,15 @@
 			"file": "ClickThis/application/controllers/test.php",
 			"settings":
 			{
-				"buffer_size": 3979,
+				"buffer_size": 4377,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "ClickThis/application/libraries/user.php",
+			"file": "ClickThis/application/libraries/pupil.php",
 			"settings":
 			{
-				"buffer_size": 11132,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "ClickThis/application/libraries/group.php",
-			"settings":
-			{
-				"buffer_size": 7248,
+				"buffer_size": 3729,
 				"line_ending": "Windows"
 			}
 		}
@@ -364,9 +356,15 @@
 	},
 	"file_history":
 	[
-		"/R/ClickThis/ClickThis/application/libraries/group.php",
 		"/R/ClickThis/ClickThis/application/libraries/user.php",
+		"/R/ClickThis/ClickThis/application/libraries/school.php",
+		"/R/ClickThis/ClickThis/application/libraries/std_library.php",
+		"/R/ClickThis/ClickThis/application/config/autoload.php",
+		"/R/ClickThis/ClickThis/application/libraries/group.php",
 		"/R/ClickThis/ClickThis/application/libraries/state.php",
+		"/R/ClickThis/ClickThis/application/libraries/topbarobject.php",
+		"/R/ClickThis/ClickThis/application/libraries/std_library.html",
+		"/C/Users/Bo/Desktop/PhpDocumentor-1.4.4/PhpDocumentor-1.4.4/PhpDocumentor-1.4.4/phpdoc.php",
 		"//BoNethard/BoDrev/Bo/Web Projects/CM/application/libraries/login_security.php",
 		"/R/ClickThis/ClickThis/application/libraries/didanswer.php",
 		"/R/ClickThis/ClickThis/application/libraries/teacher.php",
@@ -468,6 +466,8 @@
 		"find_history":
 		[
 			"CI",
+			"$User",
+			"CI",
 			"$CI",
 			"SetDataClass",
 			"$User",
@@ -543,6 +543,8 @@
 		"replace_history":
 		[
 			"_CI",
+			"$Class",
+			"_CI",
 			"$_CI",
 			"_SetDataClass",
 			"$Group",
@@ -580,7 +582,7 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -588,15 +590,15 @@
 					"file": "ClickThis/application/controllers/test.php",
 					"settings":
 					{
-						"buffer_size": 3979,
+						"buffer_size": 4377,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2401,
-								2401
+								2787,
+								2787
 							]
 						],
 						"settings":
@@ -607,25 +609,25 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1395.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "ClickThis/application/libraries/user.php",
+					"file": "ClickThis/application/libraries/pupil.php",
 					"settings":
 					{
-						"buffer_size": 11132,
+						"buffer_size": 3729,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								6993,
-								6517
+								447,
+								447
 							]
 						],
 						"settings":
@@ -636,36 +638,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 4335.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "ClickThis/application/libraries/group.php",
-					"settings":
-					{
-						"buffer_size": 7248,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2806,
-								2806
-							]
-						],
-						"settings":
-						{
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 4140.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

@@ -1,142 +1,152 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
-class Pupil {
+/**
+ * This class stores information about a pupil, which is studying on a education institute
+ * @package School
+ * @license http://creativecommons.org/licenses/by/3.0/ Creative Commons 3.0
+ * @subpackage Pupil
+ * @category Education
+ * @version 1.0
+ * @author Illution <support@illution.dk>
+ * @todo Make the Save,Add,Create and Load function and make more documentatin
+ */ 
+class Pupil extends Std_Library{
 	
-	//The Variables
-	public $Class = ""; //The Class/Group of The Pupil
-	public $Id = 0; //The Database id of the Pupil
-	public $Unilogin = ""; //The Unilogin of the Pupil
-	public $Country = ""; //The Country of the Pupil
-	public $School = ""; //The School of the Pupil
-	public $State = ""; //The State of the Pupil
-	public $Name = ""; //The Name of the Pupil
-	private $CI = ''; //Instance of CodeIgniter
+	/**
+	 * The class/group the pupil is in, not to be confused with "Group"
+	 * @var string
+	 * @access public
+	 * @since 1.0
+	 */
+	public $Class = NULL;
+
+	/**
+	 * The database id of the pupil/user
+	 * @access public
+	 * @since 1.0
+	 * @var integer
+	 */
+	public $Id = NULL;
+
+	/**
+	 * The unilogin of the pupil, if the user has one
+	 * @var string
+	 * @access public
+	 * @since 1.0
+	 */
+	public $Unilogin = NULL;
+
+	/**
+	 * The country that the user lives in
+	 * @var string
+	 * @access public
+	 * @since 1.0
+	 */
+	public $Country = NULL;
+
+	/**
+	 * The school the pupil is studying on
+	 * @var string
+	 * @access public
+	 * @since 1.0
+	 */
+	public $School = "";
+
+	/**
+	 * The state that the pupil lives in, this can be looked up, with the school too
+	 * @var string
+	 * @access public
+	 * @since 1.0
+	 */
+	public $State = NULL;
+
+	/**
+	 * The name of the pupil, stored in the users database
+	 * @var string
+	 * @access public
+	 * @since 1.0
+	 */
+	public $Name = NULL;
+
+	/**
+	 * A locale instance of CodeIgniter
+	 * @var object
+	 * @access private
+	 * @since 1.0
+	 */
+	private $CI = '';
 	
-	//The Constructor
+	/**
+	 * This function is the constructor, it creates a local instance of CodeIgniter
+	 * @access public
+	 * @since 1.0
+	 */
 	public function Pupil () {
-		//Make Instance of CodeIgniter
 		$this->CI =& get_instance();
 	}
-	
-	//Import
-	public function Import($Array){
-		foreach($Array as $Name => $Value){
-			if(property_exists($this,$Name)){
-				$this->$Name = $Value;	
+
+	/**
+	 * This function exports all the class data as an array,
+	 * if the database flag is set to true, then the data will be returned so it fits the database,
+	 * row names.
+	 * @param boolean $Database If this flag is set to true, then the id property woudn't be included
+	 * @access public
+	 * @since 1.0
+	 * @return array The exported data
+	 */
+	public function Export($Database = false){
+		$Array = array();
+		$Names = array("Name" => "RealName","Unilogin" => "Username");
+		foreach(get_class_vars(get_class($this)) as $Name => $Value){
+			if($Name != "_CI" && $Name != "CI"){
+				if($Database){
+					if($Name != "Id"){
+						if(array_key_exists($Name, $Names)){
+							$Array[$Names[$Name]] = $this->{$Name};	
+						} else {
+							$Array[$Name] = $this->{$Name};
+						}
+					}	
+				} else {
+					$Array[$Name] = $this->{$Name};
+				}
 			}
 		}
-	}
-	
-	//Clear
-	public function Clear(){
-		$this->Class = '';
-		$this->Id = 0;
-		$this->Unilogin = '';
-		$this->Country = '';
-		$this->School = '';
-		$this->State = '';
-		$this->Name = '';
-	}
-	
-	//Export
-	public function Export($Database = false){
-
-		if(!$Database){
-			$data = array(
-				'Id' => $this->Id,
-				'Class' => $this->Class,
-				'Unilogin' => $this->Unilogin,
-				'Country' => $this->Country,
-				'School' => $this->School,
-				'State' => $this->State,
-				'Name' => $this->Name 
-			);
+		if($Database){
+			$Array["Method"] = "Pupil";
 		}
-		else{
-			$data = array(
-				'Class' => $this->Class,
-				'Username' => $this->Unilogin,
-				'Country' => $this->Country,
-				'School' => $this->School,
-				'State' => $this->State,
-				'RealName' => $this->Name,
-				'Method' => 'Pupil'
-			);	
-		}
-		return $data;
+		return $Array;
 	}
 	
-	//Load
+	/**
+	 * [Load description]
+	 * @param integer $Id [description]
+	 */
 	public function Load($Id = 0){
 		if($Id != 0){
 			$this->Id = $Id;
 		}
 	}
 	
-	//SetDataArray
-	private function SetDataArray($Array){
-		if(isset($Array['Id'])){
-			$this->Id = $Array['Id'];
-		}
-		$this->Class = $Array['Class'];
-		$this->Country = $Array['Country'];
-		$this->School = $Array['School'];
-		$this->State = $Array['State'];
-		$this->Name = $Array['Name'];
-		if(isset($Array['Unilogin'])){
-			$this->Unilogin = $Array['Unilogin'];
-		}
-	}
-	
-	//SetDataClass
-	private function SetDataClass($Class){
-		if(isset($Class->Id)){
-			$this->Id = $Class->Id;
-		}
-		if($Class->Unilogin){
-			$this->Unilogin = $Class->Unilogin;
-		}
-		$this->Class = $Class->Class;
-		$this->Country = $Class->Country;
-		$this->Name = $Class->Name;
-		$this->School = $Class->School;
-		$this->State = $Class->State;
-	}
-	
-	//ClearDatabase
-	private function ClearDatabase($Id = 0){
-		if(isset($Id)){
-			$this->CI->load->model('Save_Pupil');
-			$this->CI->Save_Pupil->Delete($Id,'Users');
-		}
-	}
-	
-	//Save
+	/**
+	 * [Save description]
+	 */
 	public function Save(){
 		$this->CI->load->model('Save_Pupil');
 		$this->CI->Save_Option->Save($this,self::Export(false),'Users');
 	}
 	
-	//Refresh
-	public function Refresh(){
-		self::Load($this->Id);
-	}
-	
-	//Delete
-	public function Delete(){
-		self::Clear();
-		if($Database){
-			self::ClearDatabase($this->Id);		
-		}
-	}
-	
-	//Add
-	public function Add($Class,$Database = false){
+	/**
+	 * [Add description]
+	 * @param [type]  $Class    [description]
+	 * @param boolean $Database [description]
+	 */
+	public function Add($Class = NULL,$Database = false){
 		if(!is_null($Class)){
-			self::SetDataClass($Class);
+			self::_SetDataClass($Class);
 		}
 		else{
 			if(!is_null($Array)){
-				self::SetDataArray($Array);
+				self::_SetDataArray($Array);
 			}
 			else{
 				return "Error Wrong Input";	
@@ -148,12 +158,18 @@ class Pupil {
 		}
 	}
 	
-	//Create
-	public function Create($Array,$Database = false){
-		self::SetDataArray($Array);
-		if($Database){
-			self::Save();
-			return $this->Id;
+	/**
+	 * [Create description]
+	 * @param [type]  $Array    [description]
+	 * @param boolean $Database [description]
+	 */
+	public function Create($Array = NULL,$Database = false){
+		if(!is_null($Array)){
+			self::_SetDataArray($Array);
+			if($Database){
+				self::Save();
+				return $this->Id;
+			}
 		}
 	}
 }

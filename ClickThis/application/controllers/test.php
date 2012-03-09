@@ -51,10 +51,17 @@ class Test extends CI_Controller {
 		if($Page == 'DidAnswer'){
 			self::DidAnswerTest();
 		}
+		if($Page == 'Class'){
+			self::ClassTest();
+		}
+	}
+
+	private function ClassTest(){
+
 	}
 	
 	private function SeriesTest () {
-		$this->load->library("Series");	
+		/*$this->load->library("Series");	
 		$Series = new Series();
 		$Series->Load(1);
 		echo "<pre>";
@@ -73,70 +80,76 @@ class Test extends CI_Controller {
 		$Series2->Type = 0;
 		$Series2->Description = 'Some crappyyyyyy stuff...';
 		$Series2->TargetGroup = 'Illution';
-		$Series2->Save();
+		$Series2->Save();*/
 		
 	}
 	
 	private function OptionTest(){
-		$this->load->library('Option');
+		/*$this->load->library('Option');
 		$Option = new Option();
 		//$Question->Import(array('SerieId' => 1));
 		$Option->Load(1);
 		echo "<pre>";
 		$data = $Option->Export();
 		print_r($data);
-		echo "</pre>";
+		echo "</pre>";*/
 	}
 	
 	private function AnswerTest(){
-		$this->load->library('Answer');
+		/*$this->load->library('Answer');
 		$Answer = new Answer();
 		$Answer->Load(1);
-		self::Debug($Answer->Export());
+		self::Debug($Answer->Export());*/
 	}
 	
 	private function SchoolTest(){
-		$this->load->library('School');
-		$School = new School();
+		/*$this->load->library('School');
+		$School = new School();*/
 	}
 	
 	private function CountryTest(){
-		$this->load->library('Country');
-		$Country = new Country();
+		/*$this->load->library('Country');
+		$Country = new Country();*/
 	}
 	
 	private function DidAnswerTest(){
-		$this->load->library('DidAnswer');
-		$DidAnswer = new DidAnswer();
+		/*$this->load->library('DidAnswer');
+		$DidAnswer = new DidAnswer();*/
 	}
 	
 	private function GroupTest(){
-		$this->load->library('Group');
+		/*$this->load->library('Group');
 		$Group = new Group();
 		$Group->Name = "Llama";
-		self::Debug($Group->Export());
+		self::Debug($Group->Export());*/
 	}
 	
 	private function PupilTest(){
 		$this->load->library('Pupil');
 		$Pupil = new Pupil();
+		$Pupil->Import(array("Unilogin" => "Llama","Class" => "9U","Name" => "Llama"));
+		self::Debug($Pupil->Export(true));
+		self::Debug($Pupil->Export());
 	}
 	
 	private function StateTest(){
 		$this->load->library('State');
 		$State = new State();
+		$State2 = new State();
 		$State->Import(array('Name' => 'Hovedstaden','Country' => 'Denmark'));
+		$State2->Import(array('Name' => 'Aarhus','Country' => 'Denmark'));
 		echo "<pre>";
 		print_r($State->Export());
+		print_r($State2->Export());
 		echo "</pre>";
 	}
 	
 	private function TeacherTest(){
-		$this->load->library('Teacher');
+		/*$this->load->library('Teacher');
 		$Teacher = new Teacher();
 		$Teacher->Load(21);
 		//$Teacher->Import(array('Unilogin' => 'boxx1524','School' => 'GVS','State' => 'Hovedstaden','Country' => 'Denmark','Name' => 'Bo Thomsen'));
-		self::Debug($Teacher->Export());
+		self::Debug($Teacher->Export());*/
 	}
 	
 	private function Debug($Array){
@@ -161,7 +174,7 @@ class Test extends CI_Controller {
 	}
 	
 	private function QuestionTest(){
-		$this->load->library('Question');
+		/*$this->load->library('Question');
 		$Question = new Question();
 		//$Question->Import(array('SerieId' => 3,'Title' => 'llama','Type' => '4','ViewOrder' => '1','Options' => array('Fisk','And')));
 		//$Question->Save();
@@ -169,7 +182,7 @@ class Test extends CI_Controller {
 		echo "<pre>";
 		$data = $Question->Export();
 		print_r($data);
-		echo "</pre>";
+		echo "</pre>";*/
 	}
 
 }
