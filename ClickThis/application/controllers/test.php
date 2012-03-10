@@ -165,12 +165,12 @@ class Test extends CI_Controller {
 		$User = new User();
 		$User->Load(21);
 		$User->Name = 'Llama';
-		//$User->Country = 'Denmark';
-		//$User->Save();*/
-		/*$Data = new Teacher();
+		$User->Country = 'Denmark';
+		$Data = new Teacher();
 		$Data->Country = "Denmark";
 		$User->Add($Data);
-		$User->TargetGroup = array("Llama","And");*/
+		$User->TargetGroup = array("Llama","And");
+		//$User->Save();
 		self::Debug($User->Export(true));
 		
 	}
