@@ -12,6 +12,14 @@
 class Pupil extends Std_Library{
 	
 	/**
+	 * This variable stores the database table for the class
+	 * @var string
+	 * @access private
+	 * @since 1.0
+	 */
+	private $Database_Table = "Pupils";
+
+	/**
 	 * The class/group the pupil is in, not to be confused with "Group"
 	 * @var string
 	 * @access public
@@ -97,7 +105,7 @@ class Pupil extends Std_Library{
 		$Array = array();
 		$Names = array("Name" => "RealName","Unilogin" => "Username");
 		foreach(get_class_vars(get_class($this)) as $Name => $Value){
-			if($Name != "_CI" && $Name != "CI"){
+			if($Name != "_CI" && $Name != "CI" && $Name != "Database_Table" && strpos($Name, "INTERNAL_") === false){
 				if($Database){
 					if($Name != "Id"){
 						if(array_key_exists($Name, $Names)){

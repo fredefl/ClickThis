@@ -11,6 +11,14 @@
 class School extends Std_Library{
 
 	/**
+	 * This variable stores the database table for the class
+	 * @var string
+	 * @access private
+	 * @since 1.0
+	 */
+	private $Database_Table = "Schools";
+
+	/**
 	 * The state the school is located in
 	 * @var string
 	 * @access public

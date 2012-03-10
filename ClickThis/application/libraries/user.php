@@ -15,6 +15,8 @@ class User {
 	 * @access private
 	 * @since 1.0
 	 * @var object
+	 * @internal This is an internal instance of CodeIgniter,
+	 * and it's only used in this class
 	 */
 	private $CI = NULL;
 	
@@ -223,6 +225,18 @@ class User {
 	 * @access public
 	 */
 	public $Wordpress_Id = NULL;
+
+	/**
+	 * This property is used to convert class property names,
+	 * to database row names
+	 * @var array
+	 * @access private
+	 * @since 1.0
+	 * @internal This is an internal name convert table
+	 */
+	private $_INTERNAL_DATABASE_NAME_CONVERT = NULL;
+
+	private $_INTERNAL_EXPORT_INGNORE = NULL;
 	
 	/**
 	 * This function is the constructor, it makes an instance of CodeIgniter and put it in the $this->CI property
@@ -230,8 +244,22 @@ class User {
 	 * @access public
 	 */
 	public function User() {
-		//Get the current instance of Code igniter
 		$this->CI =& get_instance();
+		$this->_INTERNAL_DATABASE_NAME_CONVERT = array(
+			"RealName" => "Name",
+			 "Facebook" => "Facebook_Id",
+			"LinkedIn_Id" => "LinkedIn",
+			"Google_Id" => "Google",
+			"Illution_Id" => "Userid",
+			"OpenId_Token" => "OpenId",
+			"Flickr_Id" => "Flickr",
+			"Myspace_Id" => "Myspace",
+			"Yahoo_Id" => "Yahoo",
+			"Wordpress_Id" => "Wordpress"
+		);
+		$this->_INTERNAL_EXPORT_INGNORE = array("ClickThis_Id","CI");
+		$this->CI->load->model("Model_User");
+		$this->CI->Model_User->Set_Names($this->_INTERNAL_DATABASE_NAME_CONVERT);
 	}
 	
 	/**
@@ -253,17 +281,83 @@ class User {
 	/**
 	 * This function returns all the class variable with name and values as an array
 	 * @return array All the class vars and values
+	 * @param boolean $Database If this flag is set to true, the data will be exported so the key names,
+	 * fits the database row names
 	 * @since 1.0
 	 * @access public
+	 * @return array The class data as an array
 	 */
-	public function Export(){
-		$Array = array();
-		foreach(get_class_vars(get_class($this)) as $Name => $Value){
-			if($Name != "CI"){
-				$Array[$Name] = $this->{$Name};
+	public function Export ($Database = false) {
+		if ($Database) {
+			$Array = array();
+
+			//Loop through all class properties
+			foreach (get_class_vars(get_class($this)) as $Name => $Value) {
+
+				//If the property is the CodeIgniter instance, the id or an internal property dont do anything
+				//if ($Name != "CI" && strpos($Name, "INTERNAL_") === false && $Name != "Id") {
+				if (!self::Ignore($Name,array("Id"))) {
+
+					//If the class has an name convert table, check if the current property exists in it
+					// , if it does use that as the array key
+					if(property_exists(get_class($this), "_INTERNAL_DATABASE_NAME_CONVERT") 
+						&& is_array($this->_INTERNAL_DATABASE_NAME_CONVERT) 
+						&& array_key_exists($Name, $this->_INTERNAL_DATABASE_NAME_CONVERT)) {
+
+						//If the data is an array implode it with a ";" sign else just assign it
+						if(!is_null($this->{$Name}) && is_array($this->{$Name})){
+							$Array[$this->_INTERNAL_DATABASE_NAME_CONVERT[$Name]] = implode(";",$this->{$Name});
+						} else {
+							$Array[$this->_INTERNAL_DATABASE_NAME_CONVERT[$Name]] = $this->{$Name};
+						}
+					} else {
+						if(!is_null($this->{$Name}) && is_array($this->{$Name})){
+							$Array[$Name] = implode(";",$this->{$Name});
+						} else {
+							$Array[$Name] = $this->{$Name};
+						}
+					}
+				}
+			}
+		} 
+		else {
+			$Array = array();
+			foreach (get_class_vars(get_class($this)) as $Name => $Value) {
+				//if ($Name != "CI" && strpos($Name, "INTERNAL_") === false) {
+				if (!self::Ignore($Name)) {
+					$Array[$Name] = $this->{$Name};
+				}
 			}
 		}
 		return $Array;
+	}
+
+	private function Ignore($Key = NULL,$ExtraIgnore = NULL){
+		if(!is_null($Key)){
+			if(!strpos($Key, "INTERNAL_") === false){
+				return true;
+			} else {
+				if(property_exists(get_class($this), "_INTERNAL_EXPORT_INGNORE")){
+					if(in_array($Key,$this->_INTERNAL_EXPORT_INGNORE)){
+						return true;
+					} else {
+						if(!is_null($ExtraIgnore) && in_array($Key, $ExtraIgnore)){
+							return true;
+						} else {
+							return false;
+						}
+					}
+				} else {
+					if(!is_null($ExtraIgnore) && in_array($Key, $ExtraIgnore)){
+						return true;
+					} else {
+						return false;
+					}
+				}
+			}
+		} else {
+			return true;
+		}
 	}
 	
 	/**
@@ -278,8 +372,7 @@ class User {
 			$this->Id = $Id;
 		}
 		if(!is_null($this->Id)){
-			$this->CI->load->model("Load_User");
-			$this->CI->Load_User->LoadById($this->Id,$this);
+			$this->CI->Model_User->Load($this->Id,$this);
 		}
 	}
 	
@@ -290,9 +383,9 @@ class User {
 	 * @access public
 	 */
 	public function Save() {
-		$this->CI->load->model('Save_User');
+		$this->CI->load->model('User');
 		if(!is_null($this->Id)){
-			$this->CI->Save_User->Save($this);
+			$this->CI->Model_User->Save($this);
 		}
 		else{
 			return 'No User Id Specified';	
@@ -440,8 +533,7 @@ class User {
 			}
 		}
 		if($Database && !is_null($this->Id)){
-			$this->CI->load->model('Save_User');
-			$this->Id = $this->CI->Save_User->Create($this);
+			$this->Id = $this->CI->Model_User->Create($this);
 			return $this->Id;
 		}
 	}
@@ -458,8 +550,7 @@ class User {
 		if(!is_null($Array)){
 			self::_SetDataArray($Array);
 			if($Database){
-				$this->CI->load->model('Save_User');
-				$this->Id = $this->CI->Save_User->Create($this);
+				$this->Id = $this->CI->Model_User->Create($this);
 				return $this->Id;
 			}
 		}

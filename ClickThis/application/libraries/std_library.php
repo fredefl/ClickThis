@@ -49,19 +49,47 @@ class Std_Library{
 
 	/**
 	 * This function exports all the class data as an array
-	 * @param boolean $Database If this flag is set to true, then the id property woudn't be included
+	 * @param boolean $Database If this flag is set to true, the data will we converted so it fits the database standards
 	 * @access public
 	 * @since 1.0
 	 * @return array The exported data
 	 */
-	public function Export($Database = false){
-		$Array = array();
-		foreach(get_class_vars(get_class($this)) as $Name => $Value){
-			if($Name != "_CI" && $Name != "CI"){
-				if($Name != "Id"){
-					$Array[$Name] = $this->{$Name};
+	public function Export ($Database = false) {
+		if ($Database) {
+			$Array = array();
+
+			//Loop through all class properties
+			foreach (get_class_vars(get_class($this)) as $Name => $Value) {
+
+				//If the property is the CodeIgniter instance, the id or an internal property dont do anything
+				if ($Name != "CI" && strpos($Name, "INTERNAL_") === false && $Name != "Id") {
+
+					//If the class has an name convert table, check if the current property exists in it
+					// , if it does use that as the array key
+					if(property_exists(get_class($this), "_INTERNAL_DATABASE_NAME_CONVERT") 
+						&& is_array($this->_INTERNAL_DATABASE_NAME_CONVERT) 
+						&& array_key_exists($Name, $this->_INTERNAL_DATABASE_NAME_CONVERT)) {
+
+						//If the data is an array implode it with a ";" sign else just assign it
+						if(!is_null($this->{$Name}) && is_array($this->{$Name})){
+							$Array[$this->_INTERNAL_DATABASE_NAME_CONVERT[$Name]] = implode(";",$this->{$Name});
+						} else {
+							$Array[$this->_INTERNAL_DATABASE_NAME_CONVERT[$Name]] = $this->{$Name};
+						}
+					} else {
+						if(!is_null($this->{$Name}) && is_array($this->{$Name})){
+							$Array[$Name] = implode(";",$this->{$Name});
+						} else {
+							$Array[$Name] = $this->{$Name};
+						}
+					}
 				}
-				if($Name == "Id" && $Database == false){
+			}
+		} 
+		else {
+			$Array = array();
+			foreach (get_class_vars(get_class($this)) as $Name => $Value) {
+				if ($Name != "CI" && strpos($Name, "INTERNAL_") === false) {
 					$Array[$Name] = $this->{$Name};
 				}
 			}
@@ -78,7 +106,7 @@ class Std_Library{
 	 */
 	private function _RemoveUserData($Id = false){
 		foreach(get_class_vars(get_class($this)) as $Name => $Value){
-			if($Name != "CI"){
+			if($Name != "CI" && $Name != "Database_Table" && strpos($Name, "INTERNAL_") === false){
 				if($Name != "Id"){
 					$this->{$Name} = NULL;
 				}
@@ -146,7 +174,7 @@ class Std_Library{
 		if(!is_null($Class)){
 			foreach (get_object_vars($Class) as $Key => $Value) {
 				if(property_exists(get_class($this), $Key)){
-					if(!is_null($Class->{$Key}) && $Class->{$Key} != "" && $Key != "CI"){
+					if(!is_null($Class->{$Key}) && $Class->{$Key} != "" && $Key != "CI" && strpos($Name, "INTERNAL_") === false){
 						$this->{$Key} = $Class->{$Key};
 					}
 				}
@@ -183,7 +211,7 @@ class Std_Library{
 				self::_RemoveDatabaseData($this->Id);
 			}
 			if(method_exists($this, "_RemoveUserData")){
-				self::_RemoveUserData(true);
+				self::_RemoveUserData(true,$this->Database_Table);
 			}
 		}
 		else{

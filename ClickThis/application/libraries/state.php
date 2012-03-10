@@ -12,6 +12,14 @@
 class State extends Std_Library {
 
 	/**
+	 * This variable stores the database table for the class
+	 * @var string
+	 * @access private
+	 * @since 1.0
+	 */
+	private $Database_Table = "States";
+
+	/**
 	 * The database id of the state
 	 * @var integer
 	 * @access public
