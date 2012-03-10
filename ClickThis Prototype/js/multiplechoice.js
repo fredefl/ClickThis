@@ -31,7 +31,7 @@ $(document).ready(function () {
 	addTitle('Which sport(s) do you like to watch?', $('#question_2'));
 
 	/* Question 2 */
-	question2[0] = ['multi', 'green', 'American Football', 0];
+	question2[0] = ['multi', 'green', 'American Footballinaballinafdfsdfsdfsdf asfasfasf dasdasd', 0];
 	question2[1] = ['multi', 'green', 'Athletics', 0];
 	question2[2] = ['multi', 'green', 'Badminton', 0];
 	question2[3] = ['multi', 'green', 'Basketball', 0];
@@ -50,6 +50,15 @@ $(document).ready(function () {
 	question2[16] = ['submitSwipe', 'orange', 'Send', 'sendButton2', 'question_submit', null];
 	question(question2, 'question_2', true, true, '2', 'h1');
 
+	Hyphenator.config({
+		displaytogglebox : true,
+		minwordlength : 4,
+        useCSS3hyphenation: true,
+        onhyphenationdonecallback : function () {
+        	buttonResizer.resizeButtons(document.body);
+        }
+    });
+	Hyphenator.run();
 
 	buttonCreateCallback();
 
