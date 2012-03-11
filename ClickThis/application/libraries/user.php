@@ -292,7 +292,7 @@ class User extends Std_Library{
 		$this->_CI =& get_instance();
 		self::Config($this->_CI);
 		$this->_INTERNAL_DATABASE_NAME_CONVERT = array(
-			"RealName" => "Name",
+			"Name" => "RealName",
 			"Facebook_Id" => "Facebook",
 			"LinkedIn_Id" => "LinkedIn",
 			"Google_Id" => "Google",
@@ -306,7 +306,7 @@ class User extends Std_Library{
 		);
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id","ClickThis_Id");
-		$this->_CI->load->model("Model_User","_INTERNAL_DATABASE_MODEL");
+		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_DATABASE_NAME_CONVERT);
 	}
 }

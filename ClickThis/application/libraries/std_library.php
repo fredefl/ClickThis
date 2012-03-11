@@ -27,6 +27,8 @@ class Std_Library{
 	 * @static
 	 * @since 1.0
 	 * @internal This is an internal name convert table
+	 * @example
+	 * $_INTERNAL_DATABASE_NAME_CONVERT = array("Facebook_Id" =>"Facebook");
 	 */
 	public static $_INTERNAL_DATABASE_NAME_CONVERT = NULL;
 
@@ -36,6 +38,9 @@ class Std_Library{
 	 * @access public
 	 * @static
 	 * @since 1.0
+	 * @internal This is an class variable used for ignoring variables in export
+	 * @example
+	 * $_INTERNAL_EXPORT_INGNORE = array("CI","_CI");
 	 */
 	public static $_INTERNAL_EXPORT_INGNORE = NULL;
 
@@ -45,6 +50,9 @@ class Std_Library{
 	 * @access public
 	 * @static
 	 * @since 1.0
+	 * @internal This is an internal ignoring list for export with the database flag turned on
+	 * @example
+	 * $_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id");
 	 */
 	public static $_INTERNAL_DATABASE_EXPORT_INGNORE = NULL;
 
@@ -55,6 +63,9 @@ class Std_Library{
 	 * @access public
 	 * @static
 	 * @since 1.0
+	 * @internal This is an internal databse column to class property convert table
+	 * @example
+	 * $_INTERNAL_ROW_NAME_CONVERT = array("Facebook" => "Facebook_Id");
 	 */
 	public static $_INTERNAL_ROW_NAME_CONVERT = NULL;
 
@@ -63,6 +74,11 @@ class Std_Library{
 	 * @var object
 	 * @since 1.0
 	 * @access public
+	 * @static
+	 * @example
+	 * $this->_CI->load->model("Model_User","_INTERNAL_DATABASE_MODEL");
+	 * @internal This property holds the CodeIgniter database model, 
+	 * for importing and saving data for the class
 	 */
 	public static $_INTERNAL_DATABASE_MODEL = NULL;
 
@@ -152,7 +168,7 @@ class Std_Library{
 			return 'No User Id Specified';	
 		}
 	}
-
+	
 	/**
 	 * This function returns all the class variable with name and values as an array
 	 * @return array All the class vars and values

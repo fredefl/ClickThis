@@ -169,10 +169,9 @@ class Test extends CI_Controller {
 		$Data = new Teacher();
 		$Data->Country = "Denmark";
 		$User->Add($Data);
-		$User->TargetGroup = array("Llama","And");
+		$User->TargetGroup = array("Llama","And","Fisk");
 		//$User->Save();
-		self::Debug($User->Export(true));
-		
+		self::Debug($User->Export(false));
 	}
 	
 	private function QuestionTest(){
