@@ -12,7 +12,7 @@
         <link rel="apple-touch-icon" href="images/ClickThis64.png" />
 	</head>
 	<body>
-    <input type="hidden" id="currentpage" value="user" />
+        <input type="hidden" id="currentpage" value="user" />
         <div id="jqt">
         	<!-- The full page div -->
             <div id="home" class="current" >
@@ -21,10 +21,11 @@
                     <h1 id="toolbarTitle"><a href="http://illution.dk/ClickThisPrototype/home.html" title="Home" style="text-decoration:none; color:#FFF;">ClickThis</a></h1>
                     <a class="button slideup" onClick="showAboutBox();" id="infoButton">About</a>
                     <a class="back Active" id="backButton" data-href="home.html" data-app-onClick="ClickThisApp.terminateApp()" data-app-text="Quit" data-app-start-mode="active" data-page-start-mode="disabled">Back</a>
-                </div>
+                </div> <!-- end of toolbar -->
+
                 <div id="notification" style="display:none;height:0px">
                     Some data has not been sent! [ <small id="notificationCount"></small> ]
-                </div>
+                </div> <!-- end of notification -->
                 
                 <!-- User front page -->
                 <div id="user">
@@ -44,7 +45,7 @@
                         <li class="forward"><a>Page View Counter</a><small class="counter" id="pageCount">0</small></li>
                         <li><a id="chacheStatus">Cache status </a></li>
                     </ul>
-                </div>
+                </div> <!-- end of user / front page -->
                 
                 <!-- Welcome screen of sports survey -->
                 <div class="Disabled" id="welcome_sport">
@@ -57,7 +58,7 @@
                      <ul class="rounded" >
                         <li>&copy; Illution, Survey By: Bo Thomsen</li>
                      </ul>   
-                </div>
+                </div> <!-- end of welcome sports -->
                 
                 <!-- Profile -->
                 <div class="Disabled" id="profile">
@@ -80,12 +81,12 @@
                                 <option value="cn">China</option>
                         </select>
                     </div>
-                </div>
+                </div> <!-- end of profile -->
                 
                 <!-- Settings -->
                 <div class="Disabled" id="settings">
                 	<img src="images/OffSwitch.png" alt="Switch" id="Switch" style="margin-top:200px;margin-left:200px;" onClick="OnOff(this)">
-                </div>
+                </div> <!-- end of settings -->
                 
                 <!-- Welcome screen of Vehicle survey -->
                 <div class="Disabled" id="welcome_cars">
@@ -98,7 +99,7 @@
                     <ul class="rounded" >
                         <li>&copy; Illution, Survey By: Car Magazine</li>
                     </ul>   
-                </div>
+                </div> <!-- end of welcome cars -->
                 
                 <!-- The Thanks page for cars -->
                 <div class="Disabled" id="thanks_cars">
@@ -109,7 +110,7 @@
                      <ul class="rounded" >
                         <li>&copy; Illution, Survey By: Car Magazine</li>
                      </ul>   
-                </div>
+                </div> <!-- end of thanks cars -->
                 
                 <!-- The Thanks page for sports -->
                 <div class="Disabled" id="thanks_sports">
@@ -120,7 +121,7 @@
                      <ul class="rounded" >
                         <li>&copy; Illution, Survey By: Bo Thomsen</li>
                      </ul>   
-                </div>
+                </div> <!-- end of thanks sports -->
                 
                 <div class="Disabled" id="add_issue">
                     <form method="POST" action="http://illution.dk/ClickThisIssueCreator/index.php">
@@ -131,21 +132,19 @@
                         <br>
                         <input type="submit" value="Submit!" style="width:90%;margin-left:5%;"/>
                     </form>
-                </div>
+                </div> <!-- end of add issue -->
                 
                 <!-- About Box -->
                 <div id="aboutBox" class="Disabled">
-                </div>
+                </div> <!-- end of about box -->
                 
                 <!-- Bottom -->
                 <ul class="individual">
                     <li><a href="profile.html">Profile</a></li>
                     <li><a href="settings.html">Settings</a></li>
-                </ul>
-                <br><br><br><br>
-            </div>
-            
-        </div>
+                </ul> <!-- end of bottom -->
+            </div> <!-- end of home -->
+        </div> <!-- end of jqt -->
         <!--<script src="js/prefixfree.min.js"></script>-->
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
         <script src="http://cdn.illution.dk/JS/jquery.hashchange.min.js"></script>
@@ -222,6 +221,6 @@
 			$(document).ready(function(e) {
 				aboutText();
             });
-        </script>
-	</body>
-</html>
+        </script> <!-- end of script -->
+	</body> <!-- end of body -->
+</html> <!-- end of html -->
