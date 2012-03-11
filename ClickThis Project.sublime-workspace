@@ -4,6 +4,42 @@
 		"selected_items":
 		[
 			[
+				"Data",
+				"Database_Table"
+			],
+			[
+				"_INTER",
+				"_INTERNAL_DATABASE_EXPORT_INGNORE"
+			],
+			[
+				"_ITNER",
+				"_INTERNAL_EXPORT_INGNORE"
+			],
+			[
+				"_INT",
+				"_INTERNAL_DATABASE_NAME_CONVERT"
+			],
+			[
+				"sta",
+				"staticvar	@staticvar"
+			],
+			[
+				"_",
+				"_INTERNAL_DATABASE_NAME_CONVERT"
+			],
+			[
+				"array_key",
+				"array_key_exists"
+			],
+			[
+				"get_",
+				"get_class"
+			],
+			[
+				"propert",
+				"property_exists"
+			],
+			[
 				"proper",
 				"property_exists"
 			],
@@ -311,7 +347,39 @@
 			"file": "ClickThis/application/controllers/test.php",
 			"settings":
 			{
-				"buffer_size": 4377,
+				"buffer_size": 4423,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "ClickThis/application/libraries/user.php",
+			"settings":
+			{
+				"buffer_size": 6918,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "ClickThis/application/libraries/std_library.php",
+			"settings":
+			{
+				"buffer_size": 12001,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "ClickThis/application/models/model_user.php",
+			"settings":
+			{
+				"buffer_size": 5219,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "ClickThis/application/models/std_model.php",
+			"settings":
+			{
+				"buffer_size": 2048,
 				"line_ending": "Windows"
 			}
 		},
@@ -319,7 +387,7 @@
 			"file": "ClickThis/application/libraries/pupil.php",
 			"settings":
 			{
-				"buffer_size": 3729,
+				"buffer_size": 3955,
 				"line_ending": "Windows"
 			}
 		}
@@ -358,16 +426,17 @@
 	[
 		"/R/ClickThis/ClickThis/application/libraries/user.php",
 		"/R/ClickThis/ClickThis/application/libraries/school.php",
+		"/R/ClickThis/ClickThis/application/libraries/state.php",
+		"/R/ClickThis/ClickThis/application/libraries/teacher.php",
+		"/R/ClickThis/ClickThis/application/libraries/pupil.php",
 		"/R/ClickThis/ClickThis/application/libraries/std_library.php",
 		"/R/ClickThis/ClickThis/application/config/autoload.php",
 		"/R/ClickThis/ClickThis/application/libraries/group.php",
-		"/R/ClickThis/ClickThis/application/libraries/state.php",
 		"/R/ClickThis/ClickThis/application/libraries/topbarobject.php",
 		"/R/ClickThis/ClickThis/application/libraries/std_library.html",
 		"/C/Users/Bo/Desktop/PhpDocumentor-1.4.4/PhpDocumentor-1.4.4/PhpDocumentor-1.4.4/phpdoc.php",
 		"//BoNethard/BoDrev/Bo/Web Projects/CM/application/libraries/login_security.php",
 		"/R/ClickThis/ClickThis/application/libraries/didanswer.php",
-		"/R/ClickThis/ClickThis/application/libraries/teacher.php",
 		"/C/Users/Bo/SVN/ClickThis/ClickThis Prototype/js/multiplechoice.js",
 		"/C/Users/Bo/SVN/ClickThis/ClickThis Prototype/bootstrap/css/bootstrap.css",
 		"/C/Users/Bo/SVN/ClickThis/ClickThis Prototype/js/buttonGenerator.js",
@@ -465,6 +534,10 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"INTERNAL_DATABASE_NAME_CONVERT",
+			"$this->CI->User->",
+			"model(\"User\")",
+			"_RemoveDatabaseData",
 			"CI",
 			"$User",
 			"CI",
@@ -542,6 +615,9 @@
 		"regex": false,
 		"replace_history":
 		[
+			"_INTERNAL_DATABASE_NAME_CONVERT",
+			"$this->CI->Model_User->",
+			"model(\"Model_User\")",
 			"_CI",
 			"$Class",
 			"_CI",
@@ -582,7 +658,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -590,15 +666,44 @@
 					"file": "ClickThis/application/controllers/test.php",
 					"settings":
 					{
-						"buffer_size": 4377,
+						"buffer_size": 4423,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2787,
-								2787
+								337,
+								337
+							]
+						],
+						"settings":
+						{
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 2340.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "ClickThis/application/libraries/user.php",
+					"settings":
+					{
+						"buffer_size": 6918,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2484,
+								2484
 							]
 						],
 						"settings":
@@ -615,19 +720,19 @@
 					"type": "text"
 				},
 				{
-					"buffer": 1,
-					"file": "ClickThis/application/libraries/pupil.php",
+					"buffer": 2,
+					"file": "ClickThis/application/libraries/std_library.php",
 					"settings":
 					{
-						"buffer_size": 3729,
+						"buffer_size": 12001,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								447,
-								447
+								1861,
+								1861
 							]
 						],
 						"settings":
@@ -639,6 +744,90 @@
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "ClickThis/application/models/model_user.php",
+					"settings":
+					{
+						"buffer_size": 5219,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2715,
+								2715
+							]
+						],
+						"settings":
+						{
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 495.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "ClickThis/application/models/std_model.php",
+					"settings":
+					{
+						"buffer_size": 2048,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								183,
+								183
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "ClickThis/application/libraries/pupil.php",
+					"settings":
+					{
+						"buffer_size": 3955,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								643,
+								488
+							]
+						],
+						"settings":
+						{
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1935.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

@@ -126,10 +126,80 @@ class Test extends CI_Controller {
 	
 	private function PupilTest(){
 		$this->load->library('Pupil');
-		$Pupil = new Pupil();
-		$Pupil->Import(array("Unilogin" => "Llama","Class" => "9U","Name" => "Llama"));
+		$Pupil = new Pupil();	
+		$Pupil2 = new Pupil();
+
+		echo "Load (1) and Save","<br>";
+		$Pupil->Load(1);
+		$Pupil->Save();
+		$Pupil2->Load(2);
+
+		echo "Normal Export";
+		self::Debug($Pupil->Export(false));
+
+		echo "Database Export";
 		self::Debug($Pupil->Export(true));
-		self::Debug($Pupil->Export());
+
+		echo "Normal Export";
+		self::Debug($Pupil->Export(false));
+
+		echo "Database Export";
+		self::Debug($Pupil->Export(true));
+
+		echo "Clear","<br>";
+		$Pupil->Clear();
+
+		$Pupil2 = new Pupil();
+
+		echo "Normal Export";
+		self::Debug($Pupil->Export(false));
+
+		echo "Database Export";
+		self::Debug($Pupil->Export(true));
+
+		echo "Create","<br>";
+		$Pupil->Create(array("Class" => "9U"));
+
+		echo "Normal Export";
+		self::Debug($Pupil->Export(false));
+
+		echo "Database Export";
+		self::Debug($Pupil->Export(true));
+
+		echo "Import","<br>";
+		$Pupil->Import(array("Unilogin" => "Llama","Class" => "9U","Name" => "Llama"));
+
+		echo "Normal Export";
+		self::Debug($Pupil->Export(false));
+
+		echo "Database Export";
+		self::Debug($Pupil->Export(true));
+
+		$Pupil2->School = "Anskole";
+		$Pupil2->Class = "8U";
+		$Pupil->Country = "Denmark";
+
+		echo "Normal Export of Pupil2";
+		self::Debug($Pupil2->Export(false));
+
+		echo "Adding","<br>";
+		$Pupil->Add($Pupil2);
+
+		echo "Normal Export";
+		self::Debug($Pupil->Export(false));
+
+		echo "Database Export";
+		self::Debug($Pupil->Export(true));
+
+		echo "Refreshing","<br>";
+		$Pupil->Refresh();
+
+		echo "Normal Export";
+		self::Debug($Pupil->Export(false));
+
+		echo "Database Export";
+		self::Debug($Pupil->Export(true));
+
 	}
 	
 	private function StateTest(){

@@ -7,17 +7,68 @@
  * @category Education
  * @version 1.0
  * @author Illution <support@illution.dk>
- * @todo Make the Save,Add,Create and Load function and make more documentatin
+ * @todo Make the Save and Delete function interact with the users dba too.
  */ 
 class Pupil extends Std_Library{
 	
+	#### Class Setttings ####
+
 	/**
 	 * This variable stores the database table for the class
 	 * @var string
-	 * @access private
+	 * @access public
 	 * @since 1.0
 	 */
-	private $Database_Table = "Pupils";
+	public $Database_Table = "Pupils";
+
+	/**
+	 * This property is used to convert class property names,
+	 * to database row names
+	 * @var array
+	 * @access public
+	 * @static
+	 * @since 1.0
+	 * @internal This is an internal name convert table
+	 */
+	public static $_INTERNAL_DATABASE_NAME_CONVERT = NULL;
+
+	/**
+	 * This property can contain properties to be ignored when exporting
+	 * @var array
+	 * @access public
+	 * @static
+	 * @since 1.0
+	 */
+	public static $_INTERNAL_EXPORT_INGNORE = NULL;
+
+	/**
+	 * This property can contain properties to be ignored, when the database flag is true in export.
+	 * @var array
+	 * @access public
+	 * @static
+	 * @since 1.0
+	 */
+	public static $_INTERNAL_DATABASE_EXPORT_INGNORE = NULL;
+
+	/**
+	 * This property contain values for converting databse rows to class properties
+	 * @var array
+	 * @see $_INTERNAL_DATABASE_NAME_CONVERT
+	 * @access public
+	 * @static
+	 * @since 1.0
+	 */
+	public static $_INTERNAL_ROW_NAME_CONVERT = NULL;
+
+	/**
+	 * This property contains the database model to use
+	 * @var object
+	 * @since 1.0
+	 * @access public
+	 */
+	public static $_INTERNAL_DATABASE_MODEL = NULL;
+
+	### User Data ###
 
 	/**
 	 * The class/group the pupil is in, not to be confused with "Group"
@@ -57,7 +108,7 @@ class Pupil extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $School = "";
+	public $School = NULL;
 
 	/**
 	 * The state that the pupil lives in, this can be looked up, with the school too
@@ -81,7 +132,15 @@ class Pupil extends Std_Library{
 	 * @access private
 	 * @since 1.0
 	 */
-	private $CI = '';
+	private $_CI = NULL;
+
+	/**
+	 * The login method for the pupil
+	 * @var string
+	 * @since 1.0
+	 * @access public
+	 */
+	public $Method = "Pupil";
 	
 	/**
 	 * This function is the constructor, it creates a local instance of CodeIgniter
@@ -89,96 +148,11 @@ class Pupil extends Std_Library{
 	 * @since 1.0
 	 */
 	public function Pupil () {
-		$this->CI =& get_instance();
-	}
-
-	/**
-	 * This function exports all the class data as an array,
-	 * if the database flag is set to true, then the data will be returned so it fits the database,
-	 * row names.
-	 * @param boolean $Database If this flag is set to true, then the id property woudn't be included
-	 * @access public
-	 * @since 1.0
-	 * @return array The exported data
-	 */
-	public function Export($Database = false){
-		$Array = array();
-		$Names = array("Name" => "RealName","Unilogin" => "Username");
-		foreach(get_class_vars(get_class($this)) as $Name => $Value){
-			if($Name != "_CI" && $Name != "CI" && $Name != "Database_Table" && strpos($Name, "INTERNAL_") === false){
-				if($Database){
-					if($Name != "Id"){
-						if(array_key_exists($Name, $Names)){
-							$Array[$Names[$Name]] = $this->{$Name};	
-						} else {
-							$Array[$Name] = $this->{$Name};
-						}
-					}	
-				} else {
-					$Array[$Name] = $this->{$Name};
-				}
-			}
-		}
-		if($Database){
-			$Array["Method"] = "Pupil";
-		}
-		return $Array;
-	}
-	
-	/**
-	 * [Load description]
-	 * @param integer $Id [description]
-	 */
-	public function Load($Id = 0){
-		if($Id != 0){
-			$this->Id = $Id;
-		}
-	}
-	
-	/**
-	 * [Save description]
-	 */
-	public function Save(){
-		$this->CI->load->model('Save_Pupil');
-		$this->CI->Save_Option->Save($this,self::Export(false),'Users');
-	}
-	
-	/**
-	 * [Add description]
-	 * @param [type]  $Class    [description]
-	 * @param boolean $Database [description]
-	 */
-	public function Add($Class = NULL,$Database = false){
-		if(!is_null($Class)){
-			self::_SetDataClass($Class);
-		}
-		else{
-			if(!is_null($Array)){
-				self::_SetDataArray($Array);
-			}
-			else{
-				return "Error Wrong Input";	
-			}
-		}
-		if($Database){
-			self::Save();
-			return $this->Id;
-		}
-	}
-	
-	/**
-	 * [Create description]
-	 * @param [type]  $Array    [description]
-	 * @param boolean $Database [description]
-	 */
-	public function Create($Array = NULL,$Database = false){
-		if(!is_null($Array)){
-			self::_SetDataArray($Array);
-			if($Database){
-				self::Save();
-				return $this->Id;
-			}
-		}
+		$this->_CI =& get_instance();
+		self::Config($this->_CI);
+		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
+		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id","Method");
+		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 	}
 }
 ?>
