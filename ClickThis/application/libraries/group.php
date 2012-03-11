@@ -2,7 +2,7 @@
 /**
  * This class stores data about a group
  * @package Users
- * @license http://creativecommons.org/licenses/by/3.0/ Creative Commons 3.0
+ * @license http://illution.dk/copyright © Illution 2012
  * @subpackage Group
  * @category Group Data
  * @version 1.0

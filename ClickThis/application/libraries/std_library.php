@@ -2,7 +2,7 @@
 /**
  * This class is used for storing user data, such as Facebook id's etc
  * @package Libraries
- * @license http://creativecommons.org/licenses/by/3.0/ Creative Commons 3.0
+ * @license http://illution.dk/copyright © Illution 2012
  * @subpackage Std Data Library Template
  * @category Library template
  * @version 1.0

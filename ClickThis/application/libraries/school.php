@@ -2,7 +2,7 @@
 /**
  * This class stores information about an educational institute
  * @package School
- * @license http://creativecommons.org/licenses/by/3.0/ Creative Commons 3.0
+ * @license http://illution.dk/copyright © Illution 2012
  * @subpackage School
  * @category Education
  * @version 1.0

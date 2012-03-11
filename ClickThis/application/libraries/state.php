@@ -2,7 +2,7 @@
 /**
  * This class stores data about a state
  * @package School Data
- * @license http://creativecommons.org/licenses/by/3.0/ Creative Commons 3.0
+ * @license http://illution.dk/copyright © Illution 2012
  * @subpackage State
  * @category School Data
  * @version 1.0

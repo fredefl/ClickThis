@@ -2,7 +2,7 @@
 /**
  * This class is used for storing user data, such as Facebook id's etc
  * @package Login
- * @license http://creativecommons.org/licenses/by/3.0/ Creative Commons 3.0
+ * @license http://illution.dk/copyright © Illution 2012
  * @subpackage User Class
  * @category User Data
  * @version 1.0
