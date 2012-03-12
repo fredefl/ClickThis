@@ -317,7 +317,7 @@ class User extends Std_Library{
 		);
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id","ClickThis_Id");
-		$this->_INTERNAL_LOAD_FROM_CLASS = array("State" => "Pupil");
+		$this->_INTERNAL_LOAD_FROM_CLASS = array("TargetGroup" => "Group");
 		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_DATABASE_NAME_CONVERT);
 	}

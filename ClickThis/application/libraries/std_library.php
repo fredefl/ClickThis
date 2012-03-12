@@ -79,17 +79,23 @@ class Std_Library{
 	 * $this->_CI->load->model("Model_User","_INTERNAL_DATABASE_MODEL");
 	 * @internal This property holds the CodeIgniter database model, 
 	 * for importing and saving data for the class
+	 * @example
+	 * $this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 	 */
 	public static $_INTERNAL_DATABASE_MODEL = NULL;
 
 	/**
 	 * This property is used to define class properties that should be filled with objects,
 	 * with the data that the property contains
+	 * The data is deffined like this:
+	 * $_INTERNAL_LOAD_FROM_CLASS = array("Property Name" => "Class Name To Load From");
 	 * @var array
 	 * @since 1.0
 	 * @access public
 	 * @static
 	 * @internal This is a class setting variable
+	 * @example
+	 * $_INTERNAL_LOAD_FROM_CLASS = array("TargetGroup" => "Group");
 	 */
 	public static $_INTERNAL_LOAD_FROM_CLASS = NULL;
 
@@ -137,10 +143,11 @@ class Std_Library{
 	 * This function loads data either by the $Id parameter or by the $Id property
 	 * @param integer $Id The database id to load data from, this parameter is optional,
 	 * if it's not deffined the $Id property value will be used
+	 * @param boolean $Simple If this flag is set to true, then the Load From Class won't be done
 	 * @since 1.0
 	 * @access public
 	 */
-	public function Load($Id = NULL) {
+	public function Load($Id = NULL,$Simple = false) {
 		if(!is_null($Id)){
 			$this->Id = $Id;
 		}
@@ -149,7 +156,7 @@ class Std_Library{
 		}
 
 		//If some properties is going to be filled with data containing a class
-		if(property_exists($this, "_INTERNAL_LOAD_FROM_CLASS")  && !is_null($this->_INTERNAL_LOAD_FROM_CLASS) && is_array($this->_INTERNAL_LOAD_FROM_CLASS)){
+		if(property_exists($this, "_INTERNAL_LOAD_FROM_CLASS")  && !is_null($this->_INTERNAL_LOAD_FROM_CLASS) && is_array($this->_INTERNAL_LOAD_FROM_CLASS) && !$Simple){
 			if(!is_null($this->_INTERNAL_LOAD_FROM_CLASS)){
 				foreach ($this->_INTERNAL_LOAD_FROM_CLASS as $Key => $Value) {
 					if(property_exists($this, $Key)){
