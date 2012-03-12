@@ -2,7 +2,7 @@
 /**
  * This class is the didanswer class, it can load data about if a user has answered.
  * @package Survey
- * @license http://creativecommons.org/licenses/by/3.0/ Creative Commons 3.0
+ * @license http://illution.dk/copyright © Illution 2012
  * @subpackage DidAnswer
  * @category Answers
  * @version 1.0
