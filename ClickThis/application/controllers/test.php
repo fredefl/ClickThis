@@ -61,7 +61,7 @@ class Test extends CI_Controller {
 	}
 	
 	private function SeriesTest () {
-		/*$this->load->library("Series");	
+		$this->load->library("Series");	
 		$Series = new Series();
 		$Series->Load(1);
 		echo "<pre>";
@@ -74,14 +74,13 @@ class Test extends CI_Controller {
 		$Series->Save();
 		$Series2 = new Series();
 		$Series2->StartTime = time();
-		$Series2->EndTime = time()+60*60*24;
+		$Series2->EndTime = time() + 60 * 60 * 24;
 		$Series2->Title = 'The Llama Crap';
 		$Series2->Creator = 'Llama Script';
 		$Series2->Type = 0;
 		$Series2->Description = 'Some crappyyyyyy stuff...';
 		$Series2->TargetGroup = 'Illution';
-		$Series2->Save();*/
-		
+		$Series2->Save();
 	}
 	
 	private function OptionTest(){
@@ -96,10 +95,10 @@ class Test extends CI_Controller {
 	}
 	
 	private function AnswerTest(){
-		/*$this->load->library('Answer');
+		$this->load->library('Answer');
 		$Answer = new Answer();
 		$Answer->Load(1);
-		self::Debug($Answer->Export());*/
+		self::Debug($Answer->Export());
 	}
 	
 	private function SchoolTest(){
