@@ -5,54 +5,50 @@
 	<title>ClickThis - Login</title>
 	<link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet'>
 	<link rel="stylesheet" href="css/style.css"/>
+	<link rel="stylesheet" href="css/bootstrap.min.css"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 </head>
 <body>
-	<div id="top-bar">
-		<div class="page-full-width">
-			<a href="#" class="button round dark image-left ic-left-arrow">Return To Home</a>
-		</div>
-	</div>
-	
 
-	<div id="header" class="cf">
-		<div class="page-full-width">
-			<div id="login-intro" class="fl">
-				<h1 class="text-upper">
-					Login To ClickThis
-				</h1>
-				<h5>
-					Enter your credentials below
-				</h5>
+	<div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">ClickThis</a>
+          <div class="nav-collapse">
+            <ul class="nav">
+            	<li><a href="#">Home</a></li>
+              	<li class="active"><a href="#">Login</a></li>
+              	<li><a href="#about">About</a></li>
+              	<li><a href="#contact">Contact</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+	<div class="container">
+		<div class="row">
+			<div class="span4 offset4" id="login-container">
+				<form action="#" id="login-form">
+					<input type="text" id="login-username" id="prependedInput" size="16" placeholder="Username" class="span4" autofocus/>
+					<input type="password" id="login-password" placeholder="Password" class="span3"/>
+					<input type="submit" value="Log In" class="btn btn-primary span1" id="login-submit"/>
+					<p>
+						<input type="checkbox" id="login-rememberme"> Remember me.
+						I've <a href="#">lost my password</a>.
+					</p>
+				</form>
+				<p id="login-copyright">
+					Copyright &copy; 2012 Illution. All rights reserved.
+				</p>
 			</div>
-			<a href="#" class="fr" id="company-logo" style="display:none"></a>
 		</div>
 	</div>
-
-
-	<div id="content">
-		<form action="#" id="login-form">
-			<fieldset>
-				<p>
-					<label for="login-username">Username </label>
-					<input type="text" id="login-username" class="round full-width" autofocus/>
-				</p>
-				<p>
-					<label for="login-password">Password </label>
-					<input type="password" id="login-password" class="round full-width"/>
-				</p>
-				<p>I've <a href="#">lost my password</a>.</p>
-
-				<input type="submit" value="Log In" class="button round blue image-right ic-right-arrow text-upper"/>
-			</fieldset>
-		</form>
-	</div>
-	
-
-	<div id="footer">
-		<p>
-			Copyright &copy; 2012 Illution. All rights reserved.
-		</p>
-	</div>
+	<script src="js/bootstrap.min.js"></script>
 </body>
 </html>
