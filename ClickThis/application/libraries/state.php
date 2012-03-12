@@ -55,43 +55,7 @@ class State extends Std_Library {
 	 * This function is the constructor, it create's a local instance of CodeIgniter
 	 */
 	public function State () {
-		$this->CI =& get_instance();
-	}
-	
-	/**
-	 * [Load description]
-	 * @access public
-	 * @since 1.0
-	 */
-	public function Load(){
-		
-	}
-	
-	/**
-	 * [Save description]
-	 * @access public
-	 * @since 1.0
-	 */
-	public function Save(){
-		
-	}
-	
-	/**
-	 * [Add description]
-	 * @access public
-	 * @since 1.0
-	 */
-	public function Add(){
-		
-	}
-	
-	/**
-	 * [Create description]
-	 * @access public
-	 * @since 1.0
-	 */
-	public function Create(){
-		
+		//$this->CI =& get_instance();
 	}
 }
 ?>

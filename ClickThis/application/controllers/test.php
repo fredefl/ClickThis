@@ -239,8 +239,8 @@ class Test extends CI_Controller {
 		$Data->Country = "Denmark";
 		$User->Add($Data);
 		$User->TargetGroup = array("Llama","And","Fisk");
-		//$User->Save();
-		self::Debug($User->Export(false));
+		$User->Save();
+		self::Debug($User->Export(true));
 	}
 	
 	private function QuestionTest(){
