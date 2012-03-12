@@ -5,7 +5,7 @@
  * @license http://illution.dk/copyright © Illution 2012
  * @subpackage Std Data Library Template
  * @category Library template
- * @version 1.0
+ * @version 1.1
  * @author Illution <support@illution.dk>
  * @todo Add the Save,Load, Add and Create functions and models
  */ 
@@ -79,8 +79,25 @@ class Std_Library{
 	 * $this->_CI->load->model("Model_User","_INTERNAL_DATABASE_MODEL");
 	 * @internal This property holds the CodeIgniter database model, 
 	 * for importing and saving data for the class
+	 * @example
+	 * $this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 	 */
 	public static $_INTERNAL_DATABASE_MODEL = NULL;
+
+	/**
+	 * This property is used to define class properties that should be filled with objects,
+	 * with the data that the property contains
+	 * The data is deffined like this:
+	 * $_INTERNAL_LOAD_FROM_CLASS = array("Property Name" => "Class Name To Load From");
+	 * @var array
+	 * @since 1.0
+	 * @access public
+	 * @static
+	 * @internal This is a class setting variable
+	 * @example
+	 * $_INTERNAL_LOAD_FROM_CLASS = array("TargetGroup" => "Group");
+	 */
+	public static $_INTERNAL_LOAD_FROM_CLASS = NULL;
 
 	/**
 	 * This property will contain a local instance of CodeIgniter,
@@ -126,15 +143,50 @@ class Std_Library{
 	 * This function loads data either by the $Id parameter or by the $Id property
 	 * @param integer $Id The database id to load data from, this parameter is optional,
 	 * if it's not deffined the $Id property value will be used
+	 * @param boolean $Simple If this flag is set to true, then the Load From Class won't be done
 	 * @since 1.0
 	 * @access public
 	 */
-	public function Load($Id = NULL) {
+	public function Load($Id = NULL,$Simple = false) {
 		if(!is_null($Id)){
 			$this->Id = $Id;
 		}
 		if(!is_null($this->Id) && !is_null($this->_CI) && !is_null($this->_CI->_INTERNAL_DATABASE_MODEL)){
 			$this->_CI->_INTERNAL_DATABASE_MODEL->Load($this->Id,$this);
+		}
+
+		//If some properties is going to be filled with data containing a class
+		if(property_exists($this, "_INTERNAL_LOAD_FROM_CLASS")  && !is_null($this->_INTERNAL_LOAD_FROM_CLASS) && is_array($this->_INTERNAL_LOAD_FROM_CLASS) && !$Simple){
+			if(!is_null($this->_INTERNAL_LOAD_FROM_CLASS)){
+				foreach ($this->_INTERNAL_LOAD_FROM_CLASS as $Key => $Value) {
+					if(property_exists($this, $Key)){
+						if(property_exists($this, "_CI") && !is_null($this->_CI)){
+							@$this->_CI->load->library($Value);
+						}
+						if(is_array($this->{$Key}) && count($this->{$Key}) > 0){
+							$Temp = array();
+							foreach ($this->{$Key} as $Name) {
+								if(class_exists($Value)){
+									$Object = new $Value();
+									$Object->Load($Name);
+									$Temp[] = $Object;
+								}
+							}
+							if(count($Temp) > 0){
+								$this->{$Key} = $Temp;
+							}
+						} else {
+							if(!is_null($this->{$Key})){
+								if(class_exists($Value)){
+									$Object = new $Value();
+									$Object->Load($this->{$Key});
+									$this->{$Key} = $Object;
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 
@@ -169,6 +221,65 @@ class Std_Library{
 	}
 
 	/**
+	 * This function converts a object to an array if there's more objects in the input or just a string if there's only one
+	 * @param object||array $Data The object to convert to a string or array
+	 * @return array||string This output will either be the id of the object or an array with the id's
+	 * @access private
+	 * @since 1.1
+	 */
+	private function Convert_From_Object($Data = NULL){
+		$Return = NULL;
+		if(!is_null($Data)){
+			if(is_array($Data) && count($Data) > 0){
+				$Temp = array();
+				foreach ($Data as $K => $Object) {
+					if(!is_null($Object)){
+						if(property_exists($Object, "Id")){
+							$Temp[] = $Object->Id;
+						}
+					}
+				}
+				if(count($Temp) > 0){
+					$Return = $Temp;
+				}
+			} else {
+				if(property_exists($Data, "Id")){
+					$Return = $Data->Id;
+				}
+			}
+			if(!is_null($Return)){
+				return $Return;
+			}
+		}
+	}
+
+	/**
+	 * This function checks if the input $Data is containing an object,
+	 * either inside an array or just as the value
+	 * @param object||array||boolean||string|integer $Data The data to check
+	 * @since 1.1
+	 * @access private
+	 * @return boolean The check result
+	 */
+	private function Contains_Object($Data = NULL){
+		if(!is_null($Data)){
+			if(is_array($Data)){
+				foreach ($Data as $Key => $Value) {
+					if(is_object($Key) || is_object($Value)){
+						return true;
+					} else {
+						return false;
+					}
+				}
+			} else {
+				return (is_object($Data)) ? true : false;
+			}
+		} else {
+			return false;
+		}
+	}
+
+	/**
 	 * This function returns all the class variable with name and values as an array
 	 * @return array All the class vars and values
 	 * @param boolean $Database If this flag is set to true, the data will be exported so the key names,
@@ -191,6 +302,13 @@ class Std_Library{
 
 				//If the property is the CodeIgniter instance, the id or an internal property dont do anything
 				if (!self::Ignore($Name,$Ignore) && !is_null($this->{$Name})) {
+					$Data = $this->{$Name};
+					/*if(property_exists($this,"_INTERNAL_LOAD_FROM_CLASS") && !is_null($this->_INTERNAL_LOAD_FROM_CLASS) && array_key_exists($Name, $this->_INTERNAL_LOAD_FROM_CLASS)){
+						$Data = self::Convert_From_Object($Data);
+					}*/
+					if(self::Contains_Object($Data)){
+						$Data = self::Convert_From_Object($Data);
+					}
 
 					//If the class has an name convert table, check if the current property exists in it
 					// , if it does use that as the array key
@@ -199,16 +317,16 @@ class Std_Library{
 						&& array_key_exists($Name, $this->_INTERNAL_DATABASE_NAME_CONVERT)
 						&& !is_null($this->_INTERNAL_DATABASE_NAME_CONVERT)) {
 						//If the data is an array implode it with a ";" sign else just assign it
-						if(!is_null($this->{$Name}) && is_array($this->{$Name})){
-							$Array[$this->_INTERNAL_DATABASE_NAME_CONVERT[$Name]] = implode(";",$this->{$Name});
+						if(!is_null($Data) && is_array($Data)){
+							$Array[$this->_INTERNAL_DATABASE_NAME_CONVERT[$Name]] = implode(";",$Data);
 						} else {
-							$Array[$this->_INTERNAL_DATABASE_NAME_CONVERT[$Name]] = $this->{$Name};
+							$Array[$this->_INTERNAL_DATABASE_NAME_CONVERT[$Name]] = $Data;
 						}
 					} else {
-						if(!is_null($this->{$Name}) && is_array($this->{$Name})){
-							$Array[$Name] = implode(";",$this->{$Name});
+						if(!is_null($Data) && is_array($Data) && !self::Contains_Object($Data)){
+							$Array[$Name] = implode(";",$Data);
 						} else {
-							$Array[$Name] = $this->{$Name};
+							$Array[$Name] = $Data;
 						}
 					}
 				}
@@ -218,7 +336,27 @@ class Std_Library{
 			$Array = array();
 			foreach (get_class_vars(get_class($this)) as $Name => $Value) {
 				if (!self::Ignore($Name)) {
-					$Array[$Name] = $this->{$Name};
+					if(self::Contains_Object($this->{$Name})){
+						if(is_array($this->{$Name})){
+							$TempArray = array();
+							foreach ($this->{$Name} as $Object) {
+								if(method_exists($Object, "Export")){
+									$TempArray[] = $Object->Export();
+								}
+							}
+							if(count($TempArray) > 0){
+								$Array[$Name] = $TempArray;
+							} else {
+								$Array[$Name] = $this->{$Name};
+							}
+						} else {
+							if(method_exists($this->{$Name}, "Export")){
+								$Array[$Name] = $this->{$Name}->Export();
+							}
+						}
+					} else {
+						$Array[$Name] = $this->{$Name};
+					}
 				}
 			}
 		}
