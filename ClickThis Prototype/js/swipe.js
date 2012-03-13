@@ -105,8 +105,8 @@ Swipe.prototype = {
     this.container.style.visibility = 'visible';
 
     // Anti flickering
-    this.container.style.webkitBackfaceVisibility = "hidden";
-    this.container.style.webkitPerspective = "1000";
+    this.element.style.webkitBackfaceVisibility = "hidden";
+    this.element.style.webkitPerspective = "1000";
 
   },
 
