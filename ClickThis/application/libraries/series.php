@@ -81,7 +81,7 @@ class Series extends Std_Library{
 	 * @todo Add this property to the Database
 	 * @access public
 	 */
-	public $TargetPeoples = NULL;
+	public $TargetPeople = NULL;
 
 	/**
 	 * The text to show in the beginning of the series
@@ -123,6 +123,7 @@ class Series extends Std_Library{
 	public function Series () {
 		$this->_CI =& get_instance();
 		//$this->CI->load->library("Question");
+		
 	}
 	
 	/*public function Load ($Id) {
