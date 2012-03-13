@@ -382,7 +382,7 @@ class Std_Library{
 			if(!strpos($Key, "INTERNAL_") === false){
 				return true;
 			} else {
-				if(property_exists(get_class($this), "_INTERNAL_EXPORT_INGNORE")){
+				if(property_exists($this, "_INTERNAL_EXPORT_INGNORE") && !is_null($this->_INTERNAL_EXPORT_INGNORE)){
 					if(in_array($Key,$this->_INTERNAL_EXPORT_INGNORE)){
 						return true;
 					} else {

@@ -1,4 +1,15 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
+/**
+ * This class is used to load up the data about a series
+ * @package Surveys
+ * @license http://illution.dk/copyright © Illution 2012
+ * @subpackage Series
+ * @category Surveys
+ * @version 1.0
+ * @author Illution <support@illution.dk>
+ * @todo Add the possibility to link between databases, so the series class
+ * can load up the questions and groups
+ */ 
 class Series extends Std_Library{
 
 	/**
@@ -48,6 +59,23 @@ class Series extends Std_Library{
 	 * @since 1.0
 	 */
 	public $Creator = NULL;
+
+	/**
+	 * The state of the series
+	 * @var string
+	 * @access public
+	 * @since 1.0
+	 */
+	public $State = NULL;
+
+	/**
+	 * If its a educational survey this and state property can be set.
+	 * This contains the name of the school.
+	 * @var string
+	 * @access public
+	 * @since 1.0
+	 */
+	public $School = NULL;
 
 	/**
 	 * If the series is anonymous or not
@@ -108,6 +136,74 @@ class Series extends Std_Library{
 	 */
 	public $ShareType = NULL;
 
+	### Class Settings ###
+
+	/**
+	 * This variable stores the database table for the class
+	 * @var string
+	 * @access public
+	 * @since 1.0
+	 */
+	public $Database_Table = "Series";
+
+	/**
+	 * This property is used to convert class property names,
+	 * to database row names
+	 * @var array
+	 * @access public
+	 * @static
+	 * @since 1.0
+	 * @internal This is an internal name convert table
+	 */
+	public static $_INTERNAL_DATABASE_NAME_CONVERT = NULL;
+
+	/**
+	 * This property can contain properties to be ignored when exporting
+	 * @var array
+	 * @access public
+	 * @static
+	 * @since 1.0
+	 */
+	public static $_INTERNAL_EXPORT_INGNORE = NULL;
+
+	/**
+	 * This property can contain properties to be ignored, when the database flag is true in export.
+	 * @var array
+	 * @access public
+	 * @static
+	 * @since 1.0
+	 */
+	public static $_INTERNAL_DATABASE_EXPORT_INGNORE = NULL;
+
+	/**
+	 * This property contain values for converting databse rows to class properties
+	 * @var array
+	 * @see $_INTERNAL_DATABASE_NAME_CONVERT
+	 * @access public
+	 * @static
+	 * @since 1.0
+	 */
+	public static $_INTERNAL_ROW_NAME_CONVERT = NULL;
+
+	/**
+	 * This property contains the database model to use
+	 * @var object
+	 * @since 1.0
+	 * @access public
+	 */
+	public static $_INTERNAL_DATABASE_MODEL = NULL;
+
+	/**
+	 * This property is used to define class properties that should be filled with objects,
+	 * with the data that the property contains
+	 * @var array
+	 * @since 1.0
+	 * @access public
+	 * @static
+	 * @internal This is a class setting variable
+	 */
+	public static $_INTERNAL_LOAD_FROM_CLASS = NULL;
+
 	/**
 	 * The local instance of CodeIgniter
 	 * @var object
@@ -122,8 +218,17 @@ class Series extends Std_Library{
 	 */
 	public function Series () {
 		$this->_CI =& get_instance();
+		self::Config($this->_CI);
 		//$this->CI->load->library("Question");
-		
+		$this->_INTERNAL_DATABASE_NAME_CONVERT = array(
+			"StartTime" => "Start Time",
+			"Type" => "SeriesType"
+		);
+		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
+		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id");
+		$this->_INTERNAL_LOAD_FROM_CLASS = array("TargetGroup" => "Group","TargetPeople" => "User");
+		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
+		$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_DATABASE_NAME_CONVERT);	
 	}
 	
 	/*public function Load ($Id) {

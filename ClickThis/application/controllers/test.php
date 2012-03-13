@@ -61,10 +61,13 @@ class Test extends CI_Controller {
 	}
 	
 	private function SeriesTest () {
+
+		//Needs more test
 		$this->load->library("Series");	
 		$Series = new Series();
-		/*$Series->Load(1);
-		echo "<pre>";
+		$Series->Load(10);
+		self::Debug($Series->Export());
+		/*echo "<pre>";
 		print_r($Series->Debug());
 		echo "</pre>";
 		echo "<pre>";
