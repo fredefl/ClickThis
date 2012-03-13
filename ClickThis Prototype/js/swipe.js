@@ -104,6 +104,10 @@ Swipe.prototype = {
     // show slider element
     this.container.style.visibility = 'visible';
 
+    // Anti flickering
+    this.container.style.webkitBackfaceVisibility = "hidden";
+    this.container.style.webkitPerspective = "1000";
+
   },
 
   refresh : function(){
