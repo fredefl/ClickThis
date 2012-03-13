@@ -160,9 +160,12 @@ class Std_Library{
 			if(!is_null($this->_INTERNAL_LOAD_FROM_CLASS)){
 				foreach ($this->_INTERNAL_LOAD_FROM_CLASS as $Key => $Value) {
 					if(property_exists($this, $Key)){
+						//If the CodeIgniter instance exists and isn't null, then load the library
 						if(property_exists($this, "_CI") && !is_null($this->_CI)){
 							@$this->_CI->load->library($Value);
 						}
+
+						//If the property is an array and it contains data, then make the output an array of objects
 						if(is_array($this->{$Key}) && count($this->{$Key}) > 0){
 							$Temp = array();
 							foreach ($this->{$Key} as $Name) {
@@ -175,6 +178,8 @@ class Std_Library{
 							if(count($Temp) > 0){
 								$this->{$Key} = $Temp;
 							}
+
+						//Else just set the property as a single object
 						} else {
 							if(!is_null($this->{$Key})){
 								if(class_exists($Value)){
@@ -377,7 +382,7 @@ class Std_Library{
 			if(!strpos($Key, "INTERNAL_") === false){
 				return true;
 			} else {
-				if(property_exists(get_class($this), "_INTERNAL_EXPORT_INGNORE")){
+				if(property_exists($this, "_INTERNAL_EXPORT_INGNORE") && !is_null($this->_INTERNAL_EXPORT_INGNORE)){
 					if(in_array($Key,$this->_INTERNAL_EXPORT_INGNORE)){
 						return true;
 					} else {

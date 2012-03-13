@@ -1,21 +1,69 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
-class Answer {
+/**
+ * This class loads up answers for a question
+ * @package Surveys
+ * @license http://illution.dk/copyright © Illution 2012
+ * @subpackage Answer
+ * @category Surveys
+ * @version 1.0
+ * @author Illution <support@illution.dk>
+ * @todo Std_Library settings
+ */ 
+class Answer extends Std_Library{
 	
-	//The Variables
-	public $Value = 0; //The Value of the Answer
-	public $QuestionId = 0; //The id of the Question the answer is for
-	public $UserId = 0; //If Not annonymouse the use this
-	public $Id = 0; //The Database id of the Answer
-	private $CI = ''; //Instance of CodeIgniter
+	/**
+	 * The answer the user has given/the option id the user has selected
+	 * @var integer
+	 * @since 1.0
+	 * @access public
+	 */
+	public $Value = NULL;
+
+	/**
+	 * The database id, of the question that this answer contains too.
+	 * @var integer
+	 * @since 1.0
+	 * @access public
+	 */
+	public $QuestionId = NULL;
+
+	/**
+	 * [$UserId description]
+	 * @var integer
+	 * @since 1.0
+	 * @access public
+	 */
+	public $UserId = NULL; //If Not annonymouse the use this
+
+	/**
+	 * The database id of this answer
+	 * @var integer
+	 * @access public
+	 * @since 1.0
+	 */
+	public $Id = NULL;
+
+	/**
+	 * This property contains a pointer to Code Igniter
+	 * @var object
+	 * @since 1.0
+	 * @access private
+	 * @internal This is just a local container for Code Igniter
+	 */
+	private $_CI = NULL;
 	
-	//The Constructor	
+	/**
+	 * This is the constructor i sets a pointer to CodeOgniter and it sets some settings for the Std_Library
+	 * @since 1.0
+	 * @access public
+	 */	
 	public function Answer () {
-		$this->CI =& get_instance(); // Create an instance of CI
+		$this->_CI =& get_instance();
 		
 	}
 	
 	//Load
-	public function Load($Id){
+	/*public function Load($Id){
 		$this->CI->load->model("Load_Answers"); //Load Model
 		//Check if id is set
 		if($this->Id == 0){
@@ -126,6 +174,6 @@ class Answer {
 			$this->Id = $this->CI->Save_Answer->Create($this); //Save The Data and Get the Returned Id
 			return $this->Id;
 		}
-	}
+	}*/
 }
 ?>

@@ -61,10 +61,13 @@ class Test extends CI_Controller {
 	}
 	
 	private function SeriesTest () {
+
+		//Needs more test
 		$this->load->library("Series");	
 		$Series = new Series();
-		$Series->Load(1);
-		echo "<pre>";
+		$Series->Load(10);
+		self::Debug($Series->Export());
+		/*echo "<pre>";
 		print_r($Series->Debug());
 		echo "</pre>";
 		echo "<pre>";
@@ -80,7 +83,7 @@ class Test extends CI_Controller {
 		$Series2->Type = 0;
 		$Series2->Description = 'Some crappyyyyyy stuff...';
 		$Series2->TargetGroup = 'Illution';
-		$Series2->Save();
+		$Series2->Save();*/
 	}
 	
 	private function OptionTest(){
