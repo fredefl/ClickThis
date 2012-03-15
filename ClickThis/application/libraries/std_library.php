@@ -216,6 +216,26 @@ class Std_Library{
 	}
 
 	/**
+	 * This function finds 
+	 * @param [type] $Table [description]
+	 * @param [type] $Where [description]
+	 * @todo Documentation and testing
+	 */
+	public function Find($Table = NULL,$Where = NULL){
+		if(!is_null($Table) && !is_null($Where)){
+			$Find = array();
+			foreach ($Where as $Search => $Key) {
+				if(property_exists($this, $Key) && !is_null($this->{$Key})){
+					$Find[$Where] = $this->{$Key};
+					if(property_exists($this, "_INTERNAL_DATABASE_MODEL") && !is_null($this->_INTERNAL_DATABASE_MODEL) && count($Find) > 0){
+						$this->_INTERNAL_DATABASE_MODEL->Find($Table,$Find);
+					}
+				}
+			}
+		}
+	}
+
+	/**
 	 * This function saves the local class data to the database row of the Id property
 	 * @return string This function can return a error string
 	 * @since 1.0
