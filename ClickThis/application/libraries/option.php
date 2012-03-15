@@ -1,146 +1,143 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
-class Option {
+/**
+ * Yhis class stores an option for a question
+ * @package Survey
+ * @license http://illution.dk/copyright © Illution 2012
+ * @subpackage Option
+ * @category Survey
+ * @version 1.0
+ * @author Illution <support@illution.dk>
+ */ 
+class Option extends Std_Library{
+
+	/**
+	 * The database id of the option
+	 * @var integer
+	 * @access public
+	 * @since 1.0
+	 */
+	public $Id = NULL;
+
+	/**
+	 * The option title/option
+	 * @var string
+	 * @access public
+	 * @since 1.0
+	 */
+	public $Title = NULL;
+
+	/**
+	 * The option type etc Multiple choice,single choice, form field
+	 * @var string
+	 * @access public
+	 * @since 1.0
+	 */
+	public $OptionType = NULL;
+
+	/**
+	 * The id of the parent question
+	 * @var string
+	 * @access public
+	 * @since 1.0
+	 */
+	public $QuestionId = NULL;
+
+	/**
+	 * The view order of the option etc 5
+	 * @var integer
+	 * @access public
+	 * @since 1.0
+	 */
+	public $ViewOrder = NULL;
+
+	#### Class Setttings ####
+
+	/**
+	 * This variable stores the database table for the class
+	 * @var string
+	 * @access public
+	 * @since 1.0
+	 */
+	public $Database_Table = "Options";
+
+	/**
+	 * This property is used to convert class property names,
+	 * to database row names
+	 * @var array
+	 * @access public
+	 * @static
+	 * @since 1.0
+	 * @internal This is an internal name convert table
+	 */
+	public static $_INTERNAL_DATABASE_NAME_CONVERT = NULL;
+
+	/**
+	 * This property can contain properties to be ignored when exporting
+	 * @var array
+	 * @access public
+	 * @static
+	 * @since 1.0
+	 */
+	public static $_INTERNAL_EXPORT_INGNORE = NULL;
+
+	/**
+	 * This property can contain properties to be ignored, when the database flag is true in export.
+	 * @var array
+	 * @access public
+	 * @static
+	 * @since 1.0
+	 */
+	public static $_INTERNAL_DATABASE_EXPORT_INGNORE = NULL;
+
+	/**
+	 * This property contain values for converting databse rows to class properties
+	 * @var array
+	 * @see $_INTERNAL_DATABASE_NAME_CONVERT
+	 * @access public
+	 * @static
+	 * @since 1.0
+	 */
+	public static $_INTERNAL_ROW_NAME_CONVERT = NULL;
+
+	/**
+	 * This property contains the database model to use
+	 * @var object
+	 * @since 1.0
+	 * @access public
+	 */
+	public static $_INTERNAL_DATABASE_MODEL = NULL;
+
+	/**
+	 * This property is used to define class properties that should be filled with objects,
+	 * with the data that the property contains
+	 * @var array
+	 * @since 1.0
+	 * @access public
+	 * @static
+	 * @internal This is a class setting variable
+	 */
+	public static $_INTERNAL_LOAD_FROM_CLASS = NULL;
+
+	/**
+	 * A local pointer to CodeIgniter
+	 * @var object
+	 * @internal This is a local pointer to the CodeIgniter object, it's only used internaly
+	 * @access public
+	 * @since 1.0
+	 */
+	private $_CI = NULL;
 	
-	//The Variables
-	private $CI = ''; //An instance of Code Igniter
-	public $Id = 0; // Option ID
-	public $Title = ""; //Option Title
-	public $OptionType = ""; //The Question type etc checkbox
-	public $QuestionId = ""; //The id of the parrent Question
-	public $ViewOrder = 0; //Order
-	
-	//The Constructor
+	/**
+	 * The constructor
+	 * @access public
+	 * @since 1.0
+	 */
 	public function Option () {
-		//Make Instance of CodeIgniter
-		$this->CI =& get_instance();
-		//Load load_options model
-		$this->CI->load->model("Load_Options");
+		$this->_CI =& get_instance();
+		self::Config($this->_CI);
+		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
+		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id");
+		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 	}
-	
-	//Load
-	public function Load($Id){
-		//Check if id is set
-		if($this->Id == 0){
-			$this->Id = $Id;
-		}
-		//Call Model to load option data
-		$this->CI->Load_Options->LoadById($Id,$this);
-	}
-	
-	//Import
-	public function Import($Array){
-		foreach($Array as $Name => $Value){
-			if(property_exists($this,$Name)){
-				$this->$Name = $Value;	
-			}
-		}
-	}
-	
-	//Clear
-	public function Clear(){
-			$this->Id = 0;
-			$this->Title = '';
-			$this->OptionType = "";
-			$this->QuestionId = 0;
-			$this->ViewOrder = 0;
-	}
-	
-	//Export
-	public function Export($Database = false){
-		if(!$Database){
-			$data = array(
-				'Id' => $this->Id,
-				'Title' => $this->Title,
-				'OptionType' => $this->OptionType,
-				'QuestionId' => $this->QuestionId,
-				'ViewOrder' => $this->ViewOrder
-			);
-		}
-		else{
-			$data = array(
-				'Title' => $this->Title,
-				'Type' => $this->OptionType,
-				'QuestionId' => $this->QuestionId,
-				'ViewOrder' => $this->ViewOrder
-			);	
-		}
-		return $data;
-	}
-	
-	//Save
-	public function Save(){
-		$this->CI->load->model('Save_Option');
-		$this->CI->Save_Option->Save($this,self::Export(false),'Options');
-	}
-	
-	//Refresh
-	public function Refresh(){
-		self::Load($this->Id);
-	}
-	
-	//Delete
-	public function Delete($Database = false){
-		self::Clear();
-		if($Database){
-			self::ClearDatabase($this->Id);		
-		}
-	}
-	
-	//Clear Databse
-	private function ClearDatabase($Id = 0){
-		$this->CI->load->model('Save_Option');
-		$this->CI->Save_Option->Delete($Id,'Options');
-	}
-	
-	//SetDataClass
-	public function SetDataClass($Class){
-		if(isset($Class->Id)){
-			$this->Id = $Class->Id;
-		}
-		$this->Title = $Class->Id;
-		$this->OptionType = $Class->OptionType;
-		$this->QuestionId = $Class->QuestionId;
-		$this->ViewOrder = $Class->ViewOrder;
-	}
-	
-	//SetDataArray
-	public function SetDataArray($Array){
-		if(isset($Array['Id'])){
-			$this->Id = $Array['Id'];
-		}
-		$this->Title = $Array['Title'];
-		$this->OptionType = $Array['OptionType'];
-		$this->QuestionId = $Array['QuestionId'];
-		$this->ViewOrder = $Array['ViewOrder'];
-	}
-	
-	//Add
-	public function Add($Class,$Database = false){
-		if(!is_null($Class)){
-			self::SetDataClass($Class);
-		}
-		else{
-			if(!is_null($Array)){
-				self::SetDataArray($Array);
-			}
-			else{
-				return "Error Wrong Input";	
-			}
-		}
-		if($Database){
-			self::Save();
-			return $this->Id;
-		}
-	}
-	
-	//Create
-	public function Create($Array,$Database = false){
-		self::SetDataArray($Array);
-		if($Database){
-			self::Save();
-			return $this->Id;
-		}
-	}
-	
 }
 ?>

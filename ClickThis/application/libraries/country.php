@@ -1,66 +1,162 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
-class Country {
+/**
+ * This class load up data about a specific country
+ * @package Languages and Countries
+ * @license http://illution.dk/copyright © Illution 2012
+ * @subpackage Country
+ * @category User Data
+ * @version 1.0
+ * @author Illution <support@illution.dk>
+ */ 
+class Country extends Std_Library{
 
-	//The Variables
-	public $Id = 0; //The Database Id of the Country
-	public $Name = ""; //The Name of the Country in plain text
-	public $Language = ""; //The Language of the Country
+	/**
+	 * The database id of the country
+	 * @var integer
+	 * @access public
+	 * @since 1.0
+	 */
+	public $Id = NULL;
+
+	/**
+	 * The languages of the country
+	 * @var array
+	 * @since 1.0
+	 * @access public
+	 */
+	public $Languages = NULL;
+
+	/**
+	 * The calling code of the country
+	 * @var string
+	 * @access public
+	 * @since 1.0
+	 */
+	public $CallingCode = NULL;
+
+	/**
+	 * The countrys abbrevation
+	 * @var string
+	 * @access public
+	 * @since 1.0
+	 */
+	public $Abbrevation = NULL;
+
+	/**
+	 * The name of the country
+	 * @var string
+	 */
+	public $Name = NULL;
+
+	/**
+	 * The upper case name of the country
+	 * @var string
+	 * @access public
+	 * @since 1.0
+	 */
+	public $UName = NULL;
+
+	/**
+	 * A two digit code of the country
+	 * @var string
+	 * @access public
+	 * @since 1.0
+	 */
+	public $Code = NULL;
+
+	#### Class Setttings ####
+
+	/**
+	 * This variable stores the database table for the class
+	 * @var string
+	 * @access public
+	 * @since 1.0
+	 */
+	public $Database_Table = "Countries";
+
+	/**
+	 * This property is used to convert class property names,
+	 * to database row names
+	 * @var array
+	 * @access public
+	 * @static
+	 * @since 1.0
+	 * @internal This is an internal name convert table
+	 */
+	public static $_INTERNAL_DATABASE_NAME_CONVERT = NULL;
+
+	/**
+	 * This property can contain properties to be ignored when exporting
+	 * @var array
+	 * @access public
+	 * @static
+	 * @since 1.0
+	 */
+	public static $_INTERNAL_EXPORT_INGNORE = NULL;
+
+	/**
+	 * This property can contain properties to be ignored, when the database flag is true in export.
+	 * @var array
+	 * @access public
+	 * @static
+	 * @since 1.0
+	 */
+	public static $_INTERNAL_DATABASE_EXPORT_INGNORE = NULL;
+
+	/**
+	 * This property contain values for converting databse rows to class properties
+	 * @var array
+	 * @see $_INTERNAL_DATABASE_NAME_CONVERT
+	 * @access public
+	 * @static
+	 * @since 1.0
+	 */
+	public static $_INTERNAL_ROW_NAME_CONVERT = NULL;
+
+	/**
+	 * This property contains the database model to use
+	 * @var object
+	 * @since 1.0
+	 * @access public
+	 */
+	public static $_INTERNAL_DATABASE_MODEL = NULL;
+
+	/**
+	 * This property is used to define class properties that should be filled with objects,
+	 * with the data that the property contains
+	 * @var array
+	 * @since 1.0
+	 * @access public
+	 * @static
+	 * @internal This is a class setting variable
+	 */
+	public static $_INTERNAL_LOAD_FROM_CLASS = NULL;
+
+	/**
+	 * This is an internal property containing a CodeIgniter pointer
+	 * @var object
+	 * @internal This is a pointer to CodeIgniter
+	 * @access public
+	 * @since 1.0
+	 */
+	private $_CI = NULL;
 	
-	//Import
-	public function Import($Array){
-		foreach($Array as $Name => $Value){
-			if(property_exists($this,$Name)){
-				$this->$Name = $Value;	
-			}
-		}
-	
-	
-	}
-	
-	//Clear
-	public function Clear(){
-		
-	}
-	
-	//Export
-	public function Export(){
-		
-	}
-	
-	//The Constructor
-	public function Country () {
-		
-	}
-	
-	//Load
-	public function Load(){
-		
-	}
-	
-	//Save
-	public function Save(){
-		
-	}
-	
-	//Refresh
-	public function Refresh(){
-		
-	}
-	
-	//Delete
-	public function Delete(){
-		
-	}
-	
-	//Add
-	public function Add(){
-		
-	}
-	
-	//Create
-	public function Create(){
-		
-	}
-	
+	/**
+	 * This is the contructor
+	 * @since 1.0
+	 * @access public
+	 */
+	public function Country(){
+		$this->_CI =& get_instance();
+		self::Config($this->_CI);
+		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
+		$this->_INTERNAL_DATABASE_NAME_CONVERT = array(
+			"UName" => "UpperCaseName",
+			"Name" => "LowerCaseName"
+		);
+		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id");
+		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
+		$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_DATABASE_NAME_CONVERT);
+	}	
 }
 ?>

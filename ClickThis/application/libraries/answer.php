@@ -43,6 +43,74 @@ class Answer extends Std_Library{
 	 */
 	public $Id = NULL;
 
+	#### Class Setttings ####
+
+	/**
+	 * This variable stores the database table for the class
+	 * @var string
+	 * @access public
+	 * @since 1.0
+	 */
+	public $Database_Table = "Answers";
+
+	/**
+	 * This property is used to convert class property names,
+	 * to database row names
+	 * @var array
+	 * @access public
+	 * @static
+	 * @since 1.0
+	 * @internal This is an internal name convert table
+	 */
+	public static $_INTERNAL_DATABASE_NAME_CONVERT = NULL;
+
+	/**
+	 * This property can contain properties to be ignored when exporting
+	 * @var array
+	 * @access public
+	 * @static
+	 * @since 1.0
+	 */
+	public static $_INTERNAL_EXPORT_INGNORE = NULL;
+
+	/**
+	 * This property can contain properties to be ignored, when the database flag is true in export.
+	 * @var array
+	 * @access public
+	 * @static
+	 * @since 1.0
+	 */
+	public static $_INTERNAL_DATABASE_EXPORT_INGNORE = NULL;
+
+	/**
+	 * This property contain values for converting databse rows to class properties
+	 * @var array
+	 * @see $_INTERNAL_DATABASE_NAME_CONVERT
+	 * @access public
+	 * @static
+	 * @since 1.0
+	 */
+	public static $_INTERNAL_ROW_NAME_CONVERT = NULL;
+
+	/**
+	 * This property contains the database model to use
+	 * @var object
+	 * @since 1.0
+	 * @access public
+	 */
+	public static $_INTERNAL_DATABASE_MODEL = NULL;
+
+	/**
+	 * This property is used to define class properties that should be filled with objects,
+	 * with the data that the property contains
+	 * @var array
+	 * @since 1.0
+	 * @access public
+	 * @static
+	 * @internal This is a class setting variable
+	 */
+	public static $_INTERNAL_LOAD_FROM_CLASS = NULL;
+
 	/**
 	 * This property contains a pointer to Code Igniter
 	 * @var object
@@ -59,121 +127,11 @@ class Answer extends Std_Library{
 	 */	
 	public function Answer () {
 		$this->_CI =& get_instance();
-		
+		self::Config($this->_CI);
+		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
+		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id");
+		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
+		$this->_INTERNAL_LOAD_FROM_CLASS = array("UserId" => "User","QuestionId" => "Question");	
 	}
-	
-	//Load
-	/*public function Load($Id){
-		$this->CI->load->model("Load_Answers"); //Load Model
-		//Check if id is set
-		if($this->Id == 0){
-			$this->Id = $Id;
-		}
-		//Get Data
-		$this->CI->Load_Answers->LoadById($Id,$this); //Load Data
-	}
-	
-	//Export As An Array
-	public function Export(){
-		$Array = array('Value' => $this->Value,'QuestionId' => $this->QuestionId,'UserId' => $this->UserId,'Id' => $this->Id); //Data
-		return $Array; //Return
-	}
-	
-	//Save
-	public function Save(){
-		$this->CI->load->model('Save_Answer'); //Load Model
-		$this->CI->Save_Answer->Save($this); //Save The Data
-	}
-	
-	//Remove All User Data
-	private function RemoveUserData($Id = false){
-		$this->UserId = 0;
-		$this->Value = 0;
-		$this->QuestionId = 0;
-		if($Id){
-			$this->Id = 0;
-		}
-	}
-	
-	//Remove Data From Database
-	private function RemoveDatabaseData($Id = 0){
-		$this->CI->db->query("DELETE FROM Answers WHERE Id='?'",array($Id));
-	}
-	
-	//Clear Data From Database
-	private function ClearDatabase($Id = 0){
-		$this->CI->db->query("UPDATE Answers SET
-			UserId='',Value='',QuestionId='' 
-			WHERE Id='?'
-		 ",array($Id));	
-	}
-	
-	//Delete
-	public function Delete($Database = false){
-		if($Database){
-			self::ClearDatabase($this->Id);
-			self::RemoveUserData(true);
-			
-		}
-		else{
-			self::RemoveUserData(false);
-		}
-	}
-	
-	//Clear
-	public function Clear(){
-		self::RemoveUserData(false);	
-	}
-	
-	//Refresh
-	public function Refresh(){
-		self::Load($this->Id);
-	}
-	
-	//Set Data By Class
-	private function SetDataClass($Answer){
-			$this->Id = $Answer->Id;
-			$this->UserId = $Answer->UserId;
-			$this->Value = $Answer->Value;
-			$this->QuestionId = $Answer->QuestionId;
-	}
-	
-	//Set Data By Array
-	private function SetDataArray($Array){
-			$this->UserId = $Array['UserId'];
-			$this->Id =	$Array['Id'];
-			$this->Value = $Array['Value'];
-			$this->QuestionId = $Array['QuestionId'];
-	}
-	
-	//Add
-	public function Add($Answer = NULL,$Array = NULL,$Database = false){
-		if(!is_null($Answer)){
-			self::SetDataClass($Answer);
-		}
-		else{
-			if(!is_null($Array)){
-				self::SetDataArray($Array);
-			}
-			else{
-				return "Error Wrong Input";	
-			}
-		}
-		if($Database){
-			$this->CI->load->model('Save_Answer'); //Load Model
-			$this->Id = $this->CI->Save_Answer->Create($this); //Save The Data and Get the Returned Id
-			return $this->Id;
-		}
-	}
-	
-	//Create
-	public function Create($Array,$Database = false){
-		self::SetDataArray($Array);
-		if($Database){
-			$this->CI->load->model('Save_Answer'); //Load Model
-			$this->Id = $this->CI->Save_Answer->Create($this); //Save The Data and Get the Returned Id
-			return $this->Id;
-		}
-	}*/
 }
 ?>

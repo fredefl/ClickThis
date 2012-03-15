@@ -68,6 +68,18 @@ class Pupil extends Std_Library{
 	 */
 	public static $_INTERNAL_DATABASE_MODEL = NULL;
 
+
+	/**
+	 * This property is used to define class properties that should be filled with objects,
+	 * with the data that the property contains
+	 * @var array
+	 * @since 1.0
+	 * @access public
+	 * @static
+	 * @internal This is a class setting variable
+	 */
+	public static $_INTERNAL_LOAD_FROM_CLASS = NULL;
+
 	### User Data ###
 
 	/**
@@ -153,6 +165,7 @@ class Pupil extends Std_Library{
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id","Method");
 		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
+		$this->_INTERNAL_LOAD_FROM_CLASS = array("School" => "School","State" => "State");
 	}
 }
 ?>

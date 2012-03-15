@@ -66,6 +66,8 @@ class Group extends Std_Library{
 	 */
 	public $Creator = NULL;
 
+	#### Class Setttings ####
+
 	/**
 	 * A local instance of CodeIgniter
 	 * @var object
@@ -73,8 +75,6 @@ class Group extends Std_Library{
 	 * @access private
 	 */
 	private $_CI = NULL;
-
-		#### Class Setttings ####
 
 	/**
 	 * This variable stores the database table for the class
@@ -155,7 +155,6 @@ class Group extends Std_Library{
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id");
 		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
-		//$this->_CI->load->model("Load_Groups");
 	}
 }
 ?>

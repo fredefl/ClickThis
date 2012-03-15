@@ -159,7 +159,7 @@ class Std_Library{
 		if(property_exists($this, "_INTERNAL_LOAD_FROM_CLASS")  && !is_null($this->_INTERNAL_LOAD_FROM_CLASS) && is_array($this->_INTERNAL_LOAD_FROM_CLASS) && !$Simple){
 			if(!is_null($this->_INTERNAL_LOAD_FROM_CLASS)){
 				foreach ($this->_INTERNAL_LOAD_FROM_CLASS as $Key => $Value) {
-					if(property_exists($this, $Key)){
+					if(property_exists($this, $Key) && !is_null($this->{$Key})){
 						//If the CodeIgniter instance exists and isn't null, then load the library
 						if(property_exists($this, "_CI") && !is_null($this->_CI)){
 							@$this->_CI->load->library($Value);
@@ -172,7 +172,9 @@ class Std_Library{
 								if(class_exists($Value)){
 									$Object = new $Value();
 									$Object->Load($Name);
-									$Temp[] = $Object;
+									if(!is_null($Object)){
+										$Temp[] = $Object;
+									}
 								}
 							}
 							if(count($Temp) > 0){
@@ -185,7 +187,9 @@ class Std_Library{
 								if(class_exists($Value)){
 									$Object = new $Value();
 									$Object->Load($this->{$Key});
-									$this->{$Key} = $Object;
+									if(!is_null($Object)){
+										$this->{$Key} = $Object;
+									}
 								}
 							}
 						}

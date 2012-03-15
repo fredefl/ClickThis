@@ -87,14 +87,14 @@ class Test extends CI_Controller {
 	}
 	
 	private function OptionTest(){
-		/*$this->load->library('Option');
+		$this->load->library('Option');
 		$Option = new Option();
 		//$Question->Import(array('SerieId' => 1));
 		$Option->Load(1);
 		echo "<pre>";
 		$data = $Option->Export();
 		print_r($data);
-		echo "</pre>";*/
+		echo "</pre>";
 	}
 	
 	private function AnswerTest(){
@@ -105,13 +105,17 @@ class Test extends CI_Controller {
 	}
 	
 	private function SchoolTest(){
-		/*$this->load->library('School');
-		$School = new School();*/
+		$this->load->library('School');
+		$School = new School();
+		$School->Load(1);
+		self::Debug($School->Export(false));
 	}
 	
 	private function CountryTest(){
-		/*$this->load->library('Country');
-		$Country = new Country();*/
+		$this->load->library('Country');
+		$Country = new Country();
+		$Country->Load(1);
+		self::Debug($Country->Export(false));
 	}
 	
 	private function DidAnswerTest(){
@@ -120,10 +124,10 @@ class Test extends CI_Controller {
 	}
 	
 	private function GroupTest(){
-		/*$this->load->library('Group');
+		$this->load->library('Group');
 		$Group = new Group();
-		$Group->Name = "Llama";
-		self::Debug($Group->Export());*/
+		$Group->Load(1);
+		self::Debug($Group->Export());
 	}
 	
 	private function PupilTest(){
@@ -208,8 +212,10 @@ class Test extends CI_Controller {
 		$this->load->library('State');
 		$State = new State();
 		$State2 = new State();
-		$State->Import(array('Name' => 'Hovedstaden','Country' => 'Denmark'));
-		$State2->Import(array('Name' => 'Aarhus','Country' => 'Denmark'));
+		//$State->Import(array('Name' => 'Hovedstaden','Country' => 'Denmark'));
+		//$State2->Import(array('Name' => 'Aarhus','Country' => 'Denmark'));
+		$State->Load(1);
+		$State2->Load(2);
 		echo "<pre>";
 		print_r($State->Export());
 		print_r($State2->Export());
@@ -246,15 +252,16 @@ class Test extends CI_Controller {
 	}
 	
 	private function QuestionTest(){
-		/*$this->load->library('Question');
+		$this->load->library('Question');
 		$Question = new Question();
 		//$Question->Import(array('SerieId' => 3,'Title' => 'llama','Type' => '4','ViewOrder' => '1','Options' => array('Fisk','And')));
 		//$Question->Save();
-		$Question->Create(array('SerieId' => 3,'Title' => 'llama','Type' => '4','ViewOrder' => '1','Options' => array('Fisk','And')),true);
+		//$Question->Create(array('SerieId' => 3,'Title' => 'llama','Type' => '4','ViewOrder' => '1','Options' => array('Fisk','And')));
+		$Question->Load(1);
 		echo "<pre>";
 		$data = $Question->Export();
 		print_r($data);
-		echo "</pre>";*/
+		echo "</pre>";
 	}
 
 }

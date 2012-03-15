@@ -13,10 +13,69 @@ class School extends Std_Library{
 	/**
 	 * This variable stores the database table for the class
 	 * @var string
-	 * @access private
+	 * @access public
 	 * @since 1.0
 	 */
-	private $Database_Table = "Schools";
+	public $Database_Table = "Schools";
+
+	/**
+	 * This property is used to convert class property names,
+	 * to database row names
+	 * @var array
+	 * @access public
+	 * @static
+	 * @since 1.0
+	 * @internal This is an internal name convert table
+	 */
+	public static $_INTERNAL_DATABASE_NAME_CONVERT = NULL;
+
+	/**
+	 * This property can contain properties to be ignored when exporting
+	 * @var array
+	 * @access public
+	 * @static
+	 * @since 1.0
+	 */
+	public static $_INTERNAL_EXPORT_INGNORE = NULL;
+
+	/**
+	 * This property can contain properties to be ignored, when the database flag is true in export.
+	 * @var array
+	 * @access public
+	 * @static
+	 * @since 1.0
+	 */
+	public static $_INTERNAL_DATABASE_EXPORT_INGNORE = NULL;
+
+	/**
+	 * This property contain values for converting databse rows to class properties
+	 * @var array
+	 * @see $_INTERNAL_DATABASE_NAME_CONVERT
+	 * @access public
+	 * @static
+	 * @since 1.0
+	 */
+	public static $_INTERNAL_ROW_NAME_CONVERT = NULL;
+
+	/**
+	 * This property contains the database model to use
+	 * @var object
+	 * @since 1.0
+	 * @access public
+	 */
+	public static $_INTERNAL_DATABASE_MODEL = NULL;
+
+
+	/**
+	 * This property is used to define class properties that should be filled with objects,
+	 * with the data that the property contains
+	 * @var array
+	 * @since 1.0
+	 * @access public
+	 * @static
+	 * @internal This is a class setting variable
+	 */
+	public static $_INTERNAL_LOAD_FROM_CLASS = NULL;
 
 	/**
 	 * The state the school is located in
@@ -32,7 +91,7 @@ class School extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Country = NULL;
+	//public $Country = NULL;
 
 	/**
 	 * The name of the school
@@ -73,43 +132,15 @@ class School extends Std_Library{
 	 */
 	public function School () {
 		$this->_CI =& get_instance();
-	}
-	
-	/**
-	 * [Save description]
-	 */
-	public function Save(){
-		
-	}
-	
-	/**
-	 * This function loads data from the database and adds it to this class
-	 * @param integer $Id The database id of the School
-	 * @access public
-	 * @since 1.0
-	 */
-	public function Load($Id = NULL){
-		if(!is_null($Id)){
-			$this->Id = $Id;
-		}
-		if(!is_null($this->Id)){
-			$this->_CI->load->model("Load_School");
-			$this->_CI->Load_School->getSchoolById($this);
-		}
-	}
-	
-	/**
-	 * [Add description]
-	 */
-	public function Add(){
-		
-	}
-	
-	/**
-	 * [Create description]
-	 */
-	public function Create(){
-		
+		self::Config($this->_CI);
+		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
+		$this->_INTERNAL_DATABASE_NAME_CONVERT = array(
+			"Abbrevation" => "Abbr"
+		);
+		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id","Method");
+		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
+		$this->_INTERNAL_LOAD_FROM_CLASS = array("State" => "State");
+		$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_DATABASE_NAME_CONVERT);
 	}
 }
 ?>
