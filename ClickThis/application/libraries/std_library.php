@@ -100,6 +100,17 @@ class Std_Library{
 	public static $_INTERNAL_LOAD_FROM_CLASS = NULL;
 
 	/**
+	 * This property is used to declare link's between other databases and a class property in this class
+	 * @var array
+	 * @since 1.0
+	 * @access public
+	 * @example
+	 * $this->$_INTERNAL_LINK_PROPERTIES = array("Questions" => array("Questions",array("SeriesId" => "Id")));
+	 * @see Link
+	 */
+	public static $_INTERNAL_LINK_PROPERTIES = NULL;
+
+	/**
 	 * This property will contain a local instance of CodeIgniter,
 	 * if the children set's it
 	 * @var object
@@ -146,13 +157,25 @@ class Std_Library{
 	 * @param boolean $Simple If this flag is set to true, then the Load From Class won't be done
 	 * @since 1.0
 	 * @access public
+	 * @return boolean If the load is succes with data is true returned else is false returned
 	 */
 	public function Load($Id = NULL,$Simple = false) {
 		if(!is_null($Id)){
 			$this->Id = $Id;
 		}
 		if(!is_null($this->Id) && !is_null($this->_CI) && !is_null($this->_CI->_INTERNAL_DATABASE_MODEL)){
-			$this->_CI->_INTERNAL_DATABASE_MODEL->Load($this->Id,$this);
+			if(!$this->_CI->_INTERNAL_DATABASE_MODEL->Load($this->Id,$this)){
+				return FALSE;
+			}
+		}
+		if(property_exists($this, "_INTERNAL_LINK_PROPERTIES") && !is_null($this->_INTERNAL_LINK_PROPERTIES) && is_array($this->_INTERNAL_LINK_PROPERTIES)){
+			foreach ($this->_INTERNAL_LINK_PROPERTIES as $ClassProperty => $LinkData) {
+				if(is_array($LinkData)){
+					if(method_exists($this, "Link")){
+						self::Link($LinkData[0],$LinkData[1],$ClassProperty,true);
+					}
+				}
+			}
 		}
 
 		//If some properties is going to be filled with data containing a class
@@ -171,9 +194,10 @@ class Std_Library{
 							foreach ($this->{$Key} as $Name) {
 								if(class_exists($Value)){
 									$Object = new $Value();
-									$Object->Load($Name);
-									if(!is_null($Object)){
-										$Temp[] = $Object;
+									if($Object->Load($Name)){
+										if(!is_null($Object)){
+											$Temp[] = $Object;
+										}
 									}
 								}
 							}
@@ -186,9 +210,10 @@ class Std_Library{
 							if(!is_null($this->{$Key})){
 								if(class_exists($Value)){
 									$Object = new $Value();
-									$Object->Load($this->{$Key});
-									if(!is_null($Object)){
-										$this->{$Key} = $Object;
+									if($Object->Load($this->{$Key})){
+										if(!is_null($Object)){
+											$this->{$Key} = $Object;
+										}
 									}
 								}
 							}
@@ -197,6 +222,7 @@ class Std_Library{
 				}
 			}
 		}
+		return TRUE;
 	}
 
 	/**
@@ -216,26 +242,6 @@ class Std_Library{
 	}
 
 	/**
-	 * This function finds 
-	 * @param [type] $Table [description]
-	 * @param [type] $Where [description]
-	 * @todo Documentation and testing
-	 */
-	public function Find($Table = NULL,$Where = NULL){
-		if(!is_null($Table) && !is_null($Where)){
-			$Find = array();
-			foreach ($Where as $Search => $Key) {
-				if(property_exists($this, $Key) && !is_null($this->{$Key})){
-					$Find[$Where] = $this->{$Key};
-					if(property_exists($this, "_INTERNAL_DATABASE_MODEL") && !is_null($this->_INTERNAL_DATABASE_MODEL) && count($Find) > 0){
-						$this->_INTERNAL_DATABASE_MODEL->Find($Table,$Find);
-					}
-				}
-			}
-		}
-	}
-
-	/**
 	 * This function saves the local class data to the database row of the Id property
 	 * @return string This function can return a error string
 	 * @since 1.0
@@ -246,6 +252,100 @@ class Std_Library{
 			$this->_CI->_INTERNAL_DATABASE_MODEL->Save($this);
 		} else {
 			return false;
+		}
+	}
+
+	/**
+	 * This function links a class property to data collected from other databases
+	 * @param string||array $Table    The table(s) to search in
+	 * @param array $Link     An array in this format array("Row Name" => "Class property or  a value"...) 
+	 * with the search queries to search with.
+	 * @param string $Property The class property to link
+	 * @param boolean $Simple if this flag is set to true, then the load from class isn't executed
+	 * @since 1.0
+	 * @access public
+	 */
+	public function Link($Table = NULL,$Link = NULL,$Property = NULL,$Simple = false){
+		if(!is_null($Table) && !is_null($Link) && is_array($Link) && !is_null($Property)){
+			foreach($Link as $Search => $Key){
+				if($Search == "" || $Key == ""){
+					unset($Link[$Search]);
+				} else {
+					if(property_exists($this, $Key)){
+						if(is_null($this->{$Key})){
+							unset($Link[$Search]);
+						}
+						else if($this->{$Key} == ""){
+							unset($Link[$Search]);
+						} else {
+							$Link[$Search] = $this->{$Key};
+						}
+					}
+				}
+			}
+			if(count($Link) > 0){
+				if(method_exists($this->_CI->_INTERNAL_DATABASE_MODEL, "Link")){
+					$Data = $this->_CI->_INTERNAL_DATABASE_MODEL->Link($Table,$Link,$this);
+					if(property_exists($this, $Property)){
+						if(count($Data) > 1){
+							$Temp = array();
+							foreach ($Data as $Object) {
+								if(property_exists($Object, "Id")){
+									if(property_exists($this, "_INTERNAL_LOAD_FROM_CLASS") && array_key_exists($Property,$this->_INTERNAL_LOAD_FROM_CLASS) && !$Simple){
+										if(property_exists($this, "_CI") && !is_null($this->_CI)){
+											@$this->_CI->load->library($this->_INTERNAL_LOAD_FROM_CLASS[$Property]);
+											@$TempObject = new $this->_INTERNAL_LOAD_FROM_CLASS[$Property]();
+											$TempObject->Load($Object->Id);
+											if(!is_null($TempObject)){
+												$Temp[] = $TempObject;
+											} else {
+												$Temp[] = $Object->Id;
+											}
+										} else {
+											$Temp[] = $Object->Id;
+										}
+									} else {
+										$Temp[] = $Object->Id;
+									}
+								}
+							}
+							if(count($Temp) > 0){
+									if(is_null($this->{$Property})){
+										$this->{$Property} = $Temp;
+									} else {
+										if(is_array($this->{$Property})){
+											$this->{$Property} = array_merge($Temp,$this->{$Property});
+										} else {
+											$this->{$Property} = $Temp;
+										}
+									}
+								}
+						} else {
+							if(isset($Data[0])){
+								$Data = $Data[0];
+							}
+							if(!is_null($Data) && is_object($Data) && property_exists($Data, "Id")){
+								if(property_exists($this, "_INTERNAL_LOAD_FROM_CLASS") && array_key_exists($Property,$this->_INTERNAL_LOAD_FROM_CLASS) && !$Simple){
+									if(property_exists($this, "_CI") && !is_null($this->_CI)){
+										@$this->_CI->load->library($this->_INTERNAL_LOAD_FROM_CLASS[$Property]);
+										@$TempObject = new $this->_INTERNAL_LOAD_FROM_CLASS[$Property]();
+										$TempObject->Load($Data->Id);
+										if(!is_null($TempObject)){
+											$this->{$Property} = $TempObject;
+										} else {
+											$this->{$Property} = $Data->Id;
+										}
+									} else {
+										$this->{$Property} = $Data->Id;
+									}
+								} else {
+									$this->{$Property} = $Data->Id;
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 

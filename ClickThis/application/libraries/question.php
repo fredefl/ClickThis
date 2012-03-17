@@ -129,6 +129,17 @@ class Question extends Std_Library{
 	public static $_INTERNAL_LOAD_FROM_CLASS = NULL;
 
 	/**
+	 * This property is used to declare link's between other databases and a class property in this class
+	 * @var array
+	 * @since 1.0
+	 * @access public
+	 * @example
+	 * $this->$_INTERNAL_LINK_PROPERTIES = array("Questions" => array("Questions",array("SeriesId" => "Id")));
+	 * @see Link
+	 */
+	public static $_INTERNAL_LINK_PROPERTIES = NULL;
+
+	/**
 	 * This is an internal property containing a CodeIgniter pointer
 	 * @var string
 	 * @internal This is a pointer to CodeIgniter
@@ -150,6 +161,8 @@ class Question extends Std_Library{
 		);
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id");
+		$this->_INTERNAL_LOAD_FROM_CLASS = array("Options" => "Option");
+		$this->_INTERNAL_LINK_PROPERTIES = array("Options" => array("Options",array("QuestionId" => "Id")));
 		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_DATABASE_NAME_CONVERT);	
 	}

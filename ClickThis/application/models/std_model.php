@@ -102,21 +102,36 @@ class Std_Model extends CI_Model{
 	}
 
 	/**
-	 * This function finds data in the $Table, the where clauses from $Whre
-	 * @param string $Table The lookup table
-	 * @param array $Where The where clauses
+	 * This function loads data from $Table, based on the query in $Link
+	 * @param string||array $Table  The table(s) to search in 
+	 * @param array $Link   An array with the query
+	 * @example
+	 * Link("Questions",array("Lmmaa" => "Duck",$this));
+	 * @param object &$Class The class where the data is taken from
+	 * @return array An array of the query result data
 	 * @since 1.0
 	 * @access public
-	 * @return boolean|array FALSE if it fails and an array if there's result
 	 */
-	public function Find($Table = NULL,$Where = NULL){
-		if(!is_null($Table) && !is_null($Where) && !is_null($Class)){
-			$Query = $this->db->get_where($Table,$Where);
-			$Array = array();
-			foreach ($Query->result() as $Key => $Value) {
-				$Array($Key) => $Value;
+	public function Link($Table = NULL,$Link = NULL,&$Class = NULL){
+		if(!is_null($Table) && !is_null($Link) && !is_null($Class) && is_array($Link)){
+			if(!is_array($Table)){
+				$this->db->select('Id');
+				$Query = $this->db->get_where($Table,$Link);
+				$Result = $Query->result();
+				return $Query->result();
+			} else {
+				$Result = array();
+				foreach ($Table as $Name) {
+					$this->db->select('Id');
+					$Query = $this->db->get_where($Name,$Link);
+					$Temp = $Query->result();
+					$Result[] = $Temp[0];
+				}
+				if(count($Result) > 0){
+					return $Result;
+				}
+
 			}
-			return (count($Array) > 0)? $Array : false;
 		}
 	}
 
@@ -148,6 +163,7 @@ class Std_Model extends CI_Model{
 	 * and assign it to the object in $Class
 	 * @param integer $Id    An optional database id for the row, if it's not deffined the $Class->Id will be used.
 	 * @param object &$Class The class to assign the data too
+	 * @return boolean If there's data available and it's loaded true is returned else is false returned
 	 * @access public
 	 * @since 1.0
 	 */
@@ -156,7 +172,7 @@ class Std_Model extends CI_Model{
 			if(!is_null($Id)){
 				$Class->Id = $Id;
 			}
-			if(!is_null($Class->Id)){
+			if(!is_null($Class->Id) && self::Exists($Class->Id,$Class->Database_Table)){
 				$ClassQuery = $this->db->query('SELECT * FROM '.$Class->Database_Table.' WHERE Id = ?',array($Class->Id));
 				foreach($ClassQuery->result() as $Row){
 					foreach ($Row as $Key => $Value) {
@@ -186,7 +202,11 @@ class Std_Model extends CI_Model{
 						}
 					}
 				}
+				return TRUE;
+			} else {
+				return FALSE;
 			}
+			
 		} else {
 			return false;
 		}
