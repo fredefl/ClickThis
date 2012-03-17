@@ -20,7 +20,7 @@ class Series extends Std_Library{
 	 */
 	public $Id = NULL;
 
-	/*
+	/**
 	 * An array of the questions of the Series, in objects
 	 * @var array
 	 * @since 1.0
@@ -61,7 +61,8 @@ class Series extends Std_Library{
 	public $Creator = NULL;
 
 	/**
-	 * The state of the series
+	 * The state of the series,
+	 * etc published = 1, done = 2
 	 * @var string
 	 * @access public
 	 * @since 1.0
@@ -232,12 +233,16 @@ class Series extends Std_Library{
 		self::Config($this->_CI);
 		//$this->CI->load->library("Question");
 		$this->_INTERNAL_DATABASE_NAME_CONVERT = array(
-			"StartTime" => "Start Time",
 			"Type" => "SeriesType"
 		);
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
-		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id");
-		$this->_INTERNAL_LOAD_FROM_CLASS = array("TargetGroup" => "Group","TargetPeople" => "User","Questions" => "Question");
+		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id","Questions");
+		$this->_INTERNAL_LOAD_FROM_CLASS = array(
+			"TargetGroup" => "Group",
+			"TargetPeople" => "User",
+			"Questions" => "Question",
+			"School" => "School"
+		);
 		$this->_INTERNAL_LINK_PROPERTIES = array("Questions" => array("Questions",array("SeriesId" => "Id")));
 		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_DATABASE_NAME_CONVERT);	

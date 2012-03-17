@@ -7,7 +7,6 @@
  * @category Library template
  * @version 1.1
  * @author Illution <support@illution.dk>
- * @todo Add the Save,Load, Add and Create functions and models
  */ 
 class Std_Library{
 
@@ -194,7 +193,7 @@ class Std_Library{
 							foreach ($this->{$Key} as $Name) {
 								if(class_exists($Value)){
 									$Object = new $Value();
-									if($Object->Load($Name)){
+									if($Object->Load($Name,$Simple)){
 										if(!is_null($Object)){
 											$Temp[] = $Object;
 										}
@@ -210,7 +209,7 @@ class Std_Library{
 							if(!is_null($this->{$Key})){
 								if(class_exists($Value)){
 									$Object = new $Value();
-									if($Object->Load($this->{$Key})){
+									if($Object->Load($this->{$Key},$Simple)){
 										if(!is_null($Object)){
 											$this->{$Key} = $Object;
 										}
