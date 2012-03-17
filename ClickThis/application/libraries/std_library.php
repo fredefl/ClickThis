@@ -400,6 +400,8 @@ class Std_Library{
 					if(!is_null($Object)){
 						if(property_exists($Object, "Id")){
 							$Temp[] = $Object->Id;
+						} elseif(method_exists($Object, "Export")){
+							$Temp[] = $Object->Export(true);
 						}
 					}
 				}
@@ -409,6 +411,8 @@ class Std_Library{
 			} else {
 				if(property_exists($Data, "Id")){
 					$Return = $Data->Id;
+				} elseif(method_exists($Data, "Export")){
+					$Return = $Data->Export(true);
 				}
 			}
 			if(!is_null($Return)){

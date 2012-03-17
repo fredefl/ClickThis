@@ -47,6 +47,14 @@ class User extends Std_Library{
 	public $Country = NULL;
 
 	/**
+	 * This property will contain a link to the users profile image
+	 * @var string
+	 * @access public
+	 * @since 1.0
+	 */
+	public $ProfileImage = NULL;
+
+	/**
 	 * This variable holds the email of the user if deffined
 	 * @access public
 	 * @since 1.0
