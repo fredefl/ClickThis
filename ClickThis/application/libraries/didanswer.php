@@ -7,9 +7,9 @@
  * @category Answers
  * @version 1.0
  * @author Illution <support@illution.dk>
- * @todo Make the Save,Add and Create functions and make a delete function for Database Delete
+ * @todo Port this to the Std_Library class
  */ 
-class DidAnswer {
+class DidAnswer extends Std_Library{
 	
 	/**
 	 * The did answer database id
@@ -17,7 +17,7 @@ class DidAnswer {
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Id = 0; 
+	public $Id = NULL; 
 
 	/**
 	 * The id of the user that is loaded
@@ -25,7 +25,7 @@ class DidAnswer {
 	 * @access public
 	 * @since 1.0
 	 */
-	public $UserId = 0;
+	public $UserId = NULL;
 
 	/**
 	 * The id of the question that is answered
@@ -33,15 +33,118 @@ class DidAnswer {
 	 * @access public
 	 * @since 1.0
 	 */
-	public $QuestionId = 0;
+	public $QuestionId = NULL;
+
+	### Class Settings ###
 
 	/**
-	 * A local Code Igniter instance
+	 * This variable stores the database table for the class
+	 * @var string
+	 * @access public
+	 * @since 1.0
+	 */
+	public $Database_Table = "DidAnswer";
+
+	/**
+	 * This property is used to convert class property names,
+	 * to database row names
+	 * @var array
+	 * @access public
+	 * @static
+	 * @since 1.0
+	 * @internal This is an internal name convert table
+	 */
+	public static $_INTERNAL_DATABASE_NAME_CONVERT = NULL;
+
+	/**
+	 * This property can contain properties to be ignored when exporting
+	 * @var array
+	 * @access public
+	 * @static
+	 * @since 1.0
+	 */
+	public static $_INTERNAL_EXPORT_INGNORE = NULL;
+
+	/**
+	 * This property can contain properties to be ignored, when the database flag is true in export.
+	 * @var array
+	 * @access public
+	 * @static
+	 * @since 1.0
+	 */
+	public static $_INTERNAL_DATABASE_EXPORT_INGNORE = NULL;
+
+	/**
+	 * This property contain values for converting databse rows to class properties
+	 * @var array
+	 * @see $_INTERNAL_DATABASE_NAME_CONVERT
+	 * @access public
+	 * @static
+	 * @since 1.0
+	 */
+	public static $_INTERNAL_ROW_NAME_CONVERT = NULL;
+
+	/**
+	 * This property contains the database model to use
+	 * @var object
+	 * @since 1.0
+	 * @access public
+	 */
+	public static $_INTERNAL_DATABASE_MODEL = NULL;
+
+	/**
+	 * This property is used to define class properties that should be filled with objects,
+	 * with the data that the property contains
+	 * @var array
+	 * @since 1.0
+	 * @access public
+	 * @static
+	 * @internal This is a class setting variable
+	 */
+	public static $_INTERNAL_LOAD_FROM_CLASS = NULL;
+
+	/**
+	 * This property is used to declare link's between other databases and a class property in this class
+	 * @var array
+	 * @since 1.0
+	 * @access public
+	 * @example
+	 * $this->$_INTERNAL_LINK_PROPERTIES = array("Questions" => array("Questions",array("SeriesId" => "Id")));
+	 * @see Link
+	 */
+	public static $_INTERNAL_LINK_PROPERTIES = NULL;
+
+	/**
+	 * This property is used to determine what properties is going to be ignored,
+	 * if the secrure parameter is turned on in the export function
+	 * @var array
+	 * @since 1.0
+	 * @static
+	 * @access public
+	 * @example
+	 * $this->_INTERNAL_LINK_PROPERTIES = array("Email,"Google_Id");
+	 */
+	public static $_INTERNAL_SECURE_EXPORT_IGNORE = NULL;
+
+	/**
+	 * This property is used to force a specific property to be an array
+	 * @var array
+	 * @static
+	 * @access public
+	 * @since 1.0
+	 * @example
+	 * $this->_INTERNAL_FORCE_ARRAY = array("Questions");
+	 */
+	public static $_INTERNAL_FORCE_ARRAY = NULL;
+
+	/**
+	 * The local instance of CodeIgniter
 	 * @var object
 	 * @access private
 	 * @since 1.0
+	 * @internal This is a local instance of CodeIgniter it's only used in the class
 	 */
-	private $CI = '';
+	private $_CI = NULL;
 	
 	/**
 	 * The constructor
@@ -49,125 +152,11 @@ class DidAnswer {
 	 * @since 1.0
 	 */
 	public function DidAnswer () {
-		$this->CI =& get_instance();
-	}
-	
-	/**
-	 * This function adds data from an array to the different local variables
-	 * @param Array $Array An structured array in Name => format
-	 * @access public
-	 * @example
-	 * Import(array("Id" => 1,"QuestionId" => 1,"UserId" => 1));
-	 * @since 1.0
-	 * @example
-	 * Import(array("Id" => 1);
-	 */
-	public function Import($Array){
-		foreach($Array as $Name => $Value){
-			if(property_exists($this,$Name)){
-				$this->$Name = $Value;	
-			}
-		}
-	}
-	
-	/**
-	 * This function returns an array of the class data
-	 * @access public
-	 * @since 1.0
-	 * @return Array The class data as a Name => Value structured array
-	 */
-	public function Export(){
-		$Array = array('Id' => $this->Id, 'UserId' => $this->UserId,'QuestionId' => $this->QuestionId);
-		return $Array;
-	}
-	
-	/**
-	 * This function loads data from the database and assign it the the corosponding local variables.
-	 * @param integer $Id The database id to load
-	 * @access public
-	 * @since 1.0
-	 */
-	public function Load($Id){
-		if(!$this->Id != 0 || $Id != 0){
-			//Check if id is set
-			if($this->Id == 0){
-				$this->Id = $Id;
-			}
-			$this->CI->load->model('Load_DidAnswer');
-			$this->CI->Load_DidAnswer->Load($this,$Id);
-		}
-	}
-	
-	/**
-	 * [Save description]
-	 * @access public
-	 * @since 1.0
-	 * @todo Make the function
-	 */
-	public function Save(){
-		
-	}
-	
-	/**
-	 * This function delete's all data and if the Database flag is set to true then all database data is deleted too.
-	 * @todo Add the Database delete functionality
-	 * @param boolean $Database If this flag is set to true then database daa is deleted
-	 * @access public
-	 * @since 1.0
-	 */
-	public function Delete($Database = false){
-		if($Database){
-			
-		}
-		$this->Id = 0;
-		$this->UserId = 0;
-		$this->QuestionId = 0;
-	}
-	
-	/**
-	 * This function clears the internal data and set it back to the default value
-	 * as default the id isn't cleared
-	 * @access public
-	 * @since 1.0
-	 * @param boolean $Id If this is set to true then the Id is cleared too.
-	 */
-	public function Clear($Id = false){
-		if($Id){
-			$this->Id = 0;
-		}
-		$this->UserId = 0;
-		$this->QuestionId = 0;
-	}
-	
-	/**
-	 * [Add description]
-	 * @todo Make the function
-	 * @since 1.0
-	 * @access public
-	 */
-	public function Add(){
-		
-	}
-	
-	/**
-	 * [Create description]
-	 * @since 1.0
-	 * @access public
-	 * @todo Make the function code
-	 */
-	public function Create(){
-		
-	}
-	
-	/**
-	 * This function reloades the class data from the database
-	 * @since 1.0
-	 * @access public
-	 */
-	public function Refresh(){
-		if($this->Id != 0){
-			self::Load($this->Id);	
-		}
+		$this->_CI =& get_instance();
+		self::Config($this->_CI);
+		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
+		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
+		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id");
 	}
 }
 ?>

@@ -254,7 +254,6 @@ class Series extends Std_Library{
 	public function Series () {
 		$this->_CI =& get_instance();
 		self::Config($this->_CI);
-		//$this->CI->load->library("Question");
 		$this->_INTERNAL_DATABASE_NAME_CONVERT = array(
 			"Type" => "SeriesType"
 		);
