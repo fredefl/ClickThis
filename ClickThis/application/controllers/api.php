@@ -22,7 +22,7 @@ class Api extends CI_Controller {
 	private function Send_Response($Code = 200,$Content_Type = "application/json",$Content = NULL){
 		$this->load->library("api_request");
 		$Status_Header = 'HTTP/1.1 ' . $Code . ' ' . $this->api_request->Get_Message($Code); 
-		header($Status_Header); 
+		//header($Status_Header); 
 		header('Content-type: ' . $Content_Type);
 		if(is_null($Content)){
 			$Error = array("error_message" => $this->api_request->Get_Message($Code),"error_code" => $Code);

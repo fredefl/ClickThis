@@ -1,20 +1,3 @@
-<?php
-$names = array('32' => 'Car Magazine','3' => 'Bo Thomsen');
-if(isset($_GET['user_id'])){
-	$user = $_GET['user_id'];
-	$userid = 'user_'.$user;
-	if(isset($names[$user])){
-		$name = $names[$user];
-	}
-	else{
-		$name = $user;	
-	}
-}
-else{
-	$name = 'User not found';
-	$userid = 'notfound';	
-}
-?>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -26,11 +9,9 @@ else{
 <link rel="stylesheet" href="css/style.css"/>
 <link rel="apple-touch-icon" href="images/ClickThis64.png" />
 <meta charset="utf-8">
-<title><?php echo $name; ?></title>
+<title></title>
 </head>
 <body>
-	<input type="hidden" id="user" value="<?php echo $userid; ?>" />
-    <input type="hidden" id="currentpage" value="<?php echo $userid; ?>" />
 	<div id="jqt">
         <div id="home" class="current">
             <div class="toolbar">
@@ -41,51 +22,30 @@ else{
             <div id="notfound" class="Disabled">
                 <ul class="rounded" >
                         <ul class="arrow">
-            				<li><h1 style="color:#FFFFFF;">User not found</h1></li>
+            				<li><h1 style="color:#FFFFFF;" id="NotFoundText">User not found</h1></li>
                         </ul>
                 </ul>            
             </div>
-            <div id="user_3" class="Disabled">
+            <div id="user" class="Disabled">
                 <div id="Avatar">
-                    <a title="Bo Thomsen"><img src="http://www.gravatar.com/avatar/dc07576afa6b5b172a378d6f5eb05f5f?s=256" title="Bo Thomsen" alt="Bo Thomsen" /></a>
+                    <a title="" id="linktag"><img  src="" height="256" width="256" id="profile_image" title="" alt="" /></a>
                 </div>
                 <div id="Profile">
                     <label for="Name">Name</label><br>
-                    <input type="text" id="Name" value="Bo Thomsen" disabled /><br>
+                    <input type="text" id="Name" value="" disabled /><br>
                     <label for="Email">Email</label><br>
-                    <input type="text" id="Email" value="bo@illution.dk"  disabled/><br>
+                    <input type="text" id="Email" value=""  disabled/><br>
                     <label for="Email">Location</label><br>
                     <select id="Location" disabled>
                         <optgroup title="Europe" label="Europe">Europe</optgroup>
-                            <option selected value="dk">Denmark</option>
-                            <option value="en">England</option>
-                            <option value="de">Germany</option>
-                            <option value="fr">France</option>
+                            <option selected value="Denmark">Denmark</option>
+                            <option value="England">England</option>
+                            <option value="Germany">Germany</option>
+                            <option value="France">France</option>
                         <optgroup title="Asia" label="Asia">Asia</optgroup>
-                            <option value="cn">China</option>
+                            <option value="China">China</option>
                     </select>
                 </div>    
-            </div>
-            <div id="user_32" class="Disabled">
-                <div id="Avatar">
-                    <a title="Car Magazine"><img src="images/Grey Bugatti Veyron.png" title="Car Magazine" alt="Car Magazine" /></a>
-                </div>
-                <div id="Profile">
-                    <label for="Name">Name</label><br>
-                    <input type="text" id="Name" value="Car Magazine"  disabled/><br>
-                    <label for="Email">Email</label><br>
-                    <input type="text" id="Email" value="info@carmagazine.co.uk" disabled/><br>
-                    <label for="Email">Location</label><br>
-                    <select id="Location" disabled>
-                        <optgroup title="Europe" label="Europe">Europe</optgroup>
-                            <option value="dk">Denmark</option>
-                            <option selected value="en">England</option>
-                            <option value="de">Germany</option>
-                            <option value="fr">France</option>
-                        <optgroup title="Asia" label="Asia">Asia</optgroup>
-                            <option value="cn">China</option>
-                    </select>
-                </div>
             </div>
             
             <!-- About Box -->
