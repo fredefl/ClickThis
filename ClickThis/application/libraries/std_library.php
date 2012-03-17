@@ -123,6 +123,17 @@ class Std_Library{
 	public static $_INTERNAL_SECURE_EXPORT_IGNORE = NULL;
 
 	/**
+	 * This property is used to force a specific property to be an array
+	 * @var array
+	 * @static
+	 * @access public
+	 * @since 1.0
+	 * @example
+	 * $this->_INTERNAL_FORCE_ARRAY = array("Questions");
+	 */
+	public static $_INTERNAL_FORCE_ARRAY = NULL;
+
+	/**
 	 * This property will contain a local instance of CodeIgniter,
 	 * if the children set's it
 	 * @var object
@@ -180,12 +191,23 @@ class Std_Library{
 				return FALSE;
 			}
 		}
+
+		//Link properties
 		if(property_exists($this, "_INTERNAL_LINK_PROPERTIES") && !is_null($this->_INTERNAL_LINK_PROPERTIES) && is_array($this->_INTERNAL_LINK_PROPERTIES)){
 			foreach ($this->_INTERNAL_LINK_PROPERTIES as $ClassProperty => $LinkData) {
 				if(is_array($LinkData)){
 					if(method_exists($this, "Link")){
 						self::Link($LinkData[0],$LinkData[1],$ClassProperty,true);
 					}
+				}
+			}
+		}
+
+		//Force to array
+		if(property_exists($this, "_INTERNAL_FORCE_ARRAY") && !is_null($this->_INTERNAL_FORCE_ARRAY) && is_array($this->_INTERNAL_FORCE_ARRAY)){
+			foreach ($this->_INTERNAL_FORCE_ARRAY as $Key) {
+				if(!is_array($this->{$Key})){
+					$this->{$Key} = array($this->{$Key});
 				}
 			}
 		}

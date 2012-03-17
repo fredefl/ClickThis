@@ -17,7 +17,7 @@ class Question extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $SerieId = NULL;
+	public $SeriesId = NULL;
 
 	/**
 	 * This property contains the title/question
@@ -140,6 +140,17 @@ class Question extends Std_Library{
 	public static $_INTERNAL_LINK_PROPERTIES = NULL;
 
 	/**
+	 * This property is used to force a specific property to be an array
+	 * @var array
+	 * @static
+	 * @access public
+	 * @since 1.0
+	 * @example
+	 * $this->_INTERNAL_FORCE_ARRAY = array("Questions");
+	 */
+	public static $_INTERNAL_FORCE_ARRAY = NULL;
+
+	/**
 	 * This is an internal property containing a CodeIgniter pointer
 	 * @var string
 	 * @internal This is a pointer to CodeIgniter
@@ -156,15 +167,16 @@ class Question extends Std_Library{
 	public function Question () {
 		$this->_CI =& get_instance();
 		self::Config($this->_CI);
-		$this->_INTERNAL_DATABASE_NAME_CONVERT = array(
+		/*$this->_INTERNAL_DATABASE_NAME_CONVERT = array(
 			"SerieId" => "SeriesId"
-		);
+		);*/
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id");
 		$this->_INTERNAL_LOAD_FROM_CLASS = array("Options" => "Option");
 		$this->_INTERNAL_LINK_PROPERTIES = array("Options" => array("Options",array("QuestionId" => "Id")));
+		$this->_INTERNAL_FORCE_ARRAY = array("Options");
 		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
-		$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_DATABASE_NAME_CONVERT);	
+		//$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_DATABASE_NAME_CONVERT);	
 	}
 }
 ?>

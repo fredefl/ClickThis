@@ -229,6 +229,17 @@ class Series extends Std_Library{
 	public static $_INTERNAL_SECURE_EXPORT_IGNORE = NULL;
 
 	/**
+	 * This property is used to force a specific property to be an array
+	 * @var array
+	 * @static
+	 * @access public
+	 * @since 1.0
+	 * @example
+	 * $this->_INTERNAL_FORCE_ARRAY = array("Questions");
+	 */
+	public static $_INTERNAL_FORCE_ARRAY = NULL;
+
+	/**
 	 * The local instance of CodeIgniter
 	 * @var object
 	 * @access private
@@ -254,6 +265,11 @@ class Series extends Std_Library{
 			"TargetPeople" => "User",
 			"Questions" => "Question",
 			"School" => "School"
+		);
+		$this->_INTERNAL_FORCE_ARRAY = array(
+			"Questions",
+			"TargetPeople",
+			"TargetGroup"
 		);
 		$this->_INTERNAL_LINK_PROPERTIES = array("Questions" => array("Questions",array("SeriesId" => "Id")));
 		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
