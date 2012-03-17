@@ -3,7 +3,7 @@ class clickthis_security
 {
 	//Variables
 	public $Pages = array('login','login/google','login/linkedin','login/twitter','login/facebook','login/linkedin/callback','login/myspace'); //None redirect pages
-	public $Keywords = array('login','social','register'); //None redirect Keywords
+	public $Keywords = array('api','login','social','register'); //None redirect Keywords
 	public $Developers = array(1 => 1, 2 => 1,'Bo Thomsen' => 1); //The Database ids of Developers
 	public $Offset = 0; //The Text offset when using Keyword array
 	public $IllutionLogin = 1; //Illtion Login of or on

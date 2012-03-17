@@ -28,6 +28,11 @@ class Option extends Std_Library{
 
 	/**
 	 * The option type etc Multiple choice,single choice, form field
+	 * @example
+	 * 	Multiple Choice = 1
+	 *	Single Choice = 2
+	 *	Text Field Multiplechoice = 3
+	 *  Text Field single choice = 4
 	 * @var string
 	 * @access public
 	 * @since 1.0
@@ -49,6 +54,14 @@ class Option extends Std_Library{
 	 * @since 1.0
 	 */
 	public $ViewOrder = NULL;
+
+	/**
+	 * The button color
+	 * @var string
+	 * @since 1.0
+	 * @access public
+	 */
+	public $Color = NULL;
 
 	#### Class Setttings ####
 
@@ -136,8 +149,10 @@ class Option extends Std_Library{
 		$this->_CI =& get_instance();
 		self::Config($this->_CI);
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
+		$this->_INTERNAL_DATABASE_NAME_CONVERT = array("OptionType" => "Type");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id");
 		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
+		$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_DATABASE_NAME_CONVERT);
 	}
 }
 ?>

@@ -293,6 +293,29 @@ class User extends Std_Library{
 	 * @internal This is a class setting variable
 	 */
 	public static $_INTERNAL_LOAD_FROM_CLASS = NULL;
+
+	/**
+	 * This property is used to determine what properties is going to be ignored,
+	 * if the secrure parameter is turned on in the export function
+	 * @var array
+	 * @since 1.0
+	 * @static
+	 * @access public
+	 * @example
+	 * $this->_INTERNAL_LINK_PROPERTIES = array("Email,"Google_Id");
+	 */
+	public static $_INTERNAL_SECURE_EXPORT_IGNORE = NULL;
+
+	/**
+	 * This property is used to force a specific property to be an array
+	 * @var array
+	 * @static
+	 * @access public
+	 * @since 1.0
+	 * @example
+	 * $this->_INTERNAL_FORCE_ARRAY = array("Questions");
+	 */
+	public static $_INTERNAL_FORCE_ARRAY = NULL;
 	
 	/**
 	 * This function is the constructor, it makes an instance of CodeIgniter and put it in the $this->CI property
@@ -315,7 +338,29 @@ class User extends Std_Library{
 			"Wordpress_Id" => "Wordpress",
 			"Twitter_Id" => "Twitter"
 		);
+		$this->_INTERNAL_SECURE_EXPORT_IGNORE = array(
+			"ClickThis_Id",
+			"OpenId_Token",
+			"Illution_Id",
+			"Wordpress_Id",
+			"Yahoo_Id",
+			"Myspace_Id",
+			"Flickr_Id",
+			"Google_Id",
+			"LinkedIn_Id",
+			"Facebook_Id",
+			"Twitter_Id",
+			"TOPT",
+			"Username",
+			"TargetGroup",
+			"UserGroup",
+			"Status",
+			"Method",
+			"Type",
+			"State"
+		);
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
+		$this->_INTERNAL_FORCE_ARRAY = array("UserGroup","TargetGroup");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id","ClickThis_Id");
 		$this->_INTERNAL_LOAD_FROM_CLASS = array("TargetGroup" => "Group");
 		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");

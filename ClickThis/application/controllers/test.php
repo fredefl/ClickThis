@@ -67,7 +67,7 @@ class Test extends CI_Controller {
 		$Series = new Series();
 		$Series->Load(10);
 		//$Series->Link("Questions",array("SeriesId" => "Id"),"Questions");
-		self::Debug($Series->Export());
+		self::Debug($Series->Export(false,true));
 		/*echo "<pre>";
 		print_r($Series->Debug());
 		echo "</pre>";

@@ -146,7 +146,7 @@ class Std_Model extends CI_Model{
 	 */
 	private function Exists($Id = NULL,$Table = NULL){
 		if(!is_null($Id) && !is_null($Table)){
-			$Query = $this->db->query("SELECT * FROM ".$Table." WHERE Id='".$Id."'");
+			$Query = $this->db->get_where($Table,array("Id" => $Id));
 			if($Query->num_rows() == 0){
 				return false;
 			}
@@ -173,7 +173,7 @@ class Std_Model extends CI_Model{
 				$Class->Id = $Id;
 			}
 			if(!is_null($Class->Id) && self::Exists($Class->Id,$Class->Database_Table)){
-				$ClassQuery = $this->db->query('SELECT * FROM '.$Class->Database_Table.' WHERE Id = ?',array($Class->Id));
+				$ClassQuery = $this->db->get_where($Class->Database_Table,array("Id" => $Class->Id));
 				foreach($ClassQuery->result() as $Row){
 					foreach ($Row as $Key => $Value) {
 						if(property_exists($this,"_INTERNAL_ROW_NAME_CONVERT") 
