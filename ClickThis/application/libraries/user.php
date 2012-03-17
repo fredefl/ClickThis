@@ -352,7 +352,6 @@ class User extends Std_Library{
 			"Twitter_Id",
 			"TOPT",
 			"Username",
-			"Email",
 			"TargetGroup",
 			"UserGroup",
 			"Status",

@@ -221,32 +221,33 @@ class Std_Library{
 						if(property_exists($this, "_CI") && !is_null($this->_CI)){
 							@$this->_CI->load->library($Value);
 						}
-
-						//If the property is an array and it contains data, then make the output an array of objects
-						if(is_array($this->{$Key}) && count($this->{$Key}) > 0){
-							$Temp = array();
-							foreach ($this->{$Key} as $Name) {
-								if(class_exists($Value)){
-									$Object = new $Value();
-									if($Object->Load($Name,$Simple)){
-										if(!is_null($Object)){
-											$Temp[] = $Object;
+						if(!is_null($this->{$Key}) && $this->{$Key} != ""){
+							//If the property is an array and it contains data, then make the output an array of objects
+							if(is_array($this->{$Key}) && count($this->{$Key}) > 0){
+								$Temp = array();
+								foreach ($this->{$Key} as $Name) {
+									if(class_exists($Value) && !is_null($Name) && $Name != ""){
+										$Object = new $Value();
+										if($Object->Load($Name,$Simple)){
+											if(!is_null($Object)){
+												$Temp[] = $Object;
+											}
 										}
 									}
 								}
-							}
-							if(count($Temp) > 0){
-								$this->{$Key} = $Temp;
-							}
+								if(count($Temp) > 0){
+									$this->{$Key} = $Temp;
+								}
 
-						//Else just set the property as a single object
-						} else {
-							if(!is_null($this->{$Key})){
-								if(class_exists($Value)){
-									$Object = new $Value();
-									if($Object->Load($this->{$Key},$Simple)){
-										if(!is_null($Object)){
-											$this->{$Key} = $Object;
+							//Else just set the property as a single object
+							} else {
+								if(!is_null($this->{$Key})){
+									if(class_exists($Value)){
+										$Object = new $Value();
+										if($Object->Load($this->{$Key},$Simple)){
+											if(!is_null($Object)){
+												$this->{$Key} = $Object;
+											}
 										}
 									}
 								}
