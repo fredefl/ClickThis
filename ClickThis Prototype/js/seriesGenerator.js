@@ -1,5 +1,19 @@
+/**
+ * ClickThis series generator
+ * http://illution.dk
+ *
+ * Copyright (c) 2011 illution
+ *
+ * @author Illution
+ * @version 1.0
+ */
+/**
+ * seriesGenerator Class
+ * @class seriesGenerator Class
+ */
+"use strict";
+
 var seriesGenerator = {
-	
 	/**
 	 * Generates the start page
 	 * @param  {string} text The the text that welcomes the user
@@ -9,7 +23,7 @@ var seriesGenerator = {
 		// Append start of div
 		var html = '<div id="welcome">';
 		// Append the text
-		html += '<p>' + text + '</p>';
+		html += '<h1>' + text + '</h1>';
 		// Append the begin the survey button
 		html += '<a class="mega button color-orange halfsize fullsize" id="begin">Begin the survey</a>';
 		// Append end of div
@@ -27,7 +41,7 @@ var seriesGenerator = {
 		// Append start of div
 		var html = '<div id="end">';
 		// Append the text
-		html += '<p>' + text + '</p>';
+		html += '<h1>' + text + '</h1>';
 		// Append the end the survey button
 		html += '<a class="mega button color-orange halfsize fullsize" id="end_survey">End the survey</a>';
 		// Append end of div
@@ -47,9 +61,9 @@ var seriesGenerator = {
 		// Sort the options
 		options = data.Options;
 		options.sort(function (a, b) {
-			if (parseInt(a.ViewOrder) < parseInt(b.ViewOrder)) { // A is first
+			if (parseInt(a.ViewOrder, 10) < parseInt(b.ViewOrder, 10)) { // A is first
 				return -1;
-			} else if (parseInt(a.ViewOrder) > parseInt(b.ViewOrder)) { // B is first
+			} else if (parseInt(a.ViewOrder, 10) > parseInt(b.ViewOrder, 10)) { // B is first
 				return 1;
 			} else {
 				return 0;
@@ -58,9 +72,8 @@ var seriesGenerator = {
 		// Append all the options
 		for (i = 0; i < options.length; i++) {
 			option = options[i];
-			html += buttonGenerator.newButton(option.Id, option.Color, option.Title, parseInt(option.OptionType), 1);
-			console.log(option.OptionType);
-		};
+			html += buttonGenerator.newButton(option.Id, option.Color, option.Title, parseInt(option.OptionType, 10), 1);
+		}
 		// End the conainer div
 		html += '</div>';
 		// Return the markup
@@ -93,4 +106,4 @@ var seriesGenerator = {
 	generate: function (data) {
 		$("#questionsContainer").html(this.generateHtml(data));
 	}
-}
+};

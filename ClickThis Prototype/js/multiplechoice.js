@@ -12,18 +12,18 @@ $(document).ready(function () {
 	addTitle('Which sport(s) do you practice?', $('#question_1'), 'Title');
 
 	/* Question 1 */
-	question1[0] = ['multi', 'green', 'Athletics', 0];
-	question1[1] = ['multi', 'green', 'Badminton', 0];
-	question1[2] = ['multi', 'green', 'Football', 0];
-	question1[3] = ['multi', 'green', 'Handball', 0];
-	question1[4] = ['multi', 'green', 'Shooting', 0];
-	question1[5] = ['multi', 'green', 'Swimming', 0];
-	question1[6] = ['multi', 'green', 'Tennis', 0];
-	question1[7] = ['multi', 'green', 'Volleyball', 0];
-	question1[8] = ['multi', 'gold', 'Others', 0];
-	question1[9] = ['button', 'red', 'None', 0];
-	question1[10] = ['formmulti', 'green', "", 0, "Enter shit here", false];
-	question1[11] = ['formmulti', 'green', "", 0, "This is for llama's", false];
+	question1[0] = [1, 'green', 'Athletics', 0];
+	question1[1] = [1, 'green', 'Badminton', 0];
+	question1[2] = [1, 'green', 'Football', 0];
+	question1[3] = [1, 'green', 'Handball', 0];
+	question1[4] = [1, 'green', 'Shooting', 0];
+	question1[5] = [1, 'green', 'Swimming', 0];
+	question1[6] = [1, 'green', 'Tennis', 0];
+	question1[7] = [1, 'green', 'Volleyball', 0];
+	question1[8] = [1, 'gold', 'Others', 0];
+	question1[9] = [2, 'red', 'None', 0];
+	question1[10] = [3, 'green', "", 0, "Enter shit here", false];
+	question1[11] = [3, 'green', "", 0, "This is for llama's", false];
 	//question1[10] = ['submit', 'orange', 'Send', 'send1', '#question_2',null);
 	question1[12] = ['submitSwipe', 'orange', 'Send', 'sendButton1', 'question_submit', null];
 	question(question1, 'question_1', true, true, '1', '#Title');
@@ -31,22 +31,22 @@ $(document).ready(function () {
 	addTitle('Which sport(s) do you like to watch?', $('#question_2'));
 
 	/* Question 2 */
-	question2[0] = ['multi', 'green', 'American Football', 0];
-	question2[1] = ['multi', 'green', 'Athletics', 0];
-	question2[2] = ['multi', 'green', 'Badminton', 0];
-	question2[3] = ['multi', 'green', 'Basketball', 0];
-	question2[4] = ['multi', 'green', 'Dance', 0];
-	question2[5] = ['multi', 'green', 'Football (Soccer)', 0];
-	question2[6] = ['multi', 'green', 'Handball', 0];
-	question2[7] = ['multi', 'green', 'Hockey', 0];
-	question2[8] = ['multi', 'green', 'Horse Riding', 0];
-	question2[9] = ['multi', 'green', 'Shooting', 0];
-	question2[10] = ['multi', 'green', 'Speedway', 0];
-	question2[11] = ['multi', 'green', 'Swimming', 0];
-	question2[12] = ['multi', 'green', 'Tennis', 0];
-	question2[13] = ['multi', 'green', 'Volleyball', 0];
-	question2[14] = ['multi', 'gold', 'Others', 0];
-	question2[15] = ['button', 'red', 'None', 0];
+	question2[0] = [1, 'green', 'American Football', 0];
+	question2[1] = [1, 'green', 'Athletics', 0];
+	question2[2] = [1, 'green', 'Badminton', 0];
+	question2[3] = [1, 'green', 'Basketball', 0];
+	question2[4] = [1, 'green', 'Dance', 0];
+	question2[5] = [1, 'green', 'Football (Soccer)', 0];
+	question2[6] = [1, 'green', 'Handball', 0];
+	question2[7] = [1, 'green', 'Hockey', 0];
+	question2[8] = [1, 'green', 'Horse Riding', 0];
+	question2[9] = [1, 'green', 'Shooting', 0];
+	question2[10] = [1, 'green', 'Speedway', 0];
+	question2[11] = [1, 'green', 'Swimming', 0];
+	question2[12] = [1, 'green', 'Tennis', 0];
+	question2[13] = [1, 'green', 'Volleyball', 0];
+	question2[14] = [1, 'gold', 'Others', 0];
+	question2[15] = [2, 'red', 'None', 0];
 	question2[16] = ['submitSwipe', 'orange', 'Send', 'sendButton2', 'question_submit', null];
 	question(question2, 'question_2', true, true, '2', 'h1');
 
