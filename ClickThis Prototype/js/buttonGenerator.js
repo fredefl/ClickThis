@@ -55,9 +55,6 @@ var buttonGenerator = {
 		if (type === 2) {
 			cssClass += "single ";
 		}
-		// Trim the CSS class
-		cssClass = $.trim(cssClass);
-
 		// Get the javascript functions
 		if (type === 1) {
 			onClickFunctions += "buttonGenerator.multipleChoice(this," + textField + ");";
@@ -66,11 +63,15 @@ var buttonGenerator = {
 			onClickFunctions += "buttonGenerator.singleChoice(this," + textField + ");";
 		}
 		if(type === 3){ // Multi Textfield
-			specialFunctions = 'ondblclick="buttonGenerator.multipleChoice(this,' + text + ',true);"'
+			specialFunctions = 'ondblclick="buttonGenerator.multipleChoice(this,' + text + ',true);"';
+			cssClass += "fullsize ";
 		}	
 		if(type === 4){ // Single Textfield
-			specialFunctions = 'ondblclick="buttonGenerator.singleChoice(this,' + text + ',true);"'
+			specialFunctions = 'ondblclick="buttonGenerator.singleChoice(this,' + text + ',true);"';
+			cssClass += "fullsize ";
 		}
+		// Trim the CSS class
+		cssClass = $.trim(cssClass);
 		// Special Classes
 		if (type === 2) { // Single
 			specialClass = "data-specialClass=\"single\"";
