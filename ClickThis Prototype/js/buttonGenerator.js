@@ -5,7 +5,7 @@
  * Copyright (c) 2011 illution
  *
  * @author Illution
- * @version 1.0
+ * @version 1.1
  */
 /**
  * buttonGenerator Class
@@ -21,95 +21,58 @@ var buttonGenerator = {
 	 * Creates a new button
 	 *
 	 * @param {integer} id The id of the button
-	 * @param {integer} value The on/off value (1/0)
 	 * @param {string} color The color of the button
 	 * @param {string} text The button text
-	 * @param {boolean} submit Wherever it should submit its data
-	 * @param {boolean} single Wherever it should deselect all other buttons (Single choice)
-	 * @param {string} group The submit group of the button, this parameter is optional
-	 * @param {boolean} form If is set to true then it will be a textfield
-	 * @param {string} placeholder The form field placeholder text
-	 * @param {boolean} spellcheck A boolean to set if the form element spellcheck should be on
+	 * @param {integer} type The button type
+	 * @param {integer} group The button's group
 	 * @returns {string} The html for the button
 	 */
-	newButton: function (id, value, color, text, submit, single, group, form, placeholder, spellcheck) {
-		if (!submit) {
-			submit = true;
-		}
-		if (!single) {
-			single = false;
-		}
-		if (group === undefined) {
-			group = null;
-		}
-		return this.newCustomButton(id, value, color, text, submit, single, group, form, placeholder, spellcheck);
-	},
-	/**
-	 * Creates a new custom button
-	 *
-	 * @param {integer} id The id of the button
-	 * @param {integer} value The on/off value (1/0)
-	 * @param {string} color The color of the button when its on
-	 * @param {string} text The button text
-	 * @param {boolean} submit Wherever it should submit its data
-	 * @param {boolean} single Wherever it should deselect all other buttons (Single choice)
-	 * @param {string} group The submit group of the button
-	 * @param {boolean} form If is set to true then it will be a textfield
-	 * @param {string} placeholder The form field placeholder text
-	 * @param {boolean} spellcheck A boolean to set if the form element spellcheck should be on
-	 * @returns {string} The html for the button
-	 */
-	newCustomButton: function (id, value, color, text, submit, single, group, form, placeholder, spellcheck) {
+	newButton: function (id, color, text, type, group) {
 		var cssClass = "",
 			groupHTML = "",
-			currentColor = "",
 			currentText = "",
 			onClickFunctions = "",
 			specialClass = "",
 			html = "",
 			onClickType = "onclick",
-			specialFunctions = "";
+			specialFunctions = "",
+			textField = 0;
 
-		spellcheck = spellcheck || false;
-		form = form || false;
-		placeholder = placeholder || "";
-		// Get the current color for the button
-		if (value) {
-			currentColor = buttonGenerator.defaultColor;
-		} else {
-			currentColor = color;
+		if (type === 3 || type === 4) {
+			textField = 1
 		}
-		if (form) {
-			currentText = '<textarea placeholder="' + placeholder + '" class="textfield" spellcheck="' + spellcheck + '" lang="en" data-value="0" data-id="1" data-submitgroup="1"></textarea>';
+
+		if (type === 3 || type === 4) {
+			currentText = '<textarea placeholder="' + text + '" class="textfield" spellcheck="0" lang="en" data-value="0" data-id="1" data-submitgroup="1"></textarea>';
 		} else {
 			currentText = text;
 		}
 
 		// Get the cssClass
-		cssClass += "mega button color-" + currentColor + " halfsize ";
-		// If it is a submittable button, add submit Class
-		if (submit && submit !== undefined && submit !== null) {
-			cssClass += "submit ";
-		}
+		cssClass += "mega button color-" + color + " halfsize ";
+
 		// If it is a single-selectable button, add single Class
-		if (single && single !== undefined && single !== null) {
+		if (type === 2) {
 			cssClass += "single ";
 		}
+		// Trim the CSS class
 		cssClass = $.trim(cssClass);
+
 		// Get the javascript functions
-		if (single && single !== undefined && single !== null) {
-			if(form){
-				specialFunctions = 'ondblclick="buttonGenerator.singleChoice(this,' + form + ',true);"'
-			}
-			onClickFunctions += "buttonGenerator.singleChoice(this," + form + ");";
-		} else {
-			if(form){
-				specialFunctions = 'ondblclick="buttonGenerator.multipleChoice(this,' + form + ',true);"'
-			}
-			onClickFunctions += "buttonGenerator.multipleChoice(this," + form + ");";
+		if (type === 1) {
+			onClickFunctions += "buttonGenerator.multipleChoice(this," + textField + ");";
+		}
+		if (type === 2) { // Single
+			onClickFunctions += "buttonGenerator.singleChoice(this," + textField + ");";
+		}
+		if(type === 3){ // Multi Textfield
+			specialFunctions = 'ondblclick="buttonGenerator.multipleChoice(this,' + text + ',true);"'
+		}	
+		if(type === 4){ // Single Textfield
+			specialFunctions = 'ondblclick="buttonGenerator.singleChoice(this,' + text + ',true);"'
 		}
 		// Special Classes
-		if (single && single !== undefined && single !== null) {
+		if (type === 2) { // Single
 			specialClass = "data-specialClass=\"single\"";
 		}
 		if (group !== undefined && group !== null && group !== "") {
@@ -119,7 +82,7 @@ var buttonGenerator = {
 		html = [
 			'<a class="' + cssClass + '"',
 			onClickType+'="' + onClickFunctions + '"',
-			'data-value="' + value + '"',
+			'data-value="0"',
 			'data-id="' + id + '"',
 			groupHTML,
 			'data-color="' + color + '"',
@@ -129,54 +92,6 @@ var buttonGenerator = {
 			specialFunctions,
 			'>' + currentText + '</a>\r\n'
 		].join("");
-		// Return the Html Code
-		return html;
-	},
-	/**
-	 * Creates a new submit button
-	 *
-	 * @param {integer} id The color of the button
-	 * @param {integer} value The button text
-	 * @returns {string} The html for the button
-	 */
-	newSubmitButton: function (color, text) {
-		var html = [
-				'<a  class="mega button ' + color + ' halfsize fullsize"',
-				'onClick="buttonGenerator.submitData();"',
-				'>' + text + '</a>'
-			].join("");
-		// Return the Html Code
-		return html;
-	},
-	/**
-	 * Creates a submit button, with custom properties
-	 *
-	 * @param {string} color The color of the button
-	 * @param {string} text The text of the button
-	 * @param {string} id The HTML id of the button
-	 * @param {string} location The location to submit the result
-	 * @param {string} href The url to redirect, when data is submitted
-	 * @param {string} group The submit group of the button
-	 * @returns {string} The html of the button
-	 */
-	newCustomSubmitButton: function (color, text, id, location, href, group) {
-		var html = [
-				'<a  class="mega button color-' + color + ' halfsize fullsize"',
-				'onClick="buttonGenerator.submitCustomData(this);"'
-			].join("");
-		if (id !== undefined && id !== null) {
-			html += 'id="' + id + '"';
-		}
-		if (location !== undefined && location !== null) {
-			html += 'data-location="' + location + '"';
-		}
-		if (href !== undefined && href !== null) {
-			html += 'data-link="' + href + '"';
-		}
-		if (group !== undefined && group !== null) {
-			html += 'data-submitgroup="' + group + '"';
-		}
-		html += '\\>' + text + '</a>';
 		// Return the Html Code
 		return html;
 	},
@@ -284,54 +199,6 @@ var buttonGenerator = {
 		}
 	},
 	/**
-	 * Submits the data
-	 */
-	submitData: function () {
-		var i = 0,
-			postString = "",
-			button = null;
-		for (i in $('.button.submit').toArray()) {
-			button = $('.button.submit').toArray()[i];
-			if (button !== null) {
-				postString += button.getAttribute("data-id") + "=" + button.getAttribute("data-value") + ", ";
-			}
-		}
-		postString = postString.slice(0, -1);
-	},
-	/**
-	 * Submit the button data with a posibility to use a defined redirect url and a submit location.
-	 * This function also have the ability only to submit data from buttons within the same submit group as the submitButton.
-	 * Mind this function can have some problems and need revalidation and testing.
-	 *
-	 * @param {object} submitButton The submit button that submits
-	 */
-	submitCustomData: function (submitButton) {
-		var i = 0,
-			postString = "",
-			postLocation = submitButton.getAttribute("data-location"),
-			redirectUrl = submitButton.getAttribute("data-link"),
-			submitGroup = submitButton.getAttribute("data-submitgroup"),
-			button = null;
-		for (i in $('.button.submit').toArray()) {
-			button = $('.button.submit').toArray()[i];
-			if (submitGroup !== undefined) {
-				if (button !== null && button.getAttribute("data-submitgroup") === submitGroup) {
-					if (button.getAttribute("data-id") !== null && button.getAttribute("data-id") !== 'null') {
-						postString += button.getAttribute("data-id") + "=" + button.getAttribute("data-value") + ", ";
-					}
-				}
-			} else {
-				if (button !== null && button.getAttribute("data-id") !== null) {
-					postString += button.getAttribute("data-id") + "=" + button.getAttribute("data-value") + ", ";
-				}
-			}
-		}
-		postString = postString.slice(0, -1);
-		if (redirectUrl !== undefined && redirectUrl !== null) {
-			window.location = redirectUrl;
-		}
-	},
-	/**
 	 * This function cretes a custom submit button,
 	 * the only different from 'submitCutstomData' is,
 	 * that this function doesn't redirect it call a callback function instead
@@ -346,8 +213,8 @@ var buttonGenerator = {
 			submitGroup = submitButton.getAttribute("data-submitgroup"),
 			callbackOptions = submitButton.getAttribute('data-callbackParameters'),
 			button = null;
-		for (i in $('.button.submit').toArray()) {
-			button = $('.button.submit').toArray()[i];
+		for (i in $('.button').toArray()) {
+			button = $('.button').toArray()[i];
 			if (submitGroup !== undefined) {
 				if (button !== null && button.getAttribute("data-submitgroup") === submitGroup) {
 					if (button.getAttribute("data-id") !== null && button.getAttribute("data-id") !== 'null') {
@@ -376,8 +243,8 @@ var buttonGenerator = {
 	unCheckAll: function () {
 		var i = 0,
 			button = null;
-		for (i in $('.button.submit').toArray()) {
-			button = $('.button.submit').toArray()[i];
+		for (i in $('.button').toArray()) {
+			button = $('.button').toArray()[i];
 			if (button !== null) {
 				if (button.getAttribute("data-value") === "1") {
 					if ($(button).find(".textfield").length > 0) {
@@ -396,7 +263,7 @@ var buttonGenerator = {
 	 * @param {boolean} form A boolean to set if the element is a form element
 	 * @param {boolean} formDeselect If this is set to true all other form select/deselect options will be overwritten
 	 */
-	singleChoice: function (button, form , formDeselect) {
+	singleChoice: function (button, form, formDeselect) {
 		form = form || false;
 		formDeselect = formDeselect || false;
 		var value = button.getAttribute("data-value");
@@ -404,7 +271,7 @@ var buttonGenerator = {
 			this.unCheckAll();
 		} else {
 			this.unCheckAll();
-			this.changeState(button, form , formDeselect);
+			this.changeState(button, form, formDeselect);
 		}
 	},
 	/**
