@@ -104,10 +104,23 @@ class Std_Library{
 	 * @since 1.0
 	 * @access public
 	 * @example
-	 * $this->$_INTERNAL_LINK_PROPERTIES = array("Questions" => array("Questions",array("SeriesId" => "Id")));
+	 * @static
+	 * $this->_INTERNAL_LINK_PROPERTIES = array("Questions" => array("Questions",array("SeriesId" => "Id")));
 	 * @see Link
 	 */
 	public static $_INTERNAL_LINK_PROPERTIES = NULL;
+
+	/**
+	 * This property is used to determine what properties is going to be ignored,
+	 * if the secrure parameter is turned on in the export function
+	 * @var array
+	 * @since 1.0
+	 * @static
+	 * @access public
+	 * @example
+	 * $this->_INTERNAL_LINK_PROPERTIES = array("Email,"Google_Id");
+	 */
+	public static $_INTERNAL_SECURE_EXPORT_IGNORE = NULL;
 
 	/**
 	 * This property will contain a local instance of CodeIgniter,
@@ -412,11 +425,13 @@ class Std_Library{
 	 * @return array All the class vars and values
 	 * @param boolean $Database If this flag is set to true, the data will be exported so the key names,
 	 * fits the database row names
+	 * @param boolean $Secure If this flag is set to true, then the $_INTERNAL_SECURE_EXPORT_IGNORE is used to ignore
+	 * not public rows.
 	 * @since 1.0
 	 * @access public
 	 * @return array The class data as an array
 	 */
-	public function Export ($Database = false) {
+	public function Export ($Database = false,$Secure = false) {
 		if ($Database) {
 			$Array = array();
 			$Ignore = NULL;
@@ -460,34 +475,93 @@ class Std_Library{
 				}
 			}
 		} 
-		else {
+		else if(!$Database && !$Secure){
 			$Array = array();
-			foreach (get_class_vars(get_class($this)) as $Name => $Value) {
-				if (!self::Ignore($Name)) {
-					if(self::Contains_Object($this->{$Name})){
-						if(is_array($this->{$Name})){
-							$TempArray = array();
-							foreach ($this->{$Name} as $Object) {
-								if(method_exists($Object, "Export")){
-									$TempArray[] = $Object->Export();
-								}
-							}
-							if(count($TempArray) > 0){
-								$Array[$Name] = $TempArray;
-							} else {
-								$Array[$Name] = $this->{$Name};
-							}
-						} else {
-							if(method_exists($this->{$Name}, "Export")){
-								$Array[$Name] = $this->{$Name}->Export();
-							}
-						}
-					} else {
-						$Array[$Name] = $this->{$Name};
-					}
-				}
+			$Array = self::Normal_Export();
+		} else if($Secure){
+			if(property_exists($this, "_INTERNAL_SECURE_EXPORT_IGNORE") && !is_null($this->_INTERNAL_SECURE_EXPORT_IGNORE) && is_array($this->_INTERNAL_SECURE_EXPORT_IGNORE)){
+				$Array = array();
+				$Array = self::Secure_Export();
+			} 
+			else {
+				$Array = array();
+				$Array = self::Normal_Export(true);
 			}
 		}
+		return $Array;
+	}
+
+	/**
+	 * This function uses the $_INTERNAL_SECURE_EXPORT_IGNORE,
+	 * to remove the properties that's not gonna be available for the public
+	 * @since 1.0
+	 * @access private
+	 * @return array The exported data as an array
+	 */
+	private function Secure_Export(){
+		$Array = array();
+		foreach (get_class_vars(get_class($this)) as $Name => $Value) {
+			if (!self::Ignore($Name,$this->_INTERNAL_SECURE_EXPORT_IGNORE)) {
+				if(self::Contains_Object($this->{$Name})){
+					if(is_array($this->{$Name})){
+						$TempArray = array();
+						foreach ($this->{$Name} as $Object) {
+							if(method_exists($Object, "Export")){
+								$TempArray[] = $Object->Export(false,true);
+							}
+						}
+						if(count($TempArray) > 0){
+							$Array[$Name] = $TempArray;
+						} else {
+							$Array[$Name] = $this->{$Name};
+						}
+					} else {
+						if(method_exists($this->{$Name}, "Export")){
+							$Array[$Name] = $this->{$Name}->Export(false,true);
+						}
+					}
+				} else {
+					$Array[$Name] = $this->{$Name};
+				}
+			}
+		}	
+		return $Array;		
+	}
+
+	/**
+	 * This function does a normal export without any not normal ignores
+	 * @since 1.0
+	 * @param boolean $Secure If this flag is set to true then the sub objects will have the secure export added to the export function
+	 * @access private
+	 * @return array The exported data as an array
+	 */
+	private function Normal_Export($Secure = false){
+		$Array = array();
+		foreach (get_class_vars(get_class($this)) as $Name => $Value) {
+			if (!self::Ignore($Name)) {
+				if(self::Contains_Object($this->{$Name})){
+					if(is_array($this->{$Name})){
+						$TempArray = array();
+						foreach ($this->{$Name} as $Object) {
+							if(method_exists($Object, "Export")){
+								$TempArray[] = $Object->Export(false,$Secure);
+							}
+						}
+						if(count($TempArray) > 0){
+							$Array[$Name] = $TempArray;
+						} else {
+							$Array[$Name] = $this->{$Name};
+						}
+					} else {
+						if(method_exists($this->{$Name}, "Export")){
+							$Array[$Name] = $this->{$Name}->Export(false,$Secure);
+						}
+					}
+				} else {
+					$Array[$Name] = $this->{$Name};
+				}
+			}
+		}	
 		return $Array;
 	}
 

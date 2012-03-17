@@ -217,6 +217,18 @@ class Series extends Std_Library{
 	public static $_INTERNAL_LINK_PROPERTIES = NULL;
 
 	/**
+	 * This property is used to determine what properties is going to be ignored,
+	 * if the secrure parameter is turned on in the export function
+	 * @var array
+	 * @since 1.0
+	 * @static
+	 * @access public
+	 * @example
+	 * $this->_INTERNAL_LINK_PROPERTIES = array("Email,"Google_Id");
+	 */
+	public static $_INTERNAL_SECURE_EXPORT_IGNORE = NULL;
+
+	/**
 	 * The local instance of CodeIgniter
 	 * @var object
 	 * @access private
@@ -247,78 +259,5 @@ class Series extends Std_Library{
 		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_DATABASE_NAME_CONVERT);	
 	}
-	
-	/*public function Load ($Id) {
-		// Query Database
-		$Query = $this->CI->db->query("Select * From Series Where Id='$Id'");
-		// Get Row
-		$Row = $Query->row();
-		// Get Variables
-		$this->Id = $Row->Id;
-		$this->StartTime = $Row->StartTime;
-		$this->EndTime = $Row->EndTime;
-		$this->Title = $Row->Title;
-		$this->Creator = $Row->Creator;
-		$this->Type = $Row->Type;
-		$this->Description = $Row->Description;
-		$this->TargetGroup = $Row->TargetGroup;
-		$this->LoadQuestions();
-	}
-	
-	private function LoadQuestions () {
-		$Query = $this->CI->db->query("Select (Id) From Questions Where SeriesId = ?", array($this->Id));
-		
-		foreach ($Query->result() as $Row) {
-			$Question = new Question();
-			$Question->Load($Row->Id);
-			$this->Questions[] = $Question;
-		}
-	}
-	
-	public function Save () {
-		
-		if($this->Id <> 0) {
-			$this->CI->db->query("Update Series SET Id = ?, StartTime = ?, EndTime = ?, Title = ?, Creator = ?, Type = ?, Description = ?, TargetGroup = ? Where Id = ?",
-								array(	
-										$this->Id,
-										$this->StartTime,
-										$this->EndTime, 
-										$this->Title, 
-										$this->Creator,
-										$this->Type,
-										$this->Description,
-										$this->TargetGroup,
-										$this->Id
-									)
-							
-			);	
-		} else {
-			$this->CI->db->query("Insert Into Series (StartTime,EndTime,Title,Creator,Type,Description,TargetGroup) Values(?,?,?,?,?,?,?)",
-								array(	
-										$this->StartTime, 
-										$this->EndTime, 
-										$this->Title, 
-										$this->Creator,
-										$this->Type,
-										$this->Description,
-										$this->TargetGroup
-									)
-							
-			);	
-
-		}
-	}*/
-	
-	/*public function Debug () {
-		$Array = array();
-		$Array['StartTime'] = $this->StartTime;
-		$Array['EndTime'] = $this->EndTime; 
-		$Array['Title'] = $this->Title;
-		$Array['Creator'] = $this->Creator;
-		$Array['Type'] = $this->Type;
-		$Array['Description'] = $this->Description;
-		$Array['TargetGroup'] = $this->TargetGroup;
-		return $Array;	
-	}*/
 }
 ?>
