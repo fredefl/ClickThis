@@ -21,39 +21,35 @@ var buttonGenerator = {
 	 * Creates a new button
 	 *
 	 * @param {integer} id The id of the button
-	 * @param {integer} value The on/off value (1/0)
 	 * @param {string} color The color of the button
 	 * @param {string} text The button text
 	 * @param {integer} type The button type
 	 * @param {integer} group The button's group
 	 * @returns {string} The html for the button
 	 */
-	newButton: function (id, value, color, text, type, group) {
+	newButton: function (id, color, text, type, group) {
 		var cssClass = "",
 			groupHTML = "",
-			currentColor = "",
 			currentText = "",
 			onClickFunctions = "",
 			specialClass = "",
 			html = "",
 			onClickType = "onclick",
-			specialFunctions = "";
+			specialFunctions = "",
+			textField = 0;
 
-		// Get the current color for the button
-		if (value) {
-			currentColor = buttonGenerator.defaultColor;
-		} else {
-			currentColor = color;
+		if (type === 3 || type === 4) {
+			textField = 1
 		}
 
 		if (type === 3 || type === 4) {
-			currentText = '<textarea placeholder="' + placeholder + '" class="textfield" spellcheck="' + spellcheck + '" lang="en" data-value="0" data-id="1" data-submitgroup="1"></textarea>';
+			currentText = '<textarea placeholder="' + text + '" class="textfield" spellcheck="0" lang="en" data-value="0" data-id="1" data-submitgroup="1"></textarea>';
 		} else {
 			currentText = text;
 		}
 
 		// Get the cssClass
-		cssClass += "mega button color-" + currentColor + " halfsize ";
+		cssClass += "mega button color-" + color + " halfsize ";
 
 		// If it is a single-selectable button, add single Class
 		if (type === 2) {
@@ -63,16 +59,17 @@ var buttonGenerator = {
 		cssClass = $.trim(cssClass);
 
 		// Get the javascript functions
+		if (type === 1) {
+			onClickFunctions += "buttonGenerator.multipleChoice(this," + textField + ");";
+		}
 		if (type === 2) { // Single
-			if(type === 4){ // Single Textfield
-				specialFunctions = 'ondblclick="buttonGenerator.singleChoice(this,' + textfield + ',true);"'
-			}
-			onClickFunctions += "buttonGenerator.singleChoice(this," + textfield + ");";
-		} else {
-			if(type === 3){ // Multi Textfield
-				specialFunctions = 'ondblclick="buttonGenerator.multipleChoice(this,' + textfield + ',true);"'
-			}
-			onClickFunctions += "buttonGenerator.multipleChoice(this," + textfield + ");";
+			onClickFunctions += "buttonGenerator.singleChoice(this," + textField + ");";
+		}
+		if(type === 3){ // Multi Textfield
+			specialFunctions = 'ondblclick="buttonGenerator.multipleChoice(this,' + text + ',true);"'
+		}	
+		if(type === 4){ // Single Textfield
+			specialFunctions = 'ondblclick="buttonGenerator.singleChoice(this,' + text + ',true);"'
 		}
 		// Special Classes
 		if (type === 2) { // Single
@@ -85,7 +82,7 @@ var buttonGenerator = {
 		html = [
 			'<a class="' + cssClass + '"',
 			onClickType+'="' + onClickFunctions + '"',
-			'data-value="' + value + '"',
+			'data-value="0"',
 			'data-id="' + id + '"',
 			groupHTML,
 			'data-color="' + color + '"',
@@ -216,8 +213,8 @@ var buttonGenerator = {
 			submitGroup = submitButton.getAttribute("data-submitgroup"),
 			callbackOptions = submitButton.getAttribute('data-callbackParameters'),
 			button = null;
-		for (i in $('.button.submit').toArray()) {
-			button = $('.button.submit').toArray()[i];
+		for (i in $('.button').toArray()) {
+			button = $('.button').toArray()[i];
 			if (submitGroup !== undefined) {
 				if (button !== null && button.getAttribute("data-submitgroup") === submitGroup) {
 					if (button.getAttribute("data-id") !== null && button.getAttribute("data-id") !== 'null') {
@@ -246,8 +243,8 @@ var buttonGenerator = {
 	unCheckAll: function () {
 		var i = 0,
 			button = null;
-		for (i in $('.button.submit').toArray()) {
-			button = $('.button.submit').toArray()[i];
+		for (i in $('.button').toArray()) {
+			button = $('.button').toArray()[i];
 			if (button !== null) {
 				if (button.getAttribute("data-value") === "1") {
 					if ($(button).find(".textfield").length > 0) {
@@ -274,7 +271,7 @@ var buttonGenerator = {
 			this.unCheckAll();
 		} else {
 			this.unCheckAll();
-			this.changeState(button, form , formDeselect);
+			this.changeState(button, form, formDeselect);
 		}
 	},
 	/**
