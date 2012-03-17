@@ -46,7 +46,7 @@ var buttonGenerator = {
 			currentColor = color;
 		}
 
-		if (type === 3) {
+		if (type === 3 || type === 4) {
 			currentText = '<textarea placeholder="' + placeholder + '" class="textfield" spellcheck="' + spellcheck + '" lang="en" data-value="0" data-id="1" data-submitgroup="1"></textarea>';
 		} else {
 			currentText = text;
@@ -64,12 +64,12 @@ var buttonGenerator = {
 
 		// Get the javascript functions
 		if (type === 2) { // Single
-			if(type === 3){ // Textfield
+			if(type === 4){ // Single Textfield
 				specialFunctions = 'ondblclick="buttonGenerator.singleChoice(this,' + textfield + ',true);"'
 			}
 			onClickFunctions += "buttonGenerator.singleChoice(this," + textfield + ");";
 		} else {
-			if(type === 3){ // Textfield
+			if(type === 3){ // Multi Textfield
 				specialFunctions = 'ondblclick="buttonGenerator.multipleChoice(this,' + textfield + ',true);"'
 			}
 			onClickFunctions += "buttonGenerator.multipleChoice(this," + textfield + ");";
