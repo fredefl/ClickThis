@@ -77,21 +77,22 @@ function question(buttonsArray, div, submit, single, group, header) {
 	for (i in buttonsArray) {
 		button = buttonsArray[i];
 		if (button[0] === 'submit') {
-			buttons += buttonGenerator.newCustomSubmitButton(button[1], button[2], button[3], button[5], button[4], group);
+			//currentId++;
+			//buttons += buttonGenerator.newButton(button[3],button[2],button[1],group);
 		} else if (button[0] === 'button') {
 			currentId++;
-			buttons += buttonGenerator.newButton(currentId, button[3], button[1], button[2], submit, single, group);
+			buttons += buttonGenerator.newButton(currentId, button[1] , button[2], 2 ,group);
 		} else if (button[0] === 'multi') {
 			currentId++;
-			buttons += buttonGenerator.newButton(currentId, button[3], button[1], button[2], null, null, group);
+			buttons += buttonGenerator.newButton(currentId, button[1], button[2], 1 ,group);
 		} else if (button[0] === 'submitSwipe') {
 			buttons += buttonGenerator.newCustomSwipeSubmitButton(button[1], button[2], button[3], button[6], group, button[4], button[5]);
 		} else if (button[0] === 'form'){
 			currentId++;
-			buttons += buttonGenerator.newButton(currentId, button[3], button[1], button[2], submit, single, group ,true , button[5], button[7]);
+			buttons += buttonGenerator.newButton(currentId, button[1], button[2], 4 ,group);
 		} else if(button[0] === "formmulti"){
 			currentId++;
-			buttons += buttonGenerator.newButton(currentId, button[3], button[1], button[2], null, null, group, true, button[4], button[5]);
+			buttons += buttonGenerator.newButton(currentId, button[1], button[2], 3,group);
 		}
 	}
 	if (div !== undefined && div !== null) {

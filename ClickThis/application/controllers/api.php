@@ -78,7 +78,7 @@ class Api extends CI_Controller {
 
 
 	/**
-	 * [Standard_API description]
+	 * Thus function handles the standard API calls
 	 * @param string $Class The class name of the class to use
 	 * @param integer $Id    The database id of the data to get
 	 * @access private
