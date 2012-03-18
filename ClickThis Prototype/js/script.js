@@ -1,6 +1,7 @@
 "use strict";
 //----------- EVENT LISTENERS ----------------------//
 
+// Add the on click listener to the about box
 $('#closeAboutBox').click(function () {
 	hideAboutBox();
 });
@@ -15,44 +16,53 @@ window.addEventListener('load', function (e) {
 	}
 }, false);
 
+// Add the touch effect to the list buttons
 $('#jqt ul li').bind('touchstart', function () {
 	$(this).addClass("touchActive");
 });
 
+// Add the touch effect to the list buttons
 $('#jqt ul li').bind('touchend', function () {
 	$(this).removeClass("touchActive");
 });
 
+// Add the touch effect to the list buttons
 $('#jqt ul li').bind('touchmove', function () {
 	$(this).removeClass("touchActive");
 });
 
 $(document).ready(function () {
+	// Shorten title if on home
 	if (isOnPage('home.html')) {
 		shortenTitle();
 	}
+	// Add the about box
 	addAboutBox();
-	//aboutText();
 });
 
 $(window).resize(function (e) {
+	// Shorten title if on home
 	if (isOnPage('home.html')) {
 		shortenTitle();
 	}
+	// Resize the buttons if the browser window resizes
 	if (isOnPage('multiplechoice.html') || isOnPage('singlechoice.html') || isOnPage('buttons.html')) {
 		buttonResizer.resizeButtons(document.body);
 	}
 });
 
 document.addEventListener("orientationChanged", function () {
+	// Shorten title if on home
 	if (isOnPage('home.html')) {
 		shortenTitle();
 	}
+	// Resize the buttons if the orientation changes
 	if (isOnPage('multiplechoice.html') || isOnPage('singlechoice.html') || isOnPage('buttons.html')) {
 		buttonResizer.resizeButtons(document.body);
 	}
 });
 
+// If the hash changes
 $(window).hashchange(function () {
 	var Hash,
 		page;
@@ -73,11 +83,3 @@ $('#backButton').click(function () {
 		window.location = $('#backButton').attr('data-href');
 	}
 });
-
-/*
-$(document).ready(function () {
-	$("#series li:first-child").animate({
-		height:"75px"
-	},500);
-})
-*/

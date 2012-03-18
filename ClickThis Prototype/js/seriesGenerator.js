@@ -123,7 +123,67 @@ var seriesGenerator = {
 	 * @param  {json} data The series data
 	 * @return {void}
 	 */
-	generate: function (data) {
-		$("#questionsContainer").html(this.generateHtml(data));
+	generate: function (data, container) {
+		// Get the container if not set
+		if(container == undefined) {
+			container = $("#questionsContainer");
+		}
+		// Add the html
+		$(container).html(this.generateHtml(data));
+		// Hyphenate
+		this.hyphenate(document.body);
+		// Add swipe functionality
+		this.addSwipe(container[0]); // The [0] converts the jQuery object to a DOM object
+		// Add event listeners
+		this.addListeners();
+		// Return
+		return true;
+	},
+
+	/**
+	 * Runs the hyphenator
+	 * @param  {object} element The element to hyphenate
+	 * @return {void}
+	 */
+	hyphenate: function (element) {
+		if(element == undefined) {
+			element = document.body;
+		}
+		Hyphenator.config({
+			displaytogglebox : true,
+			minwordlength : 4,
+			useCSS3hyphenation: true,
+			onhyphenationdonecallback : function () {
+				buttonResizer.resizeButtons(element);
+			}
+		});
+		Hyphenator.run();
+	},
+
+	/**
+	 * Adds swipe functionality
+	 * @param {object} container The container element to add swipe to
+	 */
+	addSwipe: function (element) {
+		window.questionSwipe = new Swipe(element, {
+			callback: function () {
+				buttonResizer.resizeButtons(document.body);
+			window.scrollTo(0, 1);
+			}
+		});
+	},
+
+	/**
+	 * Adds button event listeners
+	 */
+	addListeners: function () {
+		// The begin button
+		$('#begin').click(function () {
+			window.questionSwipe.next();
+		});
+		// The end button
+		$('#end').click(function () {
+			window.location = 'http://illution.dk/ClickThisPrototype/home.html';
+		});   
 	}
 };
