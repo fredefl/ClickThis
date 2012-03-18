@@ -50,6 +50,11 @@ var seriesGenerator = {
 		return html;
 	},
 
+	/**
+	 * Generates a single question
+	 * @param  {json} data The question data
+	 * @return {string}
+	 */
 	generateQuestion: function (data) {
 		// Append the container div
 		var i,
@@ -80,6 +85,11 @@ var seriesGenerator = {
 		return html;
 	},
 
+	/**
+	 * Generates all the quesions
+	 * @param  {json} data The questions
+	 * @return {string}
+	 */
 	generateQuestions: function (data) {
 		var i,
 			html = "";
@@ -89,6 +99,11 @@ var seriesGenerator = {
 		return html;
 	},
 
+	/**
+	 * Generates html code
+	 * @param  {json} data The series data
+	 * @return {string}
+	 */
 	generateHtml: function (data) {
 		// Append container div
 		var html = "<div>";
@@ -103,6 +118,11 @@ var seriesGenerator = {
 		return html;
 	},
 
+	/**
+	 * Generates a series
+	 * @param  {json} data The series data
+	 * @return {void}
+	 */
 	generate: function (data) {
 		$("#questionsContainer").html(this.generateHtml(data));
 	}
