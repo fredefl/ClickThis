@@ -79,6 +79,7 @@ var seriesGenerator = {
 			option = options[i];
 			html += buttonGenerator.newButton(option.Id, option.Color, option.Title, parseInt(option.OptionType, 10), 1);
 		}
+
 		// End the conainer div
 		html += '</div>';
 		// Return the markup
