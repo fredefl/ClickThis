@@ -321,7 +321,7 @@ var ajaxQueue = {
 				success: function (data) {
 					// Remove the task from the queue
 					ajaxQueue.remove(currentTask.id);
-					ajaxQueue.log("Sending of '" + currentTask.data + "' to '" + currentTask.url + "' was successfull.");/*LOG*/
+					ajaxQueue.log("Sending of '" + currentTask.data + "' to '" + currentTask.url + "' was successful.");/*LOG*/
 					// Call the groups callback
 					callback = ajaxQueue.callbackArray.onSuccess[currentTask.group];
 					if (callback && typeof (callback) === "function") {

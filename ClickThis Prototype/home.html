@@ -13,7 +13,7 @@
 	</head>
 	<body>
         <input type="hidden" id="currentpage" value="user" />
-        <div id="jqt">
+        <div id="page">
         	<!-- The full page div -->
             <div id="home" class="current" >
             	<!-- Toolbar -->
@@ -42,7 +42,7 @@
                         <li class="arrow"><a href="apitest.html">Api Test</a></li>  
                         <li class="arrow"><a href="#add_issue">Add Issue</a></li> 
                         <li class="arrow" id="updateButton"><a href="#">Update Desktop</a></li>
-                        <li class="arrow"><a href="Ajax Queue/index.html">Ajax Queue</a></li>
+                        <li class="arrow"><a href="ajaxQueue.html">Ajax Queue</a></li>
                         <li class="forward"><a>Page View Counter</a><small class="counter" id="pageCount">0</small></li>
                         <li><a id="chacheStatus">Cache status </a></li>
                     </ul>
@@ -94,12 +94,11 @@
                 </ul> <!-- end of bottom -->
             </div> <!-- end of home -->
         </div> <!-- end of jqt -->
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script src="js/jquery.min.js"></script>
         <script src="http://cdn.illution.dk/JS/jquery.hashchange.min.js"></script>
         <script src="http://cdn.beaconpush.com/clients/client-1.js"></script>
         <script src="js/clickthis.js"></script><script src="js/script.js"></script>
-        <!--<script src="http://debug.phonegap.com/target/target-script-min.js#illutionclickthisprototypetest"></script>-->
-        <script src="Ajax Queue/ajaxQueue.js"></script>
+        <script src="js/ajaxQueue.js"></script>
         <script type="text/javascript">
             $(window).load(function () {
                 ajaxQueue.registerCallback({type:"onStatusCodeChange"}, function () {
