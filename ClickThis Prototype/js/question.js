@@ -79,18 +79,18 @@ function question(buttonsArray, div, submit, single, group, header) {
 		if (button[0] === 'submit') {
 			//currentId++;
 			//buttons += buttonGenerator.newButton(button[3],button[2],button[1],group);
-		} else if (button[0] === 'button') {
+		} else if (button[0] === 'button' || button[0] == 2) {
 			currentId++;
 			buttons += buttonGenerator.newButton(currentId, button[1] , button[2], 2 ,group);
-		} else if (button[0] === 'multi') {
+		} else if (button[0] === 'multi' || button[0] == 1) {
 			currentId++;
 			buttons += buttonGenerator.newButton(currentId, button[1], button[2], 1 ,group);
 		} else if (button[0] === 'submitSwipe') {
 			buttons += buttonGenerator.newCustomSwipeSubmitButton(button[1], button[2], button[3], button[6], group, button[4], button[5]);
-		} else if (button[0] === 'form'){
+		} else if (button[0] === 'form' || button[0] == 4){
 			currentId++;
 			buttons += buttonGenerator.newButton(currentId, button[1], button[2], 4 ,group);
-		} else if(button[0] === "formmulti"){
+		} else if(button[0] === "formmulti" || button[0] == 3){
 			currentId++;
 			buttons += buttonGenerator.newButton(currentId, button[1], button[2], 3,group);
 		}

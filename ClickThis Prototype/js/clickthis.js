@@ -143,7 +143,7 @@ function changePage(Page) {
 		oldPage = $('#' + $('#currentpage').val()),
 		url = new String(window.location);
 	if (Page !== null && Page !== undefined) {
-		oldPage.removeClass('Active');
+		oldPage.removeClass('Active');;
 		oldPage.addClass('Disabled');
 		$('#currentpage').val(Page);
 		NewPage.removeClass('Disabled').addClass('Active');
@@ -242,9 +242,9 @@ function hideAboutBox() {
 	if (window.ClickThisApp && isOnPage("home.html")) {
 		backButton.removeClass('Disabled').addClass('Active');
 	}
-	/*if ($('#currentpage').val() == 'user') {
+	if ($('#currentpage').val() == 'user') {
 		backButton.addClass('Disabled');
-	}*/
+	}
 	aboutBox.addClass('Disabled').removeClass('Active');
 	if (isOnPage('multiplechoice.html')) {
 		$('#questionsContainer').removeClass('Disabled');
