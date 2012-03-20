@@ -167,11 +167,14 @@ var ajaxQueue = {
 		if (json.data === undefined) {
 			json.data = "";
 		}
+		if(json.type === undefined) {
+			json.type = "POST";
+		}
 		if (json.url && json.group) {
 			// Create a random string
 			id = ajaxQueue.generateId();
 			// Insert the task into the queue
-			this.queueArray.Tasks.push({id: id, url: json.url, data: json.data, group: json.group});
+			this.queueArray.Tasks.push({id: id, url: json.url, type: json.type, data: json.data, group: json.group});
 			// Save the queue to prevent data loss
 			this.save();
 			ajaxQueue.log("Added task, url:" + json.url + ", data:" + json.data);/*LOG*/
@@ -313,7 +316,7 @@ var ajaxQueue = {
 				result = {};
 			ajaxQueue.log("Sending '" + currentTask.data + "' to '" + currentTask.url + "'.");/*LOG*/
 			$.ajax({
-				type: 'POST',
+				type: currentTask.type,
 				url: currentTask.url,
 				data: currentTask.data,
 				timeout: ajaxQueue.ajaxTimeout,
