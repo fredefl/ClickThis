@@ -1,0 +1,14 @@
+{
+	"items": [
+		{
+			"name": "lol",
+			"url": "lol.txt",
+			"md5": "CB16CEFD41D8C728B35361F776711EAD"
+		},
+		{
+			"name": "loljson",
+			"url": "lol.json",
+			"md5": "824265ACE2083B3D943DF157BC3FE3ED"	
+		}
+	]
+}
