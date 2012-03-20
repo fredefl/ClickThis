@@ -241,11 +241,9 @@ class Std_Model extends CI_Model{
 			else{
 				if(!self::Exists($Class->Id)){
 					$Data = $Class->Export(true);
-					if(property_exists(get_class($Class), "Database_Table")){
-						$this->db->insert($Class->Database_Table, self::Convert_Properties_To_Database_Row($Data));
-						$Class->Id = $this->db->insert_id();
-						return true; //Maybe a check for mysql errors?
-					}
+					$this->db->insert($Class->Database_Table, self::Convert_Properties_To_Database_Row($Data));
+					$Class->Id = $this->db->insert_id();
+					return true; //Maybe a check for mysql errors?
 				}
 			}
 		} else {

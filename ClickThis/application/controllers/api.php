@@ -11,6 +11,72 @@ class Api extends CI_Controller {
 		self::Standard_API("Series",$Id);
 	}
 
+	public function Series_Test($Id = NULL,$Override = true){
+		$this->load->library("api_request");
+		$this->load->library("Series");
+		$this->api_request->Perform_Request();
+		$Series = new Series();
+		switch ($this->api_request->Request_Method()) {
+			case 'get':
+				self::Standard_API("Series",$Id);
+				break;
+			
+			case 'post':
+
+				$Series->Import(self::EnsureCase($this->api_request->Request_Vars()));
+				if($Series->Save() == true){
+					echo json_encode($Series->Export(false));
+				} else {
+					self::Send_Response(400);
+				}
+				break;
+
+			case 'put':
+				$Decoded = json_decode($this->api_request->Request_Vars(),true);
+				$Series->Load($Id);
+				$Series->Import(self::EnsureCase($Decoded),$Override);
+				$Series->Save();
+				print_r($Series->Export());
+				break;
+
+			case 'delete':
+				self::Delete("Series",$Id);
+				break;
+		}
+	}
+
+	##### Test #####
+	private function EnsureCase($Array = NULL){
+		if(!is_null($Array)){
+			if(is_array($Array)){
+				$Return = array();
+				foreach ($Array as $Key => $Data) {
+					$Return[ucfirst($Key)] = $Data;
+				}
+			} else if(gettype($Array) == "string"){
+				$Return = ucfirst($Array);
+			} else {
+				return $Array;
+			}
+			return $Return;
+		}
+	}
+
+	private function Delete($Class = NULL,$Id = NULL){
+		if(!is_null($Class) && !is_null($Id)){
+			$this->load->library($Class);
+			$Series = new $Class();
+			$Series->load($Id);
+			$Series->Delete(true);
+			print_r($Series->Export());
+		} else {
+			self::Send_Response(400);
+		}
+	}
+
+	################
+
+
 	/**
 	 * This function outputs the content if it exists or show an error code
 	 * @param integer $Code         The HTTP status code to send
@@ -22,7 +88,7 @@ class Api extends CI_Controller {
 	private function Send_Response($Code = 200,$Content_Type = "application/json",$Content = NULL){
 		$this->load->library("api_request");
 		$Status_Header = 'HTTP/1.1 ' . $Code . ' ' . $this->api_request->Get_Message($Code); 
-		//header($Status_Header); 
+		header($Status_Header); 
 		header('Content-type: ' . $Content_Type);
 		if(is_null($Content)){
 			$Error = array("error_message" => $this->api_request->Get_Message($Code),"error_code" => $Code);

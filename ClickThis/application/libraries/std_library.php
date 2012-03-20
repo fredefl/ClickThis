@@ -263,14 +263,27 @@ class Std_Library{
 	/**
 	 * This function imports data from an array with the same key name as the local property to import too.
 	 * @param array $Array The data to import in Name => Value format
+	 * @param boolean $Override If this flag is set to true, then if the data is an array the clas $s data is overridden
 	 * @since 1.0
 	 * @access public
 	 */
-	public function Import($Array = NULL){
+	public function Import($Array = NULL,$Override = false){
 		if(!is_null($Array)){
 			foreach($Array as $Name => $Value){
 				if(property_exists($this,$Name)){
-					$this->$Name = $Value;	
+					if(!is_array($Value) && !is_array($Name) && strpos($Value, ";") == true){
+						if($Override === false){
+							if(is_array($this->{$Name})){
+								$this->$Name = array_merge($this->{$Name},explode(";", $Value));
+							} else {
+								$this->$Name = explode(";", $Value);
+							}
+						} else {
+							$this->$Name = explode(";", $Value);
+						}	
+					} else {
+						$this->$Name = $Value;	
+					}
 				}
 			}
 		}
@@ -285,6 +298,31 @@ class Std_Library{
 	public function Save() {
 		if(!is_null($this->_CI) && !is_null($this->_CI->_INTERNAL_DATABASE_MODEL) ){
 			$this->_CI->_INTERNAL_DATABASE_MODEL->Save($this);
+			if(property_exists($this, "_INTERNAL_LINK_PROPERTIES") && !is_null($this->_INTERNAL_LINK_PROPERTIES) && is_array($this->_INTERNAL_LINK_PROPERTIES)){
+				foreach ($this->_INTERNAL_LINK_PROPERTIES as $Key => $Value) {
+					$Data = $this->{$Key};
+					if(is_array($Data)){
+						foreach ($Data as $Name => $Other) {
+							if(is_object($Name)){
+								if(method_exists($Name, "Save")){
+									$Name->Save();
+								}
+							} elseif(is_object($Other)){
+								if(method_exists($Other, "Save")){
+									$Other->Save();
+								}
+							}
+						}
+					} else {
+						if(is_object($Data)){
+							if(method_exists($Data, "Save")){
+								$Data->Save();
+							}
+						}
+					}
+				}
+			}
+			return true;
 		} else {
 			return false;
 		}
@@ -675,8 +713,8 @@ class Std_Library{
 			$this->Id = $Id;
 		}
 		if(!is_null($this->Id) && !is_null($Table)){
-			if(property_exists(get_class($this), "CI") && property_exists(get_class($this), "_CI")){
-				$this->CI->db->delete($Table,array("Id" => $this->Id));
+			if(property_exists($this, "_CI") && property_exists($this, "_CI")){
+				$this->_CI->db->delete($Table,array("Id" => $this->Id));
 			}
 		}
 	}
@@ -741,10 +779,10 @@ class Std_Library{
 	public function Delete($Database = false){
 		if($Database){
 			if(method_exists($this, "_RemoveDatabaseData") && property_exists(get_class($this), "Id")){
-				self::_RemoveDatabaseData($this->Id);
+				self::_RemoveDatabaseData($this->Id,$this->Database_Table);
 			}
 			if(method_exists($this, "_RemoveUserData")){
-				self::_RemoveUserData(true,$this->Database_Table);
+				self::_RemoveUserData(true);
 			}
 		}
 		else{

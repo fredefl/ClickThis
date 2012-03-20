@@ -127,7 +127,7 @@ class Api_Request{
 				$this->_Request_Vars = $_POST;
 				break;
 			case 'put':
-				parse_str(file_get_contents('php://input'), $this->_Request_Vars);
+				$this->_Request_Vars = file_get_contents('php://input');
 				break;
 			case 'delete':
 				parse_str(file_get_contents('php://input'), $this->_Request_Vars);

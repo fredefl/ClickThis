@@ -28,6 +28,10 @@ function createPage(){
 		    		$(".Active").addClass("Disabled").removeClass("Active");
 		    		$("#notfound").addClass("Active").removeClass("Disabled");
 		    	}
+		  	},
+		  	error: function(){
+	  			$(".Active").addClass("Disabled").removeClass("Active");
+	    		$("#notfound").addClass("Active").removeClass("Disabled");
 		  	}
 		});
 	}
