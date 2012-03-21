@@ -66,11 +66,9 @@ class Test extends CI_Controller {
 		$this->load->library("Series");	
 		$Series = new Series();
 		$Series->Load(10);
-		//self::Debug($Series->Export());
-		//echo "########################################################";
-		//self::Debug($Series->Export());
-		$Series->Save();
-		//$Series->Save();
+		self::Debug($Series->Export());
+		echo "########################################################";
+		//self::Debug($Series->Questions[4]->Export(true));
 		/*echo "<pre>";
 		print_r($Series->Debug());
 		echo "</pre>";
@@ -262,8 +260,10 @@ class Test extends CI_Controller {
 		//$Question->Save();
 		//$Question->Create(array('SerieId' => 3,'Title' => 'llama','Type' => '4','ViewOrder' => '1','Options' => array('Fisk','And')));
 		$Question->Load(1);
+		//$Question->Import(array("Options" => "1"));
 		echo "<pre>";
 		$data = $Question->Export();
+		$Question->Save();
 		print_r($data);
 		echo "</pre>";
 	}

@@ -110,6 +110,7 @@ class Std_Model extends CI_Model{
 	 * @param object &$Class The class where the data is taken from
 	 * @return array An array of the query result data
 	 * @since 1.0
+	 * @todo  Add a link like, example with, link all the users if their TargetGroup contains this group id
 	 * @access public
 	 */
 	public function Link($Table = NULL,$Link = NULL,&$Class = NULL){

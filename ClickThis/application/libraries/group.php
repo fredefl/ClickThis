@@ -140,8 +140,7 @@ class Group extends Std_Library{
 	 * @static
 	 * @internal This is a class setting variable
 	 */
-	public static $_INTERNAL_LOAD_FROM_CLASS = NULL;
-	
+	public static $_INTERNAL_LOAD_FROM_CLASS = NULL;	
 	
 	/**
 	 * This function is the constructor, it load's the model regarding this class,

@@ -171,7 +171,7 @@ class Question extends Std_Library{
 			"SerieId" => "SeriesId"
 		);*/
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
-		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id");
+		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id","Options");
 		$this->_INTERNAL_LOAD_FROM_CLASS = array("Options" => "Option");
 		$this->_INTERNAL_LINK_PROPERTIES = array("Options" => array("Options",array("QuestionId" => "Id")));
 		$this->_INTERNAL_FORCE_ARRAY = array("Options");

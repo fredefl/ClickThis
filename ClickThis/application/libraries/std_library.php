@@ -123,6 +123,18 @@ class Std_Library{
 	public static $_INTERNAL_SECURE_EXPORT_IGNORE = NULL;
 
 	/**
+	 * This property is used to give a property of each childobject in a property a give value
+	 * @var array
+	 * @since 1.1
+	 * @access public
+	 * @static
+	 * @internal This is a class settings property
+	 * @example
+	 * array("Class Property" => array("Property" => "Value or name of property of this class"));
+	 */
+	public static $_INTERNAL_SAVE_LINK = NULL;
+
+	/**
 	 * This property is used to force a specific property to be an array
 	 * @var array
 	 * @static
@@ -132,6 +144,19 @@ class Std_Library{
 	 * $this->_INTERNAL_FORCE_ARRAY = array("Questions");
 	 */
 	public static $_INTERNAL_FORCE_ARRAY = NULL;
+
+	/**
+	 * This property is used to deffine properties, in the LOAD_FROM_CLASS
+	 * that should onlye load their children with the simple mode turned on
+	 * @var array
+	 * @since 1.1
+	 * @access public
+	 * @static
+	 * @example
+	 * array("Class Property" => "Boolean");
+	 * @internal This is a class setting property
+	 */
+	public static $_INTERNAL_SIMPLE_LOAD = NULL;
 
 	/**
 	 * This property will contain a local instance of CodeIgniter,
@@ -191,13 +216,33 @@ class Std_Library{
 				return FALSE;
 			}
 		}
-
 		self::_Link_Properties();
-
-		self::_Force_Array();
-
 		self::_Load_From_Class($Simple);
+		self::_Force_Array();
 		return TRUE;
+	}
+
+	/**
+	 * This function checks if the specified property is set in the _INTERNAL_SIMPLE_LOAD array
+	 * @param string $Property The property to check for
+	 * @return boolean If the data exists in the settings properties
+	 * @since 1.1
+	 * @access private
+	 */
+	private function _Has_Simple_Load_Key($Property = NULL){
+		if(!is_null($Property) && property_exists($this, $Property)){
+			if(property_exists($this, "_INTERNAL_SIMPLE_LOAD") && !is_null($this->_INTERNAL_SIMPLE_LOAD) && is_array($this->_INTERNAL_SIMPLE_LOAD)){
+				if(array_key_exists($Property, $this->_INTERNAL_SIMPLE_LOAD)){
+					return TRUE;
+				} else {
+					return FALSE;
+				}
+			} else {
+				return FALSE;
+			}
+		} else {
+			return FALSE;
+		}
 	}
 
 	/**
@@ -212,6 +257,14 @@ class Std_Library{
 			if(!is_null($this->_INTERNAL_LOAD_FROM_CLASS)){
 				foreach ($this->_INTERNAL_LOAD_FROM_CLASS as $Key => $Value) {
 					if(property_exists($this, $Key) && !is_null($this->{$Key})){
+						$ChildSimple = $Simple;
+						if(self::_Has_Simple_Load_Key($Key)){
+							$ChildSimple = $this->_INTERNAL_SIMPLE_LOAD[$Key];
+						}
+						if(!is_bool($ChildSimple)){
+							$ChildSimple = false;
+						}
+
 						//If the CodeIgniter instance exists and isn't null, then load the library
 						if(property_exists($this, "_CI") && !is_null($this->_CI)){
 							@$this->_CI->load->library($Value);
@@ -226,7 +279,7 @@ class Std_Library{
 									} else {
 										if(class_exists($Value) && !is_null($Name) && $Name != ""){
 											$Object = new $Value();
-											if($Object->Load($Name,$Simple)){
+											if($Object->Load($Name,$ChildSimple)){
 												if(!is_null($Object)){
 													$Temp[] = $Object;
 												}
@@ -243,7 +296,7 @@ class Std_Library{
 								if(!is_null($this->{$Key})){
 									if(class_exists($Value) && gettype($this->{$Key}) != "object"){
 										$Object = new $Value();
-										if($Object->Load($this->{$Key},$Simple)){
+										if($Object->Load($this->{$Key},$ChildSimple)){
 											if(!is_null($Object)){
 												$this->{$Key} = $Object;
 											}
@@ -285,7 +338,7 @@ class Std_Library{
 	 * @access public
 	 */
 	public function Import($Array = NULL,$Override = false){
-		if(!is_null($Array)){
+		if(!is_null($Array) && is_array($Array)){
 			foreach($Array as $Name => $Value){
 				if(property_exists($this,$Name)){
 					if(!is_array($Value) && !is_array($Name) && strpos($Value, ";") == true){
@@ -303,10 +356,9 @@ class Std_Library{
 					}
 				}
 			}
+			self::_Force_Array();
+			self::_Load_From_Class();
 		}
-
-		self::_Force_Array();
-		self::_Load_From_Class();
 	}
 
 	/**
@@ -354,22 +406,168 @@ class Std_Library{
 		}
 	}
 
-	private function _Save_From_Class_Properties(){
-
+	/**
+	 * This function loops through the _INTERNAL_LOAD_FROM_CLASS properties,
+	 * if there's some extra information set in _INTERNAL_SAVE_LINK, that needs to be assigned
+	 * to the object(s) then it's done, and the Save method is called on the child objects
+	 * @since 1.1
+	 * @access private
+	 */
+	private function _Save_ChildClasses_Properties(){
+		if(property_exists($this, "_INTERNAL_LOAD_FROM_CLASS") && !is_null($this->_INTERNAL_LOAD_FROM_CLASS) && is_array($this->_INTERNAL_LOAD_FROM_CLASS)){
+			foreach ($this->_INTERNAL_LOAD_FROM_CLASS as $Property => $ClassName) {
+				if(!is_null($Property) && !self::_Is_Linked_Property($Property) && property_exists($this, $Property)){
+					if(is_array($this->{$Property})){
+						foreach ($this->{$Property} as $Key => $Object) {
+							if(gettype($Object) == "object"){
+								if(self::_Has_Save_Link($Property)){
+									$Save_Link_Data = self::_Get_Save_Link_Data($Property);
+									$Object = $this->{$Property};
+									if(!is_null($Save_Link_Data)){
+										self::_Set_Save_Link_Data($Save_Link_Data,$Object);
+									}
+								} else {
+									$Object = $this->{$Property};
+								}
+								if(!is_null($Object) && method_exists($Object, "Save")){
+									$Object->Save();
+								}
+							}
+						}
+					} else {
+						if(gettype($this->{$Property}) == "object"){
+							if(self::_Has_Save_Link($Property)){
+								$Save_Link_Data = self::_Get_Save_Link_Data($Property);
+								$Object = $this->{$Property};
+								if(!is_null($Save_Link_Data)){
+									self::_Set_Save_Link_Data($Save_Link_Data,$Object);
+								}
+							} else {
+								$Object = $this->{$Property};
+							}
+							if(!is_null($Object) && method_exists($Object, "Save")){
+								$Object->Save();
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
+	/**
+	 * This function checks if the $Property is a linked property
+	 * @param string $Property The class property to check for
+	 * @since 1.1
+	 * @access private
+	 * @return boolean if the property is a Linked property
+	 */
+	private function _Is_Linked_Property($Property = NULL){
+		if(!is_null($Property)){
+			if(property_exists($this, "_INTERNAL_LINK_PROPERTIES") && !is_null($this->_INTERNAL_LINK_PROPERTIES) && is_array($this->_INTERNAL_LINK_PROPERTIES)){
+				if(array_key_exists($Property,$this->_INTERNAL_LINK_PROPERTIES)){
+					return TRUE;
+				} else {
+					return FALSE;
+				}
+			} else {
+				return FALSE;
+			}
+		} else {
+			return FALSE;
+		}
+	}
+
+	/**
+	 * This function checks if there exists Save link data about a given property
+	 * @param string $Property The property to search for
+	 * @since 1.1
+	 * @access private
+	 * @return boolean If the data exists
+	 */
+	private function _Has_Save_Link($Property = NULL){
+		if(property_exists($this, "_INTERNAL_SAVE_LINK") && !is_null($this->_INTERNAL_SAVE_LINK) && is_array($this->_INTERNAL_SAVE_LINK)){
+			if(array_key_exists($Property, $this->_INTERNAL_SAVE_LINK)){
+				return TRUE;
+			} else {
+				return FALSE;
+			}
+		} else {
+			return FALSE;
+		}
+	}
+
+	/**
+	 * This function returns the Save Link data if it exists
+	 * @param string $Property the property to get data for
+	 * @return array The save link data if it exists
+	 * @since 1.1
+	 * @access private
+	 */
+	private function _Get_Save_Link_Data($Property = NULL){
+		if(!is_null($Property) && self::_Has_Save_Link($Property)){
+			return (!is_null($this->_INTERNAL_SAVE_LINK[$Property]))? $this->_INTERNAL_SAVE_LINK[$Property] : NULL;
+		}
+	}
+
+	/**
+	 * This function assigns the Save_Link data to a object
+	 * @param array $Data   The data to assign
+	 * @param object $Object The object to assign it too
+	 * @since 1.1
+	 * @access private
+	 */
+	private function _Set_Save_Link_Data($Data = NULL,$Object = NULL){
+		if(!is_null($Data) && !is_null($Object)){
+			foreach ($Data as $Property => $Value) {
+				if(property_exists($this, $Value)){
+					$Value = $this->{$Value};
+				}
+				if(property_exists($Object, $Property)){
+					$Object->{$Property} = $Value;
+				}
+			}
+		}
+	}
+
+	/**
+	 * This function loops through all the properties which is linked,
+	 * and ensures that all the containing objects, have the right values in the linked fields.
+	 * And then is the child objects saved
+	 * @access private
+	 * @since 1.0
+	 */
 	private function _Save_Linked_Properties(){
 		if(property_exists($this, "_INTERNAL_LINK_PROPERTIES") && !is_null($this->_INTERNAL_LINK_PROPERTIES) && is_array($this->_INTERNAL_LINK_PROPERTIES)){
 			foreach ($this->_INTERNAL_LINK_PROPERTIES as $Property => $LinkData) {
 				$Link_Query = $LinkData[1];
 				if(property_exists($this, $Property) && !is_null($this->{$Property})){
-					if(!is_array($this->{$Property})){
+					if(is_array($this->{$Property})){
 						foreach ($this->{$Property} as $Object) {
-							# code...
+							self::_Set_Save_Link_Data($Link_Query,$Object);
+							if(self::_Has_Save_Link($Property)){
+								$Save_Link_Data = self::_Get_Save_Link_Data($Property);
+								if(!is_null($Save_Link_Data)){
+									self::_Set_Save_Link_Data($Save_Link_Data,$Object);
+								}
+							}
+							if(method_exists($Object, "Save")){
+								$Object->Save();
+							}
 						}
 					} else {
 						if(gettype($this->{$Property}) == "object"){
-							$Object = $this->{$Property}; // The Object to Save
+							$Object = $this->{$Property};
+							self::_Set_Save_Link_Data($Link_Query,$Object);
+							if(self::_Has_Save_Link($Property)){
+								$Save_Link_Data = self::_Get_Save_Link_Data($Property);
+								if(!is_null($Save_Link_Data)){
+									self::_Set_Save_Link_Data($Save_Link_Data,$Object);
+								}
+							}
+							if(method_exists($Object, "Save")){
+								$Object->Save();
+							}
 						}
 					}
 				}
@@ -388,9 +586,32 @@ class Std_Library{
 		if(!is_null($this->_CI) && !is_null($this->_CI->_INTERNAL_DATABASE_MODEL) ){
 			$this->_CI->_INTERNAL_DATABASE_MODEL->Save($this);
 			self::_Save_Linked_Properties();
+			self::_Save_ChildClasses_Properties();
 			return true;
 		} else {
 			return false;
+		}
+	}
+
+	/**
+	 * This function removes the key/keys with the specific value
+	 * @param object $Property The property to search in
+	 * @param string|boolean|integer $Value    The value to search for
+	 * @since 1.1
+	 * @access private
+	 */
+	private function _Remove_Where($Property = NULL,$Value = NULL){
+		if(!is_null($Property) && property_exists($this, $Property)){
+			if(is_array($this->{$Property})){
+				$Keys = array_keys($this->{$Property},$Value);
+				if(count($Keys) == 1){
+					unset($this->{$Property}[$Keys[0]]);
+				} else {
+					foreach ($Keys as $Key) {
+						unset($this->{$Property}[$Key]);
+					}
+				}
+			}
 		}
 	}
 
@@ -406,6 +627,7 @@ class Std_Library{
 	 */
 	public function Link($Table = NULL,$Link = NULL,$Property = NULL,$Simple = false){
 		if(!is_null($Table) && !is_null($Link) && is_array($Link) && !is_null($Property)){
+			//Check if the properties exists else remove them from the list
 			foreach($Link as $Search => $Key){
 				if($Search == "" || $Key == ""){
 					unset($Link[$Search]);
@@ -422,6 +644,8 @@ class Std_Library{
 					}
 				}
 			}
+
+			//If there is properties left, then start linking
 			if(count($Link) > 0){
 				if(method_exists($this->_CI->_INTERNAL_DATABASE_MODEL, "Link")){
 					$Data = $this->_CI->_INTERNAL_DATABASE_MODEL->Link($Table,$Link,$this);
@@ -430,57 +654,35 @@ class Std_Library{
 							$Temp = array();
 							foreach ($Data as $Object) {
 								if(property_exists($Object, "Id")){
-									if(property_exists($this, "_INTERNAL_LOAD_FROM_CLASS") && array_key_exists($Property,$this->_INTERNAL_LOAD_FROM_CLASS) && !$Simple){
-										if(property_exists($this, "_CI") && !is_null($this->_CI)){
-											@$this->_CI->load->library($this->_INTERNAL_LOAD_FROM_CLASS[$Property]);
-											@$TempObject = new $this->_INTERNAL_LOAD_FROM_CLASS[$Property]();
-											$TempObject->Load($Object->Id);
-											if(!is_null($TempObject)){
-												$Temp[] = $TempObject;
-											} else {
-												$Temp[] = $Object->Id;
-											}
-										} else {
-											$Temp[] = $Object->Id;
-										}
-									} else {
-										$Temp[] = $Object->Id;
-									}
+									self:: _Remove_Where($Property,$Object->Id);
+									$Temp[] = $Object->Id;
 								}
 							}
 							if(count($Temp) > 0){
-									if(is_null($this->{$Property})){
-										$this->{$Property} = $Temp;
+								if(is_null($this->{$Property})){
+									$this->{$Property} = $Temp;
+								} else {
+									if(is_array($this->{$Property})){
+										$this->{$Property} = array_merge($this->{$Property},$Temp);
 									} else {
-										if(is_array($this->{$Property})){
-											$this->{$Property} = array_merge($Temp,$this->{$Property});
-										} else {
-											$this->{$Property} = $Temp;
-										}
+										$this->{$Property} = $Temp;
 									}
 								}
+							}
 						} else {
 							if(isset($Data[0])){
 								$Data = $Data[0];
 							}
 							if(!is_null($Data) && is_object($Data) && property_exists($Data, "Id")){
-								if(property_exists($this, "_INTERNAL_LOAD_FROM_CLASS") && array_key_exists($Property,$this->_INTERNAL_LOAD_FROM_CLASS) && !$Simple){
-									if(property_exists($this, "_CI") && !is_null($this->_CI)){
-										@$this->_CI->load->library($this->_INTERNAL_LOAD_FROM_CLASS[$Property]);
-										@$TempObject = new $this->_INTERNAL_LOAD_FROM_CLASS[$Property]();
-										$TempObject->Load($Data->Id);
-										if(!is_null($TempObject)){
-											$this->{$Property} = $TempObject;
-										} else {
-											$this->{$Property} = $Data->Id;
-										}
-									} else {
-										$this->{$Property} = $Data->Id;
-									}
+								if(is_array($this->{$Property})){
+									$this->{$Property}[] = $Data->Id;
 								} else {
 									$this->{$Property} = $Data->Id;
 								}
 							}
+						}
+						if(!$Simple){
+							self::_Load_From_Class();
 						}
 					}
 				}
