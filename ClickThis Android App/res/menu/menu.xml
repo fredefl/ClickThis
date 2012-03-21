@@ -1,0 +1,5 @@
+
+    <menu xmlns:android="http://schemas.android.com/apk/res/android">
+        <item android:id="@+id/refresh" android:checkable="true" android:title="Refresh" android:visible="true" android:titleCondensed="Refresh"></item>
+        <item android:id="@+id/clearCache" android:checkable="true" android:title="Clear Cache" android:visible="true" android:titleCondensed="Clear Cache"></item>
+    </menu>
