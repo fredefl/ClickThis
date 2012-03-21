@@ -1,3 +1,18 @@
+/**
+ * ClickThis updater
+ * http://illution.dk
+ *
+ * Copyright (c) 2011 illution
+ *
+ * @author Illution
+ * @version 1.0
+ */
+/**
+ * updater Class
+ * @class updater Class
+ */
+"use strict";
+
 var updater = {
 
 	/**
@@ -25,9 +40,10 @@ var updater = {
 	 */
 	updateAll: function (data) {
 		// Declare variables
-		var item;
+		var i,
+			item;
 		// Go though all update files
-		for (var i = 0; i <= data.items.length - 1; i++) {
+		for (i = 0; i <= data.items.length - 1; i++) {
 			// Get the item from the list
 			item = data.items[i];
 			// Save the name for use later
@@ -38,7 +54,7 @@ var updater = {
 				data: "",
 				group: "updateItems"
 			});
-		};
+		}
 		// Ignite the ajaxQueue
 		ajaxQueue.executeTasks();
 	},
@@ -49,7 +65,7 @@ var updater = {
 	 */
 	start: function () {
 		// Check if the updater already listens on ajaxQueue
-		if(!this.listens) {
+		if (!this.listens) {
 			// If it doesn't, listen
 			this.listen();
 		}
@@ -64,12 +80,13 @@ var updater = {
 	 */
 	calculateHashes: function (data) {
 		// Declare variables
-		var item,
+		var i,
+			item,
 			localData,
 			localMd5,
 			remoteMd5;
 		// Go though all update items on the list
-		for (var i = 0; i <= data.items.length - 1; i++) {
+		for (i = 0; i <= data.items.length - 1; i++) {
 			// Grab the item from the list
 			item = data.items[i];
 			// Save the name for later
@@ -79,13 +96,13 @@ var updater = {
 			// Get the data from localstorage
 			localData = localStorage[item.name] || "";
 			// If the data is JSON, stringify it!
-			if(typeof(localData) == 'object') {
+			if (typeof (localData) === 'object') {
 				localData = JSON.stringify(localData);
 			}
 			// Calculate the md5 has for the local data
 			localMd5 = hex_md5(localData).toUpperCase();
 			// Chech for a (non)match
-			if(remoteMd5 !== localMd5) {
+			if (remoteMd5 !== localMd5) {
 				// If it doesn't match, go grab the data from the server (ASYNC)
 				ajaxQueue.add({
 					url: item.url,
@@ -117,7 +134,7 @@ var updater = {
 			group: "updateItems"
 		}, function (data) {
 			// If the data is JSON, stringify it!
-			if(typeof(data.data) == 'object') {
+			if (typeof (data.data) === 'object') {
 				data.data = JSON.stringify(data.data);
 			}
 			// Get the name of the data, and save the data to localStorage
@@ -140,5 +157,5 @@ var updater = {
 		});
 		// Fire up under the ajaxQueue
 		ajaxQueue.executeTasks();
-	},
-}
+	}
+};
