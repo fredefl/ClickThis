@@ -92,6 +92,13 @@ class Api_Request{
 		);
 	}
 
+	/**
+	 * This function get's a response message of a HTTP code
+	 * @param integer $Code The code to get the message of
+	 * @return string The http response message
+	 * @access public
+	 * @since 1.0
+	 */
 	public function Get_Message($Code = NULL){
 		if(is_null($Code)){
 			$Code = 400;
@@ -169,6 +176,13 @@ class Api_Request{
 		}
 	}
 
+	/**
+	 * This function is used to add data to the request vars, property
+	 * @param string $Name  The name of the key
+	 * @access public
+	 * @since 1.0
+	 * @param string $Value The value of the request var
+	 */
 	public function Add_Request_Var($Name = NULL,$Value = NULL){
 		if(!is_null($Name) && !is_null($Value)){
 			$this->Request_Vars[$Name] = $Value; 

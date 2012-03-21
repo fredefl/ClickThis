@@ -211,6 +211,7 @@ class Series extends Std_Library{
 	 * @since 1.0
 	 * @access public
 	 * @example
+	 * array("Property" => array("Database table",array("Database row" => "Value or class property name")))
 	 * $this->$_INTERNAL_LINK_PROPERTIES = array("Questions" => array("Questions",array("SeriesId" => "Id")));
 	 * @see Link
 	 */

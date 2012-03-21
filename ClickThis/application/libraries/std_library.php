@@ -192,27 +192,22 @@ class Std_Library{
 			}
 		}
 
-		//Link properties
-		if(property_exists($this, "_INTERNAL_LINK_PROPERTIES") && !is_null($this->_INTERNAL_LINK_PROPERTIES) && is_array($this->_INTERNAL_LINK_PROPERTIES)){
-			foreach ($this->_INTERNAL_LINK_PROPERTIES as $ClassProperty => $LinkData) {
-				if(is_array($LinkData)){
-					if(method_exists($this, "Link")){
-						self::Link($LinkData[0],$LinkData[1],$ClassProperty,true);
-					}
-				}
-			}
-		}
+		self::_Link_Properties();
 
-		//Force to array
-		if(property_exists($this, "_INTERNAL_FORCE_ARRAY") && !is_null($this->_INTERNAL_FORCE_ARRAY) && is_array($this->_INTERNAL_FORCE_ARRAY)){
-			foreach ($this->_INTERNAL_FORCE_ARRAY as $Key) {
-				if(!is_array($this->{$Key})){
-					$this->{$Key} = array($this->{$Key});
-				}
-			}
-		}
+		self::_Force_Array();
 
-		//If some properties is going to be filled with data containing a class
+		self::_Load_From_Class($Simple);
+		return TRUE;
+	}
+
+	/**
+	 * This function uses the _INTERNAL_LOAD_FROM_CLASS settings property,
+	 * to load up data stored in the specified properties as classes
+	 * @param boolean $Simple If this flag is set to true, then this function woundn't do a thing
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _Load_From_Class($Simple = false){
 		if(property_exists($this, "_INTERNAL_LOAD_FROM_CLASS")  && !is_null($this->_INTERNAL_LOAD_FROM_CLASS) && is_array($this->_INTERNAL_LOAD_FROM_CLASS) && !$Simple){
 			if(!is_null($this->_INTERNAL_LOAD_FROM_CLASS)){
 				foreach ($this->_INTERNAL_LOAD_FROM_CLASS as $Key => $Value) {
@@ -226,11 +221,15 @@ class Std_Library{
 							if(is_array($this->{$Key}) && count($this->{$Key}) > 0){
 								$Temp = array();
 								foreach ($this->{$Key} as $Name) {
-									if(class_exists($Value) && !is_null($Name) && $Name != ""){
-										$Object = new $Value();
-										if($Object->Load($Name,$Simple)){
-											if(!is_null($Object)){
-												$Temp[] = $Object;
+									if(gettype($Name) == "object"){
+										$Temp[] = $Name;
+									} else {
+										if(class_exists($Value) && !is_null($Name) && $Name != ""){
+											$Object = new $Value();
+											if($Object->Load($Name,$Simple)){
+												if(!is_null($Object)){
+													$Temp[] = $Object;
+												}
 											}
 										}
 									}
@@ -242,7 +241,7 @@ class Std_Library{
 							//Else just set the property as a single object
 							} else {
 								if(!is_null($this->{$Key})){
-									if(class_exists($Value)){
+									if(class_exists($Value) && gettype($this->{$Key}) != "object"){
 										$Object = new $Value();
 										if($Object->Load($this->{$Key},$Simple)){
 											if(!is_null($Object)){
@@ -257,7 +256,25 @@ class Std_Library{
 				}
 			}
 		}
-		return TRUE;
+	}
+
+	/**
+	 * This function loops through the settings property _INTERNAL_LINK_PROPERTIES,
+	 * and links the deffined properties with data from other database tables
+	 * @see Link
+	 * @access private
+	 * @since 1.0
+	 */
+	private function _Link_Properties(){
+		if(property_exists($this, "_INTERNAL_LINK_PROPERTIES") && !is_null($this->_INTERNAL_LINK_PROPERTIES) && is_array($this->_INTERNAL_LINK_PROPERTIES)){
+			foreach ($this->_INTERNAL_LINK_PROPERTIES as $ClassProperty => $LinkData) {
+				if(is_array($LinkData)){
+					if(method_exists($this, "Link")){
+						self::Link($LinkData[0],$LinkData[1],$ClassProperty,true);
+					}
+				}
+			}
+		}
 	}
 
 	/**
@@ -272,17 +289,88 @@ class Std_Library{
 			foreach($Array as $Name => $Value){
 				if(property_exists($this,$Name)){
 					if(!is_array($Value) && !is_array($Name) && strpos($Value, ";") == true){
-						if($Override === false){
+						if($Override == false){
 							if(is_array($this->{$Name})){
-								$this->$Name = array_merge($this->{$Name},explode(";", $Value));
+								$this->{$Name} = array_merge($this->{$Name},explode(";", $Value));
 							} else {
 								$this->$Name = explode(";", $Value);
 							}
 						} else {
 							$this->$Name = explode(";", $Value);
-						}	
+						}
 					} else {
 						$this->$Name = $Value;	
+					}
+				}
+			}
+		}
+
+		self::_Force_Array();
+		self::_Load_From_Class();
+	}
+
+	/**
+	 * This function loops through the setttings variable containing the properties to force as array
+	 * and make them an array
+	 * @since 1.1
+	 * @access private
+	 */
+	private function _Force_Array(){
+		if(property_exists($this, "_INTERNAL_FORCE_ARRAY") && !is_null($this->_INTERNAL_FORCE_ARRAY) && is_array($this->_INTERNAL_FORCE_ARRAY)){
+			foreach ($this->_INTERNAL_FORCE_ARRAY as $Force) {
+				if(property_exists($this, $Force) && !is_array($this->{$Force})){
+					if(!is_null($this->{$Force})){
+						$Temp = array($this->{$Force});
+						$this->{$Force} = $Temp;
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * This function gets the _INTERNAL_ROW_NAME_CONVERT array of an object if data exists for it
+	 * or if the _INTERNAL_DATABASE_NAME_CONVERT exists it generates it.
+	 * @param object $Object The object to get the data from
+	 * @since 1.1
+	 * @access private
+	 * @return array The _INTERNAL_ROW_NAME_CONVERT data, if it exists
+	 */
+	private function _Get_Row_Name_Convert($Object = NULL){
+		if(!is_null($Object) && gettype($Object) == "object"){
+			if(property_exists($Object, "_INTERNAL_ROW_NAME_CONVERT") && !is_null($Object->_INTERNAL_ROW_NAME_CONVERT)){
+				return $Object->_INTERNAL_ROW_NAME_CONVERT;
+			} else {
+				if(property_exists($Object, "_INTERNAL_DATABASE_NAME_CONVERT") && !is_null($Object->_INTERNAL_DATABASE_NAME_CONVERT)){
+					$Temp = array();
+					foreach ($Object->_INTERNAL_DATABASE_NAME_CONVERT as $Property => $Row) {
+						$Temp[$Row] = $Property;
+					}
+					if(count($Temp) > 0){
+						return $Temp;
+					}
+				}
+			}
+		}
+	}
+
+	private function _Save_From_Class_Properties(){
+
+	}
+
+	private function _Save_Linked_Properties(){
+		if(property_exists($this, "_INTERNAL_LINK_PROPERTIES") && !is_null($this->_INTERNAL_LINK_PROPERTIES) && is_array($this->_INTERNAL_LINK_PROPERTIES)){
+			foreach ($this->_INTERNAL_LINK_PROPERTIES as $Property => $LinkData) {
+				$Link_Query = $LinkData[1];
+				if(property_exists($this, $Property) && !is_null($this->{$Property})){
+					if(!is_array($this->{$Property})){
+						foreach ($this->{$Property} as $Object) {
+							# code...
+						}
+					} else {
+						if(gettype($this->{$Property}) == "object"){
+							$Object = $this->{$Property}; // The Object to Save
+						}
 					}
 				}
 			}
@@ -292,36 +380,14 @@ class Std_Library{
 	/**
 	 * This function saves the local class data to the database row of the Id property
 	 * @return string This function can return a error string
+	 * @todo Make the linked properties be saved to, and with the an updated id, etc SeriesId = $this->Id
 	 * @since 1.0
 	 * @access public
 	 */
 	public function Save() {
 		if(!is_null($this->_CI) && !is_null($this->_CI->_INTERNAL_DATABASE_MODEL) ){
 			$this->_CI->_INTERNAL_DATABASE_MODEL->Save($this);
-			if(property_exists($this, "_INTERNAL_LINK_PROPERTIES") && !is_null($this->_INTERNAL_LINK_PROPERTIES) && is_array($this->_INTERNAL_LINK_PROPERTIES)){
-				foreach ($this->_INTERNAL_LINK_PROPERTIES as $Key => $Value) {
-					$Data = $this->{$Key};
-					if(is_array($Data)){
-						foreach ($Data as $Name => $Other) {
-							if(is_object($Name)){
-								if(method_exists($Name, "Save")){
-									$Name->Save();
-								}
-							} elseif(is_object($Other)){
-								if(method_exists($Other, "Save")){
-									$Other->Save();
-								}
-							}
-						}
-					} else {
-						if(is_object($Data)){
-							if(method_exists($Data, "Save")){
-								$Data->Save();
-							}
-						}
-					}
-				}
-			}
+			self::_Save_Linked_Properties();
 			return true;
 		} else {
 			return false;
@@ -429,7 +495,7 @@ class Std_Library{
 	 * @access private
 	 * @since 1.1
 	 */
-	private function Convert_From_Object($Data = NULL){
+	private function _Convert_From_Object($Data = NULL){
 		$Return = NULL;
 		if(!is_null($Data)){
 			if(is_array($Data) && count($Data) > 0){
@@ -467,7 +533,7 @@ class Std_Library{
 	 * @access private
 	 * @return boolean The check result
 	 */
-	private function Contains_Object($Data = NULL){
+	private function _Contains_Object($Data = NULL){
 		if(!is_null($Data)){
 			if(is_array($Data)){
 				foreach ($Data as $Key => $Value) {
@@ -512,10 +578,10 @@ class Std_Library{
 				if (!self::Ignore($Name,$Ignore) && !is_null($this->{$Name})) {
 					$Data = $this->{$Name};
 					/*if(property_exists($this,"_INTERNAL_LOAD_FROM_CLASS") && !is_null($this->_INTERNAL_LOAD_FROM_CLASS) && array_key_exists($Name, $this->_INTERNAL_LOAD_FROM_CLASS)){
-						$Data = self::Convert_From_Object($Data);
+						$Data = self::_Convert_From_Object($Data);
 					}*/
-					if(self::Contains_Object($Data)){
-						$Data = self::Convert_From_Object($Data);
+					if(self::_Contains_Object($Data)){
+						$Data = self::_Convert_From_Object($Data);
 					}
 
 					//If the class has an name convert table, check if the current property exists in it
@@ -531,7 +597,7 @@ class Std_Library{
 							$Array[$this->_INTERNAL_DATABASE_NAME_CONVERT[$Name]] = $Data;
 						}
 					} else {
-						if(!is_null($Data) && is_array($Data) && !self::Contains_Object($Data)){
+						if(!is_null($Data) && is_array($Data) && !self::_Contains_Object($Data)){
 							$Array[$Name] = implode(";",$Data);
 						} else {
 							$Array[$Name] = $Data;
@@ -542,15 +608,15 @@ class Std_Library{
 		} 
 		else if(!$Database && !$Secure){
 			$Array = array();
-			$Array = self::Normal_Export();
+			$Array = self::_Normal_Export();
 		} else if($Secure){
 			if(property_exists($this, "_INTERNAL_SECURE_EXPORT_IGNORE") && !is_null($this->_INTERNAL_SECURE_EXPORT_IGNORE) && is_array($this->_INTERNAL_SECURE_EXPORT_IGNORE)){
 				$Array = array();
-				$Array = self::Secure_Export();
+				$Array = self::_Secure_Export();
 			} 
 			else {
 				$Array = array();
-				$Array = self::Normal_Export(true);
+				$Array = self::_Normal_Export(true);
 			}
 		}
 		return $Array;
@@ -563,11 +629,11 @@ class Std_Library{
 	 * @access private
 	 * @return array The exported data as an array
 	 */
-	private function Secure_Export(){
+	private function _Secure_Export(){
 		$Array = array();
 		foreach (get_class_vars(get_class($this)) as $Name => $Value) {
 			if (!self::Ignore($Name,$this->_INTERNAL_SECURE_EXPORT_IGNORE)) {
-				if(self::Contains_Object($this->{$Name})){
+				if(self::_Contains_Object($this->{$Name})){
 					if(is_array($this->{$Name})){
 						$TempArray = array();
 						foreach ($this->{$Name} as $Object) {
@@ -600,11 +666,11 @@ class Std_Library{
 	 * @access private
 	 * @return array The exported data as an array
 	 */
-	private function Normal_Export($Secure = false){
+	private function _Normal_Export($Secure = false){
 		$Array = array();
 		foreach (get_class_vars(get_class($this)) as $Name => $Value) {
 			if (!self::Ignore($Name)) {
-				if(self::Contains_Object($this->{$Name})){
+				if(self::_Contains_Object($this->{$Name})){
 					if(is_array($this->{$Name})){
 						$TempArray = array();
 						foreach ($this->{$Name} as $Object) {
