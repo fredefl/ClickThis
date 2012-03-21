@@ -126,7 +126,7 @@ var seriesGenerator = {
 	 */
 	generate: function (data, container) {
 		// Get the container if not set
-		if(container == undefined) {
+		if (container === undefined) {
 			container = $("#questionsContainer");
 		}
 		// Add the html
@@ -147,7 +147,7 @@ var seriesGenerator = {
 	 * @return {void}
 	 */
 	hyphenate: function (element) {
-		if(element == undefined) {
+		if (element === undefined) {
 			element = document.body;
 		}
 		Hyphenator.config({
@@ -169,7 +169,7 @@ var seriesGenerator = {
 		window.questionSwipe = new Swipe(element, {
 			callback: function () {
 				buttonResizer.resizeButtons(document.body);
-			window.scrollTo(0, 1);
+				window.scrollTo(0, 1);
 			}
 		});
 	},
@@ -185,6 +185,6 @@ var seriesGenerator = {
 		// The end button
 		$('#end').click(function () {
 			window.location = 'http://illution.dk/ClickThisPrototype/home.html';
-		});   
+		});
 	}
 };
