@@ -1,9 +1,28 @@
 var updater = {
 
+	/**
+	 * The location of the update list
+	 * @type {String}
+	 */
 	updateListUrl: "updatelist.json",
+
+	/**
+	 * List used to store the names with the url as key
+	 * @type {Object}
+	 */
 	list: {},
+
+	/**
+	 * If the updates currently listens on ajaxQueue events
+	 * @type {Boolean}
+	 */
 	listens: false,
 
+	/**
+	 * Updates all files
+	 * @param  {JSON} data The update list
+	 * @return {void}
+	 */
 	updateAll: function (data) {
 		var item;
 		for (var i = 0; i <= data.items.length - 1; i++) {
@@ -18,10 +37,10 @@ var updater = {
 		ajaxQueue.executeTasks();
 	},
 
-	updateCheck: function (data) {
-		this.update(data);
-	},
-
+	/**
+	 * Starts the update process
+	 * @return {void}
+	 */
 	start: function () {
 		if(!this.listens) {
 			this.listen();
@@ -29,6 +48,11 @@ var updater = {
 		this.downloadList();
 	},
 
+	/**
+	 * Calculate the local data hashes and compares them with the servers
+	 * @param  {JSON} data The update list
+	 * @return {void}
+	 */
 	calculateHashes: function (data) {
 		var item,
 			localData,
@@ -58,6 +82,10 @@ var updater = {
 		ajaxQueue.executeTasks();
 	},
 
+	/**
+	 * Listen on ajaxQueue events
+	 * @return {void}
+	 */
 	listen: function () {
 		ajaxQueue.registerCallback({
 			type: "onSuccess",
@@ -77,6 +105,10 @@ var updater = {
 		this.listens = true;
 	},
 
+	/**
+	 * Queues a download of the update list
+	 * @return {void}
+	 */
 	downloadList: function () {
 		ajaxQueue.add({
 			url: this.updateListUrl,
@@ -84,8 +116,5 @@ var updater = {
 			group: "updateList"
 		});
 		ajaxQueue.executeTasks();
-		//$.getJSON(this.updateListUrl, function (data, textStatus, jqXHR) {
-		//	updater.updateCheck(data);
-		//});
 	},
 }
