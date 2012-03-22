@@ -1,28 +1,35 @@
 CACHE MANIFEST
 
 # HTML
+ajaxQueue.html
+apitest.html
 buttons.html
 home.html
-multiplechoice.html
+homejs.html
 profile.html
 settings.html
-singlechoice.html
+user.html
 
 #JAVASCRIPT
+js/ajaxQueue.js
 js/buttonGenerator.js
-js/jqtouch.min.js
-js/prefixfree.min.js
+js/buttonResizer.js
+js/clickthis.js
+js/home.js
+js/Hyphenator.js
+js/jquery.ata.js
+js/jquery.min.js
+js/jquery.ui.touch-punch.min.js
 js/script.js
-singlechoice.js
+js/seriesGenerator.js
+js/swipe.js
 user.js
-user_index_script.js
-http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js
 
 #STYLE
 css/buttons.css
-css/jqtouch.css
+css/form.css
 css/style.css
-css/jqt/theme.css
+css/theme.css
 
 #IMAGES
 img/Black.png
@@ -30,22 +37,3 @@ img/ButtonOverlay.png
 img/ClickThis64.png
 img/Off.png
 img/On.png
-
-css/jqt/img/activeButton.png
-css/jqt/img/back_button.png
-css/jqt/img/back_button_clicked.png
-css/jqt/img/blueButton.png
-css/jqt/img/button.png
-css/jqt/img/button_clicked.png
-css/jqt/img/chevron.png
-css/jqt/img/chevron_circle.png
-css/jqt/img/grayButton.png
-css/jqt/img/greenButton.png
-css/jqt/img/loading.gif
-css/jqt/img/on_off.png
-css/jqt/img/redButton.png
-css/jqt/img/rowhead.png
-css/jqt/img/toggle.png
-css/jqt/img/toggleOn.png
-css/jqt/img/toolbar.png
-css/jqt/img/whiteButton.png
