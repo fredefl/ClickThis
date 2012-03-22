@@ -199,11 +199,11 @@ var ajaxQueue = {
 	remove: function (id) {
 		var result = false;
 		$(this.queueArray.Tasks).each(function (index, element) {
-            if (element.id === id) {
+			if (element.id === id) {
 				ajaxQueue.queueArray.Tasks.splice(index, 1);
 				result = true;
 			}
-        });
+		});
 		this.save();
 		ajaxQueue.log("Removed " + id);/*LOG*/
 		ajaxQueue.checkStatusCode();
@@ -441,7 +441,7 @@ var ajaxQueue = {
 	 *  onQueueLengthChange
 	 * 
 	 * @static
-	 * @param  {JSON}     options	The json string containing the type and group. Note that the group should not be speecified when using the onStatusCodeChange type.
+	 * @param  {JSON}	 options	The json string containing the type and group. Note that the group should not be speecified when using the onStatusCodeChange type.
 	 * @param  {Function} callback	The function to call
 	 * @return {Boolean} Whenever the callback could be registered of not
 	 * @example

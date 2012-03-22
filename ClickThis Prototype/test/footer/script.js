@@ -11,7 +11,7 @@ var elementWidth = parseInt(elementMarginRight+elementMarginLeft+52); //The widt
 * It's used to reverse an .each array or to do a reversed each loop
 */
 jQuery.fn.reverse = function() {
-    return this.pushStack(this.get().reverse(), arguments);
+	return this.pushStack(this.get().reverse(), arguments);
 };
 
 /**
@@ -19,7 +19,7 @@ jQuery.fn.reverse = function() {
 * it removes the old clicked style from the last clicked and adds it to the new clicked square
 */
 $('.progress').click(function() {
-    $('.progress-current').removeClass('progress-current');
+	$('.progress-current').removeClass('progress-current');
 	$(this).addClass('progress-current');
 });
 
@@ -32,7 +32,7 @@ $('#up').click(function() {
 	upImage = $('#up_image');
 	container = $('#container');
 	popup = $('#popup');
-    if(up.attr('data-mode') == 'down'){
+	if(up.attr('data-mode') == 'down'){
 		container.removeClass('container-no-popup');
 		container.addClass('container-popup');
 		popup.removeClass('Disabled');
@@ -84,7 +84,7 @@ $('#progress-back').click(function() {
 * if the offSet is to large it will return to 0.
 */
 $('#progress-front').click(function() {
-    var elements = numberOfElements();
+	var elements = numberOfElements();
 	var available = availableElements();
 	if(stopAt != elements){
 		if(stopAt == 0 && offSet == 0){
@@ -165,7 +165,7 @@ function checkValues(){
 */
 $(window).resize(function() {
 	checkValues();
-  	center(offSet);
+	center(offSet);
 });
 
 /**
@@ -186,10 +186,10 @@ function WindowWidth(){
 	if (document.compatMode=='CSS1Compat' &&
 		document.documentElement &&
 		document.documentElement.offsetWidth ) {
-	 	width = document.documentElement.offsetWidth;
+		width = document.documentElement.offsetWidth;
 	}
 	if (window.innerWidth && window.innerHeight) {
-	 	width = window.innerWidth;
+		width = window.innerWidth;
 	}
 	return width;	
 }
@@ -207,7 +207,7 @@ function removeTheRest(){
 		stopAt = stopAt-(offSet+elements);
 	}
 	$('.progress').each(function(index, element) {
-       	number++;
+		number++;
 		if(stopAt == 0 && offSet == 0){
 			if(number > elements){
 				 $(this).addClass('progress-disabled');	
@@ -230,7 +230,7 @@ function removeTheRest(){
 				}
 			}
 		}
-    });
+	});
 	if(clearStopAt){
 			stopAt = 0;
 	}
@@ -277,7 +277,7 @@ function numberOfEnabledElements(){
 		if(!$(this).hasClass('progress-disabled')){
 			numberOfElements++;
 		}
-    });
+	});
 	return numberOfElements;
 }
 
@@ -320,7 +320,7 @@ function center(offSet){
 		if(!$(this).hasClass('progress-disabled')){
 			innerWidth += $(this).width()+22;
 		}
-    });
+	});
 	var width = window.width-marginLeft-marginRight;
 	$('#progress-container').css('width',width);
 	$('#progress-inner-container').css('width',innerWidth);

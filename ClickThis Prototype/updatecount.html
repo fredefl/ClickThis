@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
-    <head>
-    	<title>Hehe</title>
-    </head>
-    <body>
-        <div id="updateCount" style="font-size:36px;">0</div>
-        <script src="js/jquery.min.js"></script>
-        <script src="http://cdn.beaconpush.com/clients/client-1.js"></script>
-        <script type="text/javascript">
+	<head>
+		<title>Hehe</title>
+	</head>
+	<body>
+		<div id="updateCount" style="font-size:36px;">0</div>
+		<script src="js/jquery.min.js"></script>
+		<script src="http://cdn.beaconpush.com/clients/client-1.js"></script>
+		<script type="text/javascript">
 			// ESN Beaconpush test
 			Beacon.connect('ed02c2f4', ['mychannel']);
 			Beacon.listen(function (data) {
 				$('#updateCount').html(parseInt($('#updateCount').html())+1);
 			});
-        </script>
-    </body>
+		</script>
+	</body>
 </html>

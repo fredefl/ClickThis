@@ -73,7 +73,7 @@ function alternativeShowProviders(data,type){
 /**
  * This functions finds the index of an element
  * @param  {object} elementToFind The jquery element to find
- * @param  {string} selector      The selector to loopup for an index of
+ * @param  {string} selector	  The selector to loopup for an index of
  */
 function findIndex(elementToFind,selector){
 	var i = 0;
@@ -212,31 +212,31 @@ function start(callback) {
 				callback();
 			}
 			var dropped = false;
-    		var draggable_sibling;
+			var draggable_sibling;
 			$('#providerContainer ul').sortable({
-                "items" : 'li',
-                "disabled" : true,
-                start: function(event, ui) {
-           			 draggable_sibling = $(ui.item).prev();
-        		},
-        		stop: function(event, ui) {
-            		if (dropped) {
-               		if (draggable_sibling.length == 0)
-                    $('#providerContainer ul').prepend(ui.item);
-                	draggable_sibling.after(ui.item);
-                	dropped = false;
-                	removeElement(ui.item[0]);
-           		}
-        }
-         	});
-         	$("#menuBarRemove").droppable({
-       			activeClass: 'active',
-        		hoverClass:'hovered',
-		        drop:function(event,ui){
-		            dropped = true;
-		        }
-    		});
-         	window.addElementSwipe = new Swipe(document.getElementById("searchProviders"),{
+				"items" : 'li',
+				"disabled" : true,
+				start: function(event, ui) {
+					 draggable_sibling = $(ui.item).prev();
+				},
+				stop: function(event, ui) {
+					if (dropped) {
+					if (draggable_sibling.length == 0)
+					$('#providerContainer ul').prepend(ui.item);
+					draggable_sibling.after(ui.item);
+					dropped = false;
+					removeElement(ui.item[0]);
+				}
+		}
+			});
+			$("#menuBarRemove").droppable({
+				activeClass: 'active',
+				hoverClass:'hovered',
+				drop:function(event,ui){
+					dropped = true;
+				}
+			});
+			window.addElementSwipe = new Swipe(document.getElementById("searchProviders"),{
 				callback:addElementSwipeCallback
 			});	
 			window.addElementSwipe.disable();
@@ -427,16 +427,16 @@ function addNewPage(container,editMode){
 			provider.addBullet($('#position'));
 		}
 		var disableSelection = false;
-        if(editMode){
-         	$(".tooltip").css("display","none");
-         	disableSelection = false;
-        } else {
-        	disableSelection = true;
-        }
+		if(editMode){
+			$(".tooltip").css("display","none");
+			disableSelection = false;
+		} else {
+			disableSelection = true;
+		}
 		$(newPage).find("ul").sortable({
-                "items" : 'li',
-                "disabled":disableSelection
-         });
+				"items" : 'li',
+				"disabled":disableSelection
+		 });
 		return newPage;
 	}
 }

@@ -100,10 +100,10 @@ var buttonGenerator = {
 	 * This function creates a Submit button that can submit,
 	 * but doesn't redicret.
 	 * @param  {[string} color   The wished color of the button
-	 * @param  {string} text     The text of the button
-	 * @param  {string} id       The id of the button if wished
+	 * @param  {string} text	 The text of the button
+	 * @param  {string} id	   The id of the button if wished
 	 * @param  {string} location The post location of the submit group
-	 * @param  {string} group    The submit group
+	 * @param  {string} group	The submit group
 	 * @param  {string} clickCallbackString The name of the function to call when clicked
 	 * @param {string} callbackParameters The parameters to the callback function as string
 	 */

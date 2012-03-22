@@ -94,30 +94,30 @@
 
 .preview li{
 	float: left;
-    width:64px;
-    height:22px;
+	width:64px;
+	height:22px;
 }
 
 .iframe{
-  	zoom: 0.69;
-    -moz-transform: scale(0.69, 0.69); 
-    -webkit-transform: scale(0.69, 0.69); 
-    -o-transform: scale(0.69, 0.69);
-    -ms-transform: scale(0.69, 0.69);
-    transform: scale(0.69, 0.69); 
-    -moz-transform-origin: top left;
-    -webkit-transform-origin: top left;
-    -o-transform-origin: top left;
-    -ms-transform-origin: top left;
-    transform-origin: top left;
+	zoom: 0.69;
+	-moz-transform: scale(0.69, 0.69); 
+	-webkit-transform: scale(0.69, 0.69); 
+	-o-transform: scale(0.69, 0.69);
+	-ms-transform: scale(0.69, 0.69);
+	transform: scale(0.69, 0.69); 
+	-moz-transform-origin: top left;
+	-webkit-transform-origin: top left;
+	-o-transform-origin: top left;
+	-ms-transform-origin: top left;
+	transform-origin: top left;
 }
 
 /* Other */
 .sortable-grid{
-    width:100%; 
-    position: relative;
-    height:100%;
-    left:-18px;
+	width:100%; 
+	position: relative;
+	height:100%;
+	left:-18px;
 }
 
 html, body {

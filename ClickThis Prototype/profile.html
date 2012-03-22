@@ -1,87 +1,87 @@
 <!DOCTYPE HTML>
 <html> <!--manifest="offline.manifest"-->
-    <head>
-     	<title>ClickThis - Settings</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black">
-        <link rel="stylesheet" href="css/jqtouch.css"/>
-        <link rel="stylesheet" href="css/theme.css"/>
-        <link rel="stylesheet" href="css/style.css"/>
-        <link rel="apple-touch-icon" href="img/ClickThis64.png" />
-    </head>
-    <body>
-   		<input type="hidden" id="currentpage" value="user" />
-        <div id="page">
-            <div id="home" class="current">
-                <div class="toolbar">
-                    <h1><a href="http://illution.dk/ClickThisPrototype/home.html" title="Home" style="text-decoration:none; color:#FFF;">ClickThis</a></h1>
-                    <a class="back" id="backButton" data-href="home.html">Back</a>
-                </div>
-                <div id="user" class="Active">
-                    <div id="Avatar">
-                        <a title="" id="linktag" href="#"><img id="profile_image" src="" width="256" height="256" title="" alt="" /></a>
-                    </div>
-                    <div id="Profile">
-                        <label for="Name">Name</label><br>
-                        <input type="text" id="Name" value="" /><br>
-                        <label for="Email">Email</label><br>
-                        <input type="text" id="Email" value="" /><br>
-                        <label for="Email">Location</label><br>
-                        <select id="Location">
-                            <optgroup title="Europe" label="Europe">Europe</optgroup>
-                                <option selected value="dk">Denmark</option>
-                                <option value="en">England</option>
-                                <option value="de">Germany</option>
-                                <option value="fr">France</option>
-                            <optgroup title="Asia" label="Asia">Asia</optgroup>
-                                <option value="cn">China</option>
-                        </select>
-                    </div>
-                    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-                    <br><br><br><br><br><br><br><br>
-                </div>
-             	<!-- About Box -->
-             	<div id="aboutBox" class="Disabled">
-         		</div>
-        	               
-            </div>
-        </div>
-        <script src="js/jquery.min.js"></script>
-        <script src="http://cdn.illution.dk/JS/jquery.hashchange.min.js"></script>
-        <script src="js/clickthis.js"></script><script src="js/script.js"></script>
-        <script type="text/javascript">
-            function createPage(){
-                var userId = 21;
-                if(typeof userId != "null"){
-                    $.ajax({
-                        url: "http://illution.dk/ClickThis/api/user/"+userId,
-                        success: function(data){
-                            if(typeof data.error_code == "undefined"){
-                                $(".Active").addClass("Disabled").removeClass("Active");
-                                var user = $("#user");
-                                $("#linktag").attr("title",data.Name);
-                                $("#profile_image").attr("title",data.Name).attr("alt",data.Name).attr("src",data.ProfileImage);
-                                $("#Name").attr("value",data.Name);
-                                $("#Email").val(data.Email);
-                                $("#Location").val(data.Country);
-                                user.addClass("Active").removeClass("Disabled");
-                            } else {
-                                $(".Active").addClass("Disabled").removeClass("Active");
-                                $("#notfound").addClass("Active").removeClass("Disabled");
-                            }
-                        },
-                        error: function(){
-                            $(".Active").addClass("Disabled").removeClass("Active");
-                            $("#notfound").addClass("Active").removeClass("Disabled");
-                        }
-                    });
-                }
-            }
-            $(document).ready(function(){
-                createPage();
-            });
-        </script>
-    </body>
+	<head>
+		<title>ClickThis - Settings</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/jqtouch.css"/>
+		<link rel="stylesheet" href="css/theme.css"/>
+		<link rel="stylesheet" href="css/style.css"/>
+		<link rel="apple-touch-icon" href="img/ClickThis64.png" />
+	</head>
+	<body>
+		<input type="hidden" id="currentpage" value="user" />
+		<div id="page">
+			<div id="home" class="current">
+				<div class="toolbar">
+					<h1><a href="http://illution.dk/ClickThisPrototype/home.html" title="Home" style="text-decoration:none; color:#FFF;">ClickThis</a></h1>
+					<a class="back" id="backButton" data-href="home.html">Back</a>
+				</div>
+				<div id="user" class="Active">
+					<div id="Avatar">
+						<a title="" id="linktag" href="#"><img id="profile_image" src="" width="256" height="256" title="" alt="" /></a>
+					</div>
+					<div id="Profile">
+						<label for="Name">Name</label><br>
+						<input type="text" id="Name" value="" /><br>
+						<label for="Email">Email</label><br>
+						<input type="text" id="Email" value="" /><br>
+						<label for="Email">Location</label><br>
+						<select id="Location">
+							<optgroup title="Europe" label="Europe">Europe</optgroup>
+								<option selected value="dk">Denmark</option>
+								<option value="en">England</option>
+								<option value="de">Germany</option>
+								<option value="fr">France</option>
+							<optgroup title="Asia" label="Asia">Asia</optgroup>
+								<option value="cn">China</option>
+						</select>
+					</div>
+					<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+					<br><br><br><br><br><br><br><br>
+				</div>
+				<!-- About Box -->
+				<div id="aboutBox" class="Disabled">
+				</div>
+						   
+			</div>
+		</div>
+		<script src="js/jquery.min.js"></script>
+		<script src="http://cdn.illution.dk/JS/jquery.hashchange.min.js"></script>
+		<script src="js/clickthis.js"></script><script src="js/script.js"></script>
+		<script type="text/javascript">
+			function createPage(){
+				var userId = 21;
+				if(typeof userId != "null"){
+					$.ajax({
+						url: "http://illution.dk/ClickThis/api/user/"+userId,
+						success: function(data){
+							if(typeof data.error_code == "undefined"){
+								$(".Active").addClass("Disabled").removeClass("Active");
+								var user = $("#user");
+								$("#linktag").attr("title",data.Name);
+								$("#profile_image").attr("title",data.Name).attr("alt",data.Name).attr("src",data.ProfileImage);
+								$("#Name").attr("value",data.Name);
+								$("#Email").val(data.Email);
+								$("#Location").val(data.Country);
+								user.addClass("Active").removeClass("Disabled");
+							} else {
+								$(".Active").addClass("Disabled").removeClass("Active");
+								$("#notfound").addClass("Active").removeClass("Disabled");
+							}
+						},
+						error: function(){
+							$(".Active").addClass("Disabled").removeClass("Active");
+							$("#notfound").addClass("Active").removeClass("Disabled");
+						}
+					});
+				}
+			}
+			$(document).ready(function(){
+				createPage();
+			});
+		</script>
+	</body>
 </html>
