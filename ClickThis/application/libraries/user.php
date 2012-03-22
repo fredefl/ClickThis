@@ -324,6 +324,19 @@ class User extends Std_Library{
 	 * $this->_INTERNAL_FORCE_ARRAY = array("Questions");
 	 */
 	public static $_INTERNAL_FORCE_ARRAY = NULL;
+
+	/**
+	 * This property is used to deffine a set of rows that is gonna be
+	 * unique for this row of data
+	 * @var array
+	 * @access public
+	 * @since 1.1
+	 * @static
+	 * @internal This is a internal settings variable
+	 * @example
+	 * array("SeriesId","Title");
+	 */
+	public static $_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = NULL;
 	
 	/**
 	 * This function is the constructor, it makes an instance of CodeIgniter and put it in the $this->CI property
@@ -367,6 +380,7 @@ class User extends Std_Library{
 			"Type",
 			"State"
 		);
+		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("Name","Email","Country","Username","UserGroup","Facebook_Id","Google_Id","LinkedIn_Id","Twitter_Id");
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_FORCE_ARRAY = array("UserGroup","TargetGroup");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id","ClickThis_Id");

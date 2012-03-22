@@ -78,6 +78,19 @@ class School extends Std_Library{
 	public static $_INTERNAL_LOAD_FROM_CLASS = NULL;
 
 	/**
+	 * This property is used to deffine a set of rows that is gonna be
+	 * unique for this row of data
+	 * @var array
+	 * @access public
+	 * @since 1.1
+	 * @static
+	 * @internal This is a internal settings variable
+	 * @example
+	 * array("SeriesId","Title");
+	 */
+	public static $_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = NULL;
+
+	/**
 	 * The state the school is located in
 	 * @var string
 	 * @access public
@@ -137,6 +150,7 @@ class School extends Std_Library{
 		$this->_INTERNAL_DATABASE_NAME_CONVERT = array(
 			"Abbrevation" => "Abbr"
 		);
+		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("Abbrevation","Name","Country");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id","Method");
 		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_INTERNAL_LOAD_FROM_CLASS = array("State" => "State");

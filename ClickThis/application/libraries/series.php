@@ -241,6 +241,20 @@ class Series extends Std_Library{
 	public static $_INTERNAL_FORCE_ARRAY = NULL;
 
 	/**
+	 * This property is used to deffine a set of rows that is gonna be
+	 * unique for this row of data
+	 * @var array
+	 * @access public
+	 * @since 1.1
+	 * @static
+	 * @internal This is a internal settings variable
+	 * @example
+	 * array("SeriesId","Title");
+	 */
+	public static $_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = NULL;
+
+
+	/**
 	 * The local instance of CodeIgniter
 	 * @var object
 	 * @access private
@@ -258,6 +272,7 @@ class Series extends Std_Library{
 		$this->_INTERNAL_DATABASE_NAME_CONVERT = array(
 			"Type" => "SeriesType"
 		);
+		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("Creator","EndTime","StartTime","Title");
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id","Questions");
 		$this->_INTERNAL_LOAD_FROM_CLASS = array(
