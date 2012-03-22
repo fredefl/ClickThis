@@ -1,6 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
 /**
- * This class is used for storing user data, such as Facebook id's etc
+ * This class i used as a parent for all the data classes,
+ * the most of the other libraries is inherited from this library.
  * @package Libraries
  * @license http://illution.dk/copyright © Illution 2012
  * @subpackage Std Data Library Template
