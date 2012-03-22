@@ -167,7 +167,7 @@ var ajaxQueue = {
 		if (json.data === undefined) {
 			json.data = "";
 		}
-		if(json.type === undefined) {
+		if (json.type === undefined) {
 			json.type = "POST";
 		}
 		if (json.url && json.group) {
