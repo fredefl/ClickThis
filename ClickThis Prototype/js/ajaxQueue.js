@@ -308,6 +308,9 @@ var ajaxQueue = {
 	 * ajaxQueue.executeTasks();
 	 */
 	executeTasks: function () {
+		if (this.sendingStatusCode === true) {
+			return false;
+		}
 		if (this.queueArray.Tasks.length > 0) {
 			ajaxQueue.sendingStatusCode = true;
 			ajaxQueue.checkStatusCode();
