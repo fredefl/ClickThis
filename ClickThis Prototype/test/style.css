@@ -26,7 +26,7 @@
 .right{
 	height:34px;
 	width:35px;
-	background: url("images/Right.png") 0 0 no-repeat;
+	background: url("img/Right.png") 0 0 no-repeat;
 	position:absolute;
 	top:45%;
 	right:-20px;
@@ -36,7 +36,7 @@
 .right-disabled{
 	height:34px;
 	width:35px;
-	background: url("images/Right.png") 0 0 no-repeat;
+	background: url("img/Right.png") 0 0 no-repeat;
 	background-position:-176px 0;
 	position:absolute;
 	top:45%;
@@ -60,7 +60,7 @@
 .left-disabled{
 	height:34px;
 	width:35px;	
-	background: url("images/Left.png") 0 0 no-repeat;
+	background: url("img/Left.png") 0 0 no-repeat;
 	background-position:-174px 0;
 	position:absolute;
 	top:45%;
@@ -75,7 +75,7 @@
 .left{
 	height:34px;
 	width:35px;	
-	background: url("images/Left.png") 0 0 no-repeat;
+	background: url("img/Left.png") 0 0 no-repeat;
 	position:absolute;
 	top:45%;
 	left:-15px;	
@@ -88,7 +88,7 @@
 	width:35px;		
 	left:45%;
 	top:-22px;
-	background: url("images/Up.png") 0 0 no-repeat;
+	background: url("img/Up.png") 0 0 no-repeat;
 	position:absolute;
 }
 
@@ -102,7 +102,7 @@
 	height:34px;
 	width:35px;		
 	left:45%;
-	background: url("images/Down.png") 0 0 no-repeat;
+	background: url("img/Down.png") 0 0 no-repeat;
 	position:absolute;
 	bottom:-15px;
 }
@@ -197,7 +197,7 @@ body {
 	position:absolute;
 	top:-15px;	
 	right:-15px;
-	background: url("images/circle.png") 0 0 no-repeat;
+	background: url("img/circle.png") 0 0 no-repeat;
 	background-position:-70px 0;
 	z-index:99;
 	-webkit-transform: rotate(360deg);
@@ -210,7 +210,7 @@ body {
 	top:-15px;	
 	right:-15px;
 	z-index:99;
-	background: url("images/circle.png") 0 0 no-repeat;
+	background: url("img/circle.png") 0 0 no-repeat;
 }
 
 /* Add Element */
@@ -305,7 +305,7 @@ body {
 	margin: 2px 2px 2px 2px;
 	right:65px;
 	position:absolute;	
-	background: url("images/Page.png") 0 0 no-repeat;
+	background: url("img/Page.png") 0 0 no-repeat;
 }
 
 #menuBar-add-page:hover{
@@ -324,7 +324,7 @@ body {
 	right:30px;
 	position:absolute;	
 	/*right:-15px;*/
-	background: url("images/Provider.png") 0 0 no-repeat;
+	background: url("img/Provider.png") 0 0 no-repeat;
 }
 #menuBar-add-element:hover{
 	background-position:-35px 0;
@@ -340,7 +340,7 @@ body {
 	margin: 2px 2px 2px 2px;
 	right:102px;
 	position:absolute;
-	background: url("images/Delete.png") 0 0 no-repeat;
+	background: url("img/Delete.png") 0 0 no-repeat;
 }
 
 #menuBarRemove:hover{
@@ -358,7 +358,7 @@ body {
 	margin: 2px 2px 2px 2px;
 	right:134px;
 	position:absolute;
-	background: url("images/Remove Page.png") 0 0 no-repeat;	
+	background: url("img/Remove Page.png") 0 0 no-repeat;	
 }
 
 #menuBar-remove-page:hover{

@@ -173,7 +173,7 @@ h1 {
 .right{
 	height:34px;
 	width:35px;
-	background: url("../images/Right.png") 0 0 no-repeat;
+	background: url("../img/Right.png") 0 0 no-repeat;
 	position:fixed;
 	top:50%;
 	right:10px;
@@ -201,7 +201,7 @@ h1 {
 .left{
 	height:34px;
 	width:35px;	
-	background: url("../images/Left.png") 0 0 no-repeat;
+	background: url("../img/Left.png") 0 0 no-repeat;
 	position:fixed;
 	top:50%;
 	left:10px;	

@@ -25,11 +25,11 @@ css/style.css
 css/jqt/theme.css
 
 #IMAGES
-images/Black.png
-images/ButtonOverlay.png
-images/ClickThis64.png
-images/Off.png
-images/On.png
+img/Black.png
+img/ButtonOverlay.png
+img/ClickThis64.png
+img/Off.png
+img/On.png
 
 css/jqt/img/activeButton.png
 css/jqt/img/back_button.png
