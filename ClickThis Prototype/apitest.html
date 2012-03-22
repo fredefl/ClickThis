@@ -48,23 +48,19 @@
         <script src="js/seriesGenerator.js"></script>
         <script type="text/javascript">
             $(document).ready(function () {
+                var Id = 31;
+                if(location.hash != null && location.hash != ""){
+                    var hash = location.hash;
+                    hash = hash.replace("#","");
+                    hash = parseInt(hash);
+                    if(typeof hash == "number"){
+                        Id = hash;
+                    }
+                }
                     $.ajax({
-                      url: "http://illution.dk/ClickThis/api/series/31",
+                      url: "http://illution.dk/ClickThis/api/series/"+Id,
                       success: function(data){
                         seriesGenerator.generate(data);
-                        /**
-                        $(".left").click(function(){
-                            if(window.questionSwipe.getPos() != 0){
-                                window.questionSwipe.prev();
-                            }
-                        });
-
-                        $(".right").click(function(){
-                            if(window.questionSwipe.getPos() != $("#questionsContainer div:first").find("div").length-1){
-                                window.questionSwipe.next();
-                            }
-                        });
-                        **/
                       }
                     });
             });        
