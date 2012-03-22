@@ -1,129 +1,143 @@
 <!DOCTYPE HTML>
 <html> <!-- manifest="offline.manifest"-->
 	<head>
-    	<title>ClickThis - Home</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black">
-        <link rel="stylesheet" href="css/jqtouch.css"/>
-        <link rel="stylesheet" href="css/theme.css"/>
-        <link rel="stylesheet" href="css/style.css"/>
-        <link rel="apple-touch-icon" href="img/ClickThis64.png" />
+		<title>ClickThis - Home</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/jqtouch.css"/>
+		<link rel="stylesheet" href="css/theme.css"/>
+		<link rel="stylesheet" href="css/style.css"/>
+		<link rel="apple-touch-icon" href="img/ClickThis64.png" />
+		<style type="text/css">
+			.listIcon {
+				background: url("img/list-icon.png") !important;
+				width: 14px;
+				height: 13px;
+				margin-top:8.5px;
+			}
+			.arrowLeftIcon {
+				background: url("img/arrow-left-icon.png") !important;
+				width: 14px;
+				height: 14px;
+				margin-top:8px;
+			}
+		</style>
 	</head>
 	<body>
-        <input type="hidden" id="currentpage" value="user" />
-        <div id="page">
-        	<!-- The full page div -->
-            <div id="home" class="current" >
-            	<!-- Toolbar -->
-            	<div class="toolbar">
-                    <h1 id="toolbarTitle"><a href="http://illution.dk/ClickThisPrototype/home.html" title="Home" style="text-decoration:none; color:#FFF;">ClickThis</a></h1>
-                    <a class="button slideup" onClick="showAboutBox();" id="infoButton">About</a>
-                    <a class="back Active" id="backButton" data-href="home.html" data-app-onClick="ClickThisApp.terminateApp()" data-app-text="Quit" data-app-start-mode="active" data-page-start-mode="disabled">Back</a>
-                </div> <!-- end of toolbar -->
+		<input type="hidden" id="currentpage" value="user" />
+		<div id="page">
+			<!-- The full page div -->
+			<div id="home" class="current" >
+				<!-- Toolbar -->
+				<div class="toolbar">
+					<h1 id="toolbarTitle"><a href="http://illution.dk/ClickThisPrototype/home.html" title="Home" style="text-decoration:none; color:#FFF;">ClickThis</a></h1>
+					<a class="button slideup" onClick="showAboutBox();" id="infoButton"><div class="listIcon"></div></a>
+					<a class="back Active" id="backButton" data-href="home.html" data-app-onClick="ClickThisApp.terminateApp()" data-app-text="Quit" data-app-start-mode="active" data-page-start-mode="disabled"><div class="arrowLeftIcon"></div></a>
+				</div> <!-- end of toolbar -->
 
-                <div id="notification" style="display:none;height:0px">
-                    Some data has not been sent! [ <small id="notificationCount"></small> ]
-                </div> <!-- end of notification -->
-                
-                <!-- User front page -->
-                <div id="user">
-                     <!-- The surveys -->
-                    <ul class="rounded arrow" id="series">
-                        <li class="forward"><a href="apitest.html#31">Which sport(s) do you play, and why?</a><small class="counter"><a href="user.html?user_id=1">Bo Thomsen
-                        </a></small></li>
-                        <li class="forward"><a href="apitest.html#76">What is the best car?</a><small class="counter"><a href="user.html?user_id=40">Car Magazine</a></small></li>
-                    </ul>
-                
-                	<!-- The tests -->
-                    <ul class="rounded">
-                    	<li class="arrow"><a href="buttons.html">Button Showcase</a></li>  
-                        <li class="arrow"><a href="#add_issue">Add Issue</a></li> 
-                        <li class="arrow" id="updateButton"><a href="#">Update Desktop</a></li>
-                        <li class="forward"><a>Page View Counter</a><small class="counter" id="pageCount">0</small></li>
-                        <li><a id="chacheStatus">Cache status </a></li>
-                    </ul>
-                </div> <!-- end of user / front page -->
-                
-                <div class="Disabled" id="add_issue">
-                    <form method="POST" action="http://illution.dk/ClickThisIssueCreator/index.php">
-                        <span style="margin-left:5%; font:Arial, Helvetica, sans-serif; font-size:18px; font-weight:bold; color:#FFF;">Title:</span><br>
-                        <input type="text" name="title" style="width:90%;margin-left:5%;"/><br>
-                        <span style="margin-left:5%; font:Arial, Helvetica, sans-serif; font-size:18px; font-weight:bold; color:#FFF;">Description:</span><br>
-                        <textarea name="description" style="width:90%;margin-left:5%; height:256px;"></textarea>
-                        <br>
-                        <input type="submit" value="Submit!" style="width:90%;margin-left:5%;"/>
-                    </form>
-                </div> <!-- end of add issue -->
-                
-                <!-- About Box -->
-                <div id="aboutBox" class="Disabled">
-                </div> <!-- end of about box -->
-                
-                <!-- Bottom -->
-                <ul class="individual">
-                    <li><a href="profile.html">Profile</a></li>
-                    <li><a href="settings.html">Settings</a></li>
-                </ul> <!-- end of bottom -->
-            </div> <!-- end of home -->
-        </div> <!-- end of jqt -->
-        <script src="js/jquery.min.js"></script>
-        <script src="http://cdn.illution.dk/JS/jquery.hashchange.min.js"></script>
-        <script src="http://cdn.beaconpush.com/clients/client-1.js"></script>
-        <script src="js/clickthis.js"></script><script src="js/script.js"></script>
-        <script src="js/ajaxQueue.js"></script>
-        <script type="text/javascript">
-            $(window).load(function () {
-                ajaxQueue.registerCallback({type:"onStatusCodeChange"}, function () {
-                    var statusCode = ajaxQueue.getStatusCode();
-                    var notification = $("#notification");
-                    $("#notificationCount").html(ajaxQueue.getQueueLength());
-                    if(statusCode === 0 && notification.css("heigth") !== 0) {
-                        notification.animate({
-                            height: "0px"
-                        }, 500,function () {
-                            notification.hide();
-                        });
-                    }
-                    if(statusCode !== 0 && notification.css("heigth") !== 45) {
-                        $(notification).show();
-                        $(notification).animate({
-                            height: "45px"
-                        }, 500);  
-                    }
-                });
-                ajaxQueue.registerCallback({type: "onQueueLengthChange"}, function () {
-                    $("#notificationCount").html(ajaxQueue.getQueueLength());
-                });
-                ajaxQueue.load();
-                ajaxQueue.executeTasks();
-                ajaxQueue.setConfig({ajaxTimeout: 6000})
-                ajaxQueue.registerCallback({group: "beaconpush", type: "onSuccess"},function () {
-                    console.log('Notification sent!');
-                });
-                // ESN Beaconpush test
-                Beacon.connect('ed02c2f4', ['mychannel']);
-                Beacon.listen(function (data) {
-                    setTimeout('$("#toolbarTitle").css("-webkit-transform","rotate(360deg)")',1000);
-                    setTimeout('$("#toolbarTitle").css("-webkit-transform","rotate(0deg)")',2000);
-                });
-                $("#beaconFlashHolder").css("position","absolute").css("left","-200px");
-            })
-            // Page view counter
-            if (!localStorage.pageCounter)
-                localStorage.setItem('pageCounter',0);
-            localStorage.setItem('pageCounter',parseInt(localStorage.pageCounter)+1);
-            $("#pageCount").html(localStorage.pageCounter);
-            // Request update
-            $('#updateButton').click(function(){
-                ajaxQueue.add({
-                    url: "http://illution.dk/ClickThisPrototype/beaconpush.php",
-                    data: "a=a",
-                    group: "beaconpush"
-                });
-                ajaxQueue.executeTasks();
-            });
+				<div id="notification" style="display:none;height:0px">
+					Some data has not been sent! [ <small id="notificationCount"></small> ]
+				</div> <!-- end of notification -->
+				
+				<!-- User front page -->
+				<div id="user">
+					 <!-- The surveys -->
+					<ul class="rounded arrow" id="series">
+						<li class="forward"><a href="apitest.html#31">Which sport(s) do you play, and why?</a><small class="counter"><a href="user.html?user_id=1">Bo Thomsen
+						</a></small></li>
+						<li class="forward"><a href="apitest.html#76">What is the best car?</a><small class="counter"><a href="user.html?user_id=40">Car Magazine</a></small></li>
+					</ul>
+				
+					<!-- The tests -->
+					<ul class="rounded">
+						<li class="arrow"><a href="buttons.html">Button Showcase</a></li>  
+						<li class="arrow"><a href="#add_issue">Add Issue</a></li> 
+						<li class="arrow" id="updateButton"><a href="#">Update Desktop</a></li>
+						<li class="forward"><a>Page View Counter</a><small class="counter" id="pageCount">0</small></li>
+						<li><a id="chacheStatus">Cache status </a></li>
+					</ul>
+				</div> <!-- end of user / front page -->
+				
+				<div class="Disabled" id="add_issue">
+					<form method="POST" action="http://illution.dk/ClickThisIssueCreator/index.php">
+						<span style="margin-left:5%; font:Arial, Helvetica, sans-serif; font-size:18px; font-weight:bold; color:#FFF;">Title:</span><br>
+						<input type="text" name="title" style="width:90%;margin-left:5%;"/><br>
+						<span style="margin-left:5%; font:Arial, Helvetica, sans-serif; font-size:18px; font-weight:bold; color:#FFF;">Description:</span><br>
+						<textarea name="description" style="width:90%;margin-left:5%; height:256px;"></textarea>
+						<br>
+						<input type="submit" value="Submit!" style="width:90%;margin-left:5%;"/>
+					</form>
+				</div> <!-- end of add issue -->
+				
+				<!-- About Box -->
+				<div id="aboutBox" class="Disabled">
+				</div> <!-- end of about box -->
+				
+				<!-- Bottom -->
+				<ul class="individual">
+					<li><a href="profile.html">Profile</a></li>
+					<li><a href="settings.html">Settings</a></li>
+				</ul> <!-- end of bottom -->
+			</div> <!-- end of home -->
+		</div> <!-- end of jqt -->
+		<script src="js/jquery.min.js"></script>
+		<script src="http://cdn.illution.dk/JS/jquery.hashchange.min.js"></script>
+		<script src="http://cdn.beaconpush.com/clients/client-1.js"></script>
+		<script src="js/clickthis.js"></script><script src="js/script.js"></script>
+		<script src="js/ajaxQueue.js"></script>
+		<script type="text/javascript">
+			$(window).load(function () {
+				ajaxQueue.registerCallback({type:"onStatusCodeChange"}, function () {
+					var statusCode = ajaxQueue.getStatusCode();
+					var notification = $("#notification");
+					$("#notificationCount").html(ajaxQueue.getQueueLength());
+					if(statusCode === 0 && notification.css("heigth") !== 0) {
+						notification.animate({
+							height: "0px"
+						}, 500,function () {
+							notification.hide();
+						});
+					}
+					if(statusCode !== 0 && notification.css("heigth") !== 45) {
+						$(notification).show();
+						$(notification).animate({
+							height: "45px"
+						}, 500);  
+					}
+				});
+				ajaxQueue.registerCallback({type: "onQueueLengthChange"}, function () {
+					$("#notificationCount").html(ajaxQueue.getQueueLength());
+				});
+				ajaxQueue.load();
+				ajaxQueue.executeTasks();
+				ajaxQueue.setConfig({ajaxTimeout: 6000})
+				ajaxQueue.registerCallback({group: "beaconpush", type: "onSuccess"},function () {
+					console.log('Notification sent!');
+				});
+				// ESN Beaconpush test
+				Beacon.connect('ed02c2f4', ['mychannel']);
+				Beacon.listen(function (data) {
+					setTimeout('$("#toolbarTitle").css("-webkit-transform","rotate(360deg)")',1000);
+					setTimeout('$("#toolbarTitle").css("-webkit-transform","rotate(0deg)")',2000);
+				});
+				$("#beaconFlashHolder").css("position","absolute").css("left","-200px");
+			})
+			// Page view counter
+			if (!localStorage.pageCounter)
+				localStorage.setItem('pageCounter',0);
+			localStorage.setItem('pageCounter',parseInt(localStorage.pageCounter)+1);
+			$("#pageCount").html(localStorage.pageCounter);
+			// Request update
+			$('#updateButton').click(function(){
+				ajaxQueue.add({
+					url: "http://illution.dk/ClickThisPrototype/beaconpush.php",
+					data: "a=a",
+					group: "beaconpush"
+				});
+				ajaxQueue.executeTasks();
+			});
 			if(window.applicationCache) {
 				cache = window.applicationCache;
 				cache.addEventListener('cached', function() {
@@ -140,8 +154,8 @@
 				}, false);
 			};
 			$(document).ready(function(e) {
-				aboutText();
-            });
-        </script> <!-- end of script -->
+				//aboutText();
+			});
+		</script> <!-- end of script -->
 	</body> <!-- end of body -->
 </html> <!-- end of html -->
