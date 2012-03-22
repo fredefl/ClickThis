@@ -152,6 +152,9 @@ var buttonResizer = {
 				$(buttonElement).css("min-height","65px");
 			}
 		});
+		if($.fn.ata != 'undefined'){
+			$(".textfield").ata();
+		}
 		// Return if it was a success
 		if (elementArray.length > 0) {
 			return true;
