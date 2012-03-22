@@ -259,11 +259,10 @@ class Test extends CI_Controller {
 		//$Question->Import(array('SerieId' => 3,'Title' => 'llama','Type' => '4','ViewOrder' => '1','Options' => array('Fisk','And')));
 		//$Question->Save();
 		//$Question->Create(array('SerieId' => 3,'Title' => 'llama','Type' => '4','ViewOrder' => '1','Options' => array('Fisk','And')));
-		$Question->Load(1);
-		//$Question->Import(array("Options" => "1"));
+		$Question->Import(array("SeriesId" => 10,"Title" => "Who is this?","Type" => 1,"ViewOrder" => "5"));
 		echo "<pre>";
-		$data = $Question->Export();
 		$Question->Save();
+		$data = $Question->Export();
 		print_r($data);
 		echo "</pre>";
 	}

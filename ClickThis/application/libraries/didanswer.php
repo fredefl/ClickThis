@@ -138,6 +138,19 @@ class DidAnswer extends Std_Library{
 	public static $_INTERNAL_FORCE_ARRAY = NULL;
 
 	/**
+	 * This property is used to deffine a set of rows that is gonna be
+	 * unique for this row of data
+	 * @var array
+	 * @access public
+	 * @since 1.1
+	 * @static
+	 * @internal This is a internal settings variable
+	 * @example
+	 * array("SeriesId","Title");
+	 */
+	public static $_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = NULL;
+
+	/**
 	 * The local instance of CodeIgniter
 	 * @var object
 	 * @access private
@@ -154,6 +167,7 @@ class DidAnswer extends Std_Library{
 	public function DidAnswer () {
 		$this->_CI =& get_instance();
 		self::Config($this->_CI);
+		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("UserId","QuestionId");
 		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id");

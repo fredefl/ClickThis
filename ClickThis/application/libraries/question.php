@@ -151,6 +151,19 @@ class Question extends Std_Library{
 	public static $_INTERNAL_FORCE_ARRAY = NULL;
 
 	/**
+	 * This property is used to deffine a set of rows that is gonna be
+	 * unique for this row of data
+	 * @var array
+	 * @access public
+	 * @since 1.1
+	 * @static
+	 * @internal This is a internal settings variable
+	 * @example
+	 * array("SeriesId","Title");
+	 */
+	public static $_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = NULL;
+
+	/**
 	 * This is an internal property containing a CodeIgniter pointer
 	 * @var string
 	 * @internal This is a pointer to CodeIgniter
@@ -167,16 +180,13 @@ class Question extends Std_Library{
 	public function Question () {
 		$this->_CI =& get_instance();
 		self::Config($this->_CI);
-		/*$this->_INTERNAL_DATABASE_NAME_CONVERT = array(
-			"SerieId" => "SeriesId"
-		);*/
+		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("Title","SeriesId");
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id","Options");
 		$this->_INTERNAL_LOAD_FROM_CLASS = array("Options" => "Option");
 		$this->_INTERNAL_LINK_PROPERTIES = array("Options" => array("Options",array("QuestionId" => "Id")));
 		$this->_INTERNAL_FORCE_ARRAY = array("Options");
 		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
-		//$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_DATABASE_NAME_CONVERT);	
 	}
 }
 ?>

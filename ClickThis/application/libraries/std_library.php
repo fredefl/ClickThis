@@ -160,6 +160,19 @@ class Std_Library{
 	public static $_INTERNAL_SIMPLE_LOAD = NULL;
 
 	/**
+	 * This property is used to deffine a set of rows that is gonna be
+	 * unique for this row of data
+	 * @var array
+	 * @access public
+	 * @since 1.1
+	 * @static
+	 * @internal This is a internal settings variable
+	 * @example
+	 * array("SeriesId","Title");
+	 */
+	public static $_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = NULL;
+
+	/**
 	 * This property will contain a local instance of CodeIgniter,
 	 * if the children set's it
 	 * @var object
@@ -353,12 +366,147 @@ class Std_Library{
 							$this->$Name = explode(";", $Value);
 						}
 					} else {
-						$this->$Name = $Value;	
+						if(self::_Has_Load_From_Class($Name) && is_array($Value) && self::_Has_Sub_Array($Value)){
+							self::_Sub_Import($Value,$Name);
+						} else {
+							if(!is_integer($Value) && self::_Has_Load_From_Class($Name)){
+								self::_Sub_Import($Value,$Name);
+							} else {
+								$this->$Name = $Value;
+							}
+						}	
 					}
 				}
 			}
 			self::_Force_Array();
 			self::_Load_From_Class();
+		}
+	}
+
+	/**
+	 * This function checks if a property exists in the force array settings array
+	 * @param string $Property The property to search for
+	 * @return boolean If the property is in the force array settings array
+	 * @since 1.1
+	 * @access private
+	 */
+	private function _Has_Force_Array($Property = NULL){
+		if(!is_null($Property) && property_exists($this, $Property)){
+			if(property_exists($this, "_INTERNAL_FORCE_ARRAY") && !is_null($this->_INTERNAL_FORCE_ARRAY) && is_array($this->_INTERNAL_FORCE_ARRAY)){
+				if(in_array($Property, $this->_INTERNAL_FORCE_ARRAY)){
+					return TRUE;
+				} else {
+					return FALSE;
+				}
+			} else {
+				return FALSE;
+			}
+		} else {
+			return FALSE;
+		}
+	}
+	
+	/**
+	 * This function checks if the input data contains sub arrays
+	 * @param array||string||object $Data The data to check for sub arrays
+	 * @return boolean If the input contains an array
+	 * @since 1.1
+	 * @access private
+	 */
+	private function _Has_Sub_Array($Data = NULL){
+		if(!is_null($Data)){
+			if(is_array($Data)){
+				$Has_Sub_Array = false;
+				foreach ($Data as $Key => $Value) {
+					if(is_array($Value) || is_array($Key)){
+						$Has_Sub_Array = true;
+					}
+				}
+				return $Has_Sub_Array;
+			} else {
+				return FALSE;
+			}
+		} else {
+			return FALSE;
+		}
+	}
+
+	/**
+	 * This function check's if a load from class key exists, in the _INTERNAL_LOAD_FROM_CLASS settings array
+	 * @since 1.1
+	 * @access private
+	 * @param string $Property The property to search for
+	 * @return boolean If the key exists, in the settings array
+	 */
+	private function _Has_Load_From_Class($Property = NULL){
+		if(!is_null($Property)){
+			if(property_exists($this, "_INTERNAL_LOAD_FROM_CLASS") && !is_null($this->_INTERNAL_LOAD_FROM_CLASS) && is_array($this->_INTERNAL_LOAD_FROM_CLASS) && array_key_exists($Property, $this->_INTERNAL_LOAD_FROM_CLASS)){
+				return TRUE;
+			} else {
+				return FALSE;
+			}
+		} else {
+			return FALSE;
+		}
+	}
+
+	/**
+	 * This function gets data from the _INTERNAL_LOAD_FROM_CLASS settings array of a specific property.
+	 * @param string $Property The property to get the data for
+	 * @since 1.1
+	 * @access private
+	 * @return string The clas to load from of the specified property
+	 */
+	private function _Get_Load_From_Class_Data($Property = NULL){
+		if(!is_null($Property) && self::_Has_Load_From_Class($Property)){
+			return $this->_INTERNAL_LOAD_FROM_CLASS[$Property];
+		}
+	}
+
+	/**
+	 * This function loops through properties in the input an imports the data,
+	 * with the class' import function, if needed 
+	 * @param array $Array    The input data to use
+	 * @param string $Property The class property to save the data in
+	 */
+	private function _Sub_Import($Array = NULL,$Property = NULL){
+		if(!is_null($Array) && !is_null($Property)){
+			$ClassName = self::_Get_Load_From_Class_Data($Property);
+			if(!is_null($ClassName)){
+				$Temp = array();
+				$Single = array();
+				foreach ($Array as $Key => $Data) {
+					if(is_array($Data)){
+						$this->_CI->load->library($ClassName);
+						$Class = new $ClassName();
+						if(!is_null($Class) && method_exists($Class, "Import")){
+							$Class->Import($Data);
+						}
+						$Temp[] = $Class;
+					} else {
+						$Single[$Key] = $Data;
+					}
+				}
+				if(count($Single) > 0){
+						$this->_CI->load->library($ClassName);
+						$Class = new $ClassName();
+						if(!is_null($Class) && method_exists($Class, "Import")){
+							$Class->Import($Single);
+						}
+						$Temp[] = $Class;
+				}
+				if(count($Temp) > 0 && property_exists($this, $Property)){
+					if(is_null($this->{$Property})){
+						$this->{$Property} = $Temp;
+					} else {
+						if(is_array($this->{$Property})){
+							$this->{$Property} = array_merge($this->{$Property},$Temp); 
+						} else {
+							$this->{$Property} = $Temp;
+						}
+					}
+				}
+			}
 		}
 	}
 
@@ -577,6 +725,24 @@ class Std_Library{
 	}
 
 	/**
+	 * This function creates the query for the _Match_Data in the std_model,
+	 * and executes it
+	 * @since 1.1
+	 * @access private
+	 */
+	private function _Not_Allowed_Dublicate_Rows(){
+		if(property_exists($this, "_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS") && !is_null($this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS) && is_array($this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS)){
+			$Query = array();
+			foreach ($this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS as $Key) {
+				$Query[$Key] = $this->{$Key};
+			}
+			if(method_exists($this->_CI->_INTERNAL_DATABASE_MODEL, "Match_Data")){
+				$this->_CI->_INTERNAL_DATABASE_MODEL->Match_Data($this,$Query);
+			}
+		}
+	}
+
+	/**
 	 * This function saves the local class data to the database row of the Id property
 	 * @return string This function can return a error string
 	 * @todo Make the linked properties be saved to, and with the an updated id, etc SeriesId = $this->Id
@@ -585,6 +751,7 @@ class Std_Library{
 	 */
 	public function Save() {
 		if(!is_null($this->_CI) && !is_null($this->_CI->_INTERNAL_DATABASE_MODEL) ){
+			self::_Not_Allowed_Dublicate_Rows();
 			$this->_CI->_INTERNAL_DATABASE_MODEL->Save($this);
 			self::_Save_Linked_Properties();
 			self::_Save_ChildClasses_Properties();

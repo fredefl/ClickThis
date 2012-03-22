@@ -230,6 +230,7 @@ class Std_Model extends CI_Model{
 	 */
 	public function Save(&$Class){
 		if( property_exists(get_class($Class), "Database_Table")){
+			self::_Data_Exists($Class);
 			if($Class->Id != NULL && self::Exists($Class->Id,$Class->Database_Table)){
 				$Data = $Class->Export(true);
 				if(property_exists(get_class($Class), "Database_Table")){
@@ -249,6 +250,107 @@ class Std_Model extends CI_Model{
 			}
 		} else {
 			return false;
+		}
+	}
+
+	/**
+	 * This function gets an id of a dublicate, if it exists
+	 * @param object &$Class The class to get the data from
+	 * @return integer If there is an result then the id of the dublicate is returned
+	 * @since 1.1
+	 * @access private
+	 */
+	private function _Get_Dublicate_Id(&$Class = NULL){
+		if(!is_null($Class)){
+			$Data = $Class->Export(true);
+			$Data = self::Convert_Properties_To_Database_Row($Data);
+			if(is_null($Class->Id)){
+				$Query = $this->db->limit(1)->get_where($Class->$Database_Table,$Data);
+			} else {
+				$Query = $this->db->not_like("Id",$Class->Id)->limit(1)->get_where($Class->$Database_Table,$Data);
+			}
+			if($Query->num_rows() > 0){
+				foreach ($Query->result() as $Row) {
+					return $Row->$Id;
+				}
+			}
+		}
+	}
+
+	/**
+	 * This function checks if a class has a full dublicate in the database, if the  true is returned
+	 * @param object &$Class The class to get the data from
+	 * @return boolean If it has a dublicate
+	 * @since 1.1
+	 * @access private
+	 */
+	private function _Has_Duplicate(&$Class = NULL){
+		if(!is_null($Class)){
+			$Data = $Class->Export(true);
+			$Data = self::Convert_Properties_To_Database_Row($Data);
+			if(is_null($Class->Id)){
+				$Query = $this->db->limit(1)->get_where($Class->$Database_Table,$Data);
+			} else {
+				$Query = $this->db->not_like("Id",$Class->Id)->limit(1)->get_where($Class->$Database_Table,$Data);
+			}
+			if($Query->num_rows() > 0){
+				return TRUE;
+			} else {
+				return FALSE;
+			}
+		}
+	}
+
+	/**
+	 * This function sets the id of the $Class to an
+	 * id of a dublicate if one exists, so the dublicate would be overwritten
+	 * @param object &$Class The object to use data for and set data too
+	 * @since 1.1
+	 * @access private
+	 * @return boolean If dublicate data exists
+	 */
+	private function _Data_Exists(&$Class = NULL){
+		if(!is_null($Class)){
+			if(self::_Has_Duplicate() != false){
+				if(property_exists($Class, "Id")){
+					$Class->Id = self::_Get_Duplicate_Id($Class);
+					return TRUE;
+				}
+			}
+		} else {
+			return FALSE;
+		}
+	}
+
+	/**
+	 * This function matches, data in the database and if some data exists, then the 
+	 * id of the $Class is set to the id of the dublicate
+	 * @param object &$Class    The object to set the id of
+	 * @param array $QueryData The data to check for
+	 * @since 1.1
+	 * @access public
+	 * @return boolean If matched data was found
+	 */
+	public function Match_Data(&$Class = NULL,$QueryData = NULL){
+		if(!is_null($QueryData) && !is_null($Class) && is_array($QueryData)){
+			$QueryData = self::Convert_Properties_To_Database_Row($QueryData);
+			if(property_exists($Class, "Database_Table")){
+				$Query = $this->db->limit(1)->get_where($Class->Database_Table,$QueryData);
+				if($Query->num_rows() > 0){
+					foreach ($Query->result() as $Row) {
+						if(property_exists($Class, "Id")){
+							$Class->Id = $Row->Id;
+							return TRUE;
+						}
+					}
+				} else {
+					return FALSE;
+				}
+			} else {
+				return FALSE;
+			}	
+		} else {
+			return FALSE;
 		}
 	}
 }
