@@ -21,35 +21,35 @@
   */
  var provider = {
 
- 	 /**
- 	  * The keyword to put in front of normal pages
- 	  * @type {String}
- 	  */
- 	pageKeyword : "page_p", 
+	 /**
+	  * The keyword to put in front of normal pages
+	  * @type {String}
+	  */
+	pageKeyword : "page_p", 
 
- 	/**
- 	 * The front keyword in front of pages with user content
- 	 * @type {String}
- 	 */
+	/**
+	 * The front keyword in front of pages with user content
+	 * @type {String}
+	 */
 	userPageKeyword : "user_p",
- 	
- 	/**
- 	 * This function creates a container/ul container and returns it,
- 	 * if the page object is set then it is append to
- 	 * @param {object} page  The page object to append to
- 	 * @param {string} attrclass The wished class to add to the container,
- 	 * standard value is 'sortable-grid'
- 	 */
- 	addContainer : function(page,attrclass) {
- 		if(typeof attrclass != 'string'){
- 			attrclass = 'sortable-grid';
- 		}
- 		var container = $('<ul></ul>');
- 		container.addClass(attrclass);
- 		if(typeof page == 'object'){
- 			page.append(container);
- 		}
- 		return container;
+	
+	/**
+	 * This function creates a container/ul container and returns it,
+	 * if the page object is set then it is append to
+	 * @param {object} page  The page object to append to
+	 * @param {string} attrclass The wished class to add to the container,
+	 * standard value is 'sortable-grid'
+	 */
+	addContainer : function(page,attrclass) {
+		if(typeof attrclass != 'string'){
+			attrclass = 'sortable-grid';
+		}
+		var container = $('<ul></ul>');
+		container.addClass(attrclass);
+		if(typeof page == 'object'){
+			page.append(container);
+		}
+		return container;
 	},
 
 	/**
@@ -57,7 +57,7 @@
 	 * @param {object} provider  The JSON object with the provider data
 	 * @param {object} container The optional object to append to
 	 * @param {string} imageSize The image size
-	 * @param {object} data      An optional JSON object with extra data 'element' = 'html attr name'
+	 * @param {object} data	  An optional JSON object with extra data 'element' = 'html attr name'
 	 */
 	addProvider : function(provider,container,imageSize,data) {
 		if (typeof provider == "object") {
@@ -92,8 +92,8 @@
 			//If there is extra attributes to be set, defined in data then set em
 			if (typeof data == "object" && data != null) {
 				$(data).each(function (index, element) {
-	                content.attr(element,provider[element])
-	            });
+					content.attr(element,provider[element])
+				});
 			}
 			
 			content.addClass('provider');
@@ -164,9 +164,9 @@
 
 	/**
 	 * This function adds a number of bulletin to a object
-	 * @param {int} number    the number of bulletins to add
+	 * @param {int} number	the number of bulletins to add
 	 * @param {int} current   The active page/bulletin
-	 * @param {object} append    The object to append too
+	 * @param {object} append	The object to append too
 	 */
 	addBullets : function(number,current,append){
 		if(typeof append == 'object'){
@@ -211,7 +211,7 @@
 	 * and turns it off and after that it finds the new bullet,
 	 * from the indexin 'newBullet' and turned it on.
 	 * @param  {int} newBullet The index of the new Bullet, this index begins from zero
-	 * @param  {object} object    The object to append/ the container of the bullets
+	 * @param  {object} object	The object to append/ the container of the bullets
 	 * @return {[object}
 	 */
 	changeBullet : function(newBullet,object){
@@ -241,8 +241,8 @@
 	/**
 	 * This function adds a page as last page
 	 * @param {object} container The container to add the page too
-	 * @param {string} type      The page type "user","show" or "default"
-	 * @param {string} name      The name after the keyword
+	 * @param {string} type	  The page type "user","show" or "default"
+	 * @param {string} name	  The name after the keyword
 	 */
 	addPageLast : function(container,type,name){
 		return this.addPageAfter(container.find(".page:last"),type,name);
@@ -253,7 +253,7 @@
 	 * @param {object} provider  The provider data
 	 * @param {object} container The container to append too
 	 * @param {string} imageSize The image size etc "128"
-	 * @param {string} addClass     The class to append to the object
+	 * @param {string} addClass	 The class to append to the object
 	 */
 	addShowProvider : function(provider,container,imageSize,addClass){
 		if(typeof provider == "object"){

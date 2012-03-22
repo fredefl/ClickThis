@@ -94,25 +94,25 @@ $('#edit').click(function(){
 		}
 		menu.find("a").hide();
 		menu.animate({
-    		width: "30px"
-  		}, 500,function () {
-  			menu.hide();
-  		})
-  		$("#blur").show().animate({
-  			opacity: 0,
-  		}, 500,function(){
-  			 endEditMode()
-  		});
+			width: "30px"
+		}, 500,function () {
+			menu.hide();
+		})
+		$("#blur").show().animate({
+			opacity: 0,
+		}, 500,function(){
+			 endEditMode()
+		});
 	} else {
 		$(menu).find("a").show();
 		startEditMode();
 		$(menu).show();
 		menu.animate({
-    		width: "168px"
-  		}, 500);
-  		$("#blur").show().animate({
-  			opacity: 0.7,
-  		}, 500);
+			width: "168px"
+		}, 500);
+		$("#blur").show().animate({
+			opacity: 0.7,
+		}, 500);
 	}
 });
 
@@ -141,15 +141,15 @@ $(document).ready(function () {
  */
 $(document).bind("keydown", function(event) {
 	if (event.which == 37) { 
-       $("#left").click();
-       return false;
-    }
-    if (event.which == 39) { 
-       $("#right").click();
-       return false;
-    }
-    if(event.altKey && event.ctrlKey && event.which == 69) {
-   		$("#edit").click();
-   		return false;
-    }
+	   $("#left").click();
+	   return false;
+	}
+	if (event.which == 39) { 
+	   $("#right").click();
+	   return false;
+	}
+	if(event.altKey && event.ctrlKey && event.which == 69) {
+		$("#edit").click();
+		return false;
+	}
 });

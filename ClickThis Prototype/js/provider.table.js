@@ -21,19 +21,19 @@
   */
  var provider = {
 
- 	/**
- 	 * The keyword to put in front of normal pages
- 	 * @type {String}
- 	 */
- 	pageKeyword : "page_p", 
+	/**
+	 * The keyword to put in front of normal pages
+	 * @type {String}
+	 */
+	pageKeyword : "page_p", 
 
- 	/**
- 	 * The front keyword in front of pages with user content
- 	 * @type {String}
- 	 */
+	/**
+	 * The front keyword in front of pages with user content
+	 * @type {String}
+	 */
 	userPageKeyword : "user_p",
- 	
- 	/**
+	
+	/**
 	 * This function creates a table, this function will be used to create the page tables
 	 * @param {object} obj This parameter is the jquery object of the outer div or outer container
 	 * @since 1.0
@@ -57,7 +57,7 @@
 	 * var container;
 	 * container = provider.addProvider(null,10);
 	 */
- 	addContainer : function(obj,cellspacing) {
+	addContainer : function(obj,cellspacing) {
 		var container = $("<table></table>");
 		if (typeof cellspacing != "number") {
 			cellspacing = 10;
@@ -106,8 +106,8 @@
 			//If there is extra attributes to be set, defined in data then set em
 			if (typeof data == "object" && data != null) {
 				$(data).each(function (index, element) {
-	                content.attr(element,provider[element])
-	            });
+					content.attr(element,provider[element])
+				});
 			}
 			
 			content.addClass('provider');

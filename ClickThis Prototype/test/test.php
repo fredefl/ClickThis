@@ -11,18 +11,18 @@ function Post(){
 			url: "http://illution.dk/ClickThis/api/series_test/21",
 			type:"POST",
 			data : "Creator=llama&StartText=lama",
-		  	success: function(data){
-		  		if(typeof data.error_code == "undefined"){
-		  				data = data.replace("{","{\n");
+			success: function(data){
+				if(typeof data.error_code == "undefined"){
+						data = data.replace("{","{\n");
 						data = data.replace("}","\n}\n");
-		   			$("#return").append(data+"\n");
-		    	} else {
-		   			$("#return").append(data+"\n");
-		    	}
-		  	},
-		  	error: function(){
-		  		$("#return").append(data+"\n");
-		  	}
+					$("#return").append(data+"\n");
+				} else {
+					$("#return").append(data+"\n");
+				}
+			},
+			error: function(){
+				$("#return").append(data+"\n");
+			}
 		});
 }
 
@@ -30,33 +30,33 @@ function Get(){
 	$.ajax({
 		url: "http://illution.dk/ClickThis/api/series_test/21",
 		type:"GET",
-	  	success: function(data){
-	  		if(typeof data.error_code == "undefined"){
-	   			$("#return").append(data.Id+"\n");
-	    	} else {
-	   			$("#return").append(data+"\n");
-	    	}
-	  	},
-	  	error: function(){
-	  		$("#return").append(data+"\n");
-	  	}
+		success: function(data){
+			if(typeof data.error_code == "undefined"){
+				$("#return").append(data.Id+"\n");
+			} else {
+				$("#return").append(data+"\n");
+			}
+		},
+		error: function(){
+			$("#return").append(data+"\n");
+		}
 	});
 }
 function Delete(){
 	$.ajax({
 		url: "http://illution.dk/ClickThis/api/series_test/30",
 		type:"DELETE",
-	  	success: function(data){
-	  		console.log("Success");
-	  		if(typeof data.error_code == "undefined"){
-	   			$("#return").append(data+"\n");
-	    	} else {
-	   			$("#return").append(data+"\n");
-	    	}
-	  	},
-	  	error: function(){
-	  		$("#return").append(data+"\n");
-	  	}
+		success: function(data){
+			console.log("Success");
+			if(typeof data.error_code == "undefined"){
+				$("#return").append(data+"\n");
+			} else {
+				$("#return").append(data+"\n");
+			}
+		},
+		error: function(){
+			$("#return").append(data+"\n");
+		}
 	});
 }
 function Put(){
@@ -64,16 +64,16 @@ function Put(){
 		url: "http://illution.dk/ClickThis/api/series_test/3/",
 		type:"PUT",
 		data: '{"TargetPeople":["1","2"],"StartText":"Llama","Creator": "Bo"}',
-	  	success: function(data){
-	  		if(typeof data.error_code == "undefined"){
-	   			$("#return").append(data+"\n");
-	    	} else {
-	   			$("#return").append(data+"\n");
-	    	}
-	  	},
-	  	error: function(){
-	  		$("#return").append(data+"\n");
-	  	}
+		success: function(data){
+			if(typeof data.error_code == "undefined"){
+				$("#return").append(data+"\n");
+			} else {
+				$("#return").append(data+"\n");
+			}
+		},
+		error: function(){
+			$("#return").append(data+"\n");
+		}
 	});
 }
 </script>

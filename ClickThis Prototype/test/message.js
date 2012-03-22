@@ -1,7 +1,7 @@
 /**
  * This function shows a message box in a special amount of time
  * @param  {string} message  The message to show
- * @param  {Number} speed    The speed to animate
+ * @param  {Number} speed	The speed to animate
  * @param  {Number} duration The duration to show the message box
  * @param {object} container The container to animate
  * @param {obkect} content The content div of the message
@@ -20,9 +20,9 @@ function showMessage(message,speed,duration,container,content){
 	if(message != undefined && messageContainer.css("display") == "none"){
 		messageBox.html(message);
 		messageContainer.show().animate({
-		    top: "0px"
+			top: "0px"
 		}, parseInt(speed)).delay(parseInt(duration)).animate({
-		    top: '-40px'
+			top: '-40px'
 		}, speed,function(){
 			messageContainer.hide();
 		});
