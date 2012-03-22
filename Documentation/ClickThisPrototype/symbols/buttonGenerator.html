@@ -46,6 +46,8 @@
 				
 					<li><a href="../symbols/provider.html">provider</a></li>
 				
+					<li><a href="../symbols/seriesGenerator.html">seriesGenerator</a></li>
+				
 			</ul>
 		</nav>
 	</div>
@@ -55,7 +57,7 @@
 			Documentation generator: <a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank">JsDoc Toolkit</a> 2.4.0<br />
 			Template: <a href="http://www.thebrightlines.com/2010/05/06/new-template-for-jsdoctoolkit-codeview/" target="_blank">Codeview</a> 1.2<br />
 			Generated on:
-			<time datetime='2012-1-28' pubdate>2012-1-28 22:29</time>
+			<time datetime='2012-2-22' pubdate>2012-2-22 14:44</time>
 		</footer>
 	</div>
 </div>
@@ -181,7 +183,7 @@
 											>
 												<td class="attributes">&lt;static&gt; &nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont">buttonGenerator.<b><a href="../symbols/buttonGenerator.html#.changeState">changeState</a></b>(button, form)
+													<div class="fixedFont">buttonGenerator.<b><a href="../symbols/buttonGenerator.html#.changeState">changeState</a></b>(button, form, formDeselect)
 													</div>
 													<div class="description">Changes the button's state from On to Off, or from Off to On.</div>
 												</td>
@@ -192,7 +194,7 @@
 											>
 												<td class="attributes">&lt;static&gt; &nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont">buttonGenerator.<b><a href="../symbols/buttonGenerator.html#.multipleChoice">multipleChoice</a></b>(button, form)
+													<div class="fixedFont">buttonGenerator.<b><a href="../symbols/buttonGenerator.html#.multipleChoice">multipleChoice</a></b>(button, form, formDeselect)
 													</div>
 													<div class="description">Multiple Choice button click</div>
 												</td>
@@ -203,7 +205,7 @@
 											>
 												<td class="attributes">&lt;static&gt; &nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont">buttonGenerator.<b><a href="../symbols/buttonGenerator.html#.newButton">newButton</a></b>(id, value, color, text, submit, single, group, form, placeholder, spellcheck)
+													<div class="fixedFont">buttonGenerator.<b><a href="../symbols/buttonGenerator.html#.newButton">newButton</a></b>(id, color, text, type, group)
 													</div>
 													<div class="description">Creates a new button</div>
 												</td>
@@ -214,9 +216,9 @@
 											>
 												<td class="attributes">&lt;static&gt; &nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont">buttonGenerator.<b><a href="../symbols/buttonGenerator.html#.newCustomButton">newCustomButton</a></b>(id, value, color, text, submit, single, group, form, placeholder, spellcheck)
+													<div class="fixedFont">buttonGenerator.<b><a href="../symbols/buttonGenerator.html#.newCustomSwipeSubmitButton">newCustomSwipeSubmitButton</a></b>(color, text, id, location, group, clickCallbackString, callbackParameters)
 													</div>
-													<div class="description">Creates a new custom button</div>
+													<div class="description">This function creates a Submit button that can submit,but doesn't redicret.</div>
 												</td>
 											</tr>
 										
@@ -225,58 +227,14 @@
 											>
 												<td class="attributes">&lt;static&gt; &nbsp;</td>
 												<td class="nameDescription">
-													<div class="fixedFont">buttonGenerator.<b><a href="../symbols/buttonGenerator.html#.newCustomSubmitButton">newCustomSubmitButton</a></b>(color, text, id, location, href, group)
-													</div>
-													<div class="description">Creates a submit button, with custom properties</div>
-												</td>
-											</tr>
-										
-											<tr
-												 class='item5'
-											>
-												<td class="attributes">&lt;static&gt; &nbsp;</td>
-												<td class="nameDescription">
-													<div class="fixedFont">buttonGenerator.<b><a href="../symbols/buttonGenerator.html#.newCustomSwipeSubmitButton">newCustomSwipeSubmitButton</a></b>(color, text, id, location, group, clickCallbackString, callbackParameters)
-													</div>
-													<div class="description">This function creates a Submit button that can submit,but doesn't redicret.</div>
-												</td>
-											</tr>
-										
-											<tr
-												 class='item6'
-											>
-												<td class="attributes">&lt;static&gt; &nbsp;</td>
-												<td class="nameDescription">
-													<div class="fixedFont">buttonGenerator.<b><a href="../symbols/buttonGenerator.html#.newSubmitButton">newSubmitButton</a></b>(id, value)
-													</div>
-													<div class="description">Creates a new submit button</div>
-												</td>
-											</tr>
-										
-											<tr
-												 class='item7'
-											>
-												<td class="attributes">&lt;static&gt; &nbsp;</td>
-												<td class="nameDescription">
-													<div class="fixedFont">buttonGenerator.<b><a href="../symbols/buttonGenerator.html#.singleChoice">singleChoice</a></b>(button, form)
+													<div class="fixedFont">buttonGenerator.<b><a href="../symbols/buttonGenerator.html#.singleChoice">singleChoice</a></b>(button, form, formDeselect)
 													</div>
 													<div class="description">Single Choice button click</div>
 												</td>
 											</tr>
 										
 											<tr
-												 class='item8'
-											>
-												<td class="attributes">&lt;static&gt; &nbsp;</td>
-												<td class="nameDescription">
-													<div class="fixedFont">buttonGenerator.<b><a href="../symbols/buttonGenerator.html#.submitCustomData">submitCustomData</a></b>(submitButton)
-													</div>
-													<div class="description">Submit the button data with a posibility to use a defined redirect url and a submit location.</div>
-												</td>
-											</tr>
-										
-											<tr
-												 class='item9'
+												 class='item5'
 											>
 												<td class="attributes">&lt;static&gt; &nbsp;</td>
 												<td class="nameDescription">
@@ -287,18 +245,7 @@
 											</tr>
 										
 											<tr
-												 class='item10'
-											>
-												<td class="attributes">&lt;static&gt; &nbsp;</td>
-												<td class="nameDescription">
-													<div class="fixedFont">buttonGenerator.<b><a href="../symbols/buttonGenerator.html#.submitData">submitData</a></b>()
-													</div>
-													<div class="description">Submits the data</div>
-												</td>
-											</tr>
-										
-											<tr
-												 class='item11'
+												 class='item6'
 											>
 												<td class="attributes">&lt;static&gt; &nbsp;</td>
 												<td class="nameDescription">
@@ -413,7 +360,7 @@
 											
 											
 											
-											<span class="light">buttonGenerator.</span><b>changeState</b>(button, form)
+											<span class="light">buttonGenerator.</span><b>changeState</b>(button, form, formDeselect)
 										</div>
 										
 										<div class="description">
@@ -442,6 +389,12 @@
 													</dt>
 													<dd>Boolean to set if the current element is a form element</dd>
 												
+													<dt>
+														<span class="light fixedFont">{boolean}</span> <b>formDeselect</b>
+														
+													</dt>
+													<dd>If this parameter is set to true other form deselect options will be overruled</dd>
+												
 											</dl>
 										
 										
@@ -459,7 +412,7 @@
 											
 											
 											
-											<span class="light">buttonGenerator.</span><b>multipleChoice</b>(button, form)
+											<span class="light">buttonGenerator.</span><b>multipleChoice</b>(button, form, formDeselect)
 										</div>
 										
 										<div class="description">
@@ -488,6 +441,12 @@
 													</dt>
 													<dd>A boolean to set if the element is a form element</dd>
 												
+													<dt>
+														<span class="light fixedFont">{boolean}</span> <b>formDeselect</b>
+														
+													</dt>
+													<dd>If this is set to true all other form select/deselect options will be overwritten</dd>
+												
 											</dl>
 										
 										
@@ -505,7 +464,7 @@
 											
 											<span class="light">{string}</span>
 											
-											<span class="light">buttonGenerator.</span><b>newButton</b>(id, value, color, text, submit, single, group, form, placeholder, spellcheck)
+											<span class="light">buttonGenerator.</span><b>newButton</b>(id, color, text, type, group)
 										</div>
 										
 										<div class="description">
@@ -529,12 +488,6 @@
 													<dd>The id of the button</dd>
 												
 													<dt>
-														<span class="light fixedFont">{integer}</span> <b>value</b>
-														
-													</dt>
-													<dd>The on/off value (1/0)</dd>
-												
-													<dt>
 														<span class="light fixedFont">{string}</span> <b>color</b>
 														
 													</dt>
@@ -547,40 +500,16 @@
 													<dd>The button text</dd>
 												
 													<dt>
-														<span class="light fixedFont">{boolean}</span> <b>submit</b>
+														<span class="light fixedFont">{integer}</span> <b>type</b>
 														
 													</dt>
-													<dd>Wherever it should submit its data</dd>
+													<dd>The button type</dd>
 												
 													<dt>
-														<span class="light fixedFont">{boolean}</span> <b>single</b>
+														<span class="light fixedFont">{integer}</span> <b>group</b>
 														
 													</dt>
-													<dd>Wherever it should deselect all other buttons (Single choice)</dd>
-												
-													<dt>
-														<span class="light fixedFont">{string}</span> <b>group</b>
-														
-													</dt>
-													<dd>The submit group of the button, this parameter is optional</dd>
-												
-													<dt>
-														<span class="light fixedFont">{boolean}</span> <b>form</b>
-														
-													</dt>
-													<dd>If is set to true then it will be a textfield</dd>
-												
-													<dt>
-														<span class="light fixedFont">{string}</span> <b>placeholder</b>
-														
-													</dt>
-													<dd>The form field placeholder text</dd>
-												
-													<dt>
-														<span class="light fixedFont">{boolean}</span> <b>spellcheck</b>
-														
-													</dt>
-													<dd>A boolean to set if the form element spellcheck should be on</dd>
+													<dd>The button's group</dd>
 												
 											</dl>
 										
@@ -612,212 +541,6 @@
 								
 									<li 
 										 class='item3'
-									>
-										<div class="fixedFont heading" id=".newCustomButton">
-											<span class='lighter'>
-											&lt;static&gt; 
-											</span>
-											
-											<span class="light">{string}</span>
-											
-											<span class="light">buttonGenerator.</span><b>newCustomButton</b>(id, value, color, text, submit, single, group, form, placeholder, spellcheck)
-										</div>
-										
-										<div class="description">
-											Creates a new custom button
-											
-											
-											
-											
-										</div>
-										
-										
-										
-										
-											<dl class="detailList params">
-												<dt class="heading">Parameters:</dt>
-												
-													<dt>
-														<span class="light fixedFont">{integer}</span> <b>id</b>
-														
-													</dt>
-													<dd>The id of the button</dd>
-												
-													<dt>
-														<span class="light fixedFont">{integer}</span> <b>value</b>
-														
-													</dt>
-													<dd>The on/off value (1/0)</dd>
-												
-													<dt>
-														<span class="light fixedFont">{string}</span> <b>color</b>
-														
-													</dt>
-													<dd>The color of the button when its on</dd>
-												
-													<dt>
-														<span class="light fixedFont">{string}</span> <b>text</b>
-														
-													</dt>
-													<dd>The button text</dd>
-												
-													<dt>
-														<span class="light fixedFont">{boolean}</span> <b>submit</b>
-														
-													</dt>
-													<dd>Wherever it should submit its data</dd>
-												
-													<dt>
-														<span class="light fixedFont">{boolean}</span> <b>single</b>
-														
-													</dt>
-													<dd>Wherever it should deselect all other buttons (Single choice)</dd>
-												
-													<dt>
-														<span class="light fixedFont">{string}</span> <b>group</b>
-														
-													</dt>
-													<dd>The submit group of the button</dd>
-												
-													<dt>
-														<span class="light fixedFont">{boolean}</span> <b>form</b>
-														
-													</dt>
-													<dd>If is set to true then it will be a textfield</dd>
-												
-													<dt>
-														<span class="light fixedFont">{string}</span> <b>placeholder</b>
-														
-													</dt>
-													<dd>The form field placeholder text</dd>
-												
-													<dt>
-														<span class="light fixedFont">{boolean}</span> <b>spellcheck</b>
-														
-													</dt>
-													<dd>A boolean to set if the form element spellcheck should be on</dd>
-												
-											</dl>
-										
-										
-										
-											<dl class="detailList nomargin">
-											
-												
-												
-												
-												
-												
-												
-												
-													<dt class="heading">Returns:</dt>
-													
-														<dd><span class="light fixedFont">{string}</span> The html for the button</dd>
-													
-												
-												
-												
-												
-												
-											
-											</dl>
-										
-										<div class="hr"></div>
-									</li>
-								
-									<li 
-										 class='item4'
-									>
-										<div class="fixedFont heading" id=".newCustomSubmitButton">
-											<span class='lighter'>
-											&lt;static&gt; 
-											</span>
-											
-											<span class="light">{string}</span>
-											
-											<span class="light">buttonGenerator.</span><b>newCustomSubmitButton</b>(color, text, id, location, href, group)
-										</div>
-										
-										<div class="description">
-											Creates a submit button, with custom properties
-											
-											
-											
-											
-										</div>
-										
-										
-										
-										
-											<dl class="detailList params">
-												<dt class="heading">Parameters:</dt>
-												
-													<dt>
-														<span class="light fixedFont">{string}</span> <b>color</b>
-														
-													</dt>
-													<dd>The color of the button</dd>
-												
-													<dt>
-														<span class="light fixedFont">{string}</span> <b>text</b>
-														
-													</dt>
-													<dd>The text of the button</dd>
-												
-													<dt>
-														<span class="light fixedFont">{string}</span> <b>id</b>
-														
-													</dt>
-													<dd>The HTML id of the button</dd>
-												
-													<dt>
-														<span class="light fixedFont">{string}</span> <b>location</b>
-														
-													</dt>
-													<dd>The location to submit the result</dd>
-												
-													<dt>
-														<span class="light fixedFont">{string}</span> <b>href</b>
-														
-													</dt>
-													<dd>The url to redirect, when data is submitted</dd>
-												
-													<dt>
-														<span class="light fixedFont">{string}</span> <b>group</b>
-														
-													</dt>
-													<dd>The submit group of the button</dd>
-												
-											</dl>
-										
-										
-										
-											<dl class="detailList nomargin">
-											
-												
-												
-												
-												
-												
-												
-												
-													<dt class="heading">Returns:</dt>
-													
-														<dd><span class="light fixedFont">{string}</span> The html of the button</dd>
-													
-												
-												
-												
-												
-												
-											
-											</dl>
-										
-										<div class="hr"></div>
-									</li>
-								
-									<li 
-										 class='item5'
 									>
 										<div class="fixedFont heading" id=".newCustomSwipeSubmitButton">
 											<span class='lighter'>
@@ -893,74 +616,7 @@
 									</li>
 								
 									<li 
-										 class='item6'
-									>
-										<div class="fixedFont heading" id=".newSubmitButton">
-											<span class='lighter'>
-											&lt;static&gt; 
-											</span>
-											
-											<span class="light">{string}</span>
-											
-											<span class="light">buttonGenerator.</span><b>newSubmitButton</b>(id, value)
-										</div>
-										
-										<div class="description">
-											Creates a new submit button
-											
-											
-											
-											
-										</div>
-										
-										
-										
-										
-											<dl class="detailList params">
-												<dt class="heading">Parameters:</dt>
-												
-													<dt>
-														<span class="light fixedFont">{integer}</span> <b>id</b>
-														
-													</dt>
-													<dd>The color of the button</dd>
-												
-													<dt>
-														<span class="light fixedFont">{integer}</span> <b>value</b>
-														
-													</dt>
-													<dd>The button text</dd>
-												
-											</dl>
-										
-										
-										
-											<dl class="detailList nomargin">
-											
-												
-												
-												
-												
-												
-												
-												
-													<dt class="heading">Returns:</dt>
-													
-														<dd><span class="light fixedFont">{string}</span> The html for the button</dd>
-													
-												
-												
-												
-												
-												
-											
-											</dl>
-										
-										<div class="hr"></div>
-									</li>
-								
-									<li 
-										 class='item7'
+										 class='item4'
 									>
 										<div class="fixedFont heading" id=".singleChoice">
 											<span class='lighter'>
@@ -969,7 +625,7 @@
 											
 											
 											
-											<span class="light">buttonGenerator.</span><b>singleChoice</b>(button, form)
+											<span class="light">buttonGenerator.</span><b>singleChoice</b>(button, form, formDeselect)
 										</div>
 										
 										<div class="description">
@@ -998,45 +654,11 @@
 													</dt>
 													<dd>A boolean to set if the element is a form element</dd>
 												
-											</dl>
-										
-										
-										
-										<div class="hr"></div>
-									</li>
-								
-									<li 
-										 class='item8'
-									>
-										<div class="fixedFont heading" id=".submitCustomData">
-											<span class='lighter'>
-											&lt;static&gt; 
-											</span>
-											
-											
-											
-											<span class="light">buttonGenerator.</span><b>submitCustomData</b>(submitButton)
-										</div>
-										
-										<div class="description">
-											Submit the button data with a posibility to use a defined redirect url and a submit location.This function also have the ability only to submit data from buttons within the same submit group as the submitButton.Mind this function can have some problems and need revalidation and testing.
-											
-											
-											
-											
-										</div>
-										
-										
-										
-										
-											<dl class="detailList params">
-												<dt class="heading">Parameters:</dt>
-												
 													<dt>
-														<span class="light fixedFont">{object}</span> <b>submitButton</b>
+														<span class="light fixedFont">{boolean}</span> <b>formDeselect</b>
 														
 													</dt>
-													<dd>The submit button that submits</dd>
+													<dd>If this is set to true all other form select/deselect options will be overwritten</dd>
 												
 											</dl>
 										
@@ -1046,7 +668,7 @@
 									</li>
 								
 									<li 
-										 class='item9'
+										 class='item5'
 									>
 										<div class="fixedFont heading" id=".submitCustomSwipeData">
 											<span class='lighter'>
@@ -1107,36 +729,7 @@
 									</li>
 								
 									<li 
-										 class='item10'
-									>
-										<div class="fixedFont heading" id=".submitData">
-											<span class='lighter'>
-											&lt;static&gt; 
-											</span>
-											
-											
-											
-											<span class="light">buttonGenerator.</span><b>submitData</b>()
-										</div>
-										
-										<div class="description">
-											Submits the data
-											
-											
-											
-											
-										</div>
-										
-										
-										
-										
-										
-										
-										<div class="hr"></div>
-									</li>
-								
-									<li 
-										 class='item11'
+										 class='item6'
 									>
 										<div class="fixedFont heading" id=".unCheckAll">
 											<span class='lighter'>
