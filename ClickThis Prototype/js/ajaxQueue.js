@@ -89,7 +89,8 @@ var ajaxQueue = {
 	statusCode: false,
 
 	/**
-	 * The status of sending in the AjaxQueue
+	 * The status of sending in the AjaxQueue. 
+	 * NOTE: This is not affected by the small amount of time when the ajaQueue starts a new task.
 	 * Status Codes:
 	 * false	Is not sending
 	 * true		Is sending
@@ -98,6 +99,18 @@ var ajaxQueue = {
 	 * @type {Boolean}
 	 */
 	sendingStatusCode: false,
+
+
+	/**
+	 * This one is used to determined if a execution of the queue is in progress, not the definite sending state
+	 * Status Codes:
+	 * false	Is not sending
+	 * true		Is sending
+	 * 
+	 * @private
+	 * @type {Boolean}
+	 */
+	sending: false,
 
 	/**
 	 * Logs the specified message
@@ -330,13 +343,14 @@ var ajaxQueue = {
 	 */
 	executeTasks: function () {
 		// If there queue is already hot, don't overheat it!
-		if (this.sendingStatusCode === true) {
+		if (this.sending === true) {
 			return false;
 		}
 		// If there is tasks in the queue
 		if (this.queueArray.Tasks.length > 0) {
 			// Indicate that we are sending
 			ajaxQueue.sendingStatusCode = true;
+			ajaxQueue.sending = true;
 			ajaxQueue.checkStatusCode();
 			// Declare variables, and the the first task in the queue
 			var currentTask = this.queueArray.Tasks[0],
@@ -365,10 +379,14 @@ var ajaxQueue = {
 						// Let's call it!
 						callback(result);
 					}
+					// Set sending variable to false
+					ajaxQueue.sending = false;
 					// Loop on...
 					ajaxQueue.executeTasks();
 				},
 				error: function (jqXHR, textStatus, errorThrown) {
+					// Set sending variable to false
+					ajaxQueue.sending = false;
 					// If the error was caused by a timeout
 					if (textStatus === "timeout") {
 						// Call the timeout callback
@@ -396,6 +414,8 @@ var ajaxQueue = {
 				}
 			});
 		} else {
+			// Set sending variable to false
+			ajaxQueue.sending = false;
 			// There is not tasks, turn of the ajaxQueue
 			ajaxQueue.sendingStatusCode = false;
 			ajaxQueue.checkStatusCode();
