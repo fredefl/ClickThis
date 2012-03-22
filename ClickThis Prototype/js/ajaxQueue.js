@@ -120,14 +120,18 @@ var ajaxQueue = {
 	 * ajaxQueue.load();
 	 */
 	load: function () {
+		// If the localStorage key is set
 		if (localStorage.getItem(this.localStorageKeyName) !== null) {
+			// Get the queue from localStorage
 			var localStorageItem = localStorage.getItem(this.localStorageKeyName),
 				jsonArray = JSON.parse(localStorageItem);
+			// Set the class variable
 			this.queueArray = jsonArray;
 			ajaxQueue.log("Data loaded from localstorage, added " + jsonArray.Tasks.length + " items to queue.");/*LOG*/
 			ajaxQueue.checkStatusCode();
 			return true;
-		} else {
+		} else { // If there is no key in localStorage
+			// Create an empty one
 			this.queueArray = {Tasks: []};
 			ajaxQueue.log("No data in localstorage, adding new key.");/*LOG*/
 			ajaxQueue.checkStatusCode();
@@ -143,7 +147,9 @@ var ajaxQueue = {
 	 * ajaxQueue.save();
 	 */
 	save: function () {
+		// Convert the JSON to a string
 		var jsonString = JSON.stringify(this.queueArray, null, 2);
+		// Save it to localStorage
 		localStorage.setItem(this.localStorageKeyName, jsonString);
 		ajaxQueue.log("Saved queue to localstorage.");/*LOG*/
 		return true;
@@ -164,12 +170,15 @@ var ajaxQueue = {
 	 */
 	add: function (json) {
 		var id = null;
+		// If there is no body, set it no nothing
 		if (json.data === undefined) {
 			json.data = "";
 		}
+		// If there is not http request type set, use default (POST)
 		if (json.type === undefined) {
 			json.type = "POST";
 		}
+		// If both URL and group is set
 		if (json.url && json.group) {
 			// Create a random string
 			id = ajaxQueue.generateId();
@@ -179,7 +188,7 @@ var ajaxQueue = {
 			this.save();
 			ajaxQueue.log("Added task, url:" + json.url + ", data:" + json.data);/*LOG*/
 		} else {
-			// Incate that an error occoured
+			// Indicate that an error occoured
 			id = false;
 		}
 		ajaxQueue.checkStatusCode();
@@ -198,6 +207,7 @@ var ajaxQueue = {
 	 */
 	remove: function (id) {
 		var result = false;
+		// Find all elements with the specified id and remove them
 		$(this.queueArray.Tasks).each(function (index, element) {
 			if (element.id === id) {
 				ajaxQueue.queueArray.Tasks.splice(index, 1);
@@ -208,6 +218,7 @@ var ajaxQueue = {
 		ajaxQueue.log("Removed " + id);/*LOG*/
 		ajaxQueue.checkStatusCode();
 		ajaxQueue.queueLengthChanged();
+		// Return, true to indicate that something has been deleted, otherwise false
 		return result;
 	},
 
@@ -219,7 +230,8 @@ var ajaxQueue = {
 	 * ajaxQueue.clear();
 	 */
 	clear: function () {
-		this.queueArray = {};
+		// Reset the queue array and save it
+		this.queueArray = {Tasks: []};
 		this.save();
 		ajaxQueue.log("Cleared queue");/*LOG*/
 		ajaxQueue.checkStatusCode();
@@ -236,6 +248,7 @@ var ajaxQueue = {
 	 * @return {Number}
 	 */
 	getQueueLength: function () {
+		// Return the legth of the queue
 		return ajaxQueue.queueArray.Tasks.length;
 	},
 
@@ -248,6 +261,7 @@ var ajaxQueue = {
 	 * @param {Number} newStatusCode The new status code
 	 */
 	setStatusCode: function (newStatusCode) {
+		// Set the status queue to the one specified in newStatusCode
 		ajaxQueue.statusCode = newStatusCode;
 	},
 
@@ -260,6 +274,7 @@ var ajaxQueue = {
 	 * @return {Number}
 	 */
 	getStatusCode: function () {
+		// Check the status code, and return it
 		ajaxQueue.checkStatusCode();
 		return ajaxQueue.statusCode;
 	},
@@ -275,6 +290,7 @@ var ajaxQueue = {
 		var i = 0,
 			oldStatusCode = ajaxQueue.statusCode,
 			callback;
+		// If there is items in the queue
 		if (ajaxQueue.getQueueLength() > 0) {
 			if (ajaxQueue.sendingStatusCode) {
 				// Is sending, and there is tasks in the queue
@@ -288,11 +304,16 @@ var ajaxQueue = {
 			ajaxQueue.setStatusCode(0);
 		}
 
+		// If status code has changed
 		if (oldStatusCode !== ajaxQueue.statusCode) {
+			// And there is registered at least one callback
 			if (ajaxQueue.callbackArray.onStatusCodeChange.length > 0) {
+				// Loop through all the all the callbacks
 				for (i = 0; i <= ajaxQueue.callbackArray.onStatusCodeChange.length - 1; i++) {
+					// Get the callback function
 					callback = ajaxQueue.callbackArray.onStatusCodeChange[i];
 					if (callback && typeof (callback) === "function") {
+						// Call it, baby!
 						callback();
 					}
 				}
@@ -308,54 +329,65 @@ var ajaxQueue = {
 	 * ajaxQueue.executeTasks();
 	 */
 	executeTasks: function () {
+		// If there queue is already hot, don't overheat it!
 		if (this.sendingStatusCode === true) {
 			return false;
 		}
+		// If there is tasks in the queue
 		if (this.queueArray.Tasks.length > 0) {
+			// Indicate that we are sending
 			ajaxQueue.sendingStatusCode = true;
 			ajaxQueue.checkStatusCode();
+			// Declare variables, and the the first task in the queue
 			var currentTask = this.queueArray.Tasks[0],
 				callback = null,
 				result = {};
 			ajaxQueue.log("Sending '" + currentTask.data + "' to '" + currentTask.url + "'.");/*LOG*/
+			// Send it!
 			$.ajax({
-				type: currentTask.type,
-				url: currentTask.url,
-				data: currentTask.data,
-				timeout: ajaxQueue.ajaxTimeout,
+				type: currentTask.type, // The HTTP type (GET, POST, PUT, DELETE, (PATCH, HEAD))
+				url: currentTask.url, 	// The URL
+				data: currentTask.data, // The data to send
+				timeout: ajaxQueue.ajaxTimeout, // The ajax timeout
 				// On success
 				success: function (data) {
 					// Remove the task from the queue
 					ajaxQueue.remove(currentTask.id);
 					ajaxQueue.log("Sending of '" + currentTask.data + "' to '" + currentTask.url + "' was successful.");/*LOG*/
-					// Call the groups callback
+					// Call the groups' callback
 					callback = ajaxQueue.callbackArray.onSuccess[currentTask.group];
 					if (callback && typeof (callback) === "function") {
+						// Compile a result
 						ajaxQueue.log("Calling back!");
 						result.data = data;
 						result.url = currentTask.url;
 						result.sentdata = currentTask.data;
+						// Let's call it!
 						callback(result);
 					}
 					// Loop on...
 					ajaxQueue.executeTasks();
 				},
 				error: function (jqXHR, textStatus, errorThrown) {
-					// Timeout
+					// If the error was caused by a timeout
 					if (textStatus === "timeout") {
+						// Call the timeout callback
 						callback = ajaxQueue.callbackArray.onTimeout[currentTask.group];
 						if (callback && typeof (callback) === "function") {
 							ajaxQueue.log("Calling back!");
 							callback();
 						}
 					}
+					// If the error was distinctly caused by an error
 					if (textStatus === "error" || textStatus === "abort" || textStatus === "parsererror") {
+						// Call the error callback
 						callback = ajaxQueue.callbackArray.onError[currentTask.group];
 						if (callback && typeof (callback) === "function") {
 							ajaxQueue.log("Calling back!");
 							callback();
 						}
 					}
+					// If there is a retry timeout set
 					if (ajaxQueue.retryTimeout !== false) {
 						ajaxQueue.log("Coming back around(in a bit)!!!");
 						// Try againg in a bit
@@ -364,6 +396,7 @@ var ajaxQueue = {
 				}
 			});
 		} else {
+			// There is not tasks, turn of the ajaxQueue
 			ajaxQueue.sendingStatusCode = false;
 			ajaxQueue.checkStatusCode();
 		}
@@ -409,6 +442,7 @@ var ajaxQueue = {
 	 * ajaxQueue.getConfig(); // Returns config
 	 */
 	getConfig: function () {
+		// Return all config elements
 		return {
 			idLength: ajaxQueue.idLength,
 			localStorageKeyName: ajaxQueue.localStorageKeyName,
@@ -424,10 +458,14 @@ var ajaxQueue = {
 	queueLengthChanged: function () {
 		var i,
 			callback;
+		// If there is at least one callback registered
 		if (ajaxQueue.callbackArray.onQueueLengthChange.length > 0) {
+			// Loop through them
 			for (i = 0; i <= ajaxQueue.callbackArray.onQueueLengthChange.length - 1; i++) {
+				// Grap the function
 				callback = ajaxQueue.callbackArray.onQueueLengthChange[i];
 				if (callback && typeof (callback) === "function") {
+					// Call it!
 					callback();
 				}
 			}
@@ -466,16 +504,21 @@ var ajaxQueue = {
 	 */
 	registerCallback: function (json, callback) {
 		var current;
+		// If it's on of those types
 		if (json.type === "onStatusCodeChange" || json.type === "onQueueLengthChange") {
+			// Add it to the callback array
 			current = ajaxQueue.callbackArray[json.type];
 			current.push(callback);
 			return true;
 		}
+		// If it's a function, has a type and has a group
 		if (callback && typeof (callback) === "function" && json.type && json.group) {
+			// Add it to the callback array
 			current = ajaxQueue.callbackArray[json.type];
 			current[json.group] = callback;
 			return true;
 		} else {
+			// Return false to indicate error
 			return false;
 		}
 	},
@@ -489,6 +532,7 @@ var ajaxQueue = {
 	 * ajaxQueue.generateId(); // Returns id
 	 */
 	generateId: function () {
+		// Generate a random ID
 		return ajaxQueue.randomString(ajaxQueue.idLength);
 	},
 
