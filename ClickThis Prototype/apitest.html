@@ -21,10 +21,10 @@
                     <a class="button slideup" onClick="showAboutBox();" id="infoButton">About</a>
                     <a class="back" id="backButton" data-start-mode="active" data-about-text="Back" data-text="Home" data-href="home.html">Home</a>
                 </div>
-                <div id="navigation">
+                <!--<div id="navigation">
                     <a class="left"></a>
                     <a class="right"></a>
-                </div>
+                </div>-->
                 <!-- About Box -->
                 <div id="aboutBox" class="Disabled">
                 </div>
@@ -52,7 +52,7 @@
                       url: "http://illution.dk/ClickThis/api/series/31",
                       success: function(data){
                         seriesGenerator.generate(data);
-                        $()
+                        /**
                         $(".left").click(function(){
                             if(window.questionSwipe.getPos() != 0){
                                 window.questionSwipe.prev();
@@ -64,6 +64,7 @@
                                 window.questionSwipe.next();
                             }
                         });
+                        **/
                       }
                     });
             });        
