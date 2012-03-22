@@ -66,6 +66,7 @@ var seriesGenerator = {
 		// Sort the options
 		options = data.Options;
 		options.sort(function (a, b) {
+			// This sort function sorts so that those items with the lowest view order is first
 			if (parseInt(a.ViewOrder, 10) < parseInt(b.ViewOrder, 10)) { // A is first
 				return -1;
 			} else if (parseInt(a.ViewOrder, 10) > parseInt(b.ViewOrder, 10)) { // B is first
@@ -94,6 +95,7 @@ var seriesGenerator = {
 	generateQuestions: function (data) {
 		var i,
 			html = "";
+		// Generates questions, question by question
 		for (i = 0; i < data.length; i++) {
 			html += this.generateQuestion(data[i]);
 		}
@@ -126,7 +128,7 @@ var seriesGenerator = {
 	 */
 	generate: function (data, container) {
 		// Get the container if not set
-		if(container == undefined) {
+		if (container === undefined) {
 			container = $("#questionsContainer");
 		}
 		// Add the html
@@ -147,9 +149,10 @@ var seriesGenerator = {
 	 * @return {void}
 	 */
 	hyphenate: function (element) {
-		if(element == undefined) {
+		if (element === undefined) {
 			element = document.body;
 		}
+		// Configurate Hyphenator.js
 		Hyphenator.config({
 			displaytogglebox : true,
 			minwordlength : 4,
@@ -158,6 +161,7 @@ var seriesGenerator = {
 				buttonResizer.resizeButtons(element);
 			}
 		});
+		// Run the hyphenation
 		Hyphenator.run();
 	},
 
@@ -166,10 +170,11 @@ var seriesGenerator = {
 	 * @param {object} container The container element to add swipe to
 	 */
 	addSwipe: function (element) {
+		// Initialize the swipe functionality
 		window.questionSwipe = new Swipe(element, {
 			callback: function () {
 				buttonResizer.resizeButtons(document.body);
-			window.scrollTo(0, 1);
+				window.scrollTo(0, 1);
 			}
 		});
 	},
@@ -185,6 +190,6 @@ var seriesGenerator = {
 		// The end button
 		$('#end').click(function () {
 			window.location = 'http://illution.dk/ClickThisPrototype/home.html';
-		});   
+		});
 	}
 };
