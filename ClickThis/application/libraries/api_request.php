@@ -139,11 +139,35 @@ class Api_Request{
 			case 'delete':
 				parse_str(file_get_contents('php://input'), $this->_Request_Vars);
 				break;
+			case 'head':
+				$this->_Request_Vars = $_GET;
+				break;
+			case 'options':
+				break;
+			case 'patch':
+				break;
+			case 'trace':
+				break;
+			case 'connect':
+				break;
+			default:
+		       	header('Allow: ' . array("POST","GET","PUT","DELETE","HEAD","TRACE","CONNECT","PATCH","OPTIONS"), true, 501);
+		        break;
 		}
 
 		if (isset($this->_Request_Vars['data'])) {  
 	        self::Request_Data(json_decode($this->_Request_Vars['data']));  
 	    }
+	}
+
+	private function _Get_Format(){
+		$Formats = array("json","xml","soap");
+		$Format = "json";
+		foreach ($Formats as $Name) {
+			if(strpos($_SERVER['HTTP_ACCEPT'], $Name)){
+				$Format = $Name;
+			}
+		}
 	}
 
 	/**
