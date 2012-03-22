@@ -1,20 +1,20 @@
 <?php
 $Providers = array(
-	"Google" => array("Image" => "images/providers/{size}/Google.png"),
-	"ClickThis" => array("Image" => "images/providers/{size}/ClickThis.png"),
-	"MySpace" => array("Image" => "images/providers/{size}/MySpace.png"),
-	"Facebook" => array("Image" => "images/providers/{size}/Facebook.png"),
-	"Twitter" => array("Image" => "images/providers/{size}/Twitter.png"),
-	"LinkedIn" => array("Image" => "images/providers/{size}/LinkedIn.png"),
-	"Blogger" => array("Image" => "images/providers/{size}/Blogger.png"),
-	"GitHub" => array("Image" => "images/providers/{size}/github.png"),
-	//"OpenId" => array("Image" => "images/providers/{size}/Openid.png"),
-	"StumbleUpon" => array("Image" => "images/providers/{size}/StumbleUpon.png"),
-	"Vimeo" => array("Image" => "images/providers/{size}/Vimeo.png"),
-	"Tumblr" => array("Image" => "images/providers/{size}/Tumblr.png"),
-	"GooglePlus" => array("Image" => "images/providers/{size}/GooglePlus.png","Alt" => "Google+","Title" => "Google+"),
-	"FriendFeed" => array("Image" => "images/providers/{size}/FriendFeed.png","Alt" => "friendfeed","Title" => "friendfeed"),
-	"Flickr" => array("Image" => "images/providers/{size}/Flickr.png")
+	"Google" => array("Image" => "img/providers/{size}/Google.png"),
+	"ClickThis" => array("Image" => "img/providers/{size}/ClickThis.png"),
+	"MySpace" => array("Image" => "img/providers/{size}/MySpace.png"),
+	"Facebook" => array("Image" => "img/providers/{size}/Facebook.png"),
+	"Twitter" => array("Image" => "img/providers/{size}/Twitter.png"),
+	"LinkedIn" => array("Image" => "img/providers/{size}/LinkedIn.png"),
+	"Blogger" => array("Image" => "img/providers/{size}/Blogger.png"),
+	"GitHub" => array("Image" => "img/providers/{size}/github.png"),
+	//"OpenId" => array("Image" => "img/providers/{size}/Openid.png"),
+	"StumbleUpon" => array("Image" => "img/providers/{size}/StumbleUpon.png"),
+	"Vimeo" => array("Image" => "img/providers/{size}/Vimeo.png"),
+	"Tumblr" => array("Image" => "img/providers/{size}/Tumblr.png"),
+	"GooglePlus" => array("Image" => "img/providers/{size}/GooglePlus.png","Alt" => "Google+","Title" => "Google+"),
+	"FriendFeed" => array("Image" => "img/providers/{size}/FriendFeed.png","Alt" => "friendfeed","Title" => "friendfeed"),
+	"Flickr" => array("Image" => "img/providers/{size}/Flickr.png")
 );
 /**
 * Properties: Image,Alt,Title,Link

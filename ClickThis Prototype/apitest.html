@@ -10,21 +10,21 @@
         <link rel="stylesheet" href="css/buttons.css"/>
         <link rel="stylesheet" href="css/style.css"/>
         <link rel="stylesheet" href="css/form.css" />
-        <link rel="apple-touch-icon" href="images/ClickThis64.png" />
+        <link rel="apple-touch-icon" href="img/ClickThis64.png" />
     </head> 
     <body> 
         <div id="page">
         	<input type="hidden" id="currentpage" value="question_1" />
             <div id="home" class="current">
                 <div class="toolbar">
-                    <h1><a href="http://illution.dk/ClickThisPrototype/home.html" title="Home" style="text-decoration:none; color:#FFF;">ClickThis<img id="down" style="margin-left:3px;z-indez:99999;" src="images/tiny_down.png"/></a></h1>
+                    <h1><a href="http://illution.dk/ClickThisPrototype/home.html" title="Home" style="text-decoration:none; color:#FFF;">ClickThis<img id="down" style="margin-left:3px;z-indez:99999;" src="img/tiny_down.png"/></a></h1>
                     <a class="button slideup" onClick="showAboutBox();" id="infoButton">About</a>
                     <a class="back" id="backButton" data-start-mode="active" data-about-text="Back" data-text="Home" data-href="home.html">Home</a>
                 </div>
-                <div id="navigation">
+                <!--<div id="navigation">
                     <a class="left"></a>
                     <a class="right"></a>
-                </div>
+                </div>-->
                 <!-- About Box -->
                 <div id="aboutBox" class="Disabled">
                 </div>
@@ -52,7 +52,7 @@
                       url: "http://illution.dk/ClickThis/api/series/31",
                       success: function(data){
                         seriesGenerator.generate(data);
-                        $()
+                        /**
                         $(".left").click(function(){
                             if(window.questionSwipe.getPos() != 0){
                                 window.questionSwipe.prev();
@@ -64,6 +64,7 @@
                                 window.questionSwipe.next();
                             }
                         });
+                        **/
                       }
                     });
             });        
