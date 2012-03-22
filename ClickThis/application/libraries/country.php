@@ -168,7 +168,7 @@ class Country extends Std_Library{
 			"Name" => "LowerCaseName"
 		);
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id");
-		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array(,"Code","Abbrevation");
+		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("Code","Abbrevation");
 		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_DATABASE_NAME_CONVERT);
 	}	
