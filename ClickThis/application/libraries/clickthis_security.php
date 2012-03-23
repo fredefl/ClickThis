@@ -122,6 +122,7 @@ class clickthis_security
 		if(!self::loginpage($Page,'login')){
 			if(!self::IsLoggedIn())
 			{
+				$_SESSION["redirect"] = current_url();
 				redirect($this->Redirect);
 				die();
 			}

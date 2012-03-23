@@ -18,6 +18,11 @@ class Home extends CI_Controller {
 	//Standard Page
 	public function index()
 	{
+		if(isset($_SESSION["redirect"])){
+			$redirect = $_SESSION["redirect"];
+			unset($_SESSION["redirect"]);
+			redirect($redirect);
+		}
 		$this->load->view('home_view');
 		/*
 		if(isset($_GET["Page"]))
