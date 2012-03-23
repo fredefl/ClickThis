@@ -12,6 +12,14 @@
 class Answer extends Std_Library{
 	
 	/**
+	 * The database id of this answer
+	 * @var integer
+	 * @access public
+	 * @since 1.0
+	 */
+	public $Id = NULL;
+
+	/**
 	 * The answer the user has given/the option id the user has selected
 	 * @var integer
 	 * @since 1.0
@@ -34,14 +42,6 @@ class Answer extends Std_Library{
 	 * @access public
 	 */
 	public $UserId = NULL; //If Not annonymouse the use this
-
-	/**
-	 * The database id of this answer
-	 * @var integer
-	 * @access public
-	 * @since 1.0
-	 */
-	public $Id = NULL;
 
 	#### Class Setttings ####
 
@@ -131,7 +131,7 @@ class Answer extends Std_Library{
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id");
 		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
-		$this->_INTERNAL_LOAD_FROM_CLASS = array("UserId" => "User","QuestionId" => "Question");	
+		//$this->_INTERNAL_LOAD_FROM_CLASS = array("UserId" => "User","QuestionId" => "Question");	
 	}
 }
 ?>

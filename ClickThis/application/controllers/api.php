@@ -8,40 +8,57 @@ class Api extends CI_Controller {
 	 * @since 1.0
 	 */
 	public function Series($Id = NULL){
-		self::Standard_API("Series",$Id);
+		if(!is_null($Id)){
+			self::Standard_API("Series",$Id);
+		} else {
+			if(isset($_GET["Creator"])){
+				self::Search(array("Creator" => $_GET["Creator"]),"Series","Series");
+			} else {
+				self::Send_Response(400);
+			}
+		}
 	}
 
 	public function Series_Test($Id = NULL,$Override = true){
 		$this->load->library("api_request");
 		$this->load->library("Series");
 		$this->api_request->Perform_Request();
-		$Series = new Series();
-		switch ($this->api_request->Request_Method()) {
-			case 'get':
-				self::Standard_API("Series",$Id);
-				break;
-			
-			case 'post':
+		if(!is_null($Id)){
+			$Series = new Series();
+			switch ($this->api_request->Request_Method()) {
+				case 'get':
+					self::Standard_API("Series",$Id);
+					break;
+				
+				case 'post':
 
-				$Series->Import(self::EnsureCase($this->api_request->Request_Vars()));
-				if($Series->Save() == true){
-					echo json_encode($Series->Export(false));
-				} else {
-					self::Send_Response(400);
-				}
-				break;
+					$Series->Import(self::EnsureCase($this->api_request->Request_Vars()));
+					if($Series->Save() == true){
+						echo json_encode($Series->Export(false));
+					} else {
+						self::Send_Response(400);
+					}
+					break;
 
-			case 'put':
-				$Decoded = json_decode($this->api_request->Request_Vars(),true);
-				$Series->Load($Id);
-				$Series->Import(self::EnsureCase($Decoded),$Override);
-				$Series->Save();
-				print_r($Series->Export());
-				break;
+				case 'put':
+					$Decoded = json_decode($this->api_request->Request_Vars(),true);
+					$Series->Load($Id);
+					$Series->Import(self::EnsureCase($Decoded),$Override);
+					$Series->Save();
+					print_r($Series->Export());
+					break;
 
-			case 'delete':
-				self::Delete("Series",$Id);
-				break;
+				case 'delete':
+					self::Delete("Series",$Id);
+					break;
+			}
+		} else {
+			/*$this->load->model("Api_Search");
+			$Search = new Api_Search();
+			$Search->Table = "Series";
+			$Response = $Search->Search(array("Creator" => "21"),"Series",true);
+			self::Send_Response(200,NULL,json_encode($Response));*/
+			self::Search(array("Creator" => "21"),"Series","Series");
 		}
 	}
 
@@ -59,6 +76,25 @@ class Api extends CI_Controller {
 				return $Array;
 			}
 			return $Return;
+		}
+	}
+
+	private function Search($Query = NULL,$Table = NULL,$ClassName = NULL,$Limit = NULL){
+		if(!is_null($Query) && !is_null($Table)){
+			$this->load->model("Api_Search");
+			$Search = new Api_Search();
+			if(!is_null($ClassName)){
+				$Search->Table = $Table;
+			}
+			if(!is_null($Limit)){
+				$Search->Limit = $Limit;
+			}
+			$Response = $Search->Search($Query,$ClassName,true);
+			if($Response){
+				self::Send_Response(200,NULL,json_encode($Response));
+			} else {
+				self::Send_Response(404);
+			}
 		}
 	}
 
@@ -86,6 +122,12 @@ class Api extends CI_Controller {
 	 * @access public
 	 */
 	private function Send_Response($Code = 200,$Content_Type = "application/json",$Content = NULL){
+		if(is_null($Content_Type)){
+			$Content_Type = "application/json";
+		}
+		if(is_null($Code)){
+			$Code = 200;
+		}
 		$this->load->library("api_request");
 		$Status_Header = 'HTTP/1.1 ' . $Code . ' ' . $this->api_request->Get_Message($Code); 
 		header($Status_Header); 
