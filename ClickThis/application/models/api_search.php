@@ -145,18 +145,18 @@ class Api_Search extends CI_Model{
         			foreach ($Raw->result() as $Row) {
         				if(!is_null($Row) && property_exists($Row, "Id")){
         					$Class = new $ClassName();
-        					$Temp = array();
+        					$Temp = NULL;
         					if(!is_null($Class)){
         						if(method_exists($Class, "Load")){
         							$Class->Load($Row->Id);
         							if($Export && method_exists($Class, "Export")){
-        								$Temp[] = $Class->Export($Database,$Secure);
+        								$Temp = $Class->Export($Database,$Secure);
         							} else {
-        								$Temp[] = $Class;
+        								$Temp = $Class;
         							}
         						}
         					}
-        					if(count($Temp) > 0){
+        					if(!is_null($Temp)){
         						$Return[] = $Temp;
         					}
         				} else {
