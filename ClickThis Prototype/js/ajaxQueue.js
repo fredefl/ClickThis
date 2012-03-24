@@ -346,6 +346,11 @@ var ajaxQueue = {
 		if (this.sending === true) {
 			return false;
 		}
+		// Check if offline
+		if(navigator.onLine && ajaxQueue.retryTimeout !== false) {
+			// Whoops! We're offline, try again!
+			setTimeout(ajaxQueue.executeTasks, ajaxQueue.retryTimeout);
+		}
 		// If there is tasks in the queue
 		if (this.queueArray.Tasks.length > 0) {
 			// Indicate that we are sending
