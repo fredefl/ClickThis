@@ -45,6 +45,44 @@ class Api_Search extends CI_Model{
     }	
 
     /**
+     * This function checks, for a key in the _INTERNAL_SECURE_EXPORT_IGNORE array of an object.
+     * @param string $Key    The search key
+     * @param object $Object The object to find the array in
+     * @since 1.0
+     * @access private
+     */
+    private function _Ignore_Secure($Key = NULL,$Object = NULL){
+        $Return = FALSE;
+        if(!is_null($Key) && !is_null($Object)){
+            if(property_exists($Object, "_INTERNAL_SECURE_EXPORT_IGNORE") && !is_null($Object->_INTERNAL_SECURE_EXPORT_IGNORE) && is_array($Object->_INTERNAL_SECURE_EXPORT_IGNORE)){
+                if(array_key_exists($Key, $Object->_INTERNAL_SECURE_EXPORT_IGNORE) || in_array($Key, $Object->_INTERNAL_SECURE_EXPORT_IGNORE)){
+                    $Return = TRUE;
+                } else {
+                    if(property_exists($Object, "_INTERNAL_DATABASE_NAME_CONVERT") && !is_null($Object->_INTERNAL_DATABASE_NAME_CONVERT) && is_array($Object->_INTERNAL_DATABASE_NAME_CONVERT)){
+                        $Row_Names = array();
+                        foreach ($Object->_INTERNAL_DATABASE_NAME_CONVERT as $Property => $Row_Name) {
+                            $Row_Names[$Row_Name] = $Property;
+                        }
+                        if(array_key_exists($Key, $Row_Names)){
+                            $Name = $Row_Names[$Key];
+                        } else {
+                            $Name = $Key;
+                        }
+                       if(array_key_exists($Name, $Object->_INTERNAL_SECURE_EXPORT_IGNORE) || in_array($Name, $Object->_INTERNAL_SECURE_EXPORT_IGNORE)){
+                            $Return = TRUE;
+                        }
+                    }
+                }
+            } else {
+                 $Return = FALSE;
+            }
+        } else {
+             $Return = FALSE;
+        }
+        return$Return;
+    }
+
+    /**
      * This function is used to search in the database for multiple objects,
      * and add them to an array
      * @param string|array  $Query     The search query
@@ -73,29 +111,61 @@ class Api_Search extends CI_Model{
 	    		}
     		} else {
     			$Return = array();
-    			$Raw = $this->db->limit($this->Limit)->select("Id")->get_where($this->Table, $Query);
-    			foreach ($Raw->result() as $Row) {
-    				if(!is_null($Row) && property_exists($Row, "Id")){
-    					$this->_CI->load->library($ClassName);
-    					$Class = new $ClassName();
-    					$Temp = array();
-    					if(!is_null($Class)){
-    						if(method_exists($Class, "Load")){
-    							$Class->Load($Row->Id);
-    							if($Export && method_exists($Class, "Export")){
-    								$Temp[] = $Class->Export($Database,$Secure);
-    							} else {
-    								$Temp[] = $Class;
-    							}
-    						}
-    					}
-    					if(count($Temp) > 0){
-    						$Return[] = $Temp;
-    					}
-    				} else {
-    					return FALSE;
-    				}
-    			}
+                $this->_CI->load->library($ClassName);
+                $TempObject = new $ClassName();
+                $Exit = FALSE;
+                if(property_exists($TempObject, "_INTERNAL_DATABASE_NAME_CONVERT") && !is_null($TempObject->_INTERNAL_DATABASE_NAME_CONVERT) && is_array($TempObject->_INTERNAL_DATABASE_NAME_CONVERT)){
+                    $ConvertionTable = $TempObject->_INTERNAL_DATABASE_NAME_CONVERT;
+                    foreach ($Query as $Key => $Value) {
+                        $KeyName = $Key;
+                        $Unset = FALSE;
+                        $Replace = TRUE;
+                        if(array_key_exists($Key, $ConvertionTable)){
+                            $KeyName = $ConvertionTable[$Key];
+                            $Unset = TRUE;
+                            $Replace = TRUE;
+                        }
+                        if(self::_Ignore_Secure($KeyName,$TempObject) || self::_Ignore_Secure($Key,$TempObject)){
+                            $Unset = TRUE;
+                            $Replace = FALSE;
+                        }
+                        if($Unset && $Replace){
+                            unset($Query[$Key]);
+                            $Query[$KeyName] = $Value;
+                        } else if($Unset){
+                            unset($Query[$Key]);
+                            if(count($Query) == 0){
+                                $Exit = TRUE;
+                            }
+                        }
+                    }
+                }
+                if(!$Exit){
+        			$Raw = $this->db->limit($this->Limit)->select("Id")->get_where($this->Table, $Query);
+        			foreach ($Raw->result() as $Row) {
+        				if(!is_null($Row) && property_exists($Row, "Id")){
+        					$Class = new $ClassName();
+        					$Temp = array();
+        					if(!is_null($Class)){
+        						if(method_exists($Class, "Load")){
+        							$Class->Load($Row->Id);
+        							if($Export && method_exists($Class, "Export")){
+        								$Temp[] = $Class->Export($Database,$Secure);
+        							} else {
+        								$Temp[] = $Class;
+        							}
+        						}
+        					}
+        					if(count($Temp) > 0){
+        						$Return[] = $Temp;
+        					}
+        				} else {
+        					return FALSE;
+        				}
+        			}
+                } else {
+                    return FALSE;
+                }     
     		}
     		if(count($Return) > 0){
     			return $Return;

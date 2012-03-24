@@ -291,7 +291,7 @@ class Std_Library{
 									if(gettype($Name) == "object"){
 										$Temp[] = $Name;
 									} else {
-										if(class_exists($Value) && !is_null($Name) && $Name != ""){
+										if(!is_null($Value) && class_exists($Value) && !is_null($Name) && $Name != ""){
 											$Object = new $Value();
 											if($Object->Load($Name,$ChildSimple)){
 												if(!is_null($Object)){
@@ -817,6 +817,7 @@ class Std_Library{
 	 * @param string $Property The class property to link
 	 * @param boolean $Simple if this flag is set to true, then the load from class isn't executed
 	 * @since 1.0
+	 * @return boolean If success or fail
 	 * @access public
 	 */
 	public function Link($Table = NULL,$Link = NULL,$Property = NULL,$Simple = false){
@@ -878,10 +879,12 @@ class Std_Library{
 						if(!$Simple){
 							self::_Load_From_Class();
 						}
+						return TRUE;
 					}
 				}
 			}
 		}
+		return FALSE;
 	}
 
 	/**
@@ -1219,14 +1222,14 @@ class Std_Library{
 	 * This function refresh the class data from the database
 	 * @see self::Load
 	 * @since 1.0
+	 * @return boolean If success or fail
 	 * @access public
 	 */
 	public function Refresh(){
 		if(property_exists($this, "Id")){
 			if(!is_null($this->Id)){
 				if(method_exists($this, "Load")){
-					self::Load($this->Id);
-					echo "Refresh";
+					return self::Load($this->Id);
 				}
 			}
 		}
@@ -1237,6 +1240,7 @@ class Std_Library{
 	 * @param boolean $Database If this flag is set too true, the database data will be deleted too
 	 * @since 1.0
 	 * @access public
+	 * @return object This function returns this object
 	 */
 	public function Delete($Database = false){
 		if($Database){
@@ -1252,6 +1256,7 @@ class Std_Library{
 				self::_RemoveUserData(false);
 			}
 		}
+		return $this;
 	}
 
 	/**
@@ -1291,7 +1296,7 @@ class Std_Library{
 				self::_SetDataArray($Array);
 			}
 			else{
-				return "Error Wrong Input";	
+				return 400;	
 			}
 		}
 		if($Database && !is_null($this->Id) && !is_null($this->_CI) && !is_null($this->_CI->_INTERNAL_DATABASE_MODEL)){

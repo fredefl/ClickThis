@@ -65,7 +65,7 @@ class Test extends CI_Controller {
 		//Needs more test
 		$this->load->library("Series");	
 		$Series = new Series();
-		$Series->Load(10);
+		$Series->Load(31);
 		self::Debug($Series->Export());
 		echo "########################################################";
 		//self::Debug($Series->Questions[4]->Export(true));
