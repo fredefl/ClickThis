@@ -20,15 +20,18 @@ var buttonGenerator = {
 	/**
 	 * Creates a new button
 	 *
-	 * @param {integer} id The id of the button
-	 * @param {string} color The color of the button
-	 * @param {string} text The button text
-	 * @param {integer} type The button type
-	 * @param {integer} group The button's group
+	 * @example
+	 * buttonGenerator.newButton({
+	 *  id: 1, // The id of the button
+	 *  color: "black", // The color of the button
+	 *  text: "Lorem Ipsum", // The text of the button
+	 *  type: 2, // The type of the button. 1 = multi, 2 = single, 3 = multi textfield and 4 = single textfield
+	 *  group: 1 // The group of the button
+	 * })
 	 * @returns {string} The html for the button
 	 */
 	newButton: function (json) {
-		var cssClass = "",
+		var cssClass = [],
 			groupHTML = "",
 			currentText = "",
 			onClickFunctions = "",
@@ -39,7 +42,7 @@ var buttonGenerator = {
 			textField = 0;
 
 		if (json.type === 3 || json.type === 4) {
-			textField = 1
+			textField = 1;
 		}
 
 		if (json.type === 3 || json.type === 4) {
@@ -49,11 +52,15 @@ var buttonGenerator = {
 		}
 
 		// Get the cssClass
-		cssClass += "mega button color-" + json.color + " halfsize ";
+		cssClass.push("mega", "button", "color-" + json.color, "halfsize");
 
-		// If it is a single-selectable button, add single Class
+		// If it's a fullsize button, add the class
+		if (json.size === 1) {
+			cssClass.push("fullsize");
+		}
+		// If it's a single-selectable button, add single Class
 		if (json.type === 2) {
-			cssClass += "single ";
+			cssClass.push("single");
 		}
 		// Get the javascript functions
 		if (json.type === 1) {
@@ -62,16 +69,14 @@ var buttonGenerator = {
 		if (json.type === 2) { // Single
 			onClickFunctions += "buttonGenerator.singleChoice(this," + textField + ");";
 		}
-		if(json.type === 3){ // Multi Textfield
+		if (json.type === 3) { // Multi Textfield
 			specialFunctions = 'ondblclick="buttonGenerator.multipleChoice(this,' + json.text + ',true);"';
-			cssClass += "fullsize ";
-		}	
-		if(json.type === 4){ // Single Textfield
-			specialFunctions = 'ondblclick="buttonGenerator.singleChoice(this,' + json.text + ',true);"';
-			cssClass += "fullsize ";
+			cssClass.push("fullsize");
 		}
-		// Trim the CSS class
-		cssClass = $.trim(cssClass);
+		if (json.type === 4) { // Single Textfield
+			specialFunctions = 'ondblclick="buttonGenerator.singleChoice(this,' + json.text + ',true);"';
+			cssClass.push("fullsize");
+		}
 		// Special Classes
 		if (json.type === 2) { // Single
 			specialClass = "data-specialClass=\"single\"";
@@ -81,8 +86,8 @@ var buttonGenerator = {
 		}
 		// Create Html Code
 		html = [
-			'<a class="' + cssClass + '"',
-			onClickType+'="' + onClickFunctions + '"',
+			'<a class="' + cssClass.join(" ") + '"',
+			onClickType + '="' + onClickFunctions + '"',
 			'data-value="0"',
 			'data-id="' + json.id + '"',
 			groupHTML,
@@ -138,7 +143,7 @@ var buttonGenerator = {
 	 * @param {boolean} form Boolean to set if the current element is a form element
 	 * @param {boolean} formDeselect If this parameter is set to true other form deselect options will be overruled
 	 */
-	changeState: function (button, form , formDeselect) {
+	changeState: function (button, form, formDeselect) {
 		// Variable decleration
 		var i = 0,
 			value = button.getAttribute("data-value") || "",
@@ -160,8 +165,8 @@ var buttonGenerator = {
 			}
 		}
 
-		if(form && $(button).find(".textfield").val() != "" && formDeselect != true){
-			if(value === "1"){
+		if (form && $(button).find(".textfield").val() !== "" && formDeselect !== true) {
+			if (value === "1") {
 				return;
 			}
 		}
@@ -170,15 +175,9 @@ var buttonGenerator = {
 		if (value === "1") {
 			button.setAttribute("data-value", "0");
 			classArray.push("color-" + color);
-			if (!isFormElement) {
-				//button.innerHTML = text;
-			}
 		} else {
 			button.setAttribute("data-value", "1");
 			classArray.push("color-" + buttonGenerator.defaultColor);
-			if (!isFormElement) {
-				//button.innerHTML = text;
-			}
 		}
 
 		// Join the class array, and put it back on the element
