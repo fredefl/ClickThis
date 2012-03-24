@@ -78,7 +78,14 @@ var seriesGenerator = {
 		// Append all the options
 		for (i = 0; i < options.length; i++) {
 			option = options[i];
-			html += buttonGenerator.newButton(option.Id, option.Color, option.Title, parseInt(option.OptionType, 10), 1);
+			//html += buttonGenerator.newButton(option.Id, option.Color, option.Title, parseInt(option.OptionType, 10), 1);
+			html += buttonGenerator.newButton({
+				id: option.Id, 
+				color: option.Color, 
+				text: option.Title, 
+				type: parseInt(option.OptionType, 10), 
+				group: 1
+			});
 		}
 
 		// End the conainer div

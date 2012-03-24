@@ -27,7 +27,7 @@ var buttonGenerator = {
 	 * @param {integer} group The button's group
 	 * @returns {string} The html for the button
 	 */
-	newButton: function (id, color, text, type, group) {
+	newButton: function (json) {
 		var cssClass = "",
 			groupHTML = "",
 			currentText = "",
@@ -38,56 +38,56 @@ var buttonGenerator = {
 			specialFunctions = "",
 			textField = 0;
 
-		if (type === 3 || type === 4) {
+		if (json.type === 3 || json.type === 4) {
 			textField = 1
 		}
 
-		if (type === 3 || type === 4) {
-			currentText = '<textarea placeholder="' + text + '" class="textfield" spellcheck="0" lang="en" data-value="0" data-id="1" data-submitgroup="1"></textarea>';
+		if (json.type === 3 || json.type === 4) {
+			currentText = '<textarea placeholder="' + json.text + '" class="textfield" spellcheck="0" lang="en" data-value="0" data-id="1" data-submitgroup="1"></textarea>';
 		} else {
-			currentText = text;
+			currentText = json.text;
 		}
 
 		// Get the cssClass
-		cssClass += "mega button color-" + color + " halfsize ";
+		cssClass += "mega button color-" + json.color + " halfsize ";
 
 		// If it is a single-selectable button, add single Class
-		if (type === 2) {
+		if (json.type === 2) {
 			cssClass += "single ";
 		}
 		// Get the javascript functions
-		if (type === 1) {
+		if (json.type === 1) {
 			onClickFunctions += "buttonGenerator.multipleChoice(this," + textField + ");";
 		}
-		if (type === 2) { // Single
+		if (json.type === 2) { // Single
 			onClickFunctions += "buttonGenerator.singleChoice(this," + textField + ");";
 		}
-		if(type === 3){ // Multi Textfield
-			specialFunctions = 'ondblclick="buttonGenerator.multipleChoice(this,' + text + ',true);"';
+		if(json.type === 3){ // Multi Textfield
+			specialFunctions = 'ondblclick="buttonGenerator.multipleChoice(this,' + json.text + ',true);"';
 			cssClass += "fullsize ";
 		}	
-		if(type === 4){ // Single Textfield
-			specialFunctions = 'ondblclick="buttonGenerator.singleChoice(this,' + text + ',true);"';
+		if(json.type === 4){ // Single Textfield
+			specialFunctions = 'ondblclick="buttonGenerator.singleChoice(this,' + json.text + ',true);"';
 			cssClass += "fullsize ";
 		}
 		// Trim the CSS class
 		cssClass = $.trim(cssClass);
 		// Special Classes
-		if (type === 2) { // Single
+		if (json.type === 2) { // Single
 			specialClass = "data-specialClass=\"single\"";
 		}
-		if (group !== undefined && group !== null && group !== "") {
-			groupHTML = 'data-submitgroup="' + group + '"';
+		if (json.group !== undefined && json.group !== "") {
+			groupHTML = 'data-submitgroup="' + json.group + '"';
 		}
 		// Create Html Code
 		html = [
 			'<a class="' + cssClass + '"',
 			onClickType+'="' + onClickFunctions + '"',
 			'data-value="0"',
-			'data-id="' + id + '"',
+			'data-id="' + json.id + '"',
 			groupHTML,
-			'data-color="' + color + '"',
-			'data-text="' + text + '"',
+			'data-color="' + json.color + '"',
+			'data-text="' + json.text + '"',
 			'lang="en"',
 			specialClass,
 			specialFunctions,
