@@ -1,6 +1,6 @@
 var homeCreator = {
-	newSeries: function (title, url, creator) {
-		return '<li class="forward"><a href="multiplechoice.html">' + title + '</a><small class="counter"><a href="user.php">' + creator + '</a></small></li>';
+	newSeries: function (title, id, creator,creatorId) {
+		return '<li class="forward"><a href="apitest.html#'+id+'">' + title + '</a><small class="counter"><a href="user.html?user_id='+creatorId+'">' + creator + '</a></small></li>';
 	},
 
 	getBottom: function () {
@@ -8,9 +8,33 @@ var homeCreator = {
 	}
 }
 
-
 $("#home").append('<div id="user"><ul class="rounded arrow" id="series"></ul></div><ul class="rounded"></ul></div>')
-$("#series").append(homeCreator.newSeries("Hello World!", "multiplechoice.html", "Llama"));
+//$("#series").append(homeCreator.newSeries("Hello World!", "multiplechoice.html", "Llama"));
+
+$.ajax({
+	url: "http://illution.dk/ClickThis/api/series?ShareType=1",
+	type: "GET",
+	success:function(data){
+		$(data).each(function(index,element){
+			var user = get_user(element.Creator);
+			$("#series").append(homeCreator.newSeries(element.Title,element.Id,user.Name,user.Id));
+		});
+	}
+});
+
+function get_user(id){
+	var global_data;
+	$.ajax({
+		url: "http://illution.dk/ClickThis/api/user?Id="+id,
+		type: "GET",
+		async:false,
+		success: function(data){
+			global_data = data[0];
+			return;
+		}
+	});
+	return global_data;
+}
 
 $("#home").append(homeCreator.getBottom());
 

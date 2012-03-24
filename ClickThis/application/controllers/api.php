@@ -8,15 +8,7 @@ class Api extends CI_Controller {
 	 * @since 1.0
 	 */
 	public function Series($Id = NULL){
-		if(!is_null($Id)){
-			self::Standard_API("Series",$Id);
-		} else {
-			if(isset($_GET["Creator"])){
-				self::Search(array("Creator" => $_GET["Creator"]),"Series","Series");
-			} else {
-				self::Send_Response(400);
-			}
-		}
+		self::Standard_API("Series",$Id,"Series");
 	}
 
 	public function Series_Test($Id = NULL,$Override = true){
@@ -79,25 +71,6 @@ class Api extends CI_Controller {
 		}
 	}
 
-	private function Search($Query = NULL,$Table = NULL,$ClassName = NULL,$Limit = NULL){
-		if(!is_null($Query) && !is_null($Table)){
-			$this->load->model("Api_Search");
-			$Search = new Api_Search();
-			if(!is_null($ClassName)){
-				$Search->Table = $Table;
-			}
-			if(!is_null($Limit)){
-				$Search->Limit = $Limit;
-			}
-			$Response = $Search->Search($Query,$ClassName,true);
-			if($Response){
-				self::Send_Response(200,NULL,json_encode($Response));
-			} else {
-				self::Send_Response(404);
-			}
-		}
-	}
-
 	private function Delete($Class = NULL,$Id = NULL){
 		if(!is_null($Class) && !is_null($Id)){
 			$this->load->library($Class);
@@ -140,48 +113,79 @@ class Api extends CI_Controller {
 		}
 	}
 
+	/**
+	 * This function is used to search for more all,
+	 * objects that mactches the specified pattern
+	 * @param array $Query     The search query
+	 * @example
+	 * Search(array("RealName" => "Bo"),"Users","User",10);
+	 * @param string $Table     The database table to search in
+	 * @param string $ClassName An optional class to load the data up with
+	 * @param integer $Limit     The max count of results
+	 * @access private
+	 * @since 1.0
+	 */
+	private function Search($Query = NULL,$Table = NULL,$ClassName = NULL,$Limit = NULL){
+		if(!is_null($Query) && !is_null($Table)){
+			$this->load->model("Api_Search");
+			$Search = new Api_Search();
+			if(!is_null($ClassName)){
+				$Search->Table = $Table;
+			}
+			if(!is_null($Limit)){
+				$Search->Limit = $Limit;
+			}
+			$Response = $Search->Search($Query,$ClassName,true,false,true);
+			if($Response){
+				self::Send_Response(200,NULL,json_encode($Response));
+			} else {
+				self::Send_Response(404);
+			}
+		}
+	}
+
 	public function User($Id = NULL){
-		self::Standard_API("User",$Id);
+		self::Standard_API("User",$Id,"Users");
 	}
 
 	public function Group($Id = NULL){
-		self::Standard_API("Group",$Id);
+		self::Standard_API("Group",$Id,"Groups");
 	}
 
 	public function Question($Id = NULL){
-		self::Standard_API("Question",$Id);
+		self::Standard_API("Question",$Id,"Questions");
 	}
 
 	public function Answer($Id = NULL){
-		self::Standard_API("Answer",$Id);
+		self::Standard_API("Answer",$Id,"Answers");
 	}
 
 	public function Option($Id = NULL){
-		self::Standard_API("Option",$Id);
+		self::Standard_API("Option",$Id,"Options");
 	}
 
 	public function DidAnswer($Id = NULL){
-		self::Standard_API("DidAnswer",$Id);
+		self::Standard_API("DidAnswer",$Id,"DidAnswer");
 	}
 
 	public function State($Id = NULL){
-		self::Standard_API("State",$Id);
+		self::Standard_API("State",$Id,"States");
 	}
 
 	public function Country($Id = NULL){
-		self::Standard_API("Country",$Id);
+		self::Standard_API("Country",$Id,"Countries");
 	}
 
 	public function Teacher($Id = NULL){
-		self::Standard_API("Teacher",$Id);
+		self::Standard_API("Teacher",$Id,"Teachers");
 	}
 
 	public function Pupil($Id = NULL){
-		self::Standard_API("Pupil",$Id);
+		self::Standard_API("Pupil",$Id,"Pupils");
 	}
 
 	public function School($Id = NULL){
-		self::Standard_API("School",$Id);
+		self::Standard_API("School",$Id,"Schools");
 	}
 
 
@@ -189,28 +193,50 @@ class Api extends CI_Controller {
 	 * Thus function handles the standard API calls
 	 * @param string $Class The class name of the class to use
 	 * @param integer $Id    The database id of the data to get
+	 * @param string $Table The database table used in search
 	 * @access private
 	 * @since 1.0
 	 */
-	private function Standard_API($Class = NULL,$Id = NULL){
-		if(!is_null($Id) && !is_null($Class)){
+	private function Standard_API($Class = NULL,$Id = NULL,$Table = NULL){
+		if(!is_null($Class)){
 			$this->load->library("api_request");
 			$this->load->library($Class);
 			$Api_Request = new Api_Request();
 			$Api_Request->Perform_Request();
-			switch ($Api_Request->Request_Method()) {
-				case 'get':
-					self::Perform_Get_Operation($Class,$Id);
-					break;
-				
-				/*case 'post':
-					break;
+			if(!is_null($Id)){
+				switch ($Api_Request->Request_Method()) {
+					case 'get':
+						self::Perform_Get_Operation($Class,$Id);
+						break;
+					
+					/*case 'post':
+						break;
 
-				case 'delete':
-					break;
+					case 'delete':
+						break;
 
-				case 'put':
-					break;*/
+					case 'put':
+						break;*/
+				}
+			} else {
+				if(isset($_GET) && $Api_Request->Request_Method() == "get" && !is_null($Table)){
+					$Query = array();
+					$Limit = 10;
+					foreach ($_GET as $Key => $Value) {
+						if($Key != "Limit"){
+							$Query[$Key] = $Value;
+						} else {
+							$Limit = $Value;
+						}
+					}
+					if(count($Query) > 0){
+						self::Search($Query,$Table,$Class,$Limit);
+					} else {
+						self::Send_Response(404);
+					}
+				} else {
+					self::Send_Response(400);
+				}
 			}
 		} else {
 			self::Send_Response(400);

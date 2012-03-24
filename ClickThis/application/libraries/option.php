@@ -5,7 +5,7 @@
  * @license http://illution.dk/copyright © Illution 2012
  * @subpackage Option
  * @category Survey
- * @version 1.0
+ * @version 1.1
  * @author Illution <support@illution.dk>
  */ 
 class Option extends Std_Library{
@@ -62,6 +62,14 @@ class Option extends Std_Library{
 	 * @access public
 	 */
 	public $Color = NULL;
+
+	/**
+	 * The size of the option
+	 * @var integer
+	 * @since 1.1
+	 * @access public
+	 */
+	public $Size = NULL;
 
 	#### Class Setttings ####
 

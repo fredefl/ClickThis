@@ -291,7 +291,7 @@ class Std_Library{
 									if(gettype($Name) == "object"){
 										$Temp[] = $Name;
 									} else {
-										if(class_exists($Value) && !is_null($Name) && $Name != ""){
+										if(!is_null($Value) && class_exists($Value) && !is_null($Name) && $Name != ""){
 											$Object = new $Value();
 											if($Object->Load($Name,$ChildSimple)){
 												if(!is_null($Object)){
@@ -345,16 +345,42 @@ class Std_Library{
 	}
 
 	/**
+	 * This function makes an ignore check, with the _INTERNAL_SECURE_EXPORT_IGNORE data,
+	 * passed over as ExtraIgnore to the Ignore function
+	 * @param string  $Key    The property name to check for
+	 * @param boolean $Secure If this flag is set to true, the ignore check is done
+	 * @see Ignore
+	 * @access private
+	 * @since 1.1
+	 */
+	private function _Secure_Ignore($Key = NULL,$Secure = true){
+		if($Secure && !is_null($Key)){
+			$Extra = array();
+			if(property_exists($this, "_INTERNAL_SECURE_EXPORT_IGNORE") && !is_null($this->_INTERNAL_SECURE_EXPORT_IGNORE) && is_array($this->_INTERNAL_SECURE_EXPORT_IGNORE)){
+				$Extra = array_merge($Extra,$this->_INTERNAL_SECURE_EXPORT_IGNORE);
+			}
+			if(self::Ignore($Key,$Extra)){
+				return TRUE;
+			} else {
+				return FALSE;
+			}
+		} else {
+			return FALSE;
+		}
+	}
+
+	/**
 	 * This function imports data from an array with the same key name as the local property to import too.
 	 * @param array $Array The data to import in Name => Value format
 	 * @param boolean $Override If this flag is set to true, then if the data is an array the clas $s data is overridden
+	 * @param boolean $Secure If this parameter is set to true, then the secure ignore check is done
 	 * @since 1.0
 	 * @access public
 	 */
-	public function Import($Array = NULL,$Override = false){
+	public function Import($Array = NULL,$Override = false,$Secure = false){
 		if(!is_null($Array) && is_array($Array)){
 			foreach($Array as $Name => $Value){
-				if(property_exists($this,$Name)){
+				if(property_exists($this,$Name) && !self::_Secure_Ignore($Name,$Secure)){
 					if(!is_array($Value) && !is_array($Name) && strpos($Value, ";") == true){
 						if($Override == false){
 							if(is_array($this->{$Name})){
@@ -791,6 +817,7 @@ class Std_Library{
 	 * @param string $Property The class property to link
 	 * @param boolean $Simple if this flag is set to true, then the load from class isn't executed
 	 * @since 1.0
+	 * @return boolean If success or fail
 	 * @access public
 	 */
 	public function Link($Table = NULL,$Link = NULL,$Property = NULL,$Simple = false){
@@ -852,10 +879,12 @@ class Std_Library{
 						if(!$Simple){
 							self::_Load_From_Class();
 						}
+						return TRUE;
 					}
 				}
 			}
 		}
+		return FALSE;
 	}
 
 	/**
@@ -1193,14 +1222,14 @@ class Std_Library{
 	 * This function refresh the class data from the database
 	 * @see self::Load
 	 * @since 1.0
+	 * @return boolean If success or fail
 	 * @access public
 	 */
 	public function Refresh(){
 		if(property_exists($this, "Id")){
 			if(!is_null($this->Id)){
 				if(method_exists($this, "Load")){
-					self::Load($this->Id);
-					echo "Refresh";
+					return self::Load($this->Id);
 				}
 			}
 		}
@@ -1211,6 +1240,7 @@ class Std_Library{
 	 * @param boolean $Database If this flag is set too true, the database data will be deleted too
 	 * @since 1.0
 	 * @access public
+	 * @return object This function returns this object
 	 */
 	public function Delete($Database = false){
 		if($Database){
@@ -1226,6 +1256,7 @@ class Std_Library{
 				self::_RemoveUserData(false);
 			}
 		}
+		return $this;
 	}
 
 	/**
@@ -1265,7 +1296,7 @@ class Std_Library{
 				self::_SetDataArray($Array);
 			}
 			else{
-				return "Error Wrong Input";	
+				return 400;	
 			}
 		}
 		if($Database && !is_null($this->Id) && !is_null($this->_CI) && !is_null($this->_CI->_INTERNAL_DATABASE_MODEL)){
