@@ -26,7 +26,8 @@ var buttonGenerator = {
 	 *  color: "black", // The color of the button
 	 *  text: "Lorem Ipsum", // The text of the button
 	 *  type: 2, // The type of the button. 1 = multi, 2 = single, 3 = multi textfield and 4 = single textfield
-	 *  group: 1 // The group of the button
+	 *  group: 1, // The group of the button
+	 *  size: 1 // This is the size, 1 = fullsize and 2 = halfsize
 	 * })
 	 * @returns {string} The html for the button
 	 */

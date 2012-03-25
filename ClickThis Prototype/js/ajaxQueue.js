@@ -178,7 +178,8 @@ var ajaxQueue = {
 	 * ajaxQueue.add({
 	 *  url: "http://illution.dk",
 	 *  data: "test=hehe,llama=fish",
-	 *  group: "testGroup2"
+	 *  group: "testGroup2",
+	 *  type: "POST"
 	 * })
 	 */
 	add: function (json) {
