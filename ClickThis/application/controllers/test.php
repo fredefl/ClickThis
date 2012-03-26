@@ -65,7 +65,8 @@ class Test extends CI_Controller {
 		//Needs more test
 		$this->load->library("Series");	
 		$Series = new Series();
-		$Series->Load(31);
+		//$Series->Load(31);
+		$Series->Find(array("TargetGroup" => "2"));
 		self::Debug($Series->Export());
 		echo "########################################################";
 		//self::Debug($Series->Questions[4]->Export(true));
@@ -117,6 +118,7 @@ class Test extends CI_Controller {
 		$this->load->library('Country');
 		$Country = new Country();
 		$Country->Load(1);
+		//$Country->Find(array("UName" => "%PA"));
 		self::Debug($Country->Export(false));
 	}
 	

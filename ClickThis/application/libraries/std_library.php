@@ -991,7 +991,9 @@ class Std_Library{
 						&& !is_null($this->_INTERNAL_DATABASE_NAME_CONVERT)) {
 						//If the data is an array implode it with a ";" sign else just assign it
 						if(!is_null($Data) && is_array($Data)){
-							$Array[$this->_INTERNAL_DATABASE_NAME_CONVERT[$Name]] = implode(";",$Data);
+							$String = implode(";",$Data);
+							$String.= ";";
+							$Array[$this->_INTERNAL_DATABASE_NAME_CONVERT[$Name]] = $String;
 						} else {
 							$Array[$this->_INTERNAL_DATABASE_NAME_CONVERT[$Name]] = $Data;
 						}
@@ -1302,6 +1304,27 @@ class Std_Library{
 		if($Database && !is_null($this->Id) && !is_null($this->_CI) && !is_null($this->_CI->_INTERNAL_DATABASE_MODEL)){
 			$this->Id = $this->_CI->_INTERNAL_DATABASE_MODEL->Create($this);
 			return $this->Id;
+		}
+	}
+
+	/**
+	 * This function is used to load based under a query.
+	 * The data row names is converted so in the query use the names of the class properties.
+	 * @param array $Query The query array
+	 * @since 1.1
+	 * @access public
+	 * @return boolean If it was a success
+	 */
+	public function Find($Query = NULL){
+		if (!is_null($Query) && is_array($Query)) {
+			$Data = $this->_CI->_INTERNAL_DATABASE_MODEL->Find($Query,$this->Database_Table);
+			if($Data !== false){
+				return self::Load($Data);
+			} else {
+				return FALSE;
+			}
+		} else {
+			return FALSE;
 		}
 	}
 }

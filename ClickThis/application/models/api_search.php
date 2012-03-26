@@ -82,6 +82,46 @@ class Api_Search extends CI_Model{
         return$Return;
     }
 
+     /**
+     * This function creates the LIKE query,
+     * and tries to get the right result if the data is splitted
+     * @since 1.0
+     * @access private
+     * @param array $Array The search query
+     * @return integer The database id of the data
+     */
+    private function _Get_Query_Data($Array = NULL){
+        if(!is_null($Array)){
+            $Query = array();
+            $Like = array();
+            $Or_Like = array();
+            foreach ($Array as $Key => $Value) {
+                if(strpos($Value, "$") !== false){
+                    $Like[$Key] = str_replace("$", "", $Value.";");
+                    $Or_Like[$Key] = str_replace("$", "", $Value);
+                } else {
+                   $Query[$Key] = $Value;
+                }
+            }
+            $Raw = array();
+            if(count($Query) > 0){
+                if(count($Like) > 0){
+                    $Raw = $this->db->limit($this->Limit)->where($Query)->select("Id")->or_like(array_merge($Like,$Or_Like))->get($this->Table);
+                } else {
+                     $Raw = $this->db->limit($this->Limit)->where($Query)->select("Id")->get($this->Table);
+                }
+            } else if(count($Like) > 0){
+               $Raw = $this->db->or_like($Like)->get($this->Table);
+               if($Raw->num_rows == 0){
+                    $Raw = $this->db->like($Or_Like)->get($this->Table);
+               }
+            }
+            return $Raw;
+        } else {
+            return array();
+        }
+    }
+
     /**
      * This function is used to search in the database for multiple objects,
      * and add them to an array
@@ -141,28 +181,32 @@ class Api_Search extends CI_Model{
                     }
                 }
                 if(!$Exit){
-        			$Raw = $this->db->limit($this->Limit)->select("Id")->get_where($this->Table, $Query);
-        			foreach ($Raw->result() as $Row) {
-        				if(!is_null($Row) && property_exists($Row, "Id")){
-        					$Class = new $ClassName();
-        					$Temp = NULL;
-        					if(!is_null($Class)){
-        						if(method_exists($Class, "Load")){
-        							$Class->Load($Row->Id);
-        							if($Export && method_exists($Class, "Export")){
-        								$Temp = $Class->Export($Database,$Secure);
-        							} else {
-        								$Temp = $Class;
-        							}
-        						}
-        					}
-        					if(!is_null($Temp)){
-        						$Return[] = $Temp;
-        					}
-        				} else {
-        					return FALSE;
-        				}
-        			}
+        			$Raw = self::_Get_Query_Data($Query);//$this->db->limit($this->Limit)->select("Id")->get_where($this->Table, $Query);
+        			if(count($Raw) > 0){
+                        foreach ($Raw->result() as $Row) {
+            				if(!is_null($Row) && property_exists($Row, "Id")){
+            					$Class = new $ClassName();
+            					$Temp = NULL;
+            					if(!is_null($Class)){
+            						if(method_exists($Class, "Load")){
+            							$Class->Load($Row->Id);
+            							if($Export && method_exists($Class, "Export")){
+            								$Temp = $Class->Export($Database,$Secure);
+            							} else {
+            								$Temp = $Class;
+            							}
+            						}
+            					}
+            					if(!is_null($Temp)){
+            						$Return[] = $Temp;
+            					}
+            				} else {
+            					return FALSE;
+            				}
+            			}
+                    } else {
+                        return FALSE;
+                    }
                 } else {
                     return FALSE;
                 }     

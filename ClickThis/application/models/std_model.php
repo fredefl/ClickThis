@@ -194,6 +194,7 @@ class Std_Model extends CI_Model{
 							if(property_exists(get_class($Class), $Key)){
 								if(!is_null($Value) && !empty($Value) && $Value != ""){
 									if(strpos($Value, ";") == true){
+										rtrim($Value,";");
 										$Class->{$Key} = explode(";", $Value);
 									} else {
 										$Class->{$Key} = $Value;
@@ -213,6 +214,13 @@ class Std_Model extends CI_Model{
 		}
 	}
 
+	/**
+	 * This function inserts data into the db and return the insert_id
+	 * @param object &$Class The class to get the data from
+	 * @since 1.0
+	 * @access public
+	 * @return integer The new database id
+	 */
 	public function Create(&$Class){
 		if(method_exists($Class, "Export") && property_exists(get_class($Class), "Database_Table")){
 			$data = $Class->Export(true);
@@ -349,6 +357,71 @@ class Std_Model extends CI_Model{
 			} else {
 				return FALSE;
 			}	
+		} else {
+			return FALSE;
+		}
+	}
+
+	/**
+	 * This function creates the LIKE query,
+	 * and tries to get the right result if the data is splitted
+	 * @param array $Array The search query
+	 * @param string $Table The table to search in
+	 * @since 1.1
+	 * @access private
+	 * @return integer The database id of the data
+	 */
+	 private function _Get_Query_Data($Array = NULL,$Table = NULL){
+       if(!is_null($Array) && !is_null($Table)){
+            $Like = array();
+            $Or_Like = array();
+            foreach ($Array as $Key => $Value) {
+                if(strpos($Value, "$") !== false){
+                    $Like[$Key] = str_replace("$", "", $Value.";");
+                    $Or_Like[$Key] = str_replace("$", "", $Value);
+                } else {
+                    $Like[$Key] = $Value;
+                    $Or_Like[$Key] = $Value;
+                }
+            }
+           if(count($Like) > 0){
+                $this->db->limit(1)->select("Id")->like($Like);
+            }
+            $Raw = $this->db->get($Table);
+            if($Raw->num_rows == 0 && count($Or_Like) > 0){
+                $Raw = $this->db->like($Or_Like)->limit(1)->select("Id")->get($Table);
+            }
+            return $Raw;
+        } else {
+            return array();
+        }
+    }
+
+	/**
+	 * This function finds a row based on a query, this function always select the first element.
+	 * The column names are converted using the Convert_Properties_To_Row function.
+	 * @param array $Query The assosiative array containing the search
+	 * @param string $Table The table to search in
+	 * @version 1.1
+	 * @access public
+	 * @example
+	 * @return boolean|integer This function returns FALSE if fail and an id if success.
+	 * Find("Name" => "Bo","Users");
+	 */
+	public function Find($Query = NULL,$Table = NULL){
+		if(!is_null($Query) && is_array($Query) && !is_null($Table)){
+			$Data = self::Convert_Properties_To_Database_Row($Query);
+			if(!is_null($Data)){
+				$Raw = self::_Get_Query_Data($Data,$Table);
+				if($Raw->num_rows() > 0){
+					$Row = $Raw->result();
+					return $Row[0]->Id;
+				} else {
+					return FALSE;
+				}
+			} else {
+				return FALSE;
+			}
 		} else {
 			return FALSE;
 		}
