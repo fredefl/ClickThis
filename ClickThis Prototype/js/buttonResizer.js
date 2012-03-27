@@ -88,7 +88,7 @@ var buttonResizer = {
 			// Loop though the array and find all the fullsize buttons and remove them
 			for (i = 0; i <= elementArrayLength; i++) {
 				element = elementArray[i];
-				if ($(element).hasClass("fullsize")) {
+				if ($(element).hasClass("size-1")) {
 					if ((i + 1) % 2 === 0) {
 						// If there is only one button above.
 						elementArray.splice(i - 1, 1);
