@@ -64,9 +64,9 @@
 	.size-1.button, .size-1.button:visited {
 		width:92%;
 		left:2%; 
-		text-align:center;
-		margin-bottom:10px;
-		margin-top:10px;	
+		margin-left:2%;
+		margin-bottom:8px;
+		margin-top:8px;	
 	}
 }
 /* ------------------------------------------------- */
