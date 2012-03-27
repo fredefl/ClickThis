@@ -15,7 +15,7 @@ $.ajax({
 	url: "http://illution.dk/ClickThis/api/series?ShareType=1",
 	type: "GET",
 	success:function(data){
-		$(data).each(function(index,element){
+		$(data.Series).each(function(index,element){
 			var user = get_user(element.Creator);
 			$("#series").append(homeCreator.newSeries(element.Title,element.Id,user.Name,user.Id));
 		});
@@ -29,7 +29,7 @@ function get_user(id){
 		type: "GET",
 		async:false,
 		success: function(data){
-			global_data = data[0];
+			global_data = data.Users[0];
 			return;
 		}
 	});
