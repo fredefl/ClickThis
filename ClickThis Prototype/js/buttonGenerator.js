@@ -40,7 +40,10 @@ var buttonGenerator = {
 			html = "",
 			onClickType = "onclick",
 			specialFunctions = "",
-			textField = 0;
+			textField = 0,
+			size = json.size || 2;
+
+			console.log(json);
 
 		if (json.type === 3 || json.type === 4) {
 			textField = 1;
@@ -53,16 +56,8 @@ var buttonGenerator = {
 		}
 
 		// Get the cssClass
-		cssClass.push("mega", "button", "color-" + json.color, "halfsize");
+		cssClass.push("mega", "button", "color-" + json.color, "size-" + size);
 
-		// If it's a fullsize button, add the class
-		if (json.size === 1) {
-			cssClass.push("fullsize");
-		}
-		// If it's a single-selectable button, add single Class
-		if (json.type === 2) {
-			cssClass.push("single");
-		}
 		// Get the javascript functions
 		if (json.type === 1) {
 			onClickFunctions += "buttonGenerator.multipleChoice(this," + textField + ");";

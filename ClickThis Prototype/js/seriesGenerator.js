@@ -25,7 +25,7 @@ var seriesGenerator = {
 		// Append the text
 		html += '<h1>' + text + '</h1>';
 		// Append the begin the survey button
-		html += '<a class="mega button color-orange halfsize fullsize" id="begin">Begin the survey</a>';
+		html += '<a class="mega button color-orange size-1" id="begin">Begin the survey</a>';
 		// Append end of div
 		html += '</div>';
 		// Return the markup
@@ -43,7 +43,7 @@ var seriesGenerator = {
 		// Append the text
 		html += '<h1>' + text + '</h1>';
 		// Append the end the survey button
-		html += '<a class="mega button color-orange halfsize fullsize" id="end_survey">End the survey</a>';
+		html += '<a class="mega button color-orange size-1" id="end_survey">End the survey</a>';
 		// Append end of div
 		html += '</div>';
 		// Return the markup
@@ -84,7 +84,8 @@ var seriesGenerator = {
 				color: option.Color, 
 				text: option.Title, 
 				type: parseInt(option.OptionType, 10), 
-				group: 1
+				group: 1,
+				size: option.Size
 			});
 		}
 

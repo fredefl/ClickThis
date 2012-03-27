@@ -8,20 +8,6 @@
 		-webkit-border-radius:10px;
 		-ms-border-radius:10px; 
 		-o-border-radius:10px;
-		border-bottom: 1px solid rgba(0,0,0,0.25);
-		 
-		/* Shadows */
-		box-shadow:0 1px 3px rgba(0,0,0,0.6);
-		-moz-box-shadow:0 1px 3px rgba(0,0,0,0.6);
-		-webkit-box-shadow:0 1px 3px rgba(0,0,0,0.6);
-		-ms-box-shadow:0 1px 3px rgba(0,0,0,0.6);
-		-o-box-shadow:0 1px 3px rgba(0,0,0,0.6);
-
-		/* CSS3 Hyphens */
-		-moz-hyphens:auto;
-		-webkit-hyphens:auto;
-		-o-hyphens:auto;
-		hyphens:auto;
 	}
 
 	/* Mega Button */								  
@@ -31,20 +17,19 @@
 	}
 		
 	/* Halfsize Button */						
-	.halfsize.button, .halfsize.button:visited {
+	.size-2.button, .size-2.button:visited {
 		width:43.3%;
 		left:2.5%; 
-		text-align:center;
 		margin-left:3%;
 		margin-bottom:25px;
 		margin-top:25px;
 	}
 	
 	/* Fullsize Button */
-	.fullsize.button {
+	.size-1.button, .size-1.button:visited {
 		width:90%;
 		left:2.5%; 
-		text-align:center;
+		margin-left:3%;
 		margin-bottom:25px;
 		margin-top:25px;	
 	}
@@ -56,14 +41,10 @@
 	.button, .button:visited {
 		/* Borders */
 		border-radius:5px;
-		border-bottom: 1px solid rgba(0,0,0,0.25);
-		 
-		/* Shadows */
-		box-shadow:0 1px 3px rgba(0,0,0,0.6);
-		-moz-box-shadow:0 1px 3px rgba(0,0,0,0.6);
-		-webkit-box-shadow:0 1px 3px rgba(0,0,0,0.6);
-		-ms-box-shadow:0 1px 3px rgba(0,0,0,0.6);
-		-o-box-shadow:0 1px 3px rgba(0,0,0,0.6);
+		-moz-border-radius:5px; 
+		-webkit-border-radius:5px;
+		-ms-border-radius:5px; 
+		-o-border-radius:5px;
 	}
 	/* Mega Button */								  
 	.mega.button, .mega.button:visited {
@@ -71,17 +52,16 @@
 		padding: 10px 0 10px 0;
 	}
 	/* Mobile Button */						
-	.halfsize.button, .halfsize.button:visited {
+	.size-2.button, .size-2.button:visited {
 		width:45%;
 		left:2%; 
-		text-align:center;
 		margin-left:2%;
 		margin-bottom:8px;
 		margin-top:8px;
 	}
 	
 	/* Fullsize Button */
-	.fullsize.button {
+	.size-1.button, .size-1.button:visited {
 		width:92%;
 		left:2%; 
 		text-align:center;
@@ -117,6 +97,25 @@
 	
 	/* Webkit Mobile Select Color */
 	-webkit-tap-highlight-color: rgba(0,0,255,0.1);
+
+	/* Center text */
+	text-align:center;
+
+	/* CSS3 Hyphens */
+	-moz-hyphens:auto;
+	-webkit-hyphens:auto;
+	-o-hyphens:auto;
+	hyphens:auto;
+
+	/* Shadows */
+	box-shadow:0 1px 3px rgba(0,0,0,0.6);
+	-moz-box-shadow:0 1px 3px rgba(0,0,0,0.6);
+	-webkit-box-shadow:0 1px 3px rgba(0,0,0,0.6);
+	-ms-box-shadow:0 1px 3px rgba(0,0,0,0.6);
+	-o-box-shadow:0 1px 3px rgba(0,0,0,0.6);
+
+	/* Borders */
+	border-bottom: 1px solid rgba(0,0,0,0.25);
 }
 
 /* Button Active */		
