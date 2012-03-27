@@ -43,8 +43,6 @@ var buttonGenerator = {
 			textField = 0,
 			size = json.size || 2;
 
-			console.log(json);
-
 		if (json.type === 3 || json.type === 4) {
 			textField = 1;
 		}
