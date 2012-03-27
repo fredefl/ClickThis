@@ -148,6 +148,7 @@ var ajaxQueue = {
 			this.queueArray = {Tasks: []};
 			ajaxQueue.log("No data in localstorage, adding new key.");/*LOG*/
 			ajaxQueue.checkStatusCode();
+			ajaxQueue.save();
 			return false;
 		}
 	},
@@ -344,7 +345,7 @@ var ajaxQueue = {
 	 */
 	executeTasks: function () {
 		// If there queue is already hot, don't overheat it!
-		if (this.sending === true) {
+		if (ajaxQueue.sending === true) {
 			return false;
 		}
 		// Check if offline
@@ -353,13 +354,13 @@ var ajaxQueue = {
 			setTimeout(ajaxQueue.executeTasks, ajaxQueue.retryTimeout);
 		}
 		// If there is tasks in the queue
-		if (this.queueArray.Tasks.length > 0) {
+		if (ajaxQueue.queueArray.Tasks.length > 0) {
 			// Indicate that we are sending
 			ajaxQueue.sendingStatusCode = true;
 			ajaxQueue.sending = true;
 			ajaxQueue.checkStatusCode();
 			// Declare variables, and the the first task in the queue
-			var currentTask = this.queueArray.Tasks[0],
+			var currentTask = ajaxQueue.queueArray.Tasks[0],
 				callback = null,
 				result = {};
 			ajaxQueue.log("Sending '" + currentTask.data + "' to '" + currentTask.url + "'.");/*LOG*/
