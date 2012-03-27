@@ -67,7 +67,9 @@ class Test extends CI_Controller {
 		$Series = new Series();
 		//$Series->Load(31);
 		$Series->Find(array("TargetGroup" => "2"));
+		$Series->TargetGroup[0]->Name = "Illution Group";
 		self::Debug($Series->Export());
+		$Series->Save();
 		echo "########################################################";
 		//self::Debug($Series->Questions[4]->Export(true));
 		/*echo "<pre>";
@@ -103,8 +105,11 @@ class Test extends CI_Controller {
 	private function AnswerTest(){
 		$this->load->library('Answer');
 		$Answer = new Answer();
-		$Answer->Load(1);
-		self::Debug($Answer->Export());
+		$Answer->Import(array("QuestionId" => 1,"Options" => array(array("OptionId" => 1,"Value" => 5),array("OptionId" => 5,"Value" => "3"))));
+		//$Answer->Load(1);
+		$Answer->Save();
+		self::Debug($Answer->Export(true));
+		//self::Debug($Answer->Export(false));
 	}
 	
 	private function SchoolTest(){

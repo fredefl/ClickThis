@@ -184,6 +184,7 @@ class Std_Model extends CI_Model{
 							if(property_exists(get_class($Class), $this->_INTERNAL_ROW_NAME_CONVERT[$Key])){
 								if(!is_null($Value) && !empty($Value) && $Value != ""){
 									if(strpos($Value, ";") == true){
+										$Value = rtrim($Value,";");
 										$Class->{$this->_INTERNAL_ROW_NAME_CONVERT[$Key]} = explode(";", $Value);
 									} else {
 										$Class->{$this->_INTERNAL_ROW_NAME_CONVERT[$Key]} = $Value;
@@ -194,7 +195,7 @@ class Std_Model extends CI_Model{
 							if(property_exists(get_class($Class), $Key)){
 								if(!is_null($Value) && !empty($Value) && $Value != ""){
 									if(strpos($Value, ";") == true){
-										rtrim($Value,";");
+										$Value = rtrim($Value,";");
 										$Class->{$Key} = explode(";", $Value);
 									} else {
 										$Class->{$Key} = $Value;
@@ -286,6 +287,26 @@ class Std_Model extends CI_Model{
 	}
 
 	/**
+	 * This function get's the data of a classes _INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS_ABORT_ON_NULL,
+	 * data
+	 * @param object &$Class The reference class
+	 * @return boolean The data of the settings property
+	 * @since 1.1
+	 * @access private
+	 */
+	private function _Check_For_Data_Dublicate(&$Class = NULL){
+		if(!is_null($Class)){
+			if(property_exists($Class, "_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS_ABORT_ON_NULL") && !is_null($Class->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS_ABORT_ON_NULL) && is_bool($Class->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS_ABORT_ON_NULL)){
+				return $Class->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS_ABORT_ON_NULL;
+			} else {
+				return TRUE;
+			}
+		} else {
+			return TRUE;
+		}
+	}
+
+	/**
 	 * This function checks if a class has a full dublicate in the database, if the  true is returned
 	 * @param object &$Class The class to get the data from
 	 * @return boolean If it has a dublicate
@@ -299,9 +320,13 @@ class Std_Model extends CI_Model{
 			if(is_null($Class->Id)){
 				$Query = $this->db->limit(1)->get_where($Class->$Database_Table,$Data);
 			} else {
-				$Query = $this->db->not_like("Id",$Class->Id)->limit(1)->get_where($Class->$Database_Table,$Data);
+				if(self::_Check_For_Data_Dublicate($Class)){
+					$Query = $this->db->not_like("Id",$Class->Id)->limit(1)->get_where($Class->$Database_Table,$Data);
+				} else {
+					$Query = NULL;
+				}
 			}
-			if($Query->num_rows() > 0){
+			if(!is_null($Query) && $Query->num_rows() > 0){
 				return TRUE;
 			} else {
 				return FALSE;

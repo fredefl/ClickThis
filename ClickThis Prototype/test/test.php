@@ -8,17 +8,31 @@ $(document).ready();
 
 function Post(){
 		$.ajax({
-			url: "http://illution.dk/ClickThis/api/series_test/21",
+			url: "http://illution.dk/ClickThis/api/answer/",
 			type:"POST",
-			data : "Creator=llama&StartText=lama",
+			data : {
+    "Answer": [
+        {
+            "Options": [
+                {
+                    "id": 2,
+                    "value": 1
+                }
+            ],
+            "QuestionId": 10,
+            "UserId": 1
+        }
+    ]
+},
 			success: function(data){
-				if(typeof data.error_code == "undefined"){
+				/*if(typeof data.error_code == "undefined"){
 						data = data.replace("{","{\n");
 						data = data.replace("}","\n}\n");
 					$("#return").append(data+"\n");
 				} else {
 					$("#return").append(data+"\n");
-				}
+				}*/
+				$("#return").append(data+"\n");
 			},
 			error: function(){
 				$("#return").append(data+"\n");

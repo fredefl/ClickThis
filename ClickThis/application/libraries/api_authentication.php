@@ -71,12 +71,21 @@ class Api_Authentication{
 	private $_Errors = NULL;
 
 	/**
+	 * A local instance of CodeIgniter
+	 * @var object
+	 * @since 1.0
+	 * @access private
+	 */
+	private $_CI = NULL;
+
+	/**
 	 * The constructor
 	 * @since 1.0
 	 * @access public
 	 */
 	public function Api_Authentication(){
-
+		$this->_CI =& get_instance();
+		$this->_CI->load->model("Api_Auth");
 	}
 
 	/**
@@ -114,10 +123,27 @@ class Api_Authentication{
 	 * @since 1.0
 	 * @access private
 	 */
-	private function _Redirect_Url(){
+	private function _Redirect_Url($Redirect = NULL){
 		if(isset($_GET["redirect"]) && !empty($_GET["redirect"])){
-			if(self::_Is_Url($_GET["redirect"])){
-				$this->_Redirect_Url = $_GET["redirect"];
+			$Redirect = $_GET["redirect"];
+		} else {
+			if(!is_null($this->_App_Id)){
+				$Result = $this->_CI->Api_Auth->AuthenticationEndpoint($this->_App_Id);
+				if($Result !== false){
+					$Redirect = $Result;
+				} else {
+					return FALSE;
+				}
+			} else {
+				return FALSE;
+			}
+		}
+		if(!is_null($Redirect)){
+			if(strpos($Redirect, "http://") === false && strpos($Redirect, "https://") === false){
+				$Redirect = "http://".$Redirect;
+			}
+			if(self::_Is_Url($Redirect)){
+				$this->_Redirect_Url = $Redirect;
 				return TRUE;
 			} else {
 				return FALSE;
@@ -192,7 +218,11 @@ class Api_Authentication{
 	}
 
 	/**
-	 * [_Request description]
+	 * This function checks if the request_tokens
+	 * are set in the $_GET array and if they are then they are assigned
+	 * to this class.
+	 * @since 1.0
+	 * @access private
 	 */
 	private function _Request(){
 		$Return = FALSE;
@@ -229,6 +259,40 @@ class Api_Authentication{
 	}
 
 	/**
+	 * This function generates a random string,
+	 * for the RequestCode Auth field.
+	 * @param integer $Size The length of the string
+	 * @since 1.0
+	 * @access private
+	 * @return string The request code
+	 */
+	private function _Generate_Request_Code($Size = 32){
+		$Code = self::_Rand_Str($Size);
+		return $Code;
+	}
+
+	/**
+	 * This function generates a random string
+	 * @param  integer $Length The length of the random string
+	 * @param  string  $Chars  The Charset to use
+	 * @return string
+	 * @author Kyle Florence <kyle.florence@gmail.com>
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _Rand_Str($Length = 32, $Chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890')
+	{
+	    $Chars_Length = (strlen($Chars) - 1);
+	    $String = $Chars{rand(0, $Chars_Length)};
+	    for ($I = 1; $I < $Length; $I = strlen($String))
+	    {
+	        $R = $Chars{rand(0, $Chars_Length)};
+	        if ($R != $String{$I - 1}) $String .=  $R;
+	    }
+	    return $String;
+	}
+
+	/**
 	 * This function performs the Request_Token api authentication request
 	 * @since 1.0
 	 * @access public
@@ -241,14 +305,32 @@ class Api_Authentication{
 		}
 	}
 
+	private function _Accepted_Auth(){
+		if(isset($_POST["auth"]) && !empty($_POST)){
+			if(isset($_SESSION["UserId"]) && !empty($_SESSION) && $this->_CI->Api_Auth->User_Exists($_SESSION["UserId"])){
+
+			} else {
+				return FALSE;
+			}
+		} else {
+			return FALSE;
+		}
+	}
+
 	/**
 	 * This function performs the user Authentication request
 	 * @since 1.0
 	 * @access public
 	 */
 	public function Auth(){
-		if(self::_App_Id() && self::_Redirect_Url()){
-			
+		$UserId = 1;
+		if(self::_App_Id() && self::_Redirect_Url() && !is_null($UserId)){
+			$Request_Code = self::_Generate_Request_Code(32);
+			if($this->_CI->Api_Auth->Auth($Request_Code,$this->_App_Id,$UserId)){
+				return TRUE;
+			} else 	{
+				return FALSE;
+			}
 		} else {
 			return FALSE;
 		}

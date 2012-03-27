@@ -48,11 +48,14 @@ class Api extends CI_Controller {
 	 * @since 1.1
 	 * @access private
 	 */
-	private function _Create($ClassName = NULL){
+	private function _Create($ClassName = NULL,$Data =NULL){
 		if(!is_null($ClassName)){
 			$this->load->library($ClassName);
+			if(is_null($Data)){
+				$Data = $this->api_request->Request_Vars();
+			}
 			$Class = new $ClassName();
-			$Class->Import(self::EnsureCase($this->api_request->Request_Vars()));
+			$Class->Import(self::EnsureCase());
 			if($Class->Save() == true){
 				$Response = array();
 				$Response[$ClassName] = array("Id" => $Class->Id);
@@ -236,7 +239,19 @@ class Api extends CI_Controller {
 	}
 
 	public function Answer($Id = NULL){
-		self::Standard_API("Answer",$Id,"Answers");
+		$this->load->library("api_request");
+		$this->api_request->Perform_Request();
+		if($this->api_request->Request_Method() != "post"){
+			self::Standard_API("Answer",$Id,"Answers");
+		} else {
+			if(isset($_POST) && !empty($_POST)){
+				(isset($_POST["Answer"][0]))? $Answer = $_POST["Answer"][0] :$Answer =NULL;
+				//$Answer["Options"] =  json_encode($Answer["Options"]);
+				//print_r(json_encode($Answer));
+			} else {
+				self::Send_Response(400);
+			}
+		}
 	}
 
 	public function Option($Id = NULL){
@@ -367,9 +382,13 @@ class Api extends CI_Controller {
 
 	/* Authentication */
 
-	public function Auth(){
+	public function Auth($UserId = NULL){
 		$this->load->library("api_authentication");
-		$this->api_authentication->Auth();
+		if($this->api_authentication->Auth($UserId)){
+			echo "Success";
+		} else {
+
+		}
 	}
 
 	public function Request_Token(){
