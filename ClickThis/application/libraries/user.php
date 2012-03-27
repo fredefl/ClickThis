@@ -7,6 +7,7 @@
  * @category User Data
  * @version 1.0
  * @author Illution <support@illution.dk>
+ * @todo Make functions to get profile pictures
  */ 
 class User extends Std_Library{
 
@@ -387,6 +388,17 @@ class User extends Std_Library{
 		$this->_INTERNAL_LOAD_FROM_CLASS = array("TargetGroup" => "Group");
 		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_DATABASE_NAME_CONVERT);
+	}
+
+	/**
+	 * This function checks if the users profile image is set
+	 */
+	public function CheckProfileImage(){
+		if(is_null($this->ProfileImage)){
+			return FALSE;
+		} else {
+			return TRUE;
+		}
 	}
 }
 ?>

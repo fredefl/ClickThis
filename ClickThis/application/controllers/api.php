@@ -125,9 +125,10 @@ class Api extends CI_Controller {
 	 * @access private
 	 * @since 1.0
 	 */
-	private function Search($Query = NULL,$Table = NULL,$ClassName = NULL,$Limit = NULL){
+	private function Search($Query = NULL,$Table = NULL,$ClassName = NULL,$Limit = NULL,$ArrayName = NULL,$Return = false){
 		if(!is_null($Query) && !is_null($Table)){
 			$this->load->model("Api_Search");
+			$this->load->library("api_request");
 			$Search = new Api_Search();
 			if(!is_null($ClassName)){
 				$Search->Table = $Table;
@@ -135,17 +136,72 @@ class Api extends CI_Controller {
 			if(!is_null($Limit)){
 				$Search->Limit = $Limit;
 			}
-			$Response = $Search->Search($Query,$ClassName,true,false,true);
-			if($Response){
-				self::Send_Response(200,NULL,json_encode($Response));
-			} else {
-				self::Send_Response(404);
+			if(is_null($ArrayName)){
+				$ArrayName = $ClassName;
 			}
+			$Content = $Search->Search($Query,$ClassName,true,false,true);
+			if(!$Content){
+				$Code = 404;
+				$Response[$ArrayName] = array();
+				$Response["error_message"] = $this->api_request->Get_Message($Code);
+				$Response["error_code"] = $Code;
+			} else {
+				$Code = 200;
+				$Response[$ArrayName] = $Content;
+				$Response["error_message"] = NULL;
+				$Response["error_code"] = NULL;
+			}
+			if(!$Return){
+				if($Response){
+						self::Send_Response($Code,NULL,json_encode($Response));
+				} else {
+					self::Send_Response($Code);
+				}
+			} else {
+				if(!$Content){
+					return FALSE;
+				} else {
+					return $Content;
+				}
+			}
+		} else {
+			$Code = 400;
+			self::Send_Response($Code);
 		}
 	}
 
 	public function User($Id = NULL){
-		self::Standard_API("User",$Id,"Users");
+		$Data = self::Standard_API("User",$Id,"Users","Users",true);
+		if($Data === false){
+			self::Send_Response(404);
+		} else {
+			if(!is_null($Data)){
+				if(!is_null($Id)){
+					$User = $Data;
+					($User->CheckProfileImage())? NULL: $User->ProfileImage = "http://gravatar.com/avatar?s=256";
+					/*$Data["User"] = $User->Export();
+					$Data["error_message"] = NULL;
+					$Data["error_code"] = NULL;*/
+					$Return = $User->Export(false,true);
+					self::Send_Response(200,NULL,json_encode($Return));
+				} else {
+					$Users = array();
+					foreach ($Data as $User) {
+						if(is_null($User["ProfileImage"])){
+							$User["ProfileImage"] = "http://gravatar.com/avatar?s=256";
+							$Users[] = $User;
+						} else {
+							$Users[] = $User;
+						}
+					}
+					$Return = array();
+					$Return["Users"] = $Users;
+					$Return["error_message"] = NULL;
+					$Return["error_code"] = NULL;
+					self::Send_Response(200,NULL,json_encode($Return));
+				}
+			}
+		}
 	}
 
 	public function Group($Id = NULL){
@@ -165,7 +221,7 @@ class Api extends CI_Controller {
 	}
 
 	public function DidAnswer($Id = NULL){
-		self::Standard_API("DidAnswer",$Id,"DidAnswer");
+		self::Standard_API("DidAnswer",$Id,"DidAnswer","DidAnswers");
 	}
 
 	public function State($Id = NULL){
@@ -197,7 +253,7 @@ class Api extends CI_Controller {
 	 * @access private
 	 * @since 1.0
 	 */
-	private function Standard_API($Class = NULL,$Id = NULL,$Table = NULL){
+	private function Standard_API($Class = NULL,$Id = NULL,$Table = NULL,$ArrayName = NULL,$Return = false){
 		if(!is_null($Class)){
 			$this->load->library("api_request");
 			$this->load->library($Class);
@@ -206,7 +262,11 @@ class Api extends CI_Controller {
 			if(!is_null($Id)){
 				switch ($Api_Request->Request_Method()) {
 					case 'get':
-						self::Perform_Get_Operation($Class,$Id);
+						if($Return === false){
+							self::Perform_Get_Operation($Class,$Id);
+						} else {
+							return self::Perform_Get_Operation($Class,$Id,true);
+						}
 						break;
 					
 					/*case 'post':
@@ -219,20 +279,27 @@ class Api extends CI_Controller {
 						break;*/
 				}
 			} else {
-				if(isset($_GET) && $Api_Request->Request_Method() == "get" && !is_null($Table)){
+				if(isset($_GET) && !empty($_GET) && $Api_Request->Request_Method() == "get" && !is_null($Table)){
 					$Query = array();
+					$NotAllowed = array("redirect","consumer_key","consumer_secret","access_token","access_token_secret");
 					$Limit = 10;
 					foreach ($_GET as $Key => $Value) {
-						if($Key != "Limit"){
-							$Query[$Key] = $Value;
-						} else {
-							$Limit = $Value;
+						if(!is_null($Value) && $Value != "" && !in_array($Key, $NotAllowed)){
+							if($Key != "Limit"){
+								$Query[$Key] = $Value;
+							} else {
+								$Limit = $Value;
+							}
 						}
 					}
 					if(count($Query) > 0){
-						self::Search($Query,$Table,$Class,$Limit);
+						if(!$Return){
+							self::Search($Query,$Table,$Class,$Limit,$ArrayName);
+						} else {
+							return self::Search($Query,$Table,$Class,$Limit,$ArrayName,true);
+						}
 					} else {
-						self::Send_Response(404);
+						self::Send_Response(400);
 					}
 				} else {
 					self::Send_Response(400);
@@ -251,17 +318,41 @@ class Api extends CI_Controller {
 	 * @access private
 	 * @since 1.0
 	 */
-	private function Perform_Get_Operation($Class_Name = NULL,$Id = NULL){
+	private function Perform_Get_Operation($Class_Name = NULL,$Id = NULL,$ArrayName = NULL,$Return = false){
 		$this->load->library("api_request");
 		if(!is_null($Id)){
 			$Class = new $Class_Name();
 			if($Class->Load($Id)){
-				self::Send_Response(200,"application/json",json_encode($Class->Export(false,true)));
+				if($Return === false){
+					$Data[$Class_Name] = $Class->Export(false,true);
+					$Data["error_message"] = NULL;
+					$Data["error_code"] = NULL;
+					self::Send_Response(200,"application/json",json_encode($Data));
+				} else {
+					return $Class;
+				}
 			} else {
 				self::Send_Response(404);
 			}
 		} else {
 			self::Send_Response(400);
 		}	
+	}
+
+	/* Authentication */
+
+	public function Auth(){
+		$this->load->library("api_authentication");
+		$this->api_authentication->Auth();
+	}
+
+	public function Request_Token(){
+		$this->load->library("api_authentication");
+		$this->api_authentication->Request_Token();
+	}
+
+	public function Access_Token(){
+		$this->load->library("api_authentication");
+		$this->api_authentication->Access_Token();
 	}
 }

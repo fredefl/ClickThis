@@ -15,7 +15,8 @@ function createPage(){
 		$.ajax({
 			url: "http://illution.dk/ClickThis/api/user/"+userId,
 			success: function(data){
-				if(typeof data.error_code == "undefined"){
+				if(data.error_code == null){
+					data = data.User;
 					$(".Active").addClass("Disabled").removeClass("Active");
 					var user = $("#user");
 					$("#linktag").attr("title",data.Name);

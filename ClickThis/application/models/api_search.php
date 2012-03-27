@@ -169,6 +169,10 @@ class Api_Search extends CI_Model{
                             $Unset = TRUE;
                             $Replace = FALSE;
                         }
+                        if(!property_exists($TempObject, $KeyName)){
+                            $Replace = FALSE;
+                            $Unset = TRUE;
+                        }
                         if($Unset && $Replace){
                             unset($Query[$Key]);
                             $Query[$KeyName] = $Value;
@@ -180,8 +184,13 @@ class Api_Search extends CI_Model{
                         }
                     }
                 }
+                foreach ($Query as $Key => $Value) {
+                    if(!property_exists($TempObject, $Key)){
+                        unset($Query[$Key]);
+                    }
+                }
                 if(!$Exit){
-        			$Raw = self::_Get_Query_Data($Query);//$this->db->limit($this->Limit)->select("Id")->get_where($this->Table, $Query);
+        			$Raw = self::_Get_Query_Data($Query);
         			if(count($Raw) > 0){
                         foreach ($Raw->result() as $Row) {
             				if(!is_null($Row) && property_exists($Row, "Id")){
