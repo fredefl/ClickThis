@@ -1,4 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+/**
+ * @version 1.1
+ */
 class Api extends CI_Controller {
 
 	/**
@@ -11,50 +14,61 @@ class Api extends CI_Controller {
 		self::Standard_API("Series",$Id,"Series");
 	}
 
-	public function Series_Test($Id = NULL,$Override = true){
-		$this->load->library("api_request");
-		$this->load->library("Series");
-		$this->api_request->Perform_Request();
-		if(!is_null($Id)){
-			$Series = new Series();
-			switch ($this->api_request->Request_Method()) {
-				case 'get':
-					self::Standard_API("Series",$Id);
-					break;
-				
-				case 'post':
-
-					$Series->Import(self::EnsureCase($this->api_request->Request_Vars()));
-					if($Series->Save() == true){
-						echo json_encode($Series->Export(false));
-					} else {
-						self::Send_Response(400);
-					}
-					break;
-
-				case 'put':
-					$Decoded = json_decode($this->api_request->Request_Vars(),true);
-					$Series->Load($Id);
-					$Series->Import(self::EnsureCase($Decoded),$Override);
-					$Series->Save();
-					print_r($Series->Export());
-					break;
-
-				case 'delete':
-					self::Delete("Series",$Id);
-					break;
+	##### Test #####
+	/**
+	 * This function performs the PUT requests
+	 * @param string  $ClassName The classname of the class to use
+	 * @param integer  $Id        The id to update
+	 * @param boolean $Override  If the existing data is going to be overwritten
+	 * @since 1.1
+	 * @access private
+	 */
+	private function _Update($ClassName = NULL,$Id = NULL,$Override = true){
+		if(!is_null($ClassName) && !is_null($Id)){
+			$this->load->library($ClassName);
+			$Class = new $ClassName();
+			$Class->Load($Id);
+			$Decoded = json_decode($this->api_request->Request_Vars(),true);
+			$Class->Import(self::EnsureCase($Decoded),$Override);
+			if($Class->Save() == true){
+				$Response = array();
+				$Response["error_message"] = NULL;
+				$Response["error_code"] = NULL;
+				self::Send_Response(200,NULL,json_encode($Response));
+			} else {
+				self::Send_Response(400);
 			}
-		} else {
-			/*$this->load->model("Api_Search");
-			$Search = new Api_Search();
-			$Search->Table = "Series";
-			$Response = $Search->Search(array("Creator" => "21"),"Series",true);
-			self::Send_Response(200,NULL,json_encode($Response));*/
-			self::Search(array("Creator" => "21"),"Series","Series");
 		}
 	}
 
-	##### Test #####
+
+	/**
+	 * This function performs the POST request
+	 * @param string $ClassName The name of the class to use
+	 * @since 1.1
+	 * @access private
+	 */
+	private function _Create($ClassName = NULL){
+		if(!is_null($ClassName)){
+			$this->load->library($ClassName);
+			$Class = new $ClassName();
+			$Class->Import(self::EnsureCase($this->api_request->Request_Vars()));
+			if($Class->Save() == true){
+				$Response = array();
+				$Response[$ClassName] = array("Id" => $Class->Id);
+				$Response["error_message"] = NULL;
+				$Response["error_code"] = NULL;
+				self::Send_Response(200,NULL,json_encode($Response));
+			} else {
+				self::Send_Response(400);
+			}
+		}
+	}
+
+	/**
+	 * [EnsureCase description]
+	 * @param [type] $Array [description]
+	 */
 	private function EnsureCase($Array = NULL){
 		if(!is_null($Array)){
 			if(is_array($Array)){
@@ -71,19 +85,24 @@ class Api extends CI_Controller {
 		}
 	}
 
-	private function Delete($Class = NULL,$Id = NULL){
+	/**
+	 * This function performs the DELETE operations
+	 * @param string $ClassName The name of the class to use
+	 * @param integer $Id    The id of the data to delete
+	 * @since 1.1
+	 * @access private
+	 */
+	private function _Delete($ClassName = NULL,$Id = NULL){
 		if(!is_null($Class) && !is_null($Id)){
-			$this->load->library($Class);
-			$Series = new $Class();
-			$Series->load($Id);
-			$Series->Delete(true);
-			print_r($Series->Export());
+			$this->load->library($ClassName);
+			$Class = new $ClassName();
+			$Class->load($Id);
+			$Class->Delete(true);
+			print_r($Class->Export());
 		} else {
 			self::Send_Response(400);
 		}
 	}
-
-	################
 
 
 	/**
@@ -170,6 +189,10 @@ class Api extends CI_Controller {
 		}
 	}
 
+	/**
+	 * [User description]
+	 * @param [type] $Id [description]
+	 */
 	public function User($Id = NULL){
 		$Data = self::Standard_API("User",$Id,"Users","Users",true);
 		if($Data === false){
@@ -269,14 +292,17 @@ class Api extends CI_Controller {
 						}
 						break;
 					
-					/*case 'post':
+					case 'post':
+						self::_Create($Class);
 						break;
 
 					case 'delete':
+						self::_Delete($ClassName,$Id);
 						break;
 
 					case 'put':
-						break;*/
+						self::_Update($Class,$Id);
+						break;
 				}
 			} else {
 				if(isset($_GET) && !empty($_GET) && $Api_Request->Request_Method() == "get" && !is_null($Table)){
