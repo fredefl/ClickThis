@@ -71,6 +71,14 @@ class Api_Authentication{
 	private $_Errors = NULL;
 
 	/**
+	 * The id of the current user if one
+	 * @var integer
+	 * @access private
+	 * @since 1.0
+	 */
+	private $_User_Id = NULL;
+
+	/**
 	 * A local instance of CodeIgniter
 	 * @var object
 	 * @since 1.0
@@ -214,6 +222,11 @@ class Api_Authentication{
 		} else {
 			$Return = FALSE;
 		}
+		if($this->_CI->Api_Auth->Is_Valid_Consumer($this->_Consumer_Key,$this->_Consumer_Secret,$this->_Request_Code)){
+			$Return = TRUE;
+		} else {
+			$Return = FALSE;
+		}
 		return $Return;
 	}
 
@@ -244,13 +257,56 @@ class Api_Authentication{
 	}
 
 	/**
+	 * Returns a value of the specified key minus the _
+	 * @param string $Key The key name to get
+	 * @since 1.0
+	 * @access public
+	 */
+	public function Get($Key = NULL){
+		if(!is_null($Key) && property_exists($this, "_".$Key)){
+			$Key = "_".$Key;
+			return $this->{$Key};
+		}
+	}
+
+	/**
+	 * This function sets one of the class properties
+	 * @param string $Key   The key to set the value too, minus the _
+	 * @param string $Value The value to set
+	 * @since 1.0
+	 * @access public
+	 */
+	public function Set($Key = NULL,$Value = NULL){
+		if(!is_null($Key) && !is_null($Value) && property_exists($this, "_".$Key)){
+			$Key = "_".$Key;
+			$this->{$Key} = $Value;
+		}
+	}
+
+	/**
+	 * This function checks if a user id is set and the user exists
+	 * @since 1.0
+	 * @access private
+	 * @return boolean If the user is set and exists
+	 */
+	private function _User_Id(){
+		if(isset($_SESSION["UserId"]) && !is_null($_SESSION["UserId"]) && $this->_CI->Api_Auth->User_Exists($_SESSION["UserId"])){
+			$this->_User_Id = $_SESSION["UserId"];
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
+
+	/**
 	 * This function gets the request code if is set, else FALSE is returned
 	 * @return boolean If is set and is valid
 	 * @since 1.0
 	 * @access private
 	 */
 	private function _Request_Code(){
-		if(isset($_GET["request_code"]) && !empty($_GET["request_code"])){
+		self::_User_Id();
+		if(isset($_GET["request_code"]) && !empty($_GET["request_code"]) && $this->_CI->Api_Auth->Is_Valid_Request_Code($_GET["request_code"],$this->_User_Id)){
 			$this->_Request_Code = $_GET["request_code"];
 			return TRUE;
 		} else {
@@ -269,6 +325,22 @@ class Api_Authentication{
 	private function _Generate_Request_Code($Size = 32){
 		$Code = self::_Rand_Str($Size);
 		return $Code;
+	}
+
+	/**
+	 * This function creates a secret and a request token and assign em to a specified variable.
+	 * @param integer $Length   The length of the token, secret will be length*2
+	 * @param pointer  &$Token  The variable to assign the token too
+	 * @param pointer  &$Secret The variable to assign the secret too
+	 */
+	private function _Generate_Request_Tokens($Length = 64,&$Token = NULL,&$Secret = NULL){
+		if(is_integer($Length)){
+			$Token = self::_Rand_Str($Length);
+			$Secret = self::_Rand_Str($Length*2);
+			return TRUE;
+		} else {
+			return FALSE;
+		}
 	}
 
 	/**
@@ -298,8 +370,18 @@ class Api_Authentication{
 	 * @access public
 	 */
 	public function Request_Token(){
-		if (self::_Consumer() && self::_Request_Code() && self::_Redirect_Url()) {
-			echo "Success, here's your request token:Fisk";
+		if (self::_Request_Code() && self::_Consumer() && self::_Redirect_Url()) {
+			if(self::_Generate_Request_Tokens(32,$Request_Token,$Request_Secret)){
+				if($this->_CI->Api_Auth->Request_Token($Request_Token,$Request_Secret,$this->_Request_Code)){
+					$this->_Request_Token_Secret = $Request_Secret;
+					$this->_Request_Token = $Request_Token;
+					return TRUE;
+				} else {
+					return FALSE;
+				}
+			} else {
+				return FALSE;
+			}
 		} else {
 			return FALSE;
 		}
@@ -307,7 +389,7 @@ class Api_Authentication{
 
 	private function _Accepted_Auth(){
 		if(isset($_POST["auth"]) && !empty($_POST)){
-			if(isset($_SESSION["UserId"]) && !empty($_SESSION) && $this->_CI->Api_Auth->User_Exists($_SESSION["UserId"])){
+			if(self::_User_Id()){
 
 			} else {
 				return FALSE;
@@ -327,6 +409,7 @@ class Api_Authentication{
 		if(self::_App_Id() && self::_Redirect_Url() && !is_null($UserId)){
 			$Request_Code = self::_Generate_Request_Code(32);
 			if($this->_CI->Api_Auth->Auth($Request_Code,$this->_App_Id,$UserId)){
+				$this->_Request_Code = $Request_Code;
 				return TRUE;
 			} else 	{
 				return FALSE;
@@ -343,7 +426,7 @@ class Api_Authentication{
 	 */
 	public function Access_Token(){
 		if(self::_Consumer() && self::_Request() && self::_Redirect_Url()){
-			echo "Success, heres an access token:Llama";
+			
 		} else {
 			return FALSE;
 		}

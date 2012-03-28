@@ -139,4 +139,133 @@ class Api_Auth extends CI_Model{
 			return FALSE;
 		}
 	}
+
+	/**
+	 * This function get's an app id based on the request code
+	 * @param string $RequestCode The request code to search for
+	 * @since 1.0
+	 * @access public
+	 * @return integer The app id
+	 */
+	public function Get_App_Id($RequestCode = NULL){
+		if(!is_null($RequestCode)){
+			$Query = $this->db->select("AppId")->where(array("RequestCode" => $RequestCode))->limit(1)->get($this->config->item("api_request_code_table"));
+			if($Query->num_rows() > 0){
+				$Row = current($Query->result());
+				return $Row->AppId;
+			}
+		}
+	}
+
+	/**
+	 * This function checks if a set of consumer keys is valid and contains to the specified app id.
+	 * @param string $Key    The consumer key
+	 * @param string $Secret The consumer secret key
+	 * @param integer $AppId  The app id
+	 * @return boolean If it's valid
+	 * @since 1.0
+	 */
+	public function Is_Valid_Consumer($Key = NULL,$Secret = NULL,$RequestCode = NULL){
+		if(!is_null($Key) && !is_null($Secret) && !is_null($RequestCode)){
+			$AppId = self::Get_App_Id($RequestCode);
+			if(self::_App_Exists($AppId)){
+				$Query = $this->db->select("Id")->limit(1)->where(array("ConsumerKey" => $Key,"ConsumerSecret" => $Secret,"Id" => $AppId))->get($this->config->item("api_apps_table"));
+				if($Query->num_rows > 0){
+					return TRUE;
+				} else {
+					return FALSE;
+				}
+			}
+		} else {
+			return FALSE;
+		}
+	}
+
+	/**
+	 * This function validates a request token, if it's still active and so on
+	 * @param string $Code The request code to validate
+	 * @access public
+	 * @since 1.0
+	 */
+	public function Is_Valid_Request_Code($Code = NULL,$UserId = NULL){
+		if(!is_null($Code) && !is_null($UserId)){
+			$Query = $this->db->select("StartTime")->where(array("RequestCode" => $Code,"UserId" => $UserId))->limit(1)->get($this->config->item("api_request_code_table"));
+			if($Query->num_rows() > 0){
+				$Row = $Query->result();
+				$Row = $Row[0];
+				$TimeAlive = $Row->StartTime + $this->config->item("api_request_code_alive_time");
+				if(time() > $TimeAlive){
+					return FALSE;
+				}	else {
+					return TRUE;
+				}
+			} else {
+				return FALSE;
+			}
+		} else {
+			return FALSE;
+		}
+	}
+
+	/**
+	 * This function inserts the newly created request tokens into the database
+	 * @param string $Key         The created token
+	 * @param string $Secret      The created secret token
+	 * @param string $RequestCode The request code of the auth
+	 * @param integer $AppId       The appid that the key correspond too
+	 * @return boolean If the insertion was a success
+	 * @access private
+	 * @since 1.0
+	 */
+	private function _Insert_Request_Tokens($Key,$Secret,$RequestCode,$AppId){
+		$Query = $this->db->insert($this->config->item("api_request_token_table"),array("AppId" => $AppId,"RequestKey" => $Key,"RequestSecret" => $Secret,"RequestCode" => $RequestCode));
+		if(is_integer($this->db->insert_id())){
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
+
+	/**
+	 * This function checks if a request token with that request code is already existing
+	 * @param string $RequestCode The request code
+	 * @return boolean If it exists
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _Is_Request_Token_With_Request_Code_Existing($RequestCode = NULL){
+		if(!is_null($RequestCode)){
+			$Query = $this->db->select("Id")->where("RequestCode",$RequestCode)->limit(1)->get($this->config->item("api_request_token_table"));
+			if($Query->num_rows() > 0){
+				return TRUE;
+			} else {
+				return FALSE;
+			}
+		} else {
+			return FALSE;
+		}
+	}
+
+	/**
+	 * This function checks the incomming data and get's the app id,
+	 * and then it calls the function that inserts the data
+	 * @param string $Key         The request token
+	 * @param string $Secret      The request secret token
+	 * @param string $RequestCode The request code of the auth
+	 * @since 1.0
+	 * @access public
+	 * @return boolean If it was a success
+	 */
+	public function Request_Token($Key = NULL,$Secret = NULL,$RequestCode = NULL){
+		if(!is_null($Key) && !is_null($Secret) && !is_null($RequestCode) && !self::_Is_Request_Token_With_Request_Code_Existing($RequestCode)){
+			$AppId = self::Get_App_Id($RequestCode);
+			if(self::_App_Exists($AppId)){
+				return self::_Insert_Request_Tokens($Key,$Secret,$RequestCode,$AppId);
+			} else {
+				return FALSE;
+			}
+		} else {
+			return FALSE;
+		}
+	}
 }

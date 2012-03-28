@@ -282,6 +282,10 @@ class Api extends CI_Controller {
 		self::Standard_API("School",$Id,"Schools");
 	}
 
+	public function App($Id = NULL){
+		self::Standard_API("App",$Id,"Apps");
+	}
+
 
 	/**
 	 * Thus function handles the standard API calls
@@ -394,6 +398,7 @@ class Api extends CI_Controller {
 	public function Request_Token(){
 		$this->load->library("api_authentication");
 		$this->api_authentication->Request_Token();
+		echo $this->api_authentication->Get("Request_Token");
 	}
 
 	public function Access_Token(){
