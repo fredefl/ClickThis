@@ -34,6 +34,12 @@ class Value extends Std_Library{
 	 */
 	public $Value = NULL;
 
+	/**
+	 * The id of the answer that this value is a child of
+	 * @var integer
+	 * @since 1.0
+	 * @access public
+	 */
 	public $AnswerId = NULL;
 
 	#### Class Setttings ####

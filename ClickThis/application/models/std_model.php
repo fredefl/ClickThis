@@ -147,9 +147,9 @@ class Std_Model extends CI_Model{
 	 * else TRUE is returned.
 	 */
 	private function Exists($Id = NULL,$Table = NULL){
-		if(!is_null($Id) && !is_null($Table)){
-			$Query = $this->db->get_where($Table,array("Id" => $Id));
-			if($Query->num_rows() == 0){
+		if(!is_null($Id) && !is_null($Table) && !is_array($Id)){
+			$Query = $this->db->where(array("Id" => $Id))->get($Table);
+			if(!is_null($Query) && $Query->num_rows() == 0){
 				return false;
 			}
 			else{
@@ -253,8 +253,7 @@ class Std_Model extends CI_Model{
 			else{
 				if(!self::Exists($Class->Id)){
 					$Data = $Class->Export(true);
-					print_r($Data);
-					$this->db->insert($Class->Database_Table, self::Convert_Properties_To_Database_Row($Data));
+					$this->db->insert($Class->Database_Table, self::Convert_Properties_To_Database_Row($Data,$Class));
 					$Class->Id = $this->db->insert_id();
 					return true; //Maybe a check for mysql errors?
 				}

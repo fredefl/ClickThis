@@ -105,10 +105,11 @@ class Test extends CI_Controller {
 	private function AnswerTest(){
 		$this->load->library('Answer');
 		$Answer = new Answer();
-		$Answer->Import(array("QuestionId" => 1,"Options" => array(array("OptionId" => 1,"Value" => 5),array("OptionId" => 5,"Value" => "3"))));
+		$Answer->Load(2);
+		//$Answer->Import(array("UserId" => 19,"QuestionId" => 1,"Options" => array(array("OptionId" => 1,"Value" => 5),array("OptionId" => 5,"Value" => "3"))),true);
 		//$Answer->Load(1);
-		//$Answer->Save();
-		self::Debug($Answer->Export(true));
+		$Answer->Save();
+		self::Debug($Answer->Export());
 		//self::Debug($Answer->Export(false));
 	}
 	

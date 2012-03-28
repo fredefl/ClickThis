@@ -208,7 +208,6 @@ class Answer extends Std_Library{
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS_ABORT_ON_NULL = true;
 		$this->_INTERNAL_FORCE_ARRAY = array("Options");
 		$this->_INTERNAL_SAVE_LINK = array("Options" => array("AnswerId" => "Id"));
-		//$this->_INTERNAL_LINK_PROPERTIES = array("Options" => array("Values",array("OptionId" => "Options")));
 		$this->_INTERNAL_PROPERTY_LINK = array("Options" => array("Values","OptionId"));
 		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_INTERNAL_LOAD_FROM_CLASS = array("Options" => "Value");	

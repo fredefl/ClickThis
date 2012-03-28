@@ -450,10 +450,10 @@ class Std_Library{
 						}
 					} else {
 						if(self::_Has_Load_From_Class($Name) && is_array($Value) && self::_Has_Sub_Array($Value)){
-							self::_Sub_Import($Value,$Name);
+							self::_Sub_Import($Value,$Name,$Override);
 						} else {
 							if(!is_integer($Value) && self::_Has_Load_From_Class($Name)){
-								self::_Sub_Import($Value,$Name);
+								self::_Sub_Import($Value,$Name,$Override);
 							} else {
 								$this->$Name = $Value;
 							}
@@ -463,6 +463,54 @@ class Std_Library{
 			}
 			self::_Force_Array();
 			self::_Load_From_Class();
+		}
+	}
+
+	/**
+	 * This function loops through properties in the input an imports the data,
+	 * with the class' import function, if needed 
+	 * @param array $Array    The input data to use
+	 * @param string $Property The class property to save the data in
+	 * @param boolean $Overwrite If the data is going to be overwritten or not
+	 */
+	private function _Sub_Import($Array = NULL,$Property = NULL,$Overwrite = false){
+		if(!is_null($Array) && !is_null($Property)){
+			$ClassName = self::_Get_Load_From_Class_Data($Property);
+			if(!is_null($ClassName)){
+				$Temp = array();
+				$Single = array();
+				foreach ($Array as $Key => $Data) {
+					if(is_array($Data)){
+						$this->_CI->load->library($ClassName);
+						$Class = new $ClassName();
+						if(!is_null($Class) && method_exists($Class, "Import")){
+							$Class->Import($Data,$Overwrite);
+						}
+						$Temp[] = $Class;
+					} else {
+						$Single[$Key] = $Data;
+					}
+				}
+				if(count($Single) > 0){
+						$this->_CI->load->library($ClassName);
+						$Class = new $ClassName();
+						if(!is_null($Class) && method_exists($Class, "Import")){
+							$Class->Import($Single,$Overwrite);
+						}
+						$Temp[] = $Class;
+				}
+				if(count($Temp) > 0 && property_exists($this, $Property)){
+					if(is_null($this->{$Property})){
+						$this->{$Property} = $Temp;
+					} else {
+						if(is_array($this->{$Property}) && !$Overwrite){
+							$this->{$Property} = array_merge($this->{$Property},$Temp); 
+						} else {
+							$this->{$Property} = $Temp;
+						}
+					}
+				}
+			}
 		}
 	}
 
@@ -543,53 +591,6 @@ class Std_Library{
 	private function _Get_Load_From_Class_Data($Property = NULL){
 		if(!is_null($Property) && self::_Has_Load_From_Class($Property)){
 			return $this->_INTERNAL_LOAD_FROM_CLASS[$Property];
-		}
-	}
-
-	/**
-	 * This function loops through properties in the input an imports the data,
-	 * with the class' import function, if needed 
-	 * @param array $Array    The input data to use
-	 * @param string $Property The class property to save the data in
-	 */
-	private function _Sub_Import($Array = NULL,$Property = NULL){
-		if(!is_null($Array) && !is_null($Property)){
-			$ClassName = self::_Get_Load_From_Class_Data($Property);
-			if(!is_null($ClassName)){
-				$Temp = array();
-				$Single = array();
-				foreach ($Array as $Key => $Data) {
-					if(is_array($Data)){
-						$this->_CI->load->library($ClassName);
-						$Class = new $ClassName();
-						if(!is_null($Class) && method_exists($Class, "Import")){
-							$Class->Import($Data);
-						}
-						$Temp[] = $Class;
-					} else {
-						$Single[$Key] = $Data;
-					}
-				}
-				if(count($Single) > 0){
-						$this->_CI->load->library($ClassName);
-						$Class = new $ClassName();
-						if(!is_null($Class) && method_exists($Class, "Import")){
-							$Class->Import($Single);
-						}
-						$Temp[] = $Class;
-				}
-				if(count($Temp) > 0 && property_exists($this, $Property)){
-					if(is_null($this->{$Property})){
-						$this->{$Property} = $Temp;
-					} else {
-						if(is_array($this->{$Property})){
-							$this->{$Property} = array_merge($this->{$Property},$Temp); 
-						} else {
-							$this->{$Property} = $Temp;
-						}
-					}
-				}
-			}
 		}
 	}
 
