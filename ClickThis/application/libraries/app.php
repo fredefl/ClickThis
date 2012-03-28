@@ -65,7 +65,7 @@ class App extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Description = NULL
+	public $Description = NULL;
 
 	/**
 	 * An application icon, if specified for the app.
@@ -177,6 +177,6 @@ class App extends Std_Library{
 		$this->_INTERNAL_SECURE_EXPORT_IGNORE = array("AuthenticationEndpoint");
 		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id");
-		$this->_INTERNAL_LOAD_FROM_CLASS = array("UserId" => "User");	
+		$this->_INTERNAL_LOAD_FROM_CLASS = array("UserId" => "User");
 	}
 }
