@@ -107,7 +107,7 @@ class Test extends CI_Controller {
 		$Answer = new Answer();
 		$Answer->Import(array("QuestionId" => 1,"Options" => array(array("OptionId" => 1,"Value" => 5),array("OptionId" => 5,"Value" => "3"))));
 		//$Answer->Load(1);
-		$Answer->Save();
+		//$Answer->Save();
 		self::Debug($Answer->Export(true));
 		//self::Debug($Answer->Export(false));
 	}
@@ -128,8 +128,11 @@ class Test extends CI_Controller {
 	}
 	
 	private function DidAnswerTest(){
-		/*$this->load->library('DidAnswer');
-		$DidAnswer = new DidAnswer();*/
+		$this->load->library('DidAnswer');
+		$DidAnswer = new DidAnswer();
+		$DidAnswer->Import(array("UserId" => 1,"QuestionId" => 12));
+		$DidAnswer->Save();
+		self::Debug($DidAnswer->Export(false));
 	}
 	
 	private function GroupTest(){
