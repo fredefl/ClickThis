@@ -139,7 +139,9 @@ class Test extends CI_Controller {
 		$this->load->library('App');
 		$App = new App();
 		$App->Load(1);
-		self::Debug($App->Export(false,true));
+		$App->Consumer();
+		$App->Save();
+		self::Debug($App->Export());
 	}
 	
 	private function GroupTest(){

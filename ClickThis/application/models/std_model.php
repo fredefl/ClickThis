@@ -77,19 +77,20 @@ class Std_Model extends CI_Model{
 	 * This function uses the internal _INTERNAL_DATABASE_NAME_CONVERT to convert the property names,
 	 * to the database row names
 	 * @param array $Data The exported data, from the class
+	 * @param object $Class The class to get the conversion table from
 	 * @access private
 	 * @since 1.0
 	 * @see _INTERNAL_DATABASE_NAME_CONVERT
 	 * @internal This function is only used inside this model, to convert the exported data to the right format
 	 * @return array The data with the right key names
 	 */
-	private function Convert_Properties_To_Database_Row($Data = NULL){
-		if(!is_null($Data)){
-			if(property_exists(get_class($this), "_INTERNAL_DATABASE_NAME_CONVERT") && !is_null($this->_INTERNAL_DATABASE_NAME_CONVERT)){
+	private function Convert_Properties_To_Database_Row($Data = NULL,&$Class = NULL){
+		if(!is_null($Data) && !is_null($Class)){
+			if(property_exists($Class, "_INTERNAL_DATABASE_NAME_CONVERT") && !is_null($Class->_INTERNAL_DATABASE_NAME_CONVERT)){
 				$Array = array();
 				foreach ($Data as $Key => $Value) {
-					if(array_key_exists($Key,$this->_INTERNAL_DATABASE_NAME_CONVERT)){
-						$Array[$this->_INTERNAL_DATABASE_NAME_CONVERT[$Key]] = $Value;
+					if(array_key_exists($Key,$Class->_INTERNAL_DATABASE_NAME_CONVERT)){
+						$Array[$Class->_INTERNAL_DATABASE_NAME_CONVERT[$Key]] = $Value;
 					} else {
 						$Array[$Key] = $Value;
 					}
@@ -237,13 +238,13 @@ class Std_Model extends CI_Model{
 	 * @since 1.0
 	 * @return boolean If the operation was succes
 	 */
-	public function Save(&$Class){
+	public function Save(&$Class = NULL){
 		if( property_exists(get_class($Class), "Database_Table")){
 			self::_Data_Exists($Class);
 			if($Class->Id != NULL && self::Exists($Class->Id,$Class->Database_Table)){
 				$Data = $Class->Export(true);
 				if(property_exists(get_class($Class), "Database_Table")){
-					$this->db->update($Class->Database_Table, self::Convert_Properties_To_Database_Row($Data), array('Id' => $Class->Id));
+					$this->db->where(array('Id' => $Class->Id))->update($Class->Database_Table, self::Convert_Properties_To_Database_Row($Data,$Class));
 					return true; //Maybe a check for mysql errors
 				} else {
 					return false;
@@ -252,6 +253,7 @@ class Std_Model extends CI_Model{
 			else{
 				if(!self::Exists($Class->Id)){
 					$Data = $Class->Export(true);
+					print_r($Data);
 					$this->db->insert($Class->Database_Table, self::Convert_Properties_To_Database_Row($Data));
 					$Class->Id = $this->db->insert_id();
 					return true; //Maybe a check for mysql errors?
@@ -366,7 +368,7 @@ class Std_Model extends CI_Model{
 	 */
 	public function Match_Data(&$Class = NULL,$QueryData = NULL){
 		if(!is_null($QueryData) && !is_null($Class) && is_array($QueryData)){
-			$QueryData = self::Convert_Properties_To_Database_Row($QueryData);
+			$QueryData = self::Convert_Properties_To_Database_Row($QueryData,$Class);
 			if(property_exists($Class, "Database_Table")){
 				$Query = $this->db->limit(1)->get_where($Class->Database_Table,$QueryData);
 				if($Query->num_rows() > 0){
@@ -381,7 +383,7 @@ class Std_Model extends CI_Model{
 				}
 			} else {
 				return FALSE;
-			}	
+			}
 		} else {
 			return FALSE;
 		}

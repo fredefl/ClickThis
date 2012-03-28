@@ -1,4 +1,13 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
+/**
+ * This class is used to handle app data
+ * @package API
+ * @license http://illution.dk/copyright © Illution 2012
+ * @subpackage App
+ * @category ClickThis Apps
+ * @version 1.0
+ * @author Illution <support@illution.dk>
+ */ 
 class App extends Std_Library{
 
 	/**
@@ -173,10 +182,41 @@ class App extends Std_Library{
 		$this->_CI =& get_instance();
 		self::Config($this->_CI);
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("Name","UserId");
-		$this->_INTERNAL_EXPORT_INGNORE = array("CI","_CI","Database_Table","ConsumerSecret","ConsumerKey");
-		$this->_INTERNAL_SECURE_EXPORT_IGNORE = array("AuthenticationEndpoint");
+		$this->_INTERNAL_EXPORT_INGNORE = array("CI","_CI","Database_Table");
+		$this->_INTERNAL_SECURE_EXPORT_IGNORE = array("AuthenticationEndpoint","ConsumerSecret","ConsumerKey");
 		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id");
 		$this->_INTERNAL_LOAD_FROM_CLASS = array("UserId" => "User");
+	}
+
+	/**
+	 * This function generates the consumer keys
+	 * @param integer $ConsumerLength       The length of the consumer key
+	 * @param integer $ConsumerSecretLength The length of the consumer secret key
+	 */
+	public function Consumer($ConsumerLength = 64,$ConsumerSecretLength = 128){
+		$this->ConsumerKey = self::_Rand_Str($ConsumerLength);
+		$this->ConsumerSecret = self::_Rand_Str($ConsumerSecretLength);
+	}
+
+	/**
+	 * This function generates a random string
+	 * @param  integer $Length The length of the random string
+	 * @param  string  $Chars  The Charset to use
+	 * @return string
+	 * @author Kyle Florence <kyle.florence@gmail.com>
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _Rand_Str($Length = 32, $Chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890')
+	{
+	    $Chars_Length = (strlen($Chars) - 1);
+	    $String = $Chars{rand(0, $Chars_Length)};
+	    for ($I = 1; $I < $Length; $I = strlen($String))
+	    {
+	        $R = $Chars{rand(0, $Chars_Length)};
+	        if ($R != $String{$I - 1}) $String .=  $R;
+	    }
+	    return $String;
 	}
 }

@@ -838,9 +838,10 @@ class Std_Library{
 	private function _Not_Allowed_Dublicate_Rows(){
 		if(property_exists($this, "_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS") && !is_null($this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS) && is_array($this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS)){
 			$Query = array();
+			$Export = self::Export(true);
 			foreach ($this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS as $Key) {
-				if(!is_null($this->{$Key})){
-					$Query[$Key] = $this->{$Key};
+				if(isset($Export[$Key]) && !is_null($Export[$Key])){
+					$Query[$Key] = $Export[$Key];
 				} else {
 					if(self::_Abort_On_Empty()){
 						return false;
@@ -863,7 +864,7 @@ class Std_Library{
 	public function Save() {
 		if(!is_null($this->_CI) && !is_null($this->_CI->_INTERNAL_DATABASE_MODEL) ){
 			self::_Not_Allowed_Dublicate_Rows();
-			$this->_CI->_INTERNAL_DATABASE_MODEL->Save($this);
+			$this->_CI->_INTERNAL_DATABASE_MODEL->Save($this);		
 			self::_Save_Linked_Properties();
 			self::_Save_ChildClasses_Properties();
 			return true;
@@ -1158,7 +1159,7 @@ class Std_Library{
 						$Data = self::_Convert_From_Object($Data);
 					}
 
-					if($Secure || $Database){
+					if($Database){
 						if(self::_Is_Property_Linked_Row($Name)){
 							$Data = self::_Property_Linked_Row_Export($Data,$Name);
 						}
