@@ -10,6 +10,14 @@ class Api_Auth extends CI_Model{
 		$this->load->config("api");
 	}
 
+	public function ClickThis_Token($Token = NULL,$UserId = NULL){
+		if(!is_null($Token) && !is_null($UserId) && self::_User_Exists($UserId)){
+			$Query = $this->db->insert();
+		} else {
+			return FALSE;
+		}
+	}
+
 	/**
 	 * This function check the data for errors and call the _Auth function
 	 * @param string $RequestCode The generated request code

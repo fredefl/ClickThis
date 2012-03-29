@@ -81,7 +81,7 @@ class Login extends CI_Controller {
 					// Set the users Id in a session
 					$_SESSION['UserId'] = $Id;
 					// Redirect the user
-					redirect('home');
+					redirect('token');
 				} else {
 					// User does not exist
 					$Query = $this->db->query('Insert Into Users (RealName,UserGroup,Google) Values(?,?,?)', array(
@@ -164,7 +164,7 @@ class Login extends CI_Controller {
 				// Set the users Id in a session
 				$_SESSION['UserId'] = $Id;
 				// Redirect the user
-				redirect('home');
+				redirect('token');
 			} else {
 				// User does not exist
 				$Query = $this->db->query('Insert Into Users (RealName,UserGroup,Facebook) Values(?,?,?)', array(
@@ -234,7 +234,7 @@ class Login extends CI_Controller {
 			// Set the users Id in a session
 			$_SESSION['UserId'] = $Id;
 			// Redirect the user
-			redirect('home');	
+			redirect('token');	
 		}
 		else{
 			//The User doesn't exist now we are going to create him
@@ -247,7 +247,7 @@ class Login extends CI_Controller {
 			));
 			$_SESSION['UserId'] = $this->db->insert_id(); 
 			if(isset($_SESSION['UserId'])){
-				redirect('home');
+				redirect('token');
 			}else{
 				redirect('login/twitter/callback');
 			}
@@ -441,7 +441,7 @@ class Login extends CI_Controller {
 				// Set the users Id in a session
 				$_SESSION['UserId'] = $Id;
 				// Redirect the user
-				redirect('home');
+				redirect('token');
 			} else {
 				// User does not exist
 				$Query = $this->db->query('INSERT INTO Users (RealName,UserGroup,LinkedIn,Country) Values(?,?,?,?)', 
@@ -454,7 +454,7 @@ class Login extends CI_Controller {
 				);
 				$_SESSION['UserId'] = $this->db->insert_id(); 
 				if(isset($_SESSION['UserId'])){
-					redirect('home');
+					redirect('token');
 				}else{
 					redirect('login/linkedin/callback');
 				}

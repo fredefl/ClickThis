@@ -79,6 +79,14 @@ class Api_Authentication{
 	private $_User_Id = NULL;
 
 	/**
+	 * The clickthis token of a user
+	 * @var string
+	 * @access private
+	 * @since 1.0
+	 */
+	private $_ClickThis_Token = NULL;
+
+	/**
 	 * A local instance of CodeIgniter
 	 * @var object
 	 * @since 1.0
@@ -375,6 +383,16 @@ class Api_Authentication{
 		if(is_integer($Length)){
 			$Token = self::_Rand_Str($Length);
 			$Secret = self::_Rand_Str($Length*2);
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
+
+	public function ClickThis_Token(){
+		if(self::_User_Id()){
+			$Token = self::_Rand_Str(64);
+			$this->_ClickThis_Token = ;
 			return TRUE;
 		} else {
 			return FALSE;
