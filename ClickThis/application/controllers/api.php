@@ -55,9 +55,17 @@ class Api extends CI_Controller {
 	 */
 	private function _Create($ClassName = NULL,$Data =NULL){
 		if(!is_null($ClassName)){
+			$this->api_request->Perform_Request();
 			$this->load->library($ClassName);
 			if(is_null($Data)){
-				$Data = $this->api_request->Request_Vars();
+				$this->api_request->Perform_Request();
+				$Data = $this->api_request->Request_Data();
+				if(isset($Data[$ClassName])){
+					$Data = $Data[$ClassName];
+				} else {
+					self::Send_Response(400);
+					return FALSE;
+				}
 			}
 			$Class = new $ClassName();
 			$Class->Import($Data);

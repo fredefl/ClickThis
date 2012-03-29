@@ -104,13 +104,68 @@ class Test extends CI_Controller {
 	
 	private function AnswerTest(){
 		$this->load->library('Answer');
+		$String = '{
+	    "Answer": {
+	        "QuestionId": 12,
+	        "Options": [
+		            {
+		                "OptionId": 5,
+		                "Value": 0
+		            },
+		            {
+		                "OptionId": 6,
+		                "Value": 0
+		            },
+		            {
+		                "OptionId": 7,
+		                "Value": 0
+		            },
+		            {
+		                "OptionId": 8,
+		                "Value": 0
+		            },
+		            {
+		                "OptionId": 9,
+		                "Value": 0
+		            },
+		            {
+		                "OptionId": 10,
+		                "Value": 0
+		            },
+		            {
+		                "OptionId": 11,
+		                "Value": 0
+		            },
+		            {
+		                "OptionId": 12,
+		                "Value": 0
+		            },
+		            {
+		                "OptionId": 13,
+		                "Value": 0
+		            },
+		            {
+		                "OptionId": 14,
+		                "Value": 0
+		            },
+		            {
+		                "OptionId": 15,
+		                "Value": 0
+		            }
+	        	]
+	    	}
+		}'; 
 		$Answer = new Answer();
 		$Answer->Load(2);
+		$Data = json_decode($String,true);
+		$Data = $Data["Answer"];
+		print_r($Data);
+		$Answer->Import($Data);
 		//$Answer->Import(array("UserId" => 19,"QuestionId" => 1,"Options" => array(array("OptionId" => 1,"Value" => 5),array("OptionId" => 5,"Value" => "3"))),true);
 		//$Answer->Load(1);
-		$Answer->Save();
-		self::Debug($Answer->Export());
-		//self::Debug($Answer->Export(false));
+		//$Answer->Save();
+		//self::Debug($Answer->Export());
+		self::Debug($Answer->Export(false));
 	}
 	
 	private function SchoolTest(){

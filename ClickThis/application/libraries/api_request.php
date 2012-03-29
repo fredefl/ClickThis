@@ -132,10 +132,10 @@ class Api_Request{
 				$this->_Request_Vars = $_GET;
 				break;
 			case 'post':
-				$this->_Request_Vars = $_POST;
+				$this->_Request_Vars = $GLOBALS["HTTP_RAW_POST_DATA"];
 				break;
 			case 'put':
-				$this->_Request_Vars = file_get_contents('php://input');
+				parse_str(file_get_contents('php://input', $this->_Request_Vars));
 				break;
 			case 'delete':
 				parse_str(file_get_contents('php://input'), $this->_Request_Vars);
@@ -155,10 +155,18 @@ class Api_Request{
 		       	header('Allow: ' . array("POST","GET","PUT","DELETE","HEAD","TRACE","CONNECT","PATCH","OPTIONS"), true, 501);
 		        break;
 		}
-
-		if (isset($this->_Request_Vars['data'])) {  
-	        self::Request_Data(json_decode($this->_Request_Vars['data']));  
-	    }
+		if($this->_Request_Method == "put" || $this->_Request_Method == "post"){
+			self::Request_Data(json_decode($this->_Request_Vars,true));
+		} else {
+			$this->_Request_Data = $this->_Request_Vars;
+		}
+		/*$Data = NULL;
+		$Data = json_decode($this->_Request_Vars),true);
+		if (is_null($Data)) {  
+	    	$this->_Request_Data = $this->_Request_Vars;
+	    } else {
+	    	self::Request_Data($Data);
+	    }*/
 	}
 
 	private function _Get_Format(){
