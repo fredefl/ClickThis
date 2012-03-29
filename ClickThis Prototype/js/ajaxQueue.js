@@ -122,6 +122,7 @@ var ajaxQueue = {
 	 */
 	log: function (message) {
 		$('#log').append(message + '\r\n');
+		//console.log(message);
 	},
 
 	/**
@@ -349,7 +350,7 @@ var ajaxQueue = {
 			return false;
 		}
 		// Check if offline
-		if(navigator.onLine && ajaxQueue.retryTimeout !== false) {
+		if(!navigator.onLine && ajaxQueue.retryTimeout !== false) {
 			// Whoops! We're offline, try again!
 			setTimeout(ajaxQueue.executeTasks, ajaxQueue.retryTimeout);
 		}
@@ -418,6 +419,7 @@ var ajaxQueue = {
 						// Try againg in a bit
 						setTimeout(ajaxQueue.executeTasks, ajaxQueue.retryTimeout);
 					}
+					return false;
 				}
 			});
 		} else {
