@@ -58,7 +58,7 @@ var seriesGenerator = {
 	generateQuestion: function (data) {
 		// Append the container div
 		var i,
-			html = '<div id="question_' + data.Id + '">',
+			html = '<div id="question_' + data.Id + '" class="question" data-id="' + data.Id + '">',
 			options = [],
 			option = null;
 		// Append title
@@ -183,6 +183,8 @@ var seriesGenerator = {
 			callback: function () {
 				buttonResizer.resizeButtons(document.body);
 				window.scrollTo(0, 1);
+				// Send the question to the server
+				seriesGenerator.sendQuestion(window.questionSwipe.slides[window.questionSwipe.index - 1]);
 			}
 		});
 	},
@@ -199,5 +201,38 @@ var seriesGenerator = {
 		$('#end').click(function () {
 			window.location = 'http://illution.dk/ClickThisPrototype/home.html';
 		});
+	},
+
+	sendQuestion: function (element) {
+		var data,
+			json;
+
+		// If it isn't a question, fuck it!
+		if(!$(element).hasClass("question")) {
+			return false;
+		}
+		
+		data = {
+			Answer: 
+				{
+					QuestionId: $(element).data("id"), 
+					Options: []
+				}
+			
+		};
+		$(element).find(".button").each(function (id) {
+			data.Answer.Options.push({
+				OptionId: $(this).data("id"),
+				Value: $(this).data("value")
+			}) 
+		})
+		json = JSON.stringify(data);
+		ajaxQueue.add({
+			url: "http://illution.dk/ClickThis/api/answer/",
+			type: "POST",
+			data: json,
+			group: "answers"
+		});
+		ajaxQueue.executeTasks();
 	}
 };
