@@ -14,6 +14,11 @@ class Api extends CI_Controller {
 		self::Standard_API("Series",$Id,"Series");
 	}
 
+	public function __construct(){
+		parent::__construct();
+		$this->load->library("api_request");
+	}
+
 	##### Test #####
 	/**
 	 * This function performs the PUT requests
@@ -55,7 +60,7 @@ class Api extends CI_Controller {
 				$Data = $this->api_request->Request_Vars();
 			}
 			$Class = new $ClassName();
-			$Class->Import(self::EnsureCase());
+			$Class->Import($Data);
 			if($Class->Save() == true){
 				$Response = array();
 				$Response[$ClassName] = array("Id" => $Class->Id);
@@ -123,7 +128,7 @@ class Api extends CI_Controller {
 		if(is_null($Code)){
 			$Code = 200;
 		}
-		$this->load->library("api_request");
+		
 		$Status_Header = 'HTTP/1.1 ' . $Code . ' ' . $this->api_request->Get_Message($Code); 
 		header($Status_Header); 
 		header('Content-type: ' . $Content_Type);
@@ -150,7 +155,7 @@ class Api extends CI_Controller {
 	private function Search($Query = NULL,$Table = NULL,$ClassName = NULL,$Limit = NULL,$ArrayName = NULL,$Return = false){
 		if(!is_null($Query) && !is_null($Table)){
 			$this->load->model("Api_Search");
-			$this->load->library("api_request");
+			
 			$Search = new Api_Search();
 			if(!is_null($ClassName)){
 				$Search->Table = $Table;
@@ -239,19 +244,16 @@ class Api extends CI_Controller {
 	}
 
 	public function Answer($Id = NULL){
-		$this->load->library("api_request");
-		$this->api_request->Perform_Request();
-		if($this->api_request->Request_Method() != "post"){
+		self::Standard_API("Answer",$Id,"Answers");
+		/*if($this->api_request->Request_Method() != "post"){
 			self::Standard_API("Answer",$Id,"Answers");
 		} else {
-			if(isset($_POST) && !empty($_POST)){
-				(isset($_POST["Answer"][0]))? $Answer = $_POST["Answer"][0] :$Answer =NULL;
-				//$Answer["Options"] =  json_encode($Answer["Options"]);
-				//print_r(json_encode($Answer));
+			if(isset($_POST)){
+				self::
 			} else {
 				self::Send_Response(400);
 			}
-		}
+		}*/
 	}
 
 	public function Option($Id = NULL){
@@ -297,11 +299,11 @@ class Api extends CI_Controller {
 	 */
 	private function Standard_API($Class = NULL,$Id = NULL,$Table = NULL,$ArrayName = NULL,$Return = false){
 		if(!is_null($Class)){
-			$this->load->library("api_request");
+			
 			$this->load->library($Class);
 			$Api_Request = new Api_Request();
 			$Api_Request->Perform_Request();
-			if(!is_null($Id)){
+			if(!is_null($Id) || $Api_Request->Request_Method() == "post"){
 				switch ($Api_Request->Request_Method()) {
 					case 'get':
 						if($Return === false){
@@ -357,14 +359,14 @@ class Api extends CI_Controller {
 
 	/**
 	 * This function performs the standard load data operations
-	 * of this basic API
+	 * of this basic API()
 	 * @param string $Class_Name The class name of the class to load data with
 	 * @param integer $Id         The database id
 	 * @access private
 	 * @since 1.0
 	 */
 	private function Perform_Get_Operation($Class_Name = NULL,$Id = NULL,$ArrayName = NULL,$Return = false){
-		$this->load->library("api_request");
+		
 		if(!is_null($Id)){
 			$Class = new $Class_Name();
 			if($Class->Load($Id)){
@@ -385,24 +387,49 @@ class Api extends CI_Controller {
 	}
 
 	/* Authentication */
-
-	public function Auth($UserId = NULL){
+	public function Auth(){
 		$this->load->library("api_authentication");
-		if($this->api_authentication->Auth($UserId)){
-			echo "Success";
+		if($this->api_authentication->AuthDialog()){
+			$this->load->view("auth_view",array("base_url" => base_url()));	
 		} else {
+			print_r($this->api_authentication->Get("Errors"));
+		}
+	}
 
+	public function Authenticated(){
+		$this->load->library("api_authentication");
+		$this->api_authentication->Base_Url(base_url());
+		if($this->api_authentication->Auth()){
+			if(!is_null($this->api_authentication->Get("Request_Code"))){
+				echo $this->api_authentication->Get("Request_Code");
+			} else {
+				print_r($this->api_authentication->Get("Errors"));
+			}
+		} else {
+			print_r($this->api_authentication->Get("Errors"));
 		}
 	}
 
 	public function Request_Token(){
 		$this->load->library("api_authentication");
-		$this->api_authentication->Request_Token();
-		echo $this->api_authentication->Get("Request_Token");
+		if($this->api_authentication->Request_Token()){
+			//Redirect to _RedirecT_Url with the new request tokens as GET parameters
+			if(!is_null($this->api_authentication->Get("Redirect_Url"))){
+				echo $this->api_authentication->Get("Request_Token"); 
+			} else {
+				header("Location:".base_url());
+			}
+		} else {
+			print_r($this->api_authentication->Get("Errors"));
+		}
 	}
 
 	public function Access_Token(){
 		$this->load->library("api_authentication");
-		$this->api_authentication->Access_Token();
+		if($this->api_authentication->Access_Token()){
+
+		} else {
+			print_r($this->api_authentication->Get("Errors"));
+		}
 	}
 }

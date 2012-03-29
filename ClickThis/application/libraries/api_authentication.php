@@ -87,6 +87,14 @@ class Api_Authentication{
 	private $_CI = NULL;
 
 	/**
+	 * The base url of codeigniter
+	 * @var string
+	 * @access private
+	 * @since 1.0
+	 */
+	private $_Base_Url = NULL;
+
+	/**
 	 * The constructor
 	 * @since 1.0
 	 * @access public
@@ -94,6 +102,17 @@ class Api_Authentication{
 	public function Api_Authentication(){
 		$this->_CI =& get_instance();
 		$this->_CI->load->model("Api_Auth");
+	}
+
+	/**
+	 * This function sets the internal base url
+	 * @since 1.0
+	 * @access public
+	 */
+	public function Base_Url($Url = NULL){
+		if(!is_null($Url)){
+			$this->_Base_Url = $Url;
+		}
 	}
 
 	/**
@@ -167,10 +186,11 @@ class Api_Authentication{
 	 * @access private
 	 */
 	private function _App_Id(){
-		if(isset($_GET["app_id"]) && !empty($_GET["app_id"])){
+		if(isset($_GET["app_id"]) && !empty($_GET["app_id"]) && $this->_CI->Api_Auth->App_Exists($_GET["app_id"])){
 			$this->_App_Id = $_GET["app_id"];
 			return TRUE;
 		} else {
+			self::_Add_Error("No app id specified");
 			return  FALSE;
 		}
 	}
@@ -212,6 +232,7 @@ class Api_Authentication{
 			$Return = true;
 		} else {
 			$Return = FALSE;
+			self::_Add_Error("No consumer key is specified");
 		}
 
 		if(isset($_GET["consumer_secret"]) && !empty($_GET["consumer_secret"])){
@@ -220,11 +241,13 @@ class Api_Authentication{
 				$Return = TRUE;
 			}
 		} else {
+			self::_Add_Error("No consumer secret is specified");
 			$Return = FALSE;
 		}
 		if($this->_CI->Api_Auth->Is_Valid_Consumer($this->_Consumer_Key,$this->_Consumer_Secret,$this->_Request_Code)){
 			$Return = TRUE;
 		} else {
+			self::_Add_Error("The consumer keys aren't valid");
 			$Return = FALSE;
 		}
 		return $Return;
@@ -239,18 +262,32 @@ class Api_Authentication{
 	 */
 	private function _Request(){
 		$Return = FALSE;
+		$Request_Token = NULL;
+		$Request_Secure = NULL;
 		if(isset($_GET["request_token"]) && !empty($_GET["request_token"])){
-			$this->_Request_Token = $_GET["request_token"];
+			$Request_Token = $_GET["request_token"];
+			//$this->_Request_Token = $_GET["request_token"];
 			$Return = TRUE;
 		} else {
+			self::_Add_Error("No request token specified");
 			$Return = FALSE;
 		}
 		if(isset($_GET["request_token_secret"]) && !empty($_GET["request_token_secret"])){
-			$this->_Request_Token_Secret = $_GET["request_token_secret"];
+			$Request_Secret = $_GET["request_token_secret"];
 			if($Return === true){
-				$Return = true;
+				if($this->_CI->Api_Auth->Validate_Request_Tokens($Request_Token,$Request_Secret,$this->_Consumer_Secret,$this->_Consumer_Key)){
+					$Return = true;
+					$this->_Request_Token = $Request_Token;
+					$this->_Request_Token_Secret = $Request_Secret;
+				} else {
+					self::_Add_Error("The specified tokens aren't matching the app");
+					$Return = FALSE;
+				}
+			} else {
+				return FALSE;
 			}
 		} else {
+			self::_Add_Error("No request secret is deffined");
 			$Return = FALSE;
 		}
 		return $Return;
@@ -294,6 +331,7 @@ class Api_Authentication{
 			$this->_User_Id = $_SESSION["UserId"];
 			return TRUE;
 		} else {
+			self::_Add_Error("The user isn't existing");
 			return FALSE;
 		}
 	}
@@ -305,11 +343,11 @@ class Api_Authentication{
 	 * @access private
 	 */
 	private function _Request_Code(){
-		self::_User_Id();
-		if(isset($_GET["request_code"]) && !empty($_GET["request_code"]) && $this->_CI->Api_Auth->Is_Valid_Request_Code($_GET["request_code"],$this->_User_Id)){
+		if(isset($_GET["request_code"]) && !empty($_GET["request_code"]) && $this->_CI->Api_Auth->Is_Valid_Request_Code($_GET["request_code"])){
 			$this->_Request_Code = $_GET["request_code"];
 			return TRUE;
 		} else {
+			self::_Add_Error("The request code is not valid");
 			return FALSE;
 		}
 	}
@@ -377,24 +415,48 @@ class Api_Authentication{
 					$this->_Request_Token = $Request_Token;
 					return TRUE;
 				} else {
+					self::_Add_Error("Specified input isn't valid or an request token with that request code is existing");
 					return FALSE;
 				}
 			} else {
+				self::_Add_Error("An error occured");
 				return FALSE;
 			}
 		} else {
+			self::_Add_Error("Your validation failed");
 			return FALSE;
 		}
 	}
 
+	/**
+	 * This function checks if the Authentication, was accepted or not
+	 * @access private
+	 * @since 1.0
+	 */
 	private function _Accepted_Auth(){
-		if(isset($_POST["auth"]) && !empty($_POST)){
+		if(isset($_POST["auth"]) && !empty($_POST) && $_POST["auth"] === "auth" && strpos($_SERVER["HTTP_REFERER"],$this->_Base_Url) !== false){
 			if(self::_User_Id()){
-
+				return TRUE;
 			} else {
+				self::_Add_Error("The user doesn't exist");
 				return FALSE;
 			}
 		} else {
+			self::_Add_Error("User denied");
+			return FALSE;
+		}
+	}
+
+	/**
+	 * This function checks if the user exists and the App exists
+	 * @access public
+	 * @since 1.0
+	 */
+	public function AuthDialog(){
+		if(self::_App_Id() && self::_Redirect_Url() && self::_User_Id()){
+			return TRUE;
+		} else {
+			self::_Add_Error("Wrong input");
 			return FALSE;
 		}
 	}
@@ -405,13 +467,18 @@ class Api_Authentication{
 	 * @access public
 	 */
 	public function Auth(){
-		$UserId = 1;
-		if(self::_App_Id() && self::_Redirect_Url() && !is_null($UserId)){
-			$Request_Code = self::_Generate_Request_Code(32);
-			if($this->_CI->Api_Auth->Auth($Request_Code,$this->_App_Id,$UserId)){
-				$this->_Request_Code = $Request_Code;
-				return TRUE;
-			} else 	{
+		if(self::_Accepted_Auth()){
+			if(self::_App_Id() && self::_Redirect_Url() && self::_User_Id()){
+				$Request_Code = self::_Generate_Request_Code(32);
+				if($this->_CI->Api_Auth->Auth($Request_Code,$this->_App_Id,$this->_User_Id)){
+					$this->_Request_Code = $Request_Code;
+					return TRUE;
+				} else 	{
+					self::_Add_Error("Specified input isn't valid");
+					return FALSE;
+				}
+			} else {
+				self::_Add_Error("Wrong input");
 				return FALSE;
 			}
 		} else {
@@ -426,8 +493,9 @@ class Api_Authentication{
 	 */
 	public function Access_Token(){
 		if(self::_Consumer() && self::_Request() && self::_Redirect_Url()){
-			
+			echo "";
 		} else {
+			self::_Add_Error("Your validation failed");
 			return FALSE;
 		}
 	}

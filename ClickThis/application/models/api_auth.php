@@ -23,7 +23,7 @@ class Api_Auth extends CI_Model{
 		if(!is_null($RequestCode) 
 			&& !is_null($AppId) 
 			&& !is_null($UserId) 
-			&& self::_App_Exists($AppId) 
+			&& self::App_Exists($AppId) 
 			&& self::_User_Exists($UserId)
 		){
 			return self::_Auth($RequestCode,$AppId,$UserId);
@@ -37,9 +37,9 @@ class Api_Auth extends CI_Model{
 	 * @param integer $AppId The database id of the id
 	 * @return boolean If it exists or not
 	 * @since 1.0
-	 * @access private
+	 * @access public
 	 */
-	private function _App_Exists($AppId = NULL){
+	public function App_Exists($AppId = NULL){
 		if(!is_null($AppId)){
 			$Query = $this->db->select("Id")->where(array("Id" => $AppId))->get($this->config->item("api_apps_table"));
 			if($Query->num_rows() > 0){
@@ -124,7 +124,7 @@ class Api_Auth extends CI_Model{
 	 */
 	public function AuthenticationEndpoint($AppId = NULL){
 		if(!is_null($AppId)){
-			if(self::_App_Exists($AppId)){
+			if(self::App_Exists($AppId)){
 				$Query = $this->db->select("AuthenticationEndpoint")->limit(1)->where(array("Id" => $AppId))->get($this->config->item("api_apps_table"));
 				if($Query->num_rows() > 0){
 					$Data = $Query->result();
@@ -166,10 +166,19 @@ class Api_Auth extends CI_Model{
 	 * @since 1.0
 	 */
 	public function Is_Valid_Consumer($Key = NULL,$Secret = NULL,$RequestCode = NULL){
-		if(!is_null($Key) && !is_null($Secret) && !is_null($RequestCode)){
-			$AppId = self::Get_App_Id($RequestCode);
-			if(self::_App_Exists($AppId)){
-				$Query = $this->db->select("Id")->limit(1)->where(array("ConsumerKey" => $Key,"ConsumerSecret" => $Secret,"Id" => $AppId))->get($this->config->item("api_apps_table"));
+		if(!is_null($Key) && !is_null($Secret)){
+			if(!is_null($RequestCode)){
+				$AppId = self::Get_App_Id($RequestCode);
+				if(self::App_Exists($AppId)){
+					$Query = $this->db->select("Id")->limit(1)->where(array("ConsumerKey" => $Key,"ConsumerSecret" => $Secret,"Id" => $AppId))->get($this->config->item("api_apps_table"));
+					if($Query->num_rows > 0){
+						return TRUE;
+					} else {
+						return FALSE;
+					}
+				} 
+		    }else {
+		    	$Query = $this->db->select("Id")->limit(1)->where(array("ConsumerKey" => $Key,"ConsumerSecret" => $Secret))->get($this->config->item("api_apps_table"));
 				if($Query->num_rows > 0){
 					return TRUE;
 				} else {
@@ -187,9 +196,9 @@ class Api_Auth extends CI_Model{
 	 * @access public
 	 * @since 1.0
 	 */
-	public function Is_Valid_Request_Code($Code = NULL,$UserId = NULL){
-		if(!is_null($Code) && !is_null($UserId)){
-			$Query = $this->db->select("StartTime")->where(array("RequestCode" => $Code,"UserId" => $UserId))->limit(1)->get($this->config->item("api_request_code_table"));
+	public function Is_Valid_Request_Code($Code = NULL){
+		if(!is_null($Code)){
+			$Query = $this->db->select("StartTime")->where(array("RequestCode" => $Code))->limit(1)->get($this->config->item("api_request_code_table"));
 			if($Query->num_rows() > 0){
 				$Row = $Query->result();
 				$Row = $Row[0];
@@ -259,8 +268,54 @@ class Api_Auth extends CI_Model{
 	public function Request_Token($Key = NULL,$Secret = NULL,$RequestCode = NULL){
 		if(!is_null($Key) && !is_null($Secret) && !is_null($RequestCode) && !self::_Is_Request_Token_With_Request_Code_Existing($RequestCode)){
 			$AppId = self::Get_App_Id($RequestCode);
-			if(self::_App_Exists($AppId)){
+			if(self::App_Exists($AppId)){
 				return self::_Insert_Request_Tokens($Key,$Secret,$RequestCode,$AppId);
+			} else {
+				return FALSE;
+			}
+		} else {
+			return FALSE;
+		}
+	}
+
+	/**
+	 * This function gets the app id of a app with based on the consumer keys
+	 * @param string $ConsumerSecret The consumer secret
+	 * @param string $ConsumerKey    The consumer key
+	 * @since 1.0
+	 * @return integer
+	 * @access private
+	 */
+	private function _Get_App_Of_Consumer($ConsumerSecret = NULL,$ConsumerKey = NULL){
+		if(!is_null($ConsumerKey) && !is_null($ConsumerSecret)){
+			$Query = $this->db->limit(1)->select("Id")->where(array("ConsumerKey" => $ConsumerKey,"ConsumerSecret" => $ConsumerSecret))->get($this->config->item("api_apps_table"));
+			if($Query->num_rows() > 0){
+				$Row = current($Query->result());
+				return $Row->Id;
+			}
+		}
+	}
+
+	/**
+	 * This function validates if the request tokens are valid
+	 * @param string $Key            The request token
+	 * @param string $Secret         The request secret token
+	 * @param string $ConsumerSecret The app's consumer secret key
+	 * @param string $ConsumerKey    The app's consumer key
+	 * @return boolean
+	 * @since 1.0
+	 * @access public
+	 */
+	public function Validate_Request_Tokens($Key = NULL,$Secret = NULL,$ConsumerSecret = NULL,$ConsumerKey = NULL){
+		if(!is_null($Key) && !is_null($Secret) && !is_null($ConsumerSecret) && !is_null($ConsumerKey)){
+			$AppId = self::_Get_App_Of_Consumer($ConsumerSecret,$ConsumerKey);
+			if(!is_null($AppId)){
+				$Query = $this->db->limit(1)->select("Id")->where(array("AppId" => $AppId,"RequestKey" => $Key,"RequestSecret" => $Secret))->get($this->config->item("api_request_token_table"));
+				if(!is_null($Query) && $Query->num_rows() > 0){
+					return FALSE;
+				} else {
+					return FALSE;
+				}
 			} else {
 				return FALSE;
 			}
