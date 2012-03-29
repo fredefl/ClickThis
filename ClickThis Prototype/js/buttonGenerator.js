@@ -65,11 +65,11 @@ var buttonGenerator = {
 		}
 		if (json.type === 3) { // Multi Textfield
 			specialFunctions = 'ondblclick="buttonGenerator.multipleChoice(this,' + json.text + ',true);"';
-			cssClass.push("fullsize");
+			cssClass.push("fullsize","textfield");
 		}
 		if (json.type === 4) { // Single Textfield
 			specialFunctions = 'ondblclick="buttonGenerator.singleChoice(this,' + json.text + ',true);"';
-			cssClass.push("fullsize");
+			cssClass.push("fullsize","textfield");
 		}
 		// Special Classes
 		if (json.type === 2) { // Single

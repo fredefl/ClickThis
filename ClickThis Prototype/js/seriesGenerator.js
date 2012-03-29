@@ -205,7 +205,8 @@ var seriesGenerator = {
 
 	sendQuestion: function (element) {
 		var data,
-			json;
+			json,
+			element;
 
 		// If it isn't a question, fuck it!
 		if(!$(element).hasClass("question")) {
@@ -221,10 +222,26 @@ var seriesGenerator = {
 			
 		};
 		$(element).find(".button").each(function (id) {
-			data.Answer.Options.push({
-				OptionId: $(this).data("id"),
-				Value: $(this).data("value")
-			}) 
+			// If it has a value
+			if ($(this).data("value") !== 0 || $(element).hasClass("textfield")) {
+				// Standard button
+				if (!$(element).hasClass("textfield")) {
+					data.Answer.Options.push({
+						OptionId: $(this).data("id"),
+						Value: $(this).data("value")
+					}) 
+				// Textfield
+				} else { 
+					element = $(element).find("textarea");
+					if (element.html() !== "") {
+						data.Answer.Options.push({
+							OptionId: element.data("id"),
+							Value: element.html()
+						}) 
+					}
+				}
+
+			}
 		})
 		json = JSON.stringify(data);
 		ajaxQueue.add({
