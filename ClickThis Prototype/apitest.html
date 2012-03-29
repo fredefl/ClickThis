@@ -75,7 +75,7 @@
 					$.ajax({
 					  url: "http://illution.dk/ClickThis/api/series/"+Id,
 					  success: function(data){
-						 $("#notfound").removeClass("Active").addClass("Disabled");
+						$("#notfound").removeClass("Active").addClass("Disabled");
 						seriesGenerator.generate(data.Series);
 					  },
 					  error: function(){
