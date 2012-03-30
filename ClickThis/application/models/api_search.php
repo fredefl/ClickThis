@@ -91,7 +91,7 @@ class Api_Search extends CI_Model{
      * @return integer The database id of the data
      */
     private function _Get_Query_Data($Array = NULL){
-        if(!is_null($Array)){
+        if(!is_null($Array) && count($Array) > 0){
             $Query = array();
             $Like = array();
             $Or_Like = array();
@@ -165,11 +165,13 @@ class Api_Search extends CI_Model{
                             $Unset = TRUE;
                             $Replace = TRUE;
                         }
-                        if(self::_Ignore_Secure($KeyName,$TempObject) || self::_Ignore_Secure($Key,$TempObject)){
-                            $Unset = TRUE;
-                            $Replace = FALSE;
+                        if($Secure){
+                            if(self::_Ignore_Secure($KeyName,$TempObject) || self::_Ignore_Secure($Key,$TempObject)){
+                                $Unset = TRUE;
+                                $Replace = FALSE;
+                            }
                         }
-                        if(!property_exists($TempObject, $KeyName)){
+                        if(!property_exists($TempObject, $Key)){
                             $Replace = FALSE;
                             $Unset = TRUE;
                         }
@@ -182,11 +184,6 @@ class Api_Search extends CI_Model{
                                 $Exit = TRUE;
                             }
                         }
-                    }
-                }
-                foreach ($Query as $Key => $Value) {
-                    if(!property_exists($TempObject, $Key)){
-                        unset($Query[$Key]);
                     }
                 }
                 if(!$Exit){

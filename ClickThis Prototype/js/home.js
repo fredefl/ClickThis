@@ -9,7 +9,6 @@ var homeCreator = {
 }
 
 $("#home").append('<div id="user"><ul class="rounded arrow" id="series"></ul></div><ul class="rounded"></ul></div>')
-//$("#series").append(homeCreator.newSeries("Hello World!", "multiplechoice.html", "Llama"));
 
 $.ajax({
 	url: "http://illution.dk/ClickThis/api/series?ShareType=1",

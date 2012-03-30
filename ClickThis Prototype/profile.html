@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html> <!--manifest="offline.manifest"-->
 	<head>
-		<title>ClickThis - Settings</title>
+		<title>ClickThis - Profile</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 		<meta name="apple-mobile-web-app-capable" content="yes">
@@ -12,7 +12,6 @@
 		<link rel="apple-touch-icon" href="img/ClickThis64.png" />
 	</head>
 	<body>
-		<input type="hidden" id="currentpage" value="user" />
 		<div id="page">
 			<div id="home" class="current">
 				<div class="toolbar">
@@ -39,11 +38,6 @@
 								<option value="cn">China</option>
 						</select>
 					</div>
-					<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-					<br><br><br><br><br><br><br><br>
-				</div>
-				<!-- About Box -->
-				<div id="aboutBox" class="Disabled">
 				</div>
 						   
 			</div>
@@ -58,9 +52,10 @@
 					$.ajax({
 						url: "http://illution.dk/ClickThis/api/user/"+userId,
 						success: function(data){
-							if(typeof data.error_code == "undefined"){
+							if(data.error_code == null){
 								$(".Active").addClass("Disabled").removeClass("Active");
 								var user = $("#user");
+								data = data.User;
 								$("#linktag").attr("title",data.Name);
 								$("#profile_image").attr("title",data.Name).attr("alt",data.Name).attr("src",data.ProfileImage);
 								$("#Name").attr("value",data.Name);

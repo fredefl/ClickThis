@@ -217,9 +217,6 @@ class Api extends CI_Controller {
 				if(!is_null($Id)){
 					$User = $Data;
 					($User->CheckProfileImage())? NULL: $User->ProfileImage = "http://gravatar.com/avatar?s=256";
-					/*$Data["User"] = $User->Export();
-					$Data["error_message"] = NULL;
-					$Data["error_code"] = NULL;*/
 					$Return = $User->Export(false,true);
 					self::Send_Response(200,NULL,json_encode($Return));
 				} else {
