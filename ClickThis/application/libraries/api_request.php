@@ -141,32 +141,32 @@ class Api_Request{
 				parse_str(file_get_contents('php://input'), $this->_Request_Vars);
 				break;
 			case 'head':
-				$this->_Request_Vars = $_GET;
+				header("Content-type: application/json");
+		       	header('Allow: ' . json_encode(array("POST","GET","PUT","DELETE","HEAD","PATCH","OPTIONS")), true, 200);
+		       	header("Date:".time());
+		       	header("X-Powered-By: PHP/5.2.0");
+		       	header("X-UA-Compatible: IE=EmulateIE7 X-UA-Compatible: IE=edge X-UA-Compatible: Chrome=1");
+		       	header("X-Forwarded-Proto: http");
+		       	header("X-XSS-Protection: 1; mode=block");
+		       	header("Retry-After: 120");
 				break;
 			case 'options':
 				break;
 			case 'patch':
 				break;
-			case 'trace':
-				break;
-			case 'connect':
-				break;
 			default:
-		       	header('Allow: ' . array("POST","GET","PUT","DELETE","HEAD","TRACE","CONNECT","PATCH","OPTIONS"), true, 501);
+				header("Content-type:application/json");
+		       	header('Allow: ' . json_encode(array("POST","GET","PUT","DELETE","HEAD","PATCH","OPTIONS")), true, 200);
 		        break;
 		}
 		if($this->_Request_Method == "put" || $this->_Request_Method == "post"){
 			self::Request_Data(json_decode($this->_Request_Vars,true));
+			if(is_null($this->_Request_Data) && $this->_Request_Method == "post"){
+				$this->_Request_Data = $_POST;
+			}
 		} else {
 			$this->_Request_Data = $this->_Request_Vars;
 		}
-		/*$Data = NULL;
-		$Data = json_decode($this->_Request_Vars),true);
-		if (is_null($Data)) {  
-	    	$this->_Request_Data = $this->_Request_Vars;
-	    } else {
-	    	self::Request_Data($Data);
-	    }*/
 	}
 
 	private function _Get_Format(){

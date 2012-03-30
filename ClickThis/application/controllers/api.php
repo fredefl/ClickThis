@@ -19,7 +19,6 @@ class Api extends CI_Controller {
 		$this->load->library("api_request");
 	}
 
-	##### Test #####
 	/**
 	 * This function performs the PUT requests
 	 * @param string  $ClassName The classname of the class to use
@@ -140,7 +139,7 @@ class Api extends CI_Controller {
 		$Status_Header = 'HTTP/1.1 ' . $Code . ' ' . $this->api_request->Get_Message($Code); 
 		header($Status_Header); 
 		header('Content-type: ' . $Content_Type);
-		if(is_null($Content)){
+		if(is_null($Content) && $Code != 200){
 			$Error = array("error_message" => $this->api_request->Get_Message($Code),"error_code" => $Code);
 			echo json_encode($Error);
 		} else {
@@ -253,15 +252,6 @@ class Api extends CI_Controller {
 
 	public function Answer($Id = NULL){
 		self::Standard_API("Answer",$Id,"Answers");
-		/*if($this->api_request->Request_Method() != "post"){
-			self::Standard_API("Answer",$Id,"Answers");
-		} else {
-			if(isset($_POST)){
-				self::
-			} else {
-				self::Send_Response(400);
-			}
-		}*/
 	}
 
 	public function Option($Id = NULL){
@@ -435,7 +425,7 @@ class Api extends CI_Controller {
 	public function Access_Token(){
 		$this->load->library("api_authentication");
 		if($this->api_authentication->Access_Token()){
-
+			echo $this->api_authentication->Get("Access_Token"); 
 		} else {
 			print_r($this->api_authentication->Get("Errors"));
 		}

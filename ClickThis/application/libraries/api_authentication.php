@@ -18,6 +18,22 @@ class Api_Authentication{
 	private $_Redirect_Url = NULL;
 
 	/**
+	 * The access token
+	 * @var String
+	 * @access private
+	 * @since 1.0
+	 */
+	private $_Access_Token = NULL;
+
+	/**
+	 * The secret access token, used for changing password with the api
+	 * @var string
+	 * @access private
+	 * @since 1.0
+	 */
+	private $_Access_Token_Secret = NULL;
+
+	/**
 	 * The request code, this code is generated in the Auth function,
 	 * and used in the request token function
 	 * @var string
@@ -61,6 +77,22 @@ class Api_Authentication{
 	 * @since 1.0
 	 */
 	private $_Consumer_Secret = NULL;
+
+	/**
+	 * The access level of the token
+	 * @var integer
+	 * @access private
+	 * @since 1.0
+	 */
+	private $_Level = NULL;
+
+	/**
+	 * The sections that the requester want's access too
+	 * @var array
+	 * @since 1.0
+	 * @access private
+	 */
+	private $_Sections = NULL;
 
 	/**
 	 * This array is storing the errors, if some occured
@@ -280,8 +312,8 @@ class Api_Authentication{
 			self::_Add_Error("No request token specified");
 			$Return = FALSE;
 		}
-		if(isset($_GET["request_token_secret"]) && !empty($_GET["request_token_secret"])){
-			$Request_Secret = $_GET["request_token_secret"];
+		if(isset($_GET["request_secret"]) && !empty($_GET["request_secret"])){
+			$Request_Secret = $_GET["request_secret"];
 			if($Return === true){
 				if($this->_CI->Api_Auth->Validate_Request_Tokens($Request_Token,$Request_Secret,$this->_Consumer_Secret,$this->_Consumer_Key)){
 					$Return = true;
@@ -389,10 +421,22 @@ class Api_Authentication{
 		}
 	}
 
-	public function ClickThis_Token(){
+	/**
+	 * This function uses the model to generate a token and then it's placed in $this->_ClickThis_Token
+	 * @param integer $Level The access level of the token 1-10
+	 * @access public
+	 * @return boolean
+	 * @since 1.0
+	 */
+	public function ClickThis_Token($Level = 2){
 		if(self::_User_Id()){
 			$Token = self::_Rand_Str(64);
-			$this->_ClickThis_Token = ;
+			if($this->_CI->Api_Auth->ClickThis_Token($Token,$this->_User_Id,$Level)){
+				$this->_ClickThis_Token = $Token;
+				return TRUE;
+			} else {
+				return FALSE;
+			}
 			return TRUE;
 		} else {
 			return FALSE;
@@ -466,6 +510,37 @@ class Api_Authentication{
 	}
 
 	/**
+	 * This function gets the requested level of the token
+	 * @access private
+	 * @since 1.0
+	 */
+	private function _Level(){
+		if(isset($_GET["level"]) && $_GET["level"] > 1 && is_integer($_GET["level"])){
+			$this->_Level = $_GET["level"];
+		} else {
+			$this->_Level = 2;
+		}
+	}
+
+	/**
+	 * This function get's the sections that the reqeuster want's access too;
+	 * @access private
+	 * @since 1.0
+	 */
+	private function _Sections(){
+		if(isset($_GET["sections"])){
+			$Sections = str_replace(",", ";", $_GET["sections"]);
+			$Sections = explode(";", $Sections);
+			foreach ($Sections as $Key => $Value) {
+				if($Key = "Password" || $Key = "TOPT"){
+					unset($Sections[$Key]);
+				}
+			}
+			$this->_Sections = $Sections;
+		}
+	}
+
+	/**
 	 * This function checks if the user exists and the App exists
 	 * @access public
 	 * @since 1.0
@@ -487,8 +562,10 @@ class Api_Authentication{
 	public function Auth(){
 		if(self::_Accepted_Auth()){
 			if(self::_App_Id() && self::_Redirect_Url() && self::_User_Id()){
+				self::_Level();
+				self::_Sections();
 				$Request_Code = self::_Generate_Request_Code(32);
-				if($this->_CI->Api_Auth->Auth($Request_Code,$this->_App_Id,$this->_User_Id)){
+				if($this->_CI->Api_Auth->Auth($Request_Code,$this->_App_Id,$this->_User_Id,$this->_Level,$this->_Sections)){
 					$this->_Request_Code = $Request_Code;
 					return TRUE;
 				} else 	{
@@ -511,7 +588,16 @@ class Api_Authentication{
 	 */
 	public function Access_Token(){
 		if(self::_Consumer() && self::_Request() && self::_Redirect_Url()){
-			echo "";
+			$Secret = self::_Rand_Str(64);
+			$Key = self::_Rand_Str(32);
+			if($this->_CI->Api_Auth->Access_Token($Key,$Secret,$this->_Request_Token,$this->_Request_Token_Secret)){
+				$this->_Access_Token = $Key;
+				$this->_Access_Token_Secret = $Secret;
+				return TRUE;
+			} else {
+				self::_Add_Error("The request tokens have been used or an error occured");
+				return FALSE;
+			}
 		} else {
 			self::_Add_Error("Your validation failed");
 			return FALSE;

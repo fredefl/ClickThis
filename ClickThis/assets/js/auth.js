@@ -9,7 +9,14 @@ $("#cancel").click(function(){
 function submitForm(value){
 	var app_id = getParameterByName("app_id");
 	var redirect = getParameterByName("redirect");
-	$("#myform").attr("action",$("#base_url").val()+"api/authenticated/?app_id="+app_id+"&redirect="+redirect);
+	var url = $("#base_url").val()+"api/authenticated/?app_id="+app_id+"&redirect="+redirect;
+	if(getParameterByName("level") != null){
+		url = url+"&level="+getParameterByName("level");
+	}
+	if(getParameterByName("sections") != null){
+		url = url+"&sections="+getParameterByName("sections");
+	}
+	$("#myform").attr("action",);
 	$("#auth").attr("value",value);
 	document.myform.submit();
 }

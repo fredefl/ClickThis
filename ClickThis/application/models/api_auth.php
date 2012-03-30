@@ -10,9 +10,38 @@ class Api_Auth extends CI_Model{
 		$this->load->config("api");
 	}
 
-	public function ClickThis_Token($Token = NULL,$UserId = NULL){
+	/**
+	 * This function makes the last error checks and inserts the created,
+	 * ClickThis token to the database
+	 * @param string  $Token  The created token
+	 * @param integer  $UserId The user to create the token for
+	 * @param integer $Level  The level of the token
+	 * @return boolean
+	 * @access public
+	 * @since 1.0
+	 */
+	public function ClickThis_Token($Token = NULL,$UserId = NULL,$Level = 2){
 		if(!is_null($Token) && !is_null($UserId) && self::_User_Exists($UserId)){
-			$Query = $this->db->insert();
+			$StartTime = time();
+			$TimeToLive = $this->config->item("api_access_tokens_time_to live");
+			if(is_array($TimeToLive) && array_key_exists($Level, $TimeToLive)){
+				$EndTime = $TimeToLive[$Level];
+			} else {
+				$Level = 10;
+				$EndTime = 3600;
+			}
+			$Query = $this->db->insert($this->config->item("api_simple_token_table"),array(
+				"Token" => $Token,
+				"StartTime" => $StartTime,
+				"EndTime" => $EndTime,
+				"Level" => $Level,
+				"UserId" => $UserId
+			));
+			if(is_integer($this->db->insert_id())){
+				return TRUE;
+			} else {
+				return FALSE;
+			}
 		} else {
 			return FALSE;
 		}
@@ -23,18 +52,20 @@ class Api_Auth extends CI_Model{
 	 * @param string $RequestCode The generated request code
 	 * @param integer $AppId       The database id of the app to auth
 	 * @param integer $UserId      The database id of the user to auth access too
+	 * @param integer $Level The level that the requester has been given access too
+	 * @param array $Sections The sections the requester has been given access too
 	 * @see _Auth
 	 * @since 1.0
 	 * @access public
 	 */
-	public function Auth($RequestCode = NULL,$AppId = NULL,$UserId = NULL){
+	public function Auth($RequestCode = NULL,$AppId = NULL,$UserId = NULL,$Level = NULL,$Sections = NULL){
 		if(!is_null($RequestCode) 
 			&& !is_null($AppId) 
 			&& !is_null($UserId) 
 			&& self::App_Exists($AppId) 
 			&& self::_User_Exists($UserId)
 		){
-			return self::_Auth($RequestCode,$AppId,$UserId);
+			return self::_Auth($RequestCode,$AppId,$UserId,$Level,$Sections);
 		} else {
 			return FALSE;
 		}
@@ -100,18 +131,25 @@ class Api_Auth extends CI_Model{
 	 * @param string $RequestCode The RequestCode
 	 * @param integer $AppId       The database id of the application
 	 * @param integer $UserId      The id of the user to auth
+	 * @param integer $Level The access level
+	 * @param array $Sections The accessible extra fields
 	 * @return boolean if success
 	 * @since 1.0
 	 * @access private
 	 */
-	private function _Auth($RequestCode = NULL,$AppId = NULL,$UserId = NULL){
+	private function _Auth($RequestCode = NULL,$AppId = NULL,$UserId = NULL,$Level = NULL,$Sections = NULL){
 		if(!is_null($RequestCode) && !is_null($AppId) && !is_null($UserId)){
+			if(is_array($Sections) && count($Sections) > 0){
+				$Sections = ";".implode(";", $Sections).";";
+			}
 			$this->db->insert($this->config->item("api_request_code_table"),
 				array(
 					"StartTime" => time(),
 					"RequestCode" => $RequestCode,
 					"AppId" => $AppId,
-					"UserId" => $UserId
+					"UserId" => $UserId,
+					"Level" => $Level,
+					"Sections" => $Sections
 			));	
 			if($this->db->insert_id() !== false && $this->db->insert_id() != 0){
 				return TRUE;
@@ -235,7 +273,7 @@ class Api_Auth extends CI_Model{
 	 * @since 1.0
 	 */
 	private function _Insert_Request_Tokens($Key,$Secret,$RequestCode,$AppId){
-		$Query = $this->db->insert($this->config->item("api_request_token_table"),array("AppId" => $AppId,"RequestKey" => $Key,"RequestSecret" => $Secret,"RequestCode" => $RequestCode));
+		$Query = $this->db->insert($this->config->item("api_request_token_table"),array("AppId" => $AppId,"RequestKey" => $Key,"RequestSecret" => $Secret,"RequestCode" => $RequestCode,"StartTime" => time()));
 		if(is_integer($this->db->insert_id())){
 			return TRUE;
 		} else {
@@ -320,7 +358,145 @@ class Api_Auth extends CI_Model{
 			if(!is_null($AppId)){
 				$Query = $this->db->limit(1)->select("Id")->where(array("AppId" => $AppId,"RequestKey" => $Key,"RequestSecret" => $Secret))->get($this->config->item("api_request_token_table"));
 				if(!is_null($Query) && $Query->num_rows() > 0){
+					return TRUE;
+				} else {
 					return FALSE;
+				}
+			} else {
+				return FALSE;
+			}
+		} else {
+			return FALSE;
+		}
+	}
+
+	/**
+	 * This function gets the app id and request code based on the request tokens
+	 * @param string $Key          The request token
+	 * @param string $Secret       The request secret token
+	 * @param pointer|string &$RequestCode The pointer to store the RequestCode
+	 * @param pointer|string &$AppId       The pointer to store the AppId
+	 * @return boolean
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _Get_App_Of_Request_Token($Key = NULL,$Secret = NULL,&$RequestCode,&$AppId){
+		if(!is_null($Key) && !is_null($Secret)){
+			$Query = $this->db->select("AppId,RequestCode")->limit(1)->where(array("RequestKey" => $Key,"RequestSecret" => $Secret))->get($this->config->item("api_request_token_table"));
+			if($Query->num_rows() > 0){
+				$Row = current($Query->result());
+				$RequestCode = $Row->RequestCode;
+				$AppId = $Row->AppId;
+				return TRUE;
+			} else {
+				return FALSE;
+			}
+		} else {
+			return FALSE;
+		}
+	}
+
+	/**
+	 * This function gets the sections and level based on a request code
+	 * @param string $RequestCode The request code to search for
+	 * @param pointer|string &$Sections   A pointer where to store the sections
+	 * @param pointer|string &$Level      A pointer where to store the level
+	 * @access private
+	 * @since 1.0
+	 */
+	private function _Get_Permissions($RequestCode = NULL,&$Sections,&$Level){
+		if(!is_null($RequestCode)){
+			$Query = $this->db->select("Sections,Level")->limit(1)->where(array("RequestCode" => $RequestCode))->get($this->config->item("api_request_code_table"));
+			if($Query->num_rows() > 0){
+				$Row = current($Query->result());
+				$Sections = $Row->Sections;
+				$Level = $Row->Level;
+				return TRUE;
+			} else {
+				return FALSE;
+			}
+		} else {
+			return FALSE;
+		}
+	}
+
+	/**
+	 * This function inserts the newly created access token to the database
+	 * @param string $Key           The created access token
+	 * @param string $Secret        The created access secret
+	 * @param string $RequestToken  The used reqeust token
+	 * @param string $RequestSecret The used request secret token
+	 * @param integer $Level         The access level of the token
+	 * @param string $Sections      The extra fields that the token have access too
+	 * @param integer $AppId         The app id of the owner of the tokens
+	 * @access private
+	 * @since 1.0
+	 */
+	private function _Insert_Access_Token($Key,$Secret,$RequestToken,$RequestSecret,$Level,$Sections,$AppId){
+		$StartTime = time();
+		if(is_null($Level)){
+			$Level = 5;
+		}
+		$TimeToLive = $this->config->item("api_access_tokens_time_to live");
+		if(is_array($TimeToLive) && array_key_exists($Level, $TimeToLive)){
+			$EndTime = $TimeToLive[$Level];
+		} else {
+			$EndTime = 432000;
+		}
+		$Query = $this->db->insert($this->config->item("api_access_token_table"),array(
+			"AppId" => $AppId,
+			"RequestKey" => $RequestToken,
+			"RequestSecret" => $RequestSecret,
+			"AccessKey" => $Key,
+			"AccessSecret" => $Secret,
+			"StartTime" => $StartTime,
+			"EndTime" => $EndTime,
+			"Level" => $Level,
+			"Sections" => $Sections
+		));
+		if(is_integer($this->db->insert_id()) && $this->db->insert_id() != 0){
+			return true;
+		} else {
+			return FALSE;
+		}
+	}
+
+	/**
+	 * This function checks if the Request tokens already have been used
+	 * @param string $Key    The request token
+	 * @param string $Secret The request secret token
+	 * @access private
+	 * @since 1.0
+	 * @return boolean
+	 */
+	private function _Is_Request_Token_Used($Key = NULL,$Secret = NULL){
+		if(!is_null($Key) && !is_null($Secret)){
+			$Query = $this->db->select("Id")->limit(1)->where(array("RequestKey" => $Key,"RequestSecret" => $Secret))->get($this->config->item("api_access_token_table"));
+			if(!is_null($Query) && $Query->num_rows() == 0){
+				return FALSE;
+			} else {
+				return TRUE;
+			}
+		} else {
+			return TRUE;
+		}
+	}
+
+	/**
+	 * This function get's the last information and then call the function to insert the action tokens
+	 * @param string $Key           The access token
+	 * @param string $Secret        The access token secret
+	 * @param string $Request       The request token
+	 * @param string $RequestSecret The request secret token
+	 * @return boolean
+	 * @since 1.0
+	 * @access private
+	 */
+	public function Access_Token($Key = NULL,$Secret = NULL,$Request = NULL,$RequestSecret = NULL){
+		if(!is_null($Key) && !is_null($Secret) && !is_null($Request) && !is_null($RequestSecret) && !self::_Is_Request_Token_Used($Request,$RequestSecret)){
+			if(self::_Get_App_Of_Request_Token($Request,$RequestSecret,$RequestCode,$AppId)){
+				if(self::_Get_Permissions($RequestCode,$Sections,$Level)){
+					return self::_Insert_Access_Token($Key,$Secret,$Request,$RequestSecret,$Level,$Sections,$AppId);
 				} else {
 					return FALSE;
 				}

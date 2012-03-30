@@ -8,7 +8,8 @@ class Token extends CI_Controller {
 				redirect("home");
 			} else {
 				$this->load->library("api_authentication");
-				if($this->api_authentication->ClickThis_Token()){
+				if($this->api_authentication->ClickThis_Token(3)){
+					$_SESSION["clickthis_token"] = $this->api_authentication->Get("ClickThis_Token");
 					redirect("home");
 				} else {
 					redirect("login");

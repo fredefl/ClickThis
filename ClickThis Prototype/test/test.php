@@ -90,11 +90,59 @@ function Put(){
 		}
 	});
 }
+
+function Options(){
+	$.ajax({
+		url: "http://illution.dk/ClickThis/api/test/",
+		type:"OPTIONS",
+		success: function(data){
+			if(typeof data.error_code == "undefined"){
+				$("#return").append(data+"\n");
+			} else {
+				$("#return").append(data+"\n");
+			}
+		},
+		error: function(data){
+			$("#return").append(data+"\n");
+		}
+	});
+}
+
+function Head(){
+	var ajax = $.ajax({
+		url: "http://illution.dk/ClickThis/api/test/",
+		type:"HEAD",
+		//data: '{"TargetPeople":["1","2"],"StartText":"Llama","Creator": "Bo"}',
+		success: function(data){
+			/*if(typeof data.error_code == "undefined"){
+				$("#return").append(data+"\n");
+			} else {
+				$("#return").append(data+"\n");
+			}*/
+			$("#return").append(ajax.getResponseHeader('Allow')+"\n");
+		},
+		error: function(){
+		}
+	});
+}
+function Patch(){
+	var ajax = $.ajax({
+		url: "http://illution.dk/ClickThis/api/test/",
+		type:"PATCH",
+		success: function(data){
+		},
+		error: function(){
+		}
+	});
+}
 </script>
 <button onclick="Post();">Post</button>
 <button onclick="Get()">Get</button>
 <button onclick="Delete()">Delete</button>
-<button onclick="Put()">Put</button><br>
+<button onclick="Put()">Put</button>
+<button onclick="Options()">Options</button>
+<button onclick="Head()">Head</button>
+<button onclick="Patch()">Patch</button>
 <textarea id="return" style="width:90%;height:90%;"></textarea>
 </body>
 </html>
