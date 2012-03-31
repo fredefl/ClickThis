@@ -33,7 +33,7 @@
 				<!-- Toolbar -->
 				<div class="toolbar">
 					<h1 id="toolbarTitle"><a href="http://illution.dk/ClickThisPrototype/home.html" title="Home" style="text-decoration:none; color:#FFF;">ClickThis</a></h1>
-					<a class="button slideup" onClick="showAboutBox();" id="infoButton"><div class="listIcon"></div></a>
+					<a class="button slideup" onClick="" id="infoButton"><div class="listIcon"></div></a>
 					<a class="back Active" id="backButton" data-href="home.html" data-app-onClick="ClickThisApp.terminateApp()" data-app-text="Quit" data-app-start-mode="active" data-page-start-mode="disabled"><div class="arrowLeftIcon"></div></a>
 				</div> <!-- end of toolbar -->
 
@@ -42,15 +42,10 @@
 				</div> <!-- end of notification -->
 				
 				<!-- User front page -->
-				<div id="user">
-					 <!-- The surveys -->
-					<ul class="rounded arrow" id="series">
-						<li class="forward"><a href="apitest.html#31">Which sport(s) do you play, and why?</a><small class="counter"><a href="user.html?user_id=1">Bo Thomsen
-						</a></small></li>
-						<li class="forward"><a href="apitest.html#76">What is the best car?</a><small class="counter"><a href="user.html?user_id=40">Car Magazine</a></small></li>
-					</ul>
+				<!-- The tests -->
+				<div id="test">
 				
-					<!-- The tests -->
+
 					<ul class="rounded">
 						<li class="arrow"><a href="#add_issue">Add an Issue</a></li> 
 						<li class="arrow"><a href="ajaxQueue.html">Ajax Queue</a></li>
@@ -72,15 +67,12 @@
 					</form>
 				</div> <!-- end of add issue -->
 				
-				<!-- About Box -->
-				<div id="aboutBox" class="Disabled">
-				</div> <!-- end of about box -->
 				
 				<!-- Bottom -->
-				<ul class="individual">
+				<!--<ul class="individual">
 					<li><a href="profile.html">Profile</a></li>
 					<li><a href="settings.html">Settings</a></li>
-				</ul> <!-- end of bottom -->
+				</ul>--> <!-- end of bottom -->
 			</div> <!-- end of home -->
 		</div> <!-- end of jqt -->
 		<script src="js/jquery.min.js"></script>
@@ -88,6 +80,7 @@
 		<script src="http://cdn.beaconpush.com/clients/client-1.js"></script>
 		<script src="js/clickthis.js"></script><script src="js/script.js"></script>
 		<script src="js/ajaxQueue.js"></script>
+		<script src="js/home.js"></script>
 		<script type="text/javascript">
 			$(window).load(function () {
 				ajaxQueue.registerCallback({type:"onStatusCodeChange"}, function () {

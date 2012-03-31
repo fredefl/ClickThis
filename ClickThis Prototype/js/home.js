@@ -8,7 +8,7 @@ var homeCreator = {
 	}
 }
 
-$("#home").append('<div id="user"><ul class="rounded arrow" id="series"></ul></div><ul class="rounded"></ul></div>')
+$("#notification").after('<div id="user"><ul class="rounded arrow" id="series"></ul></div></div>')
 
 $.ajax({
 	url: "http://illution.dk/ClickThis/api/series?ShareType=1",
