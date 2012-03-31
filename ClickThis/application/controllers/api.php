@@ -216,8 +216,10 @@ class Api extends CI_Controller {
 			if(!is_null($Data)){
 				if(!is_null($Id)){
 					$User = $Data;
-					($User->CheckProfileImage())? NULL: $User->ProfileImage = "http://gravatar.com/avatar?s=256";
-					$Return = $User->Export(false,true);
+					($User->CheckProfileImage())? $User->ProfileImage = $User->ProfileImage: $User->ProfileImage = "http://gravatar.com/avatar?s=256";
+					$Return["User"] = $User->Export(false,true);
+					$Return["error_message"] = NULL;
+					$Return["error_code"] = NULL;
 					self::Send_Response(200,NULL,json_encode($Return));
 				} else {
 					$Users = array();
@@ -304,7 +306,7 @@ class Api extends CI_Controller {
 						if($Return === false){
 							self::Perform_Get_Operation($Class,$Id);
 						} else {
-							return self::Perform_Get_Operation($Class,$Id,true);
+							return self::Perform_Get_Operation($Class,$Id,$ArrayName,true);
 						}
 						break;
 					

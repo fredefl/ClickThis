@@ -22,7 +22,7 @@
 				<div>
 					<ul class="rounded arrow" id="groups">
 						<li class="forward" id="groupData"><a id="name" href="#"></a><small class="counter"><a href="#" id="title"></a></small></li>
-						<li class="forward" id="info" class="Disabled"><a id="description"><small class="counter"><a id="creator"></small></a>
+						<li class="forward" id="info" class="Disabled"><a id="description"><small class="counter"><a id="creator" href=""></small></a>
 						</a></li>
 					</ul>
 				</div>
@@ -49,7 +49,7 @@
 			}); 
 			$(document).hashchange(function(){
 				var Id = 1;
-				if(location.hash != null && location.hash != ""){
+				if(location.hash != null && typeof location.hash != "undefined" && location.hash != ""){
 					var hash = location.hash;
 					hash = hash.replace("#","");
 					hash = parseInt(hash);
@@ -60,7 +60,9 @@
 					$.ajax({
 					  url: "http://illution.dk/ClickThis/api/group/"+Id,
 					  success: function(data){
+					  	data = data.Group;
 						$("#notfound").removeClass("Active").addClass("Disabled");
+						$("#groups").removeClass("Disabled").addClass("Active");
 						$("#name").html(data.Name);
 						$("#description").html(data.Description);
 						$("#title").html(data.Title);
@@ -68,7 +70,7 @@
 						getCreator(data.Creator);
 					  },
 					  error: function(){
-						$("#info").addClass("Disabled");
+						$("#groups").addClass("Disabled");
 						$("#NotFoundText").html("Group not found");
 						$("#notfound").removeClass("Disabled").addClass("Active");
 					  }
@@ -78,8 +80,10 @@
 				$.ajax({
 					  url: "http://illution.dk/ClickThis/api/user/"+Id,
 					  success: function(data){
+					  	data = data.User;
 						$("#notfound").removeClass("Active").addClass("Disabled");
 						$("#creator").html(data.Name);
+						$("#creator").attr("href","http://illution.dk/ClickThisPrototype/user.html?user_id="+data.Id);
 					  },
 					});
 			}
