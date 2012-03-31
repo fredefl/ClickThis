@@ -191,12 +191,12 @@ class Api_Authentication{
 	 * @access private
 	 */
 	private function _Redirect_Url($Redirect = NULL){
-		if(isset($_GET["redirect"]) && !empty($_GET["redirect"])){
+		if(isset($_GET["redirect"]) && !empty($_GET["redirect"]) && $_GET["redirect"] != "null"){
 			$Redirect = $_GET["redirect"];
 		} else {
 			if(!is_null($this->_App_Id)){
 				$Result = $this->_CI->Api_Auth->AuthenticationEndpoint($this->_App_Id);
-				if($Result !== false){
+				if($Result !== false && !is_null($Result)){
 					$Redirect = $Result;
 				} else {
 					return FALSE;
@@ -470,6 +470,7 @@ class Api_Authentication{
 	 * @access public
 	 */
 	public function Request_Token(){
+		self::_Redirect_Url();
 		if (self::_Request_Code() && self::_Consumer() && self::_Redirect_Url()) {
 			if(self::_Generate_Request_Tokens(32,$Request_Token,$Request_Secret)){
 				if($this->_CI->Api_Auth->Request_Token($Request_Token,$Request_Secret,$this->_Request_Code)){
@@ -546,6 +547,7 @@ class Api_Authentication{
 	 * @since 1.0
 	 */
 	public function AuthDialog(){
+		self::_Redirect_Url();
 		if(self::_App_Id() && self::_Redirect_Url() && self::_User_Id()){
 			return TRUE;
 		} else {
@@ -560,6 +562,7 @@ class Api_Authentication{
 	 * @access public
 	 */
 	public function Auth(){
+		self::_Redirect_Url();
 		if(self::_Accepted_Auth()){
 			if(self::_App_Id() && self::_Redirect_Url() && self::_User_Id()){
 				self::_Level();
@@ -587,6 +590,7 @@ class Api_Authentication{
 	 * @access public
 	 */
 	public function Access_Token(){
+		self::_Redirect_Url();
 		if(self::_Consumer() && self::_Request() && self::_Redirect_Url()){
 			$Secret = self::_Rand_Str(64);
 			$Key = self::_Rand_Str(32);

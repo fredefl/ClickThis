@@ -363,7 +363,6 @@ class Api extends CI_Controller {
 	 * @since 1.0
 	 */
 	private function Perform_Get_Operation($Class_Name = NULL,$Id = NULL,$ArrayName = NULL,$Return = false){
-		
 		if(!is_null($Id)){
 			$Class = new $Class_Name();
 			if($Class->Load($Id)){
@@ -383,50 +382,158 @@ class Api extends CI_Controller {
 		}	
 	}
 
-	/* Authentication */
-	public function Auth(){
-		$this->load->library("api_authentication");
-		if($this->api_authentication->AuthDialog()){
-			$this->load->view("auth_view",array("base_url" => base_url()));	
+
+
+	### Authentication ###
+
+	/**
+	 * This function assemblies a redirect url, used if the user aren't logged in
+	 * @return string The redirect url
+	 */
+	private function _Create_Redirect(){
+		$String = uri_string()."?";
+		$Parameters = array();
+		foreach ($_GET as $Key => $Value) {
+			$Parameters[] = $Key."=".$Value;
+		}
+		return $String.implode("&", $Parameters);
+	}
+
+	/**
+	 * This function handles the Authentication errors and redirect the user to the right place
+	 * @param string $Redirect The redirect url or NULL
+	 * @param array $Reason   An array of reasons
+	 * @param integer $Code     The HTTP status code of the error
+	 * @since 1.0
+	 * @access private
+	 */
+	private  function _Api_Handle_Error($Redirect = NULL,$Reason = NULL,$Code = NULL){
+		if(!is_null($Reason) && !is_null($Code)){
+			if(!is_null($Redirect)){
+				$Message = $this->api_request->Get_Message($Code);
+				$Reason = implode(";",$Reason);
+				$Status_Header = 'HTTP/1.1 ' . $Code . ' ' . $Message; 
+				header($Status_Header); 
+				header("Location:".$Redirect."?error_code=".$Code."&"."error_message=".$Message."&error_reason=".$Reason);
+			} else {
+				header("Location:".base_url());
+			}
 		} else {
-			print_r($this->api_authentication->Get("Errors"));
+			if(!is_null($Redirect)){
+				$Error_Code = 503;
+				$Error_Message = $this->api_request->Get_Message(503);
+				$Error_Reason = "Sorry and error occured while performing your request.";
+				$Status_Header = 'HTTP/1.1 ' . 503 . ' ' . $Error_Message; 
+				header($Status_Header); 
+				header("Location:".$Redirect."?error_code=".$Error_Code."&"."error_message=".$Error_Message."&error_reason=".$Error_Reason);
+			} else {
+				header("Location:".base_url());
+			}
 		}
 	}
 
+	/**
+	 * This function performs the request, and redirects the user to the Authentication screen,
+	 * if the input is valid.
+	 * @since 1.0
+	 * @access public
+	 */
+	public function Auth(){
+		$this->load->library("api_authentication");
+		$this->load->library("app");
+		if(isset($_SESSION["UserId"]) && !empty($_SESSION["UserId"])){
+			if($this->api_authentication->AuthDialog()){
+				$App = new App();
+				$App->Load($this->api_authentication->Get("App_Id"));
+				$this->load->view("auth_view",array(
+					"base_url" => base_url(),
+					"app_description" => $App->Description,
+					"app_image" => $App->Image,
+					"app_name" => $App->Name
+				));	
+			} else {
+				self::_Api_Handle_Error($this->api_authentication->Get("Redirect_Url"),$this->api_authentication->Get("Errors"),400);
+			}
+		} else {
+			$_SESSION["redirect"] = self::_Create_Redirect();
+			redirect("login");
+		} 
+	}
+
+	/**
+	 * This function performs the request, when the user has been by the Authentication screen
+	 * @since 1.0
+	 * @access public
+	 */
 	public function Authenticated(){
 		$this->load->library("api_authentication");
 		$this->api_authentication->Base_Url(base_url());
 		if($this->api_authentication->Auth()){
 			if(!is_null($this->api_authentication->Get("Request_Code"))){
-				echo $this->api_authentication->Get("Request_Code");
+				if(!is_null($this->api_authentication->Get("Redirect_Url"))){
+					$Redirect = $this->api_authentication->Get("Redirect_Url");
+					$Request_Code = $this->api_authentication->Get("Request_Code");
+					header("Location:".$Redirect."?request_code=".$Request_Code);
+				} else {
+					header("Location:".base_url());
+				}
 			} else {
-				print_r($this->api_authentication->Get("Errors"));
+				self::_Api_Handle_Error($this->api_authentication->Get("Redirect_Url"),$this->api_authentication->Get("Errors"),503);
 			}
 		} else {
-			print_r($this->api_authentication->Get("Errors"));
+			self::_Api_Handle_Error($this->api_authentication->Get("Redirect_Url"),$this->api_authentication->Get("Errors"),401);
 		}
 	}
 
+	/**
+	 * This function generates a pair of request tokens,
+	 * and send the respone to the requester
+	 * @since 1.0
+	 * @access public
+	 */
 	public function Request_Token(){
 		$this->load->library("api_authentication");
 		if($this->api_authentication->Request_Token()){
-			//Redirect to _RedirecT_Url with the new request tokens as GET parameters
-			if(!is_null($this->api_authentication->Get("Redirect_Url"))){
-				echo $this->api_authentication->Get("Request_Token"); 
+			if(!is_null($this->api_authentication->Get("Request_Token")) && !is_null($this->api_authentication->Get("Request_Token_Secret"))){
+				if(!is_null($this->api_authentication->Get("Redirect_Url"))){
+					$Redirect = $this->api_authentication->Get("Redirect_Url");
+					$Secure = $this->api_authentication->Get("Request_Token_Secret");
+					$Token = $this->api_authentication->Get("Request_Token");
+					header("Location:".$Redirect."?request_token=".$Token."&request_secret=".$Secure);
+				} else {
+					header("Location:".base_url());
+				}
 			} else {
-				header("Location:".base_url());
+				self::_Api_Handle_Error($this->api_authentication->Get("Redirect_Url"),$this->api_authentication->Get("Errors"),503);	
 			}
 		} else {
-			print_r($this->api_authentication->Get("Errors"));
+			self::_Api_Handle_Error($this->api_authentication->Get("Redirect_Url"),$this->api_authentication->Get("Errors"),400);
 		}
 	}
 
+	/**
+	 * This function generates a pair of access tokens,
+	 * and redirect the requester to the right place
+	 * @since 1.0
+	 * @access public
+	 */
 	public function Access_Token(){
 		$this->load->library("api_authentication");
 		if($this->api_authentication->Access_Token()){
-			echo $this->api_authentication->Get("Access_Token"); 
+			if(!is_null($this->api_authentication->Get("Access_Token")) && !is_null($this->api_authentication->Get("Access_Token_Secret"))){
+				if(!is_null($this->api_authentication->Get("Redirect_Url"))){
+					$Token = $this->api_authentication->Get("Access_Token");
+					$Secret = $this->api_authentication->Get("Access_Token_Secret");
+					$Redirect =  $this->api_authentication->Get("Redirect_Url");
+					header("Location:".$Redirect."?access_token=".$Token."&access_secret=".$Secret);
+				} else {
+					header("Location:".base_url());
+				}
+			} else {
+				self::_Api_Handle_Error($this->api_authentication->Get("Redirect_Url"),$this->api_authentication->Get("Errors"),503);
+			}
 		} else {
-			print_r($this->api_authentication->Get("Errors"));
+			self::_Api_Handle_Error($this->api_authentication->Get("Redirect_Url"),$this->api_authentication->Get("Errors"),400);
 		}
 	}
 }

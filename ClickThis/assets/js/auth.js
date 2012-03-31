@@ -6,7 +6,21 @@ $("#cancel").click(function(){
 	submitForm("cancel");
 });
 
+$(document).ready(function(){
+	$(".application-image").tooltip({
+		title:$(".application-tooltip").html(),
+		placement:"right"
+	});
+});
+
+/**
+ * This function submits the form, value are cancel or auth
+ * @param  {string} value The value to submit
+ */
 function submitForm(value){
+	if(value != "auth" && value != "cancel"){
+		value == "cancel";
+	}
 	var app_id = getParameterByName("app_id");
 	var redirect = getParameterByName("redirect");
 	var url = $("#base_url").val()+"api/authenticated/?app_id="+app_id+"&redirect="+redirect;
@@ -16,7 +30,7 @@ function submitForm(value){
 	if(getParameterByName("sections") != null){
 		url = url+"&sections="+getParameterByName("sections");
 	}
-	$("#myform").attr("action",);
+	$("#myform").attr("action",url);
 	$("#auth").attr("value",value);
 	document.myform.submit();
 }

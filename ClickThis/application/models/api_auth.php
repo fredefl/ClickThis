@@ -174,7 +174,11 @@ class Api_Auth extends CI_Model{
 				$Query = $this->db->select("AuthenticationEndpoint")->limit(1)->where(array("Id" => $AppId))->get($this->config->item("api_apps_table"));
 				if($Query->num_rows() > 0){
 					$Data = $Query->result();
-					return $Data[0]->AuthenticationEndpoint;
+					if(!is_null($Data[0]->AuthenticationEndpoint)){
+						return $Data[0]->AuthenticationEndpoint;
+					} else {
+						return FALSE;
+					}
 				} else {
 					return FALSE;
 				}
