@@ -389,6 +389,8 @@ class Api extends CI_Controller {
 	/**
 	 * This function assemblies a redirect url, used if the user aren't logged in
 	 * @return string The redirect url
+	 * @access private
+	 * @since 1.1
 	 */
 	private function _Create_Redirect(){
 		$String = uri_string()."?";
@@ -404,7 +406,7 @@ class Api extends CI_Controller {
 	 * @param string $Redirect The redirect url or NULL
 	 * @param array $Reason   An array of reasons
 	 * @param integer $Code     The HTTP status code of the error
-	 * @since 1.0
+	 * @since 1.1
 	 * @access private
 	 */
 	private  function _Api_Handle_Error($Redirect = NULL,$Reason = NULL,$Code = NULL){
@@ -435,7 +437,7 @@ class Api extends CI_Controller {
 	/**
 	 * This function performs the request, and redirects the user to the Authentication screen,
 	 * if the input is valid.
-	 * @since 1.0
+	 * @since 1.1
 	 * @access public
 	 */
 	public function Auth(){
@@ -462,7 +464,7 @@ class Api extends CI_Controller {
 
 	/**
 	 * This function performs the request, when the user has been by the Authentication screen
-	 * @since 1.0
+	 * @since 1.1
 	 * @access public
 	 */
 	public function Authenticated(){
@@ -486,9 +488,32 @@ class Api extends CI_Controller {
 	}
 
 	/**
+	 * This function is used to generate ClickThis tokens
+	 * @access public
+	 * @since 1.1
+	 */
+	public function Token(){
+		$this->load->library("api_authentication");
+		if(isset($_SESSION["UserId"])){
+			if(isset($_SESSION["clickthis_token"])){
+				redirect("home");
+			} else {
+				if($this->api_authentication->ClickThis_Token(3)){
+					$_SESSION["clickthis_token"] = $this->api_authentication->Get("ClickThis_Token");
+					redirect("home");
+				} else {
+					redirect("login");
+				}
+			}
+		} else {
+			redirect("login");
+		}
+	}
+
+	/**
 	 * This function generates a pair of request tokens,
 	 * and send the respone to the requester
-	 * @since 1.0
+	 * @since 1.1
 	 * @access public
 	 */
 	public function Request_Token(){
@@ -514,7 +539,7 @@ class Api extends CI_Controller {
 	/**
 	 * This function generates a pair of access tokens,
 	 * and redirect the requester to the right place
-	 * @since 1.0
+	 * @since 1.1
 	 * @access public
 	 */
 	public function Access_Token(){

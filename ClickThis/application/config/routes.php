@@ -38,9 +38,35 @@
 |
 */
 
+/**
+ * Api Routings
+ */
+$route["auth"] = "api/auth";
+$route["access_token"] = "api/access_token";
+$route["request_token"] = "api/request_token";
+$route["authenrized"] = "api/authenticated";
+
+/**
+ * ClickThis Routes
+ */
+$route["token"] = "api/token";
+$route["logout"] = "login/logout";
+$route["onetimepasswordtest/php"] = "login/topt_server";
+$route["onetimepasswordtest/js"] = "login/topt_client";
+$route["login/mobile"] = "mobile/login";
+$route["register/mobile"] = "mobile/register";
+$route["login/desktop"] = "login/clickthis";
+$route["register/desktop"] = "register";
+
+/**
+ * Survey Mapping
+ */
+
+/**
+ * Standard CodeIgniter routings
+ */
 $route['default_controller'] = "home";
 $route['404_override'] = '';
-//$route['assets/js/test.js'] = "../assets/js/test.js";
 
 
 /* End of file routes.php */

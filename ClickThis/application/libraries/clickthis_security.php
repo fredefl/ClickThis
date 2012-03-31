@@ -127,6 +127,10 @@ class clickthis_security
 				die();
 			}
 		}
+
+		/*if(self::IsLoggedIn() && !isset($_SESSION["clickthis_token"]) || self::IsLoggedIn() && isset($_SESSION["clickthis_token"]) && $_SESSION["clickthis_token"] == ""){
+			redirect("token");
+		}*/
 		
 		//Check To see if the user is logged in if the user is and if the user is not Developer show The 418 - Im a Teapot Error
 		if(self::IsLoggedIn()){

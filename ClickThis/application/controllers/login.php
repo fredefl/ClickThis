@@ -1,16 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-/*
-http://illution.dk/ClickThis/termsofservice/ v|
-http://illution.dk/ClickThis/privacy/ v|
-http://illution.dk/ClickThis/google/callback
-http://illution.dk/ClickThis/openid/realm
-http://illution.dk/ClickThis/google/userstatus
-http://illution.dk/ClickThis/google/login
-http://illution.dk/ClickThis/google/register
-http://illution.dk/ClickThis/logout v| 
-*/
-
 class Login extends CI_Controller {
 
 	public function index() {
@@ -30,37 +19,6 @@ class Login extends CI_Controller {
 	}
 
 ######################################################Providers#########################################################
-###############################OpenId#################################	
-	public function openid($Page){
-		if(!is_null($Page)){
-			if(method_exists($this,"openid_".$Page)){
-				$Function = "openid_".$Page;
-				self::$Function();
-			}
-			else{
-				show_error(404);	
-			}
-		}
-	}
-	private function openid_realm(){
-		
-	}
-	
-	private function openid_login(){
-		
-	}
-	
-	private function openid_register(){
-		
-	}
-	
-	private function openid_logout(){
-		
-	}
-	
-	private function openid_callback(){
-		
-	}
 
 ###############################Google#################################	
 	public function google($Page = NULL) {
@@ -119,21 +77,6 @@ class Login extends CI_Controller {
 		}
 	}
 	
-	private function google_callback() {
-
-	}
-	
-	private function google_userstatus() {
-
-	}
-	
-	private function google_login() {
-
-	}
-	
-	private function google_register() {
-
-	}
 ###############################Facebook####################################	
 	public function facebook(){
 		$this->load->model('Facebook_model');
@@ -331,6 +274,27 @@ class Login extends CI_Controller {
 			show_error(403);	
 		}
 	}
+
+	public function topt_server(){
+		date_default_timezone_set("UTC");
+		$Settings = array(
+			'Algorithm' => 'sha1',		// The hash algorithm
+			'Digits' => '6', 			// The number of digits the output should contain
+			'Key' => '12345678901234567890', 	// The secret key
+			'Timestamp' => time(), 		// The current time
+			'InitialTime' => '0', 		// I dunno
+			'TimeStep' => '30', 		// Time in seconds a key should last
+			'TimeWindowSize' => '1'		// I dunno	
+		);
+		
+		$this->load->library("onetimepassword");
+		// Echo out key
+		$this->output->set_output("<meta http-equiv='refresh' content='5'/>TOTP one-time-password: <b>" . OneTimePassword::GetPassword($Settings) . "</b><br>");	
+	}
+
+	public function topt_client(){
+		$this->load->view("topt");
+	}
 	
 	public function clickthis_register(){
 		redirect('register');
@@ -376,54 +340,6 @@ class Login extends CI_Controller {
 		}
 	}
 	
-###############################Yahoo#######################################	
-	
-	public function yahoo(){
-
-	}
-
-###############################Youtube#####################################	
-	
-	public function youtube(){
-		
-	}
-	
-###############################Wordpress###################################		
-	
-	public function wordpress(){
-		
-	}
-	
-###############################WindowsLive#################################		
-	
-	public function windowslive(){
-		
-	}
-
-###############################Paypal######################################	
-	
-	public function paypal(){
-		
-	}
-	
-###############################Myspace######################################		
-	
-	public function myspace(){
-		
-	}
-	
-###############################Myspace#####################################		
-	
-	public function myopenid(){
-		
-	}
-
-###############################LiveJournal#################################	
-	
-	public function livejournal(){
-		
-	}
-	
 ###############################LinkedIn####################################		
 	
 	//Check if the user is registred etc
@@ -464,7 +380,8 @@ class Login extends CI_Controller {
 	//Authenticate With The users LinkedIn Account
 	private function linkedin_auth(){
 		error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
-		include("linkedin.php");
+		//include("linkedin.php");
+		$this->load->helper('linkedin');
 		$this->config->load('linkedin',TRUE);
 		
 		$config['base_url']             =   $this->config->item('linkedin_base_url', 'linkedin');
@@ -488,7 +405,8 @@ class Login extends CI_Controller {
 	//The Data Callback funtion from Auth
 	private function linkedin_callback(){
 		error_reporting(E_ALL ^ (E_NOTICE | E_WARNING));
-		include("linkedin.php");
+		//include("helpers/linkedin.php");
+		$this->load->helper('linkedin');
 		$this->config->load('linkedin',TRUE);
 		
 		$config['base_url']             =   $this->config->item('linkedin_base_url', 'linkedin');
@@ -576,68 +494,6 @@ class Login extends CI_Controller {
 		}
 
 	}
-	
-###############################Hyves#######################################		
-	
-	public function hyves(){
-		
-	}
-
-###############################Foursquare#################################	
-	
-	public function foursquare(){
-		
-	}
-	
-###############################Tumblr#####################################	
-	
-	private function tumblr_auth(){
-		
-	}
-	
-	private function tumblr_callback(){
-			
-	}
-	
-	public function tumblr($Parameters = 'auth'){
-		//If theres is parameters like callback for login
-		if(isset($Parameters)){
-			//Check Paramters
-			switch($Parameters){
-				
-				//Login Callback
-				case "callback":
-				{
-					self::tumblr_callback();	
-				}
-				//Auth
-				case "auth":{
-					self::tumblr_auth();
-				}
-			}
-		}
-		
-	}
-
-###############################Flickr#####################################	
-	
-	public function flickr(){
-		
-	}
-	
-###############################Aol########################################		
-	
-	public function aol(){
-		
-	}
-	
-###############################Blogger####################################		
-	
-	public function blogger(){
-		
-	}
-	
-##############################################################################################################################	
 	
 	public function logout() {
 		unset($_SESSION);

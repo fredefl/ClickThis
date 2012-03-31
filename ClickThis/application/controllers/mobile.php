@@ -45,4 +45,12 @@ class Mobile extends CI_Controller {
 
 	}
 
+	public function Login(){
+
+	}
+
+	public function Register(){
+		
+	}
+
 }
