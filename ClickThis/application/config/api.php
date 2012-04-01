@@ -1,16 +1,63 @@
 <?php
+/**
+ * @package API
+ * @subpackage API Config
+ * @category API
+ * @version 1.0
+ */
+
+	/**
+	 * The database table for the request codes
+	 * @since 1.0
+	 */
 	$config["api_request_code_table"] = "RequestCodes";
+
+	/**
+	 * The database tables for the apps
+	 * @since 1.0
+	 */
 	$config["api_apps_table"] = "Apps";
+
+	/**
+	 * The database table for the users
+	 * @since 1.0
+	 */
 	$config["api_users_table"] = "Users";
+
+	/**
+	 * The database table for the request tokens
+	 * @since 1.0
+	 */
 	$config["api_request_token_table"] = "RequestTokens";
+
+	/**
+	 * The database table for the access tokens
+	 * @since 1.0
+	 */
 	$config["api_access_token_table"] = "AccessTokens";
+
+	/**
+	 * The database table for the simple tokens
+	 * @since 1.0
+	 */
 	$config["api_simple_token_table"] = "Tokens";
 
-	//In seconds
+	/**
+	 * The time to live for the request tokens in seconds
+	 * @since 1.0
+	 */
 	$config["api_request_code_alive_time"] = 3600;
+
+	/**
+	 * The time to live for the request tokens in seconds
+	 * @since 1.0
+	 */
 	$config["api_request_token_alive_time"] = 3600;
 
-	//Time to live for access tokens, Level => Time in seconds
+	/**
+	 * Time to live for access tokens, Level => Time in seconds
+	 * @since 1.0
+	 */
 	$config["api_access_tokens_time_to live"] = array(
 		1 => 3600,
 		2 => 0,
@@ -24,17 +71,32 @@
 		10 => 3600
 	);
 
-	//The largets token that has secret access(Password access)
+	/**
+	 * The largets token that has secret access(Password access)
+	 * @since 1.0
+	 */
 	$config["api_secret_access_token_max"] = 1;
 
-	//The largets token that has write access
+	/**
+	 * The largets token that has write access
+	 * @since 1.0
+	 */
 	$config["api_write_access_token_max"] = 5;
 
-	//The largets token level that has read access
+	/**
+	 * The largets token level that has read access
+	 * @since 1.0
+	 */
 	$config["api_read_access_token_max"] = 10;
 
-	//The largets token that has delete access
+	/**
+	 * The largets token that has delete access
+	 * @since 1.0
+	 */
 	$config["api_delete_access_token_max"] = 3;
 
-	//The not allowed paramter in a search request
+	/**
+	 * The not allowed paramter in a search request
+	 * @since 1.0
+	 */
 	$config["api_search_not_allowed"] = array("redirect","consumer_key","consumer_secret","access_token","access_secret","token","request_code","request_token","request_secret");

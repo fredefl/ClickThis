@@ -17,6 +17,8 @@ class Api extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->library("api_request");
+		$this->load->library("api_response/std_api_response");
+		$this->load->library("api_authentication");
 	}
 
 	/**
@@ -125,6 +127,7 @@ class Api extends CI_Controller {
 	 * @param integer $Code         The HTTP status code to send
 	 * @param string  $Content_Type The mime type of the content
 	 * @param string  $Content      The content to show
+	 * @param array $Reason An array of error reasons
 	 * @since 1.0
 	 * @access public
 	 */
@@ -146,6 +149,8 @@ class Api extends CI_Controller {
 			}
 			echo json_encode($Error);
 		} else {
+			$Content["error_message"] = NULL;
+			$Content["error_code"] = NULL;
 			echo $Content;
 		}
 	}
@@ -386,86 +391,152 @@ class Api extends CI_Controller {
 
 	### API With Authetication Test ###
 	public function Series_Test($Id = NULL){
-		self::_Autherized_Api_Request("Series",$Id);
+		//self::_Autherized_Api_Request("Series",$Id);
 	}
 
-	private function _Autherized_Api_Request($LibraryName = NULL,$Id = NULL,$Table = NULL,$ArrayName = NULL){
-		//If authenticated or not
-		if(self::_Authenticate($Secret_Access,$Write_Access,$Reason)){
-			if(!is_null($LibraryName)){
-				if(!is_null($Id) || in_array($Api_Request->Request_Method(), array("post","put","delete","patch","head"))){
-					self::_Handle_Normal_Api_Request($LibraryName,$Id,$Table,$ArrayName);
-				} else {
-					self::__Check_For_Search_Request();
-				}
-			} else {
-				self::Send_Response(400);
+	public function API_Test($Id = NULL){
+		$this->api_request->Request_Data(array("QuestionId" => 1,"UserId" => 6));
+		self::_Autherized_Api_Request("DidAnswer",7);
+	}
 
-			}
-		} else {
-			self::Send_Response(401,NULL,NULL,$Reason);
+	/**
+	 * This function outputs the content if it exists or show an error code
+	 * @param integer $Code         The HTTP status code to send
+	 * @param string  $Content_Type The mime type of the content
+	 * @param string  $Content      The content to show
+	 * @param array $Reason An array of error reasons
+	 * @since 1.1
+	 * @access public
+	 */
+	private function _Send_Response($Code = 200,$Content_Type = "application/json",$Content = NULL,$Reason = NULL){
+		if(is_null($Content_Type)){
+			$Content_Type = "application/json";
 		}
-	}
-
-	private function _Handle_Normal_Api_Request($LibraryName = NULL,$Id = NULL){
-		switch ($Api_Request->Request_Method()) {
-			case 'get':
-				self::Perform_Get_Operation($Class,$Id);
-				break;
-			
-			case 'post':
-				self::_Create($Class);
-				break;
-
-			case 'delete':
-				self::_Delete($ClassName,$Id);
-				break;
-
-			case 'put':
-				self::_Update($Class,$Id);
-				break;
-
-			case 'patch':
-				self::_Update($Class,$Id,false);
-				break;
+		if(is_null($Code)){
+			$Code = 200;
+		}
+		
+		$Status_Header = 'HTTP/1.1 ' . $Code . ' ' . $this->api_request->Get_Message($Code); 
+		header($Status_Header); 
+		header('Content-type: ' . $Content_Type);
+		if(is_null($Content) && $Code != 200){
+			$Error = array("error_message" => $this->api_request->Get_Message($Code),"error_code" => $Code);
+			if(!is_null($Reason) && is_array($Reason)){
+				$Error["error_reason"] = $Reason;
+			}
+			echo json_encode($Error);
+		} else {
+			$Content["error_message"] = NULL;
+			$Content["error_code"] = NULL;
+			echo json_encode($Content);
 		}
 	}
 
 	/**
-	 * This function checks if the search request is valid
-	 * @param string $LibraryName The library to use
+	 * This function sends a HTTP header
+	 * @param integer $Code The HTTP status code to send
+	 * @param string $Header The header to send
 	 * @since 1.1
 	 * @access private
 	 */
-	private function _Check_For_Search_Request($LibraryName = NULL){
-		/*if(isset($_GET) && !empty($_GET) && $Api_Request->Request_Method() == "get" && !is_null($Table)){
-					$Query = array();
-					$NotAllowed = array("redirect","consumer_key","consumer_secret","access_token","access_secret","token","request_code","request_token","request_secret");
-					$Limit = 10;
-					foreach ($_GET as $Key => $Value) {
-						if(!is_null($Value) && $Value != "" && !in_array($Key, $NotAllowed)){
-							if($Key != "Limit"){
-								$Query[$Key] = $Value;
-							} else {
-								$Limit = $Value;
-							}
-						}
-					}
-					if(count($Query) > 0){
-						if(!$Return){
-							self::Search($Query,$Table,$$LibraryName,$Limit,$ArrayName);
-						} else {
-							return self::Search($Query,$Table,$$LibraryName,$Limit,$ArrayName,true);
-						}
-					} else {
-						self::Send_Response(400);
+	private function _Send_Header($Code = NULL,$Header = NULL){
+		if(!is_null($Code)){
+			$Status_Header = 'HTTP/1.1 ' . $Code . ' ' . $this->api_request->Get_Message($Code); 
+			header($Status_Header); 
+		} else {
+			if(!is_null($Header)){
+				header($Header);
+			}
+		}
+	}
+
+	/**
+	 * This function performs a api request that uses the new token security system
+	 * @param string $LibraryName The library to use etc App,User
+	 * @param integer $Id          The id to load if any
+	 * @since 1.1
+	 * @access private
+	 */
+	private function _Autherized_Api_Request($LibraryName = NULL,$Id = NULL){
+		//If authenticated or not
+		if(self::_Authenticate($Secret_Access,$Write_Access,$Reason)){
+
+			if(!is_null($LibraryName)){
+
+				//Load Up the library
+				$this->load->library("api_response/".strtolower($LibraryName."_Response"));
+				$ClassName = $LibraryName."_Response";
+				$Object = new $ClassName();
+				$Object->WriteAccess = $Write_Access;
+				$Object->UserId = $this->api_authentication->Get("User_Id");
+				$Object->Level = $this->api_authentication->Get("Level");
+
+				//If request or search
+				if(!is_null($Id) || in_array($this->api_request->Request_Method(), array("post","put","delete","patch","head"))){
+					switch (/*$this->api_request->Request_Method()*/"patch") {
+							case 'get':
+								if($Object->Read($Id)){
+									self::_Send_Response(200,NULL,$Object->Response);
+								} else {
+									self::_Send_Response(401,NULL,NULL);
+								}
+								break;
+							
+							case 'post':
+								if($Object->Create($this->api_request->Request_Data())){
+									self::_Send_Response(200,NULL,$Object->Response);
+								} else {
+									self::_Send_Response(401,NULL,NULL);
+								}
+								break;
+
+							case 'delete':
+								if($Object->Delete($Id)){
+									self::_Send_Response(200,NULL,$Object->Response);
+								} else {
+									self::_Send_Response(401,NULL,NULL);
+								}
+								break;
+
+							case 'put':
+								if($Object->Overwrite($Id,$this->api_request->Request_Data())){
+									self::_Send_Response(200,NULL,$Object->Response);
+								} else {
+									self::_Send_Response(401,NULL,NULL);
+								}
+								break;
+
+							case 'patch':
+								if($Object->Update($Id,$this->api_request->Request_Data())){
+									self::_Send_Response(200,NULL,$Object->Response);
+								} else {
+									self::_Send_Response(401,NULL,NULL);
+								}
+								break;
+
+							case "head":
+								self::_Send_Header(202);
+								break;	
+
+							default:
+								self::_Send_Response(400,NULL,NULL);
+								break;	
 					}
 				} else {
-					self::Send_Response(400);
+					if($Object->Search($this->api_request->Request_Data())){
+						self::_Send_Response(200,NULL,$Object->Response);
+					} else {
+						self::_Send_Response(401,NULL,NULL);
+					}
 				}
+			} else {
+				self::Send_Response(400);
 			}
-		}*/
+		} else {
+			self::_Send_Response(401,NULL,NULL,$Reason);
+		}
 	}
+
 
 	/**
 	 * This function performs a check if the specified token(s) is valid
@@ -478,7 +549,6 @@ class Api extends CI_Controller {
 	 * @access private
 	 */
 	private function _Authenticate(&$Secret_Access = NULL,&$Write_Access = NULL,&$Reason = NULL){
-		$this->load->library("api_authentication");
 		if($this->api_authentication->Authenticate()){
 			$Secret_Access = $this->api_authentication->Get("Secret_Access");
 			$Write_Access = $this->api_authentication->Get("Write_Access");
@@ -546,7 +616,7 @@ class Api extends CI_Controller {
 	 * @access public
 	 */
 	public function Auth(){
-		$this->load->library("api_authentication");
+		
 		$this->load->library("app");
 		if(isset($_SESSION["UserId"]) && !empty($_SESSION["UserId"])){
 			if($this->api_authentication->AuthDialog()){
@@ -573,7 +643,7 @@ class Api extends CI_Controller {
 	 * @access public
 	 */
 	public function Authenticated(){
-		$this->load->library("api_authentication");
+		
 		$this->api_authentication->Base_Url(base_url());
 		if($this->api_authentication->Auth()){
 			if(!is_null($this->api_authentication->Get("Request_Code"))){
@@ -597,8 +667,7 @@ class Api extends CI_Controller {
 	 * @access public
 	 * @since 1.1
 	 */
-	public function Token(){
-		$this->load->library("api_authentication");
+	public function Token(){	
 		if(isset($_SESSION["UserId"])){
 			if(isset($_SESSION["clickthis_token"])){
 				redirect("home");
@@ -622,7 +691,7 @@ class Api extends CI_Controller {
 	 * @access public
 	 */
 	public function Request_Token(){
-		$this->load->library("api_authentication");
+		
 		if($this->api_authentication->Request_Token()){
 			if(!is_null($this->api_authentication->Get("Request_Token")) && !is_null($this->api_authentication->Get("Request_Token_Secret"))){
 				if(!is_null($this->api_authentication->Get("Redirect_Url"))){
@@ -648,7 +717,7 @@ class Api extends CI_Controller {
 	 * @access public
 	 */
 	public function Access_Token(){
-		$this->load->library("api_authentication");
+		
 		if($this->api_authentication->Access_Token()){
 			if(!is_null($this->api_authentication->Get("Access_Token")) && !is_null($this->api_authentication->Get("Access_Token_Secret"))){
 				if(!is_null($this->api_authentication->Get("Redirect_Url"))){

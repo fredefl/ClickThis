@@ -466,7 +466,7 @@ class Api_Authentication{
 	public function ClickThis_Token($Level = 2){
 		if(self::_User_Id()){
 			$Token = self::_Rand_Str(64);
-			if($this->_CI->Api_Auth->ClickThis_Token($Token,$this->_User_Id,$this->_Level)){
+			if($this->_CI->Api_Auth->ClickThis_Token($Token,$this->_User_Id,$Level)){
 				$this->_ClickThis_Token = $Token;
 				return TRUE;
 			} else {
