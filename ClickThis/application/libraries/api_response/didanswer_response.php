@@ -1,12 +1,6 @@
 <?php
 class DidAnswer_Response extends Std_Api_Response{
 	
-	/**
-	 * A local instance of CodeIgniter
-	 * @var object
-	 * @since 1.0
-	 * @access private
-	 */
 	private $_CI = NULL;
 
 	/**
