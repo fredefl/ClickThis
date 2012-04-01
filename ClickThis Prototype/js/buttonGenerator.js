@@ -27,24 +27,29 @@ var buttonGenerator = {
 	 *  text: "Lorem Ipsum", // The text of the button
 	 *  type: 2, // The type of the button. 1 = multi, 2 = single, 3 = multi textfield and 4 = single textfield
 	 *  group: 1, // The group of the button
-	 *  size: 1 // This is the size, 1 = fullsize and 2 = halfsize
+	 *  size: 1 // This is the size, 1 = fullsize and 2 = halfsize,
+	 *  value: 0 // This is the selection. 0 indicates that the button is not selected, otherwise 1.
 	 * })
 	 * @returns {string} The html for the button
 	 */
 	newButton: function (json) {
-		var cssClass = [],
+		var cssClasses = [],
 			groupHTML = "",
 			currentText = "",
 			onClickFunctions = "",
 			specialClass = "",
 			html = "",
-			onClickType = "onclick",
 			specialFunctions = "",
-			textField = 0,
+			textfield = 0,
 			size = json.size || 2;
 
 		if (json.type === 3 || json.type === 4) {
-			textField = 1;
+			textfield = 1;
+		}
+
+		// Make sure that json.value is difined
+		if (json.value === undefined) {
+			json.value = 0;
 		}
 
 		if (json.type === 3 || json.type === 4) {
@@ -53,80 +58,43 @@ var buttonGenerator = {
 			currentText = json.text;
 		}
 
-		// Get the cssClass
-		cssClass.push("mega", "button", "color-" + json.color, "size-" + size);
+		// Declare the basic CSS classes
+		cssClasses.push("mega", "button", "color-" + json.color, "size-" + size);
+
+		// Check type, add the correct class
+		if (json.type === 1 || json.type === 3) {
+			cssClasses.push("multi");
+		} else if (json.type === 2 || json.type === 4) {
+			cssClasses.push("single");
+		}
 
 		// Get the javascript functions
 		if (json.type === 1) {
-			onClickFunctions += "buttonGenerator.multipleChoice(this," + textField + ");";
+			onClickFunctions += "buttonGenerator.multipleChoice(this," + textfield + ");";
 		}
 		if (json.type === 2) { // Single
-			onClickFunctions += "buttonGenerator.singleChoice(this," + textField + ");";
+			onClickFunctions += "buttonGenerator.singleChoice(this," + textfield + ");";
 		}
 		if (json.type === 3) { // Multi Textfield
-			specialFunctions = 'ondblclick="buttonGenerator.multipleChoice(this,' + json.text + ',true);"';
-			cssClass.push("fullsize","textfield");
+			cssClasses.push("textfield");
 		}
 		if (json.type === 4) { // Single Textfield
-			specialFunctions = 'ondblclick="buttonGenerator.singleChoice(this,' + json.text + ',true);"';
-			cssClass.push("fullsize","textfield");
+			cssClasses.push("textfield");
 		}
 		// Special Classes
 		if (json.type === 2) { // Single
 			specialClass = "data-specialClass=\"single\"";
 		}
-		if (json.group !== undefined && json.group !== "") {
-			groupHTML = 'data-submitgroup="' + json.group + '"';
-		}
 		// Create Html Code
 		html = [
-			'<a class="' + cssClass.join(" ") + '"',
-			onClickType + '="' + onClickFunctions + '"',
-			'data-value="0"',
+			'<a class="' + cssClasses.join(" ") + '"',
+			'onclick="' + onClickFunctions + '"',
+			'data-value="' + json.value  + '"',
 			'data-id="' + json.id + '"',
-			groupHTML,
 			'data-color="' + json.color + '"',
-			'data-text="' + json.text + '"',
-			'lang="en"',
-			specialClass,
 			specialFunctions,
 			'>' + currentText + '</a>\r\n'
 		].join("");
-		// Return the Html Code
-		return html;
-	},
-	/**
-	 * This function creates a Submit button that can submit,
-	 * but doesn't redicret.
-	 * @param  {[string} color   The wished color of the button
-	 * @param  {string} text	 The text of the button
-	 * @param  {string} id	   The id of the button if wished
-	 * @param  {string} location The post location of the submit group
-	 * @param  {string} group	The submit group
-	 * @param  {string} clickCallbackString The name of the function to call when clicked
-	 * @param {string} callbackParameters The parameters to the callback function as string
-	 */
-	newCustomSwipeSubmitButton : function (color, text, id, location, group, clickCallbackString, callbackParameters) {
-		var html = [
-				'<a  class="mega button color-' + color + ' halfsize fullsize"',
-				'onClick="buttonGenerator.submitCustomSwipeData(this);"'
-			].join("");
-		if (id !== undefined && id !== null) {
-			html += 'id="' + id + '"';
-		}
-		if (location !== undefined && location !== null) {
-			html += 'data-location="' + location + '"';
-		}
-		if (group !== undefined && group !== null) {
-			html += 'data-submitgroup="' + group + '"';
-		}
-		if (clickCallbackString !== undefined && clickCallbackString !== null && typeof clickCallbackString === 'string') {
-			html += 'data-clickcallback="' + clickCallbackString + '"';
-		}
-		if (callbackParameters !== undefined && callbackParameters !== null && typeof callbackParameters === 'string') {
-			html += 'data-callbackParameters="' + callbackParameters + '"';
-		}
-		html += '\\>' + text + '</a>';
 		// Return the Html Code
 		return html;
 	},
@@ -181,7 +149,7 @@ var buttonGenerator = {
 		singleButtons = $('.single').toArray();
 
 		// If this is a single choice button 
-		if (specialClass.indexOf("single") === -1) {
+		if (!$(button).hasClass("single")) {
 			for (i in singleButtons) {
 				singleButton = singleButtons[i];
 				if (singleButton !== null) {
@@ -189,45 +157,6 @@ var buttonGenerator = {
 						this.changeState(singleButton);
 					}
 				}
-			}
-		}
-	},
-	/**
-	 * This function cretes a custom submit button,
-	 * the only different from 'submitCutstomData' is,
-	 * that this function doesn't redirect it call a callback function instead
-	 * @see submitCustomData
-	 * @param  {object} submitButton The submit button object that is clicked
-	 */
-	submitCustomSwipeData : function (submitButton) {
-		var i = 0,
-			postString = "",
-			postLocation = submitButton.getAttribute("data-location"),
-			callback = submitButton.getAttribute('data-clickcallback'),
-			submitGroup = submitButton.getAttribute("data-submitgroup"),
-			callbackOptions = submitButton.getAttribute('data-callbackParameters'),
-			button = null;
-		for (i in $('.button').toArray()) {
-			button = $('.button').toArray()[i];
-			if (submitGroup !== undefined) {
-				if (button !== null && button.getAttribute("data-submitgroup") === submitGroup) {
-					if (button.getAttribute("data-id") !== null && button.getAttribute("data-id") !== 'null') {
-						postString += button.getAttribute("data-id") + "=" + button.getAttribute("data-value") + ", ";
-					}
-				}
-			} else {
-				if (button !== null && button.getAttribute("data-id") !== null) {
-					postString += button.getAttribute("data-id") + "=" + button.getAttribute("data-value") + ", ";
-				}
-			}
-		}
-
-		postString = postString.slice(0, -1);
-		if (callback !== null && callback !== undefined && typeof callback === 'string') {
-			if (callbackOptions !== undefined && callbackOptions !== null && typeof callbackOptions === 'string') {
-				eval(callback + '(' + callbackOptions + ')');
-			} else {
-				eval(callback + '()');
 			}
 		}
 	},
@@ -264,6 +193,7 @@ var buttonGenerator = {
 		if (value === "1") {
 			this.unCheckAll();
 		} else {
+			console.log(value);
 			this.unCheckAll();
 			this.changeState(button, form, formDeselect);
 		}
