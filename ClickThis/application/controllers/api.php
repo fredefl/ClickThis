@@ -399,7 +399,7 @@ class Api extends CI_Controller {
 	 * and if the have secret and write access
 	 * @param pointer|boolean &$Secret_Access If the token has access to change password and username
 	 * @param pointer|boolean $Write_Access If the token has wrtie access
-	 * @param array &$Reason        [description]
+	 * @param array &$Reason        If errors occur then this will contain the errors
 	 * @return boolean
 	 * @since 1.0
 	 * @access private
