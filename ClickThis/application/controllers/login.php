@@ -296,10 +296,6 @@ class Login extends CI_Controller {
 		$this->load->view("topt");
 	}
 	
-	public function clickthis_register(){
-		redirect('register');
-	}
-	
 	public function clickthis($Page = NULL,$ErrorString = NULL){
 		if(!is_null($Page)){
 			switch($Page){
@@ -317,7 +313,7 @@ class Login extends CI_Controller {
 					break;	
 				}
 				case "register":{
-					self::clickthis_register();
+					redirect("login/clickthis/#register");
 				}
 				case "generatekeypair":{
 					self::clickthis_generatekeypair();	

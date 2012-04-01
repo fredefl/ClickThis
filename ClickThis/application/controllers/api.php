@@ -149,8 +149,6 @@ class Api extends CI_Controller {
 			}
 			echo json_encode($Error);
 		} else {
-			$Content["error_message"] = NULL;
-			$Content["error_code"] = NULL;
 			echo $Content;
 		}
 	}
@@ -374,6 +372,7 @@ class Api extends CI_Controller {
 			$Class = new $Class_Name();
 			if($Class->Load($Id)){
 				if($Return === false){
+					$Data = array();
 					$Data[$Class_Name] = $Class->Export(false,true);
 					$Data["error_message"] = NULL;
 					$Data["error_code"] = NULL;

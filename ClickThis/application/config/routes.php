@@ -56,7 +56,13 @@ $route["onetimepasswordtest/js"] = "login/topt_client";
 $route["login/mobile"] = "mobile/login";
 $route["register/mobile"] = "mobile/register";
 $route["login/desktop"] = "login/clickthis";
-$route["register/desktop"] = "register";
+$route["register/desktop"] = "login/clickthis/register";
+$route["login/mobile"] = "mobile/login";
+$route["login/tablet"] = "tablet/login";
+$route["termsofservice"] = "desktop/termsofservice";
+$route["privacy"] = "desktop/privacy";
+$route["register"] = "login/clickthis/register";
+
 
 /**
  * Survey Mapping

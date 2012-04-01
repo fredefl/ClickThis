@@ -17,13 +17,6 @@ class DidAnswer_Response extends Std_Api_Response{
 	 */
 	public $Library = "DidAnswer";
 
-	/**
-	 * If a check for user influence is needed
-	 * @var boolean
-	 * @since 1.0
-	 * @access public
-	 * @static
-	 */
 	public static $_INTERNAL_USER_INFLUENCE = NULL;
 
 	public static $_INTERNAL_USER_INFLUENCE_FIELDS = NULL;
