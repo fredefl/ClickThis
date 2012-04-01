@@ -23,3 +23,18 @@
 		9 => 432000,
 		10 => 3600
 	);
+
+	//The largets token that has secret access(Password access)
+	$config["api_secret_access_token_max"] = 1;
+
+	//The largets token that has write access
+	$config["api_write_access_token_max"] = 5;
+
+	//The largets token level that has read access
+	$config["api_read_access_token_max"] = 10;
+
+	//The largets token that has delete access
+	$config["api_delete_access_token_max"] = 3;
+
+	//The not allowed paramter in a search request
+	$config["api_search_not_allowed"] = array("redirect","consumer_key","consumer_secret","access_token","access_secret","token","request_code","request_token","request_secret");

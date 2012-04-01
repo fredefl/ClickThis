@@ -176,6 +176,7 @@ class Api_Authentication{
 	public function Api_Authentication(){
 		$this->_CI =& get_instance();
 		$this->_CI->load->model("Api_Auth");
+		$this->_CI->load->config("api");
 	}
 
 	/**
@@ -551,12 +552,12 @@ class Api_Authentication{
 	public function Authenticate(){
 		if(self::_Access()){
 			if($this->_CI->Api_Auth->Authenticate($this->_Access_Token,$this->_Access_Token_Secret,$this->_Level,$this->_Sections,$this->_User_Id)){
-				if($this->_Level < 1 && $this->_Level > 0 && $this->_Secret_Access === TRUE){
+				if($this->_Level < $this->_CI->config->item("api_secret_access_token_max")+1 && $this->_Level > 0 && $this->_Secret_Access === TRUE){
 					$this->_Secret_Access = TRUE;
 				} else {
 					$this->_Secret_Access = FALSE;
 				}
-				if($this->_Level > 0 && $this->_Level < 4 && $this->_Write_Access === true){
+				if($this->_Level > 0 && $this->_Level < $this->_CI->config->item("api_write_access_token_max")+1 && $this->_Write_Access === true){
 					$this->_Write_Access = TRUE;
 				}
 				return TRUE;
@@ -566,12 +567,12 @@ class Api_Authentication{
 			}
 		} else if(self::_ClickThis_Token()){
 			if($this->_CI->Api_Auth->Token_Authenticate($this->_ClickThis_Token,$this->_Level,$this->_User_Id)){
-				if($this->_Level < 1 && $this->_Level > 0){
+				if($this->_Level < $this->_CI->config->item("api_secret_access_token_max")+1 && $this->_Level > 0){
 					$this->_Secret_Access = TRUE;
 				} else {
 					$this->_Secret_Access = FALSE;
 				}
-				if($this->_Level > 0 && $this->_Level < 4){
+				if($this->_Level > 0 && $this->_Level < $this->_CI->config->item("api_write_access_token_max")+1){
 					$this->_Write_Access = TRUE;
 				}
 				return TRUE;

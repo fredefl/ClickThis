@@ -298,8 +298,7 @@ class Api extends CI_Controller {
 	 * @since 1.0
 	 */
 	private function Standard_API($Class = NULL,$Id = NULL,$Table = NULL,$ArrayName = NULL,$Return = false){
-		if(!is_null($Class)){
-			
+		if(!is_null($Class)){		
 			$this->load->library($Class);
 			$Api_Request = new Api_Request();
 			$Api_Request->Perform_Request();
@@ -328,7 +327,7 @@ class Api extends CI_Controller {
 			} else {
 				if(isset($_GET) && !empty($_GET) && $Api_Request->Request_Method() == "get" && !is_null($Table)){
 					$Query = array();
-					$NotAllowed = array("redirect","consumer_key","consumer_secret","access_token","access_token_secret");
+					$NotAllowed = array("redirect","consumer_key","consumer_secret","access_token","access_secret","token","request_code","request_token","request_secret");
 					$Limit = 10;
 					foreach ($_GET as $Key => $Value) {
 						if(!is_null($Value) && $Value != "" && !in_array($Key, $NotAllowed)){
@@ -386,12 +385,86 @@ class Api extends CI_Controller {
 	}
 
 	### API With Authetication Test ###
-	public function Series_Test(){
+	public function Series_Test($Id = NULL){
+		self::_Autherized_Api_Request("Series",$Id);
+	}
+
+	private function _Autherized_Api_Request($LibraryName = NULL,$Id = NULL,$Table = NULL,$ArrayName = NULL){
+		//If authenticated or not
 		if(self::_Authenticate($Secret_Access,$Write_Access,$Reason)){
-			var_dump($Secret_Access);
+			if(!is_null($LibraryName)){
+				if(!is_null($Id) || in_array($Api_Request->Request_Method(), array("post","put","delete","patch","head"))){
+					self::_Handle_Normal_Api_Request($LibraryName,$Id,$Table,$ArrayName);
+				} else {
+					self::__Check_For_Search_Request();
+				}
+			} else {
+				self::Send_Response(400);
+
+			}
 		} else {
 			self::Send_Response(401,NULL,NULL,$Reason);
 		}
+	}
+
+	private function _Handle_Normal_Api_Request($LibraryName = NULL,$Id = NULL){
+		switch ($Api_Request->Request_Method()) {
+			case 'get':
+				self::Perform_Get_Operation($Class,$Id);
+				break;
+			
+			case 'post':
+				self::_Create($Class);
+				break;
+
+			case 'delete':
+				self::_Delete($ClassName,$Id);
+				break;
+
+			case 'put':
+				self::_Update($Class,$Id);
+				break;
+
+			case 'patch':
+				self::_Update($Class,$Id,false);
+				break;
+		}
+	}
+
+	/**
+	 * This function checks if the search request is valid
+	 * @param string $LibraryName The library to use
+	 * @since 1.1
+	 * @access private
+	 */
+	private function _Check_For_Search_Request($LibraryName = NULL){
+		/*if(isset($_GET) && !empty($_GET) && $Api_Request->Request_Method() == "get" && !is_null($Table)){
+					$Query = array();
+					$NotAllowed = array("redirect","consumer_key","consumer_secret","access_token","access_secret","token","request_code","request_token","request_secret");
+					$Limit = 10;
+					foreach ($_GET as $Key => $Value) {
+						if(!is_null($Value) && $Value != "" && !in_array($Key, $NotAllowed)){
+							if($Key != "Limit"){
+								$Query[$Key] = $Value;
+							} else {
+								$Limit = $Value;
+							}
+						}
+					}
+					if(count($Query) > 0){
+						if(!$Return){
+							self::Search($Query,$Table,$$LibraryName,$Limit,$ArrayName);
+						} else {
+							return self::Search($Query,$Table,$$LibraryName,$Limit,$ArrayName,true);
+						}
+					} else {
+						self::Send_Response(400);
+					}
+				} else {
+					self::Send_Response(400);
+				}
+			}
+		}*/
 	}
 
 	/**
@@ -404,7 +477,7 @@ class Api extends CI_Controller {
 	 * @since 1.0
 	 * @access private
 	 */
-	private function _Authenticate(&$Secret_Access = NULL,,$Write_Access = NULL,&$Reason = NULL){
+	private function _Authenticate(&$Secret_Access = NULL,&$Write_Access = NULL,&$Reason = NULL){
 		$this->load->library("api_authentication");
 		if($this->api_authentication->Authenticate()){
 			$Secret_Access = $this->api_authentication->Get("Secret_Access");
