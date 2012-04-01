@@ -1,4 +1,4 @@
-var homeCreator = {
+var homeGenerator = {
 	newSeries: function (title, id, creator,creatorId) {
 		return '<li class="forward"><a href="apitest.html#'+id+'">' + title + '</a><small class="counter"><a href="user.html?user_id='+creatorId+'">' + creator + '</a></small></li>';
 	},
@@ -13,15 +13,15 @@ $("#notification").after('<div id="user"><ul class="rounded arrow" id="series"><
 $.ajax({
 	url: "http://illution.dk/ClickThis/api/series?ShareType=1",
 	type: "GET",
-	success:function(data){
+	success: function(data){
 		$(data.Series).each(function(index,element){
-			var user = get_user(element.Creator);
-			$("#series").append(homeCreator.newSeries(element.Title,element.Id,user.Name,user.Id));
+			var user = getUser(element.Creator);
+			$("#series").append(homeGenerator.newSeries(element.Title,element.Id,user.Name,user.Id));
 		});
 	}
 });
 
-function get_user(id){
+function getUser (id){
 	var global_data;
 	$.ajax({
 		url: "http://illution.dk/ClickThis/api/user?Id="+id,
@@ -35,21 +35,9 @@ function get_user(id){
 	return global_data;
 }
 
-$("#home").append(homeCreator.getBottom());
+$("#home").append(homeGenerator.getBottom());
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+// Random Shit
 $(window).load(function () {
 	ajaxQueue.registerCallback({type:"onStatusCodeChange"}, function () {
 		var statusCode = ajaxQueue.getStatusCode();
@@ -85,36 +73,33 @@ $(window).load(function () {
 		setTimeout('$("#toolbarTitle").css("-webkit-transform","rotate(0deg)")',2000);
 	});
 	$("#beaconFlashHolder").css("position","absolute").css("left","-200px");
-	})
-	// Page view counter
-	if (!localStorage.pageCounter)
+})
+// Page view counter
+if (!localStorage.pageCounter)
 	localStorage.setItem('pageCounter',0);
-	localStorage.setItem('pageCounter',parseInt(localStorage.pageCounter)+1);
-	$("#pageCount").html(localStorage.pageCounter);
-	// Request update
-	$('#updateButton').click(function(){
+localStorage.setItem('pageCounter',parseInt(localStorage.pageCounter)+1);
+$("#pageCount").html(localStorage.pageCounter);
+// Request update
+$('#updateButton').click(function(){
 	ajaxQueue.add({
 		url: "http://illution.dk/ClickThisPrototype/beaconpush.php",
 		data: "a=a",
 		group: "beaconpush"
 	});
 	ajaxQueue.executeTasks();
-	});
-	if(window.applicationCache) {
-		cache = window.applicationCache;
-		cache.addEventListener('cached', function() {
-			$('#chacheStatus').html('Cache status: Cached').css('color','#119911');
-		}, false);
-		cache.addEventListener('noupdate', function() {
-			$('#chacheStatus').html('Cache status: Cached').css('color','#119911');
-		}, false);
-		cache.addEventListener('downloading', function() {
-			$('#chacheStatus').html('Cache status: Downloading').css('color','#999911');
-		}, false);
-		cache.addEventListener('error', function() {
-			$('#chacheStatus').html('Cache status: Error').css('color','#991111');
-		}, false);
-		};
-		$(document).ready(function(e) {
-		aboutText();
-	});
+});
+if(window.applicationCache) {
+	cache = window.applicationCache;
+	cache.addEventListener('cached', function() {
+		$('#chacheStatus').html('Cache status: Cached').css('color','#119911');
+	}, false);
+	cache.addEventListener('noupdate', function() {
+		$('#chacheStatus').html('Cache status: Cached').css('color','#119911');
+	}, false);
+	cache.addEventListener('downloading', function() {
+		$('#chacheStatus').html('Cache status: Downloading').css('color','#999911');
+	}, false);
+	cache.addEventListener('error', function() {
+		$('#chacheStatus').html('Cache status: Error').css('color','#991111');
+	}, false);
+};
