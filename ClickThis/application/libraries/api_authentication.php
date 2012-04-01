@@ -135,6 +135,32 @@ class Api_Authentication{
 	private $_Base_Url = NULL;
 
 	/**
+	 * This property contains the sections
+	 * that a set of access tokens are autherized too
+	 * @var array
+	 * @since 1.1
+	 * @access private
+	 */
+	private $_Autherized_Sections = NULL;
+
+	/**
+	 * This property contains the 
+	 * access level of a specified set of access tokens
+	 * @var integer
+	 * @access private
+	 * @since 1.0
+	 */
+	private $_Autherized_Level = NULL;
+
+	/**
+	 * If the access token secret is set and is correct
+	 * @var boolean
+	 * @access private
+	 * @since 1.0
+	 */
+	private $_Secret_Access = FALSE;
+
+	/**
 	 * The constructor
 	 * @since 1.0
 	 * @access public
@@ -444,6 +470,35 @@ class Api_Authentication{
 	}
 
 	/**
+	 * This function checks if the access token is set and is valid, and if the secret is set then it's validated too
+	 * @since 1.0
+	 * @access private
+	 * @return boolean If success or not
+	 */
+	private function _Access(){
+		if(isset($_GET["access_secret"]) && !empty($_GET["access_secret"])){
+			if(isset($_GET["access_token"]) && !empty($_GET["access_token"]) && isset($_GET["access_secret"]) && !empty($_GET["access_secret"]) && $this->_CI->Api_Auth->Is_Valid_Access_Token($_GET["access_token"],$_GET["access_secret"])){
+				$this->_Access_Token_Secret = $_GET["access_secret"];
+				$this->_Access_Token = $_GET["access_token"];
+				$this->_Secret_Access = TRUE;
+				return TRUE;
+			} else{
+				self::_Add_Error("The access token and secret is not correct or not deffined");
+				return FALSE;
+			}
+		} else {
+			if(isset($_GET["access_token"]) && !empty($_GET["access_token"]) && $this->_CI->Api_Auth->Is_Valid_Access_Token($_GET["access_token"])){
+				$this->_Access_Token = $_GET["access_token"];
+				$this->_Secret_Access = FALSE;
+				return TRUE;
+			} else {
+				self::_Add_Error("The access token is not correct or not deffined");
+				return FALSE;
+			}
+		}
+	}
+
+	/**
 	 * This function generates a random string
 	 * @param  integer $Length The length of the random string
 	 * @param  string  $Chars  The Charset to use
@@ -462,6 +517,33 @@ class Api_Authentication{
 	        if ($R != $String{$I - 1}) $String .=  $R;
 	    }
 	    return $String;
+	}
+
+	private function _ClickThis_Token(){
+		/*if(){
+
+		} else {
+
+		}*/
+	}
+
+	/**
+	 * This function ensures that the access token(s) are validated
+	 * @access public
+	 * @since 1.0
+	 */
+	public function Authenticate(){
+		if(self::_Access()){
+			if($this->_CI->Api_Auth->Authenticate($this->_Access_Token,$this->_Access_Token_Secret,$Level,$Sections,$UserId)){
+				return TRUE;
+			} else {
+				self::_Add_Error("The authentication failed no access given");
+				return FALSE;
+			}
+		} else {
+			self::_Add_Error("You are not authenticated");
+			return FALSE;
+		}
 	}
 
 	/**
@@ -532,6 +614,7 @@ class Api_Authentication{
 		if(isset($_GET["sections"])){
 			$Sections = str_replace(",", ";", $_GET["sections"]);
 			$Sections = explode(";", $Sections);
+			$Sections = $Sections.";";
 			foreach ($Sections as $Key => $Value) {
 				if($Key = "Password" || $Key = "TOPT"){
 					unset($Sections[$Key]);

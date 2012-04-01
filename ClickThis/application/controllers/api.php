@@ -128,7 +128,7 @@ class Api extends CI_Controller {
 	 * @since 1.0
 	 * @access public
 	 */
-	private function Send_Response($Code = 200,$Content_Type = "application/json",$Content = NULL){
+	private function Send_Response($Code = 200,$Content_Type = "application/json",$Content = NULL,$Reason = NULL){
 		if(is_null($Content_Type)){
 			$Content_Type = "application/json";
 		}
@@ -141,6 +141,9 @@ class Api extends CI_Controller {
 		header('Content-type: ' . $Content_Type);
 		if(is_null($Content) && $Code != 200){
 			$Error = array("error_message" => $this->api_request->Get_Message($Code),"error_code" => $Code);
+			if(!is_null($Reason) && is_array($Reason)){
+				$Error["error_reason"] = $Reason;
+			}
 			echo json_encode($Error);
 		} else {
 			echo $Content;
@@ -382,7 +385,25 @@ class Api extends CI_Controller {
 		}	
 	}
 
+	### API With Authetication Test ###
+	public function Series_Test(){
+		if(self::_Authenticate($Secret_Access,$Reason)){
+			var_dump($Secret_Access);
+		} else {
+			self::Send_Response(401,NULL,NULL,$Reason);
+		}
+	}
 
+	private function _Authenticate(&$Secret_Access = NULL,&$Reason = NULL){
+		$this->load->library("api_authentication");
+		if($this->api_authentication->Authenticate()){
+			$Secret_Access = $this->api_authentication->Get("Secret_Access");
+			return TRUE;
+		} else {
+			$Reason = $this->api_authentication->Get("Errors");
+			return FALSE;
+		}
+	}
 
 	### Authentication ###
 

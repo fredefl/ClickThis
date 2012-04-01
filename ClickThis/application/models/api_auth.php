@@ -207,6 +207,142 @@ class Api_Auth extends CI_Model{
 		}
 	}
 
+	public function Token_Authenticate($Token = NULL,&$Level,&$UserId){
+		/*if(){
+
+		} else {
+			return FALSE;
+		}*/
+	}
+
+	/**
+	 * This function validates a simple token
+	 * @param string $Token The simple token to validate
+	 * @since 1.0
+	 * @access public
+	 */
+	public function Is_Valid_ClickThis_Token($Token = NULL){
+		if(!is_null($Token)){
+			$Query = $this->db->where(array("Token" => $Token))->limit(1)->get($this->config->item("api_simple_token_table"));
+			if($Query->num_rows() > 0){
+				$Row = current($Query->result());
+				if($Row->EndTime == 0 || is_null($Row->EndTime)){
+					return TRUE;
+				} else {
+					if(time() > $Row->EndTime){
+						return FALSE;
+					} else {
+						return TRUE;
+					}
+				}
+			} else {
+				return FALSE;
+			}
+		} else {
+			return FALSE;
+		}
+	}
+
+	/**
+	 * This function checks if a set of access tokens exists and is valid
+	 * @param string $Token  The access token
+	 * @param string $Secret The access token secret
+	 * @return boolean If it exists and are active
+	 * @since 1.0
+	 * @access public
+	 */
+	public function Is_Valid_Access_Token($Token = NULL,$Secret = NULL){
+		if(!is_null($Token)){
+			if(!is_null($Secret)){
+				$Query = $this->db->limit(1)->where(array("AccessKey" => $Token,"AccessSecret" => $Secret))->get($this->config->item("api_access_token_table"));
+			} else {
+				$Query = $this->db->limit(1)->where(array("AccessKey" => $Token))->get($this->config->item("api_access_token_table"));
+			}
+			if($Query->num_rows() > 0){
+				$Row = current($Query->result());
+				if($Row->EndTime == 0){
+					return TRUE;
+				} else {
+					if(time() > $Row->EndTime || is_null($Row->EndTime)){
+						return FALSE;
+					} else {
+						return TRUE;
+					}
+				}
+			} else {
+				return FALSE;
+			}
+		} else {
+			return FALSE;
+		}
+	}
+
+	/**
+	 * This function gets the user id based on a set of request tokens
+	 * @param string $Token   The request token
+	 * @param string $Secret  The request secret token
+	 * @param pointer|integer &$UserId A variable to store the user id on
+	 * @return boolean
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _Get_User_On_Request_Tokens($Token = NULL,$Secret = NULL,&$UserId = NULL){
+		if(!is_null($Token) && !is_null($Secret)){
+			$JoinString = $this->config->item("api_request_code_table").".RequestCode"." = ".$this->config->item("api_request_token_table").".RequestCode";
+			$Query = $this->db->select("UserId")->where(array("RequestKey" => $Token,"RequestSecret" => $Secret))->from($this->config->item("api_request_token_table"))->join($this->config->item("api_request_code_table"),$JoinString,"left")->get();
+			if($Query->num_rows() > 0){
+				$Row = current($Query->result());
+				$UserId = $Row->UserId;
+				return TRUE;
+			} else {
+				return FALSE;
+			}
+		} else {
+			return FALSE;
+		}
+	}
+
+	/**
+	 * This function validates the access tokens
+	 * and returns the Level and Sections
+	 * @return boolean If the access token is valid
+	 * @since 1.0
+	 * @access public
+	 * @param string $Token     The access token
+	 * @param string $Secret    The access token secret
+	 * @param pointer|integer &$Level    The access level of the token
+	 * @param pointer|array &$Sections An array of extra sections that the token has access too
+	 */
+	public function Authenticate($Token = NULL,$Secret = NULL,&$Level = NULL,&$Sections = NULL,&$UserId = NULL){
+		if(!is_null($Token) && self::Is_Valid_Access_Token($Token,$Secret)){
+			if(!is_null($Secret)){
+				$Query = $this->db->limit(1)->where(array("AccessKey" => $Token,"AccessSecret" => $Secret))->get($this->config->item("api_access_token_table"));
+			} else {
+				$Query = $this->db->limit(1)->where(array("AccessKey" => $Token))->get($this->config->item("api_access_token_table"));
+			}
+			if($Query->num_rows() > 0){
+				$Row = current($Query->result());
+				if(self::_Get_User_On_Request_Tokens($Row->RequestKey,$Row->RequestSecret,$UserId)){
+					if(!is_null($Row->Level) && $Row->Level != ""){
+						$Level = $Row->Level;
+					}
+					if(!is_null($Row->Sections) && $Row->Sections != "" && $Row->Sections != ";"){
+						$Sections = explode(";", rtrim($Row->Sections,";"));
+					}
+					self::_Get_User_On_Request_Tokens($Row->RequestKey,$Row->RequestSecret);
+					return TRUE;
+				} else {
+					return FALSE;
+				}
+				
+			} else {
+				return FALSE;
+			}
+		} else {
+			return FALSE;
+		}
+	}
+
 	/**
 	 * This function checks if a set of consumer keys is valid and contains to the specified app id.
 	 * @param string $Key    The consumer key
