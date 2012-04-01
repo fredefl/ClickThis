@@ -125,6 +125,10 @@ class clickthis_security
 				$_SESSION["redirect"] = current_url();
 				redirect($this->Redirect);
 				die();
+			} else {
+				if(!isset($_SESSION["clickthis_token"]) && strpos(current_url(), "token") === false){
+					redirect("token");
+				}
 			}
 		}
 

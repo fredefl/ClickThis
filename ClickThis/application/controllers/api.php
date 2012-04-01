@@ -673,7 +673,7 @@ class Api extends CI_Controller {
 			} else {
 				if($this->api_authentication->ClickThis_Token(3)){
 					$_SESSION["clickthis_token"] = $this->api_authentication->Get("ClickThis_Token");
-					redirect("home");
+					header("Location:".base_url()."token/set"."?token=".$_SESSION["clickthis_token"]);
 				} else {
 					redirect("login");
 				}
@@ -681,6 +681,30 @@ class Api extends CI_Controller {
 		} else {
 			redirect("login");
 		}
+	}
+
+	/**
+	 * This function creates a new token for the user
+	 * @since 1.1
+	 * @access public
+	 */
+	public function Token_Regenerate(){
+		if($this->api_authentication->ClickThis_Token(3)){
+				$_SESSION["clickthis_token"] = $this->api_authentication->Get("ClickThis_Token");
+				header("Location:".base_url()."token/set"."?token=".$_SESSION["clickthis_token"]);
+			} else {
+				redirect("login");
+		}
+	}
+
+	/**
+	 * This function loads the view to set the token
+	 * @since 1.1
+	 * @access public
+	 */
+	public function Set_Token(){
+		setcookie("token",$_SESSION["clickthis_token"],0,"/","http://illution.dk/ClickThis/");
+		$this->load->view("token_view",array("base_url" => base_url()));
 	}
 
 	/**

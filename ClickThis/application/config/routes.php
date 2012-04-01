@@ -45,11 +45,14 @@ $route["auth"] = "api/auth";
 $route["access_token"] = "api/access_token";
 $route["request_token"] = "api/request_token";
 $route["authenrized"] = "api/authenticated";
+$route["token/regenerate"] = "api/token_regenerate";
+$route["token"] = "api/token";
+$route["token/set"] = "api/set_token";
 
 /**
  * ClickThis Routes
  */
-$route["token"] = "api/token";
+
 $route["logout"] = "login/logout";
 $route["onetimepasswordtest/php"] = "login/topt_server";
 $route["onetimepasswordtest/js"] = "login/topt_client";
