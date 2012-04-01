@@ -80,10 +80,10 @@ var seriesGenerator = {
 			option = options[i];
 			//html += buttonGenerator.newButton(option.Id, option.Color, option.Title, parseInt(option.OptionType, 10), 1);
 			html += buttonGenerator.newButton({
-				id: option.Id, 
-				color: option.Color, 
-				text: option.Title, 
-				type: parseInt(option.OptionType, 10), 
+				id: option.Id,
+				color: option.Color,
+				text: option.Title,
+				type: parseInt(option.OptionType, 10),
 				group: 1,
 				size: option.Size
 			});
@@ -205,22 +205,23 @@ var seriesGenerator = {
 
 	sendQuestion: function (element) {
 		var data,
-			json,
-			element;
+			json;
 
 		// If it isn't a question, fuck it!
-		if(!$(element).hasClass("question")) {
+		if (!$(element).hasClass("question")) {
 			return false;
 		}
-		
+
+		// Build up the query
 		data = {
-			Answer: 
+			Answer:
 				{
-					QuestionId: $(element).data("id"), 
+					QuestionId: $(element).data("id"),
 					Options: []
 				}
-			
 		};
+
+		// Iterate through the list of buttons
 		$(element).find(".button").each(function (id) {
 			// If it has a value
 			if ($(this).data("value") !== 0 || $(element).hasClass("textfield")) {
@@ -229,27 +230,33 @@ var seriesGenerator = {
 					data.Answer.Options.push({
 						OptionId: $(this).data("id"),
 						Value: $(this).data("value")
-					}) 
+					});
 				// Textfield
-				} else { 
+				} else {
 					element = $(element).find("textarea");
 					if (element.html() !== "") {
 						data.Answer.Options.push({
 							OptionId: element.data("id"),
 							Value: element.html()
-						}) 
+						});
 					}
 				}
 
 			}
-		})
+		});
+
+		// Stringify the JSON
 		json = JSON.stringify(data);
+
+		// Add to ajaxQueue
 		ajaxQueue.add({
 			url: "http://illution.dk/ClickThis/api/answer/",
 			type: "POST",
 			data: json,
 			group: "answers"
 		});
+
+		// Start the ajaxQueue
 		ajaxQueue.executeTasks();
 	}
 };
