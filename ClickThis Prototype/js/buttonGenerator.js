@@ -193,7 +193,6 @@ var buttonGenerator = {
 		if (value === "1") {
 			this.unCheckAll();
 		} else {
-			console.log(value);
 			this.unCheckAll();
 			this.changeState(button, form, formDeselect);
 		}
