@@ -207,12 +207,60 @@ class Api_Auth extends CI_Model{
 		}
 	}
 
-	public function Token_Authenticate($Token = NULL,&$Level,&$UserId){
-		/*if(){
-
+	/**
+	 * This function validates a simple token, and if it's valid
+	 * @param string $Token The simple token to match
+	 * @return boolean
+	 * @since 1.0
+	 * @access public
+	 */
+	public function Is_Valid_SimpleToken($Token = NULL){
+		if(!is_null($Token)){
+			$Query = $this->db->where(array("Token" => $Token))->limit(1)->from($this->config->item("api_simple_token_table"))->get();
+			if(!is_null($Query) && $Query->num_rows() > 0){
+				$Row = current($Query->result());
+				if($Row->EndTime == 0){
+					return TRUE;
+				} else {
+					return time() > $Row->EndTime;
+				}
+			} else {
+				return FALSE;
+			}
 		} else {
 			return FALSE;
-		}*/
+		}
+	}
+
+	/**
+	 * This function validates a simple token, and checks if the userid is valid
+	 * @param string $Token   The token to match
+	 * @param pointer|integer &$Level  A variable to store he level in
+	 * @param pointer|integer &$UserId A variable to store the user id
+	 * @return boolean
+	 * @since 1.0
+	 * @access public
+	 */
+	public function Token_Authenticate($Token = NULL,&$Level = NULL,&$UserId = NULL){
+		if(!is_null($Token) && self::Is_Valid_SimpleToken($Token)){
+			$Query = $this->db->select("Level,UserId")->where(array("Token" => $Token))->from($this->config->item("api_simple_token_table"))->limit(1)->get();
+			if($Query->num_rows() > 0){
+				$Row = current($Query->result());
+				if(!is_null($Row->Level) && $Row->Level != "" && $Row->Level != 0){
+					$Level = $Row->Level;
+				}
+				if(!is_null($Row->UserId) && $Row->UserId != "" && self::_User_Exists($Row->UserId)){
+					$UserId = $Row->UserId;
+					return TRUE;
+				} else {
+					return FALSE;
+				}
+			} else {
+				return FALSE;
+			}
+		} else {
+			return FALSE;
+		}
 	}
 
 	/**
@@ -229,7 +277,7 @@ class Api_Auth extends CI_Model{
 				if($Row->EndTime == 0 || is_null($Row->EndTime)){
 					return TRUE;
 				} else {
-					if(time() > $Row->EndTime){
+					if(time() > $Row->StartTime + $Row->EndTime){
 						return FALSE;
 					} else {
 						return TRUE;
@@ -263,7 +311,7 @@ class Api_Auth extends CI_Model{
 				if($Row->EndTime == 0){
 					return TRUE;
 				} else {
-					if(time() > $Row->EndTime || is_null($Row->EndTime)){
+					if(time() > $Row->StartTime + $Row->EndTime || is_null($Row->EndTime)){
 						return FALSE;
 					} else {
 						return TRUE;

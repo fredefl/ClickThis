@@ -161,6 +161,14 @@ class Api_Authentication{
 	private $_Secret_Access = FALSE;
 
 	/**
+	 * If this is true, then the token(s) has write access
+	 * @var boolean
+	 * @access private
+	 * @since 1.0
+	 */
+	private $_Write_Access = FALSE;
+
+	/**
 	 * The constructor
 	 * @since 1.0
 	 * @access public
@@ -457,7 +465,7 @@ class Api_Authentication{
 	public function ClickThis_Token($Level = 2){
 		if(self::_User_Id()){
 			$Token = self::_Rand_Str(64);
-			if($this->_CI->Api_Auth->ClickThis_Token($Token,$this->_User_Id,$Level)){
+			if($this->_CI->Api_Auth->ClickThis_Token($Token,$this->_User_Id,$this->_Level)){
 				$this->_ClickThis_Token = $Token;
 				return TRUE;
 			} else {
@@ -481,6 +489,7 @@ class Api_Authentication{
 				$this->_Access_Token_Secret = $_GET["access_secret"];
 				$this->_Access_Token = $_GET["access_token"];
 				$this->_Secret_Access = TRUE;
+				$this->_Write_Access = TRUE;
 				return TRUE;
 			} else{
 				self::_Add_Error("The access token and secret is not correct or not deffined");
@@ -517,14 +526,21 @@ class Api_Authentication{
 	        if ($R != $String{$I - 1}) $String .=  $R;
 	    }
 	    return $String;
-	}
+	}	
 
+	/**
+	 * This function checks if a simple token/clickthis token is set and is valid
+	 * @access private
+	 * @since 1.0
+	 */
 	private function _ClickThis_Token(){
-		/*if(){
-
+		if(isset($_GET["token"]) && !empty($_GET["token"]) && $this->_CI->Api_Auth->Is_Valid_SimpleToken($_GET["token"])){
+			$this->_ClickThis_Token = $_GET["token"];
+			return TRUE;
 		} else {
-
-		}*/
+			self::_Add_Error("Simple token is not deffined");
+			return FALSE;
+		}
 	}
 
 	/**
@@ -534,10 +550,33 @@ class Api_Authentication{
 	 */
 	public function Authenticate(){
 		if(self::_Access()){
-			if($this->_CI->Api_Auth->Authenticate($this->_Access_Token,$this->_Access_Token_Secret,$Level,$Sections,$UserId)){
+			if($this->_CI->Api_Auth->Authenticate($this->_Access_Token,$this->_Access_Token_Secret,$this->_Level,$this->_Sections,$this->_User_Id)){
+				if($this->_Level < 1 && $this->_Level > 0 && $this->_Secret_Access === TRUE){
+					$this->_Secret_Access = TRUE;
+				} else {
+					$this->_Secret_Access = FALSE;
+				}
+				if($this->_Level > 0 && $this->_Level < 4 && $this->_Write_Access === true){
+					$this->_Write_Access = TRUE;
+				}
 				return TRUE;
 			} else {
 				self::_Add_Error("The authentication failed no access given");
+				return FALSE;
+			}
+		} else if(self::_ClickThis_Token()){
+			if($this->_CI->Api_Auth->Token_Authenticate($this->_ClickThis_Token,$this->_Level,$this->_User_Id)){
+				if($this->_Level < 1 && $this->_Level > 0){
+					$this->_Secret_Access = TRUE;
+				} else {
+					$this->_Secret_Access = FALSE;
+				}
+				if($this->_Level > 0 && $this->_Level < 4){
+					$this->_Write_Access = TRUE;
+				}
+				return TRUE;
+			} else {
+				self::_Add_Error("A token isn't set or the specified token isn't valid");
 				return FALSE;
 			}
 		} else {

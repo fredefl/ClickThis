@@ -387,17 +387,28 @@ class Api extends CI_Controller {
 
 	### API With Authetication Test ###
 	public function Series_Test(){
-		if(self::_Authenticate($Secret_Access,$Reason)){
+		if(self::_Authenticate($Secret_Access,$Write_Access,$Reason)){
 			var_dump($Secret_Access);
 		} else {
 			self::Send_Response(401,NULL,NULL,$Reason);
 		}
 	}
 
-	private function _Authenticate(&$Secret_Access = NULL,&$Reason = NULL){
+	/**
+	 * This function performs a check if the specified token(s) is valid
+	 * and if the have secret and write access
+	 * @param pointer|boolean &$Secret_Access If the token has access to change password and username
+	 * @param pointer|boolean $Write_Access If the token has wrtie access
+	 * @param array &$Reason        [description]
+	 * @return boolean
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _Authenticate(&$Secret_Access = NULL,,$Write_Access = NULL,&$Reason = NULL){
 		$this->load->library("api_authentication");
 		if($this->api_authentication->Authenticate()){
 			$Secret_Access = $this->api_authentication->Get("Secret_Access");
+			$Write_Access = $this->api_authentication->Get("Write_Access");
 			return TRUE;
 		} else {
 			$Reason = $this->api_authentication->Get("Errors");
