@@ -2,7 +2,7 @@
  * ClickThis updater
  * http://illution.dk
  *
- * Copyright (c) 2011 illution
+ * Copyright (c) 2012 Illution
  *
  * @author Illution
  * @version 1.0
