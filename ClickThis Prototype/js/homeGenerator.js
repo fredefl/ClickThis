@@ -8,7 +8,7 @@ var homeGenerator = {
 	}
 }
 
-$(".toolbar").after('<div id="user"><ul class="rounded arrow" id="series"></ul></div></div>')
+$("#notification").after('<div id="user"><ul class="rounded arrow" id="series"></ul></div></div>')
 
 $.ajax({
 	url: "http://illution.dk/ClickThis/api/series?ShareType=1",
