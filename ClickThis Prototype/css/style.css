@@ -1,12 +1,7 @@
 html {
 	height: 100%;
 }
-#toolbar {
-	z-index: 99999999;
-}
-#home {
-	padding-top: 45px !important;
-}
+
 body {
 	height: 100%;
 	min-height: 100%;
@@ -28,6 +23,15 @@ body {
 	-ms-user-select:none;
 	font-family: Arial, Helvetica, sans-serif;
 }
+
+#toolbar {
+	z-index: 9999;
+}
+
+#home {
+	padding-top: 45px !important;
+}
+
 #toolbarTitle {
 	-moz-transition: -moz-transform 1s;
 	transition: transform 1s;
@@ -41,31 +45,6 @@ body {
 	background-color:#53b401 !important;
 }
 
-/*
-DESKTOP HOVER
-#jqt ul li:hover {
-	background-image: 
-		-webkit-gradient(linear, left top, left bottom, color-stop(0%,#5C5D5E), color-stop(100%,#404142)) !important;
-}
-
-#jqt ul li:active {
-	background-image: 
-		-webkit-gradient(linear, left top, left bottom, color-stop(0%,#3C3D3E), color-stop(100%,#303132)) !important;
-} 
-
-#jqt ul li.arrow:hover {
-	background-image: 
-		url("http://illution.dk/ClickThisPrototype/css/jqt/img/chevron.png"), 
-		-webkit-gradient(linear, left top, left bottom, color-stop(0%,#5C5D5E), color-stop(100%,#404142)) !important;
-}
-
-#jqt ul li.arrow:active {
-	background-image: 
-		url("http://illution.dk/ClickThisPrototype/css/jqt/img/chevron.png"), 
-		-webkit-gradient(linear, left top, left bottom, color-stop(0%,#3C3D3E), color-stop(100%,#303132)) !important;
-} 
-*/
-
 h1 {
 	color: #fff;
 	text-decoration: none; 
@@ -76,24 +55,28 @@ h1 {
 	font-size: 24px;
 	text-align:center;
 }
+
 #Page {
 	min-height: 100%;
 	height: auto !important;
 	height: 100%;
 	margin: 0 auto -50px;	
 }
+
 #Publisher {
 	position:absolute;
 	width:auto;
 	height:40px;
 	left:0px;	
 }
+
 #MadeBy {
 	width:auto;
 	height:40px;
 	right:0px;
 	text-align:right;	
 }
+
 #Avatar{
 	top:75px;
 	width:256px;
@@ -105,6 +88,7 @@ h1 {
 	border-radius:2px;
 	border-color:#FFF;	
 }
+
 #Profile{
 	top:75px;
 	width:400px;
@@ -123,11 +107,11 @@ h1 {
 	width:205px;	
 }
 
-#Active{
+#active{
 	
 }
 
-.Disabled {
+.disabled {
 	display:none;
 }
 
@@ -170,7 +154,7 @@ h1 {
 }
 
 /* The right arrow */
-.right{
+.right {
 	height:34px;
 	width:35px;
 	background: url("../img/Right.png") 0 0 no-repeat;
@@ -180,25 +164,24 @@ h1 {
 	z-index: 9999;
 }
 
-.right:hover{
+.right:hover {
 	background-position: -36px 0;
 }
 
-
-.right:active{	
+.right:active {	
 	background-position: -71px 0;	
 }
 
 /* The left arrow */
-.left:hover{
+.left:hover {
 	background-position: -36px 0;
 }
 
-.left:active{
+.left:active {
 	background-position: -71px 0;
 }
 
-.left{
+.left {
 	height:34px;
 	width:35px;	
 	background: url("../img/Left.png") 0 0 no-repeat;

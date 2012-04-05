@@ -19,16 +19,16 @@
 					<a class="back" id="backButton" data-href="home.html">Back</a>
 				</div>
 				<div id="user" class="Active">
-					<div id="Avatar">
+					<div id="avatar">
 						<a title="" id="linktag" href="#"><img id="profile_image" src="" width="256" height="256" title="" alt="" /></a>
 					</div>
-					<div id="Profile">
-						<label for="Name">Name</label><br>
-						<input type="text" id="Name" value="" /><br>
-						<label for="Email">Email</label><br>
-						<input type="text" id="Email" value="" /><br>
-						<label for="Email">Location</label><br>
-						<select id="Location">
+					<div id="profile">
+						<label for="name">Name</label><br>
+						<input type="text" id="name" value="" /><br>
+						<label for="email">Email</label><br>
+						<input type="text" id="email" value="" /><br>
+						<label for="email">Location</label><br>
+						<select id="location">
 							<optgroup title="Europe" label="Europe">Europe</optgroup>
 								<option selected value="dk">Denmark</option>
 								<option value="en">England</option>
@@ -53,23 +53,23 @@
 						url: "http://illution.dk/ClickThis/api/user/"+userId,
 						success: function(data){
 							if(data.error_code == null){
-								$(".Active").addClass("Disabled").removeClass("Active");
+								$(".active").addClass("disabled").removeClass("active");
 								var user = $("#user");
 								data = data.User;
 								$("#linktag").attr("title",data.Name);
 								$("#profile_image").attr("title",data.Name).attr("alt",data.Name).attr("src",data.ProfileImage);
-								$("#Name").attr("value",data.Name);
-								$("#Email").val(data.Email);
-								$("#Location").val(data.Country);
+								$("#name").attr("value",data.Name);
+								$("#email").val(data.Email);
+								$("#location").val(data.Country);
 								user.addClass("Active").removeClass("Disabled");
 							} else {
-								$(".Active").addClass("Disabled").removeClass("Active");
-								$("#notfound").addClass("Active").removeClass("Disabled");
+								$(".active").addClass("disabled").removeClass("active");
+								$("#notfound").addClass("active").removeClass("disabled");
 							}
 						},
 						error: function(){
-							$(".Active").addClass("Disabled").removeClass("Active");
-							$("#notfound").addClass("Active").removeClass("Disabled");
+							$(".active").addClass("disabled").removeClass("active");
+							$("#notfound").addClass("active").removeClass("disabled");
 						}
 					});
 				}
