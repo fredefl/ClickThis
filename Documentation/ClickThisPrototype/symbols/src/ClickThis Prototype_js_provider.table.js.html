@@ -28,19 +28,19 @@
 <span class='line'> 21</span>   */</span><span class="WHIT">
 <span class='line'> 22</span> </span><span class="WHIT"> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">provider</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'> 23</span> 
-<span class='line'> 24</span> </span><span class="WHIT"> 	</span><span class="COMM">/**
-<span class='line'> 25</span>  	 * The keyword to put in front of normal pages
-<span class='line'> 26</span>  	 * @type {String}
-<span class='line'> 27</span>  	 */</span><span class="WHIT">
-<span class='line'> 28</span> </span><span class="WHIT"> 	</span><span class="NAME">pageKeyword</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"page_p"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="WHIT">
+<span class='line'> 24</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 25</span> 	 * The keyword to put in front of normal pages
+<span class='line'> 26</span> 	 * @type {String}
+<span class='line'> 27</span> 	 */</span><span class="WHIT">
+<span class='line'> 28</span> </span><span class="WHIT">	</span><span class="NAME">pageKeyword</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"page_p"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="WHIT">
 <span class='line'> 29</span> 
-<span class='line'> 30</span> </span><span class="WHIT"> 	</span><span class="COMM">/**
-<span class='line'> 31</span>  	 * The front keyword in front of pages with user content
-<span class='line'> 32</span>  	 * @type {String}
-<span class='line'> 33</span>  	 */</span><span class="WHIT">
+<span class='line'> 30</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 31</span> 	 * The front keyword in front of pages with user content
+<span class='line'> 32</span> 	 * @type {String}
+<span class='line'> 33</span> 	 */</span><span class="WHIT">
 <span class='line'> 34</span> </span><span class="WHIT">	</span><span class="NAME">userPageKeyword</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"user_p"</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 35</span> </span><span class="WHIT"> 	</span><span class="WHIT">
-<span class='line'> 36</span> </span><span class="WHIT"> 	</span><span class="COMM">/**
+<span class='line'> 35</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="WHIT">	</span><span class="COMM">/**
 <span class='line'> 37</span> 	 * This function creates a table, this function will be used to create the page tables
 <span class='line'> 38</span> 	 * @param {object} obj This parameter is the jquery object of the outer div or outer container
 <span class='line'> 39</span> 	 * @since 1.0
@@ -64,7 +64,7 @@
 <span class='line'> 57</span> 	 * var container;
 <span class='line'> 58</span> 	 * container = provider.addProvider(null,10);
 <span class='line'> 59</span> 	 */</span><span class="WHIT">
-<span class='line'> 60</span> </span><span class="WHIT"> 	</span><span class="NAME">addContainer</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">obj</span><span class="PUNC">,</span><span class="NAME">cellspacing</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 60</span> </span><span class="WHIT">	</span><span class="NAME">addContainer</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">obj</span><span class="PUNC">,</span><span class="NAME">cellspacing</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'> 61</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">container</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">"&lt;table>&lt;/table>"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 62</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">cellspacing</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="STRN">"number"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'> 63</span> </span><span class="WHIT">			</span><span class="NAME">cellspacing</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NUMB">10</span><span class="PUNC">;</span><span class="WHIT">
@@ -113,8 +113,8 @@
 <span class='line'>106</span> </span><span class="WHIT">			</span><span class="COMM">//If there is extra attributes to be set, defined in data then set em</span><span class="WHIT">
 <span class='line'>107</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">data</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">"object"</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">data</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>108</span> </span><span class="WHIT">				</span><span class="NAME">$</span><span class="PUNC">(</span><span class="NAME">data</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">each</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">index</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">element</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>109</span> </span><span class="WHIT">	                </span><span class="NAME">content.attr</span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">,</span><span class="NAME">provider</span><span class="PUNC">[</span><span class="NAME">element</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT">
-<span class='line'>110</span> </span><span class="WHIT">	            </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>109</span> </span><span class="WHIT">					</span><span class="NAME">content.attr</span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">,</span><span class="NAME">provider</span><span class="PUNC">[</span><span class="NAME">element</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'>110</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>111</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
 <span class='line'>112</span> </span><span class="WHIT">			</span><span class="WHIT">
 <span class='line'>113</span> </span><span class="WHIT">			</span><span class="NAME">content.addClass</span><span class="PUNC">(</span><span class="STRN">'provider'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">

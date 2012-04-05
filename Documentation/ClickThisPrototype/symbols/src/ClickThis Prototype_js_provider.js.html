@@ -28,35 +28,35 @@
 <span class='line'> 21</span>   */</span><span class="WHIT">
 <span class='line'> 22</span> </span><span class="WHIT"> </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">provider</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'> 23</span> 
-<span class='line'> 24</span> </span><span class="WHIT"> 	 </span><span class="COMM">/**
-<span class='line'> 25</span>  	  * The keyword to put in front of normal pages
-<span class='line'> 26</span>  	  * @type {String}
-<span class='line'> 27</span>  	  */</span><span class="WHIT">
-<span class='line'> 28</span> </span><span class="WHIT"> 	</span><span class="NAME">pageKeyword</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"page_p"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="WHIT">
+<span class='line'> 24</span> </span><span class="WHIT">	 </span><span class="COMM">/**
+<span class='line'> 25</span> 	  * The keyword to put in front of normal pages
+<span class='line'> 26</span> 	  * @type {String}
+<span class='line'> 27</span> 	  */</span><span class="WHIT">
+<span class='line'> 28</span> </span><span class="WHIT">	</span><span class="NAME">pageKeyword</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"page_p"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="WHIT">
 <span class='line'> 29</span> 
-<span class='line'> 30</span> </span><span class="WHIT"> 	</span><span class="COMM">/**
-<span class='line'> 31</span>  	 * The front keyword in front of pages with user content
-<span class='line'> 32</span>  	 * @type {String}
-<span class='line'> 33</span>  	 */</span><span class="WHIT">
+<span class='line'> 30</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 31</span> 	 * The front keyword in front of pages with user content
+<span class='line'> 32</span> 	 * @type {String}
+<span class='line'> 33</span> 	 */</span><span class="WHIT">
 <span class='line'> 34</span> </span><span class="WHIT">	</span><span class="NAME">userPageKeyword</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"user_p"</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 35</span> </span><span class="WHIT"> 	</span><span class="WHIT">
-<span class='line'> 36</span> </span><span class="WHIT"> 	</span><span class="COMM">/**
-<span class='line'> 37</span>  	 * This function creates a container/ul container and returns it,
-<span class='line'> 38</span>  	 * if the page object is set then it is append to
-<span class='line'> 39</span>  	 * @param {object} page  The page object to append to
-<span class='line'> 40</span>  	 * @param {string} attrclass The wished class to add to the container,
-<span class='line'> 41</span>  	 * standard value is 'sortable-grid'
-<span class='line'> 42</span>  	 */</span><span class="WHIT">
-<span class='line'> 43</span> </span><span class="WHIT"> 	</span><span class="NAME">addContainer</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">page</span><span class="PUNC">,</span><span class="NAME">attrclass</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 44</span> </span><span class="WHIT"> 		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">attrclass</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="STRN">'string'</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 45</span> </span><span class="WHIT"> 			</span><span class="NAME">attrclass</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'sortable-grid'</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 46</span> </span><span class="WHIT"> 		</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'> 47</span> </span><span class="WHIT"> 		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">container</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'&lt;ul>&lt;/ul>'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 48</span> </span><span class="WHIT"> 		</span><span class="NAME">container.addClass</span><span class="PUNC">(</span><span class="NAME">attrclass</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 49</span> </span><span class="WHIT"> 		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">page</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">'object'</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 50</span> </span><span class="WHIT"> 			</span><span class="NAME">page.append</span><span class="PUNC">(</span><span class="NAME">container</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 51</span> </span><span class="WHIT"> 		</span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'> 52</span> </span><span class="WHIT"> 		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">container</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 35</span> </span><span class="WHIT">	</span><span class="WHIT">
+<span class='line'> 36</span> </span><span class="WHIT">	</span><span class="COMM">/**
+<span class='line'> 37</span> 	 * This function creates a container/ul container and returns it,
+<span class='line'> 38</span> 	 * if the page object is set then it is append to
+<span class='line'> 39</span> 	 * @param {object} page  The page object to append to
+<span class='line'> 40</span> 	 * @param {string} attrclass The wished class to add to the container,
+<span class='line'> 41</span> 	 * standard value is 'sortable-grid'
+<span class='line'> 42</span> 	 */</span><span class="WHIT">
+<span class='line'> 43</span> </span><span class="WHIT">	</span><span class="NAME">addContainer</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">page</span><span class="PUNC">,</span><span class="NAME">attrclass</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 44</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">attrclass</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="STRN">'string'</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 45</span> </span><span class="WHIT">			</span><span class="NAME">attrclass</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="STRN">'sortable-grid'</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 46</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 47</span> </span><span class="WHIT">		</span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">container</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="STRN">'&lt;ul>&lt;/ul>'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 48</span> </span><span class="WHIT">		</span><span class="NAME">container.addClass</span><span class="PUNC">(</span><span class="NAME">attrclass</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 49</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">page</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">'object'</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 50</span> </span><span class="WHIT">			</span><span class="NAME">page.append</span><span class="PUNC">(</span><span class="NAME">container</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 51</span> </span><span class="WHIT">		</span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 52</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">container</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 53</span> </span><span class="WHIT">	</span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'> 54</span> 
 <span class='line'> 55</span> </span><span class="WHIT">	</span><span class="COMM">/**
@@ -64,7 +64,7 @@
 <span class='line'> 57</span> 	 * @param {object} provider  The JSON object with the provider data
 <span class='line'> 58</span> 	 * @param {object} container The optional object to append to
 <span class='line'> 59</span> 	 * @param {string} imageSize The image size
-<span class='line'> 60</span> 	 * @param {object} data      An optional JSON object with extra data 'element' = 'html attr name'
+<span class='line'> 60</span> 	 * @param {object} data	  An optional JSON object with extra data 'element' = 'html attr name'
 <span class='line'> 61</span> 	 */</span><span class="WHIT">
 <span class='line'> 62</span> </span><span class="WHIT">	</span><span class="NAME">addProvider</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">provider</span><span class="PUNC">,</span><span class="NAME">container</span><span class="PUNC">,</span><span class="NAME">imageSize</span><span class="PUNC">,</span><span class="NAME">data</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'> 63</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">provider</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">"object"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
@@ -99,8 +99,8 @@
 <span class='line'> 92</span> </span><span class="WHIT">			</span><span class="COMM">//If there is extra attributes to be set, defined in data then set em</span><span class="WHIT">
 <span class='line'> 93</span> </span><span class="WHIT">			</span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">data</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">"object"</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">data</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="KEYW">null</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'> 94</span> </span><span class="WHIT">				</span><span class="NAME">$</span><span class="PUNC">(</span><span class="NAME">data</span><span class="PUNC">)</span><span class="PUNC">.</span><span class="NAME">each</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">index</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">element</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 95</span> </span><span class="WHIT">	                </span><span class="NAME">content.attr</span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">,</span><span class="NAME">provider</span><span class="PUNC">[</span><span class="NAME">element</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT">
-<span class='line'> 96</span> </span><span class="WHIT">	            </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="WHIT">					</span><span class="NAME">content.attr</span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">,</span><span class="NAME">provider</span><span class="PUNC">[</span><span class="NAME">element</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT">
+<span class='line'> 96</span> </span><span class="WHIT">				</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 97</span> </span><span class="WHIT">			</span><span class="PUNC">}</span><span class="WHIT">
 <span class='line'> 98</span> </span><span class="WHIT">			</span><span class="WHIT">
 <span class='line'> 99</span> </span><span class="WHIT">			</span><span class="NAME">content.addClass</span><span class="PUNC">(</span><span class="STRN">'provider'</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
@@ -171,9 +171,9 @@
 <span class='line'>164</span> 
 <span class='line'>165</span> </span><span class="WHIT">	</span><span class="COMM">/**
 <span class='line'>166</span> 	 * This function adds a number of bulletin to a object
-<span class='line'>167</span> 	 * @param {int} number    the number of bulletins to add
+<span class='line'>167</span> 	 * @param {int} number	the number of bulletins to add
 <span class='line'>168</span> 	 * @param {int} current   The active page/bulletin
-<span class='line'>169</span> 	 * @param {object} append    The object to append too
+<span class='line'>169</span> 	 * @param {object} append	The object to append too
 <span class='line'>170</span> 	 */</span><span class="WHIT">
 <span class='line'>171</span> </span><span class="WHIT">	</span><span class="NAME">addBullets</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">number</span><span class="PUNC">,</span><span class="NAME">current</span><span class="PUNC">,</span><span class="NAME">append</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>172</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">append</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">'object'</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
@@ -218,7 +218,7 @@
 <span class='line'>211</span> 	 * and turns it off and after that it finds the new bullet,
 <span class='line'>212</span> 	 * from the indexin 'newBullet' and turned it on.
 <span class='line'>213</span> 	 * @param  {int} newBullet The index of the new Bullet, this index begins from zero
-<span class='line'>214</span> 	 * @param  {object} object    The object to append/ the container of the bullets
+<span class='line'>214</span> 	 * @param  {object} object	The object to append/ the container of the bullets
 <span class='line'>215</span> 	 * @return {[object}
 <span class='line'>216</span> 	 */</span><span class="WHIT">
 <span class='line'>217</span> </span><span class="WHIT">	</span><span class="NAME">changeBullet</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">newBullet</span><span class="PUNC">,</span><span class="NAME">object</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
@@ -248,8 +248,8 @@
 <span class='line'>241</span> </span><span class="WHIT">	</span><span class="COMM">/**
 <span class='line'>242</span> 	 * This function adds a page as last page
 <span class='line'>243</span> 	 * @param {object} container The container to add the page too
-<span class='line'>244</span> 	 * @param {string} type      The page type "user","show" or "default"
-<span class='line'>245</span> 	 * @param {string} name      The name after the keyword
+<span class='line'>244</span> 	 * @param {string} type	  The page type "user","show" or "default"
+<span class='line'>245</span> 	 * @param {string} name	  The name after the keyword
 <span class='line'>246</span> 	 */</span><span class="WHIT">
 <span class='line'>247</span> </span><span class="WHIT">	</span><span class="NAME">addPageLast</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">container</span><span class="PUNC">,</span><span class="NAME">type</span><span class="PUNC">,</span><span class="NAME">name</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>248</span> </span><span class="WHIT">		</span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">this.addPageAfter</span><span class="PUNC">(</span><span class="NAME">container.find</span><span class="PUNC">(</span><span class="STRN">".page:last"</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="NAME">type</span><span class="PUNC">,</span><span class="NAME">name</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
@@ -260,7 +260,7 @@
 <span class='line'>253</span> 	 * @param {object} provider  The provider data
 <span class='line'>254</span> 	 * @param {object} container The container to append too
 <span class='line'>255</span> 	 * @param {string} imageSize The image size etc "128"
-<span class='line'>256</span> 	 * @param {string} addClass     The class to append to the object
+<span class='line'>256</span> 	 * @param {string} addClass	 The class to append to the object
 <span class='line'>257</span> 	 */</span><span class="WHIT">
 <span class='line'>258</span> </span><span class="WHIT">	</span><span class="NAME">addShowProvider</span><span class="WHIT"> </span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="PUNC">(</span><span class="NAME">provider</span><span class="PUNC">,</span><span class="NAME">container</span><span class="PUNC">,</span><span class="NAME">imageSize</span><span class="PUNC">,</span><span class="NAME">addClass</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>259</span> </span><span class="WHIT">		</span><span class="KEYW">if</span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">provider</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">"object"</span><span class="PUNC">)</span><span class="PUNC">{</span><span class="WHIT">
