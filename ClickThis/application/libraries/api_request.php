@@ -10,12 +10,28 @@ class Api_Request{
 	private $_Codes = NULL;
 
 	/**
+	 * A local instance of CodeIgniter
+	 * @var object
+	 * @since 1.0
+	 * @access private
+	 */
+	private $_CI = NULL;
+
+	/**
 	 * The response format json or xml
 	 * @var string
 	 * @since 1.0
 	 * @access private
 	 */
 	private $_Format = NULL;
+
+	/**
+	 * The request format
+	 * @var string
+	 * @since 1.0
+	 * @access private
+	 */
+	private $_Request_Format = NULL;
 
 	/**
 	 * The request methos "get","post","put" or "delete"
@@ -115,9 +131,24 @@ class Api_Request{
 	 */
 	public function __construct(){
 		self::Set_Codes();
-		$this->_Format = "json";
+		$this->_CI =& get_instance();
+		if(!isset($_GET["format"])){
+			$this->_Format = (strpos($_SERVER['HTTP_ACCEPT'], 'xml')) ? 'xml' : 'json';
+		} else {
+			$Formats = array("xml","json");
+			if(in_array($_GET["format"], $Formats)){
+				$this->_Format = $_GET["format"];
+			} else {
+				$this->_Format = "json";
+			}
+		}
 		$this->_Request_Method = (strtolower($_SERVER['REQUEST_METHOD'])) ? strtolower($_SERVER['REQUEST_METHOD']) : "get"; 
-		$this->_Request_Vars = array();     
+		$this->_Request_Vars = array(); 
+		if(isset($_SERVER["CONTENT_TYPE"])){
+			$this->_Request_Format = (strpos($_SERVER["CONTENT_TYPE"], 'xml')) ? 'xml' : 'json';
+		} else {
+			$this->_Request_Format = "json";
+		}
 	}
 
 	/**
@@ -141,7 +172,7 @@ class Api_Request{
 				parse_str(file_get_contents('php://input'), $this->_Request_Vars);
 				break;
 			case 'head':
-				header("Content-type: application/json");
+				header("Content-type: ".$this->_Format);
 		       	header('Allow: ' . json_encode(array("POST","GET","PUT","DELETE","HEAD","PATCH","OPTIONS")), true, 200);
 		       	header("Date:".time());
 		       	header("X-Powered-By: PHP/5.2.0");
@@ -169,16 +200,6 @@ class Api_Request{
 		}
 	}
 
-	private function _Get_Format(){
-		$Formats = array("json","xml","soap");
-		$Format = "json";
-		foreach ($Formats as $Name) {
-			if(strpos($_SERVER['HTTP_ACCEPT'], $Name)){
-				$Format = $Name;
-			}
-		}
-	}
-
 	/**
 	 * This function gets or sets the response format
 	 * @param string $Format The new response format
@@ -191,6 +212,21 @@ class Api_Request{
 			$this->_Format = $Format;
 		} else {
 			return $this->_Format;
+		}
+	}
+
+	/**
+	 * This function gets or sets the request format
+	 * @param string $Format The new request format
+	 * @return string If the request format is set then the format is returned
+	 * @since 1.0
+	 * @access public
+	 */
+	public function Request_Format($Format = NULL){
+		if(!is_null($Format)){
+			$this->_Request_Format = $Format;
+		} else {
+			return $this->_Request_Format;
 		}
 	}
 

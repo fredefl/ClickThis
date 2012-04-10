@@ -19,6 +19,20 @@ class Api extends CI_Controller {
 		$this->load->library("api_request");
 		$this->load->library("api_response/std_api_response");
 		$this->load->library("api_authentication");
+		$this->load->helper("array_xml");
+	}
+
+	public function Test(){
+		//$xml = new SimpleXMLElement();
+		/*$Data = self::Standard_API("User",1,"Users","Users",true);
+		$Return = array();
+		$Return["User"] = $Data->Export(false,true);
+		$Return["error_message"] = NULL;
+		$Return["error_code"] = NULL;
+		self::_Send_Response(200,"application/xml",$Return);*/
+		/*$xml = simplexml_load_string('<?xml version="1.0" encoding="utf-8"?><request><User><Name>Bo Thomsen</Name><Id>1</Id><Country>Denmark</Country><ProfileImage>http://www.gravatar.com/avatar/dc07576afa6b5b172a378d6f5eb05f5f?s=256</ProfileImage><Email>boh1996@gmail.com</Email><Language>da-DK</Language></User></request>');
+		//print_r(object_to_array($xml));*/
+		echo $this->api_request->Request_Format(),"|",$this->api_request->Format();
 	}
 
 	/**
@@ -414,20 +428,35 @@ class Api extends CI_Controller {
 		if(is_null($Code)){
 			$Code = 200;
 		}
-		
 		$Status_Header = 'HTTP/1.1 ' . $Code . ' ' . $this->api_request->Get_Message($Code); 
 		header($Status_Header); 
+		header("Content-Language:en");
+		header("Content-Location: http:/illution.dk/ClickThis/api");
 		header('Content-type: ' . $Content_Type);
 		if(is_null($Content) && $Code != 200){
 			$Error = array("error_message" => $this->api_request->Get_Message($Code),"error_code" => $Code);
 			if(!is_null($Reason) && is_array($Reason)){
 				$Error["error_reason"] = $Reason;
 			}
-			echo json_encode($Error);
+			if($Content_Type == "application/xml"){
+				$Content = array_to_xml($Error);
+			} else {
+				$Content = json_encode($Error);
+			}
+			echo $Content;
+			header("Content-MD5:".md5($Content));
+			header("Content-Length:".strlen($Content));
 		} else {
 			$Content["error_message"] = NULL;
 			$Content["error_code"] = NULL;
-			echo json_encode($Content);
+			if($Content_Type == "application/xml"){
+				$Content = array_to_xml($Content);
+			} else {
+				$Content = json_encode($Content);
+			}
+			echo $Content;
+			header("Content-MD5:".md5($Content));
+			header("Content-Length:".strlen($Content));
 		}
 	}
 
