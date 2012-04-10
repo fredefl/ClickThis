@@ -54,7 +54,7 @@ class Api extends CI_Controller {
 				$Response = array();
 				$Response["error_message"] = NULL;
 				$Response["error_code"] = NULL;
-				self::Send_Response(200,NULL,json_encode($Response));
+				self::Send_Response(200,NULL,$Response);
 			} else {
 				self::Send_Response(400);
 			}
@@ -89,7 +89,7 @@ class Api extends CI_Controller {
 				$Response[$ClassName] = array("Id" => $Class->Id);
 				$Response["error_message"] = NULL;
 				$Response["error_code"] = NULL;
-				self::Send_Response(200,NULL,json_encode($Response));
+				self::Send_Response(200,NULL,$Response);
 			} else {
 				self::Send_Response(400);
 			}
@@ -145,25 +145,48 @@ class Api extends CI_Controller {
 	 * @since 1.0
 	 * @access public
 	 */
-	private function Send_Response($Code = 200,$Content_Type = "application/json",$Content = NULL,$Reason = NULL){
+	private function Send_Response($Code = 200,$Content_Type = NULL,$Content = NULL,$Reason = NULL){
+		if(is_null($Content_Type)){
+			$Content_Type = $this->api_request->Format();
+		}
 		if(is_null($Content_Type)){
 			$Content_Type = "application/json";
 		}
+		$Content_Type = $this->api_request->Content_Type($Content_Type);
 		if(is_null($Code)){
 			$Code = 200;
 		}
-		
 		$Status_Header = 'HTTP/1.1 ' . $Code . ' ' . $this->api_request->Get_Message($Code); 
 		header($Status_Header); 
+		header("Content-Language:en");
+		header("Content-Location: http:/illution.dk/ClickThis/api");
 		header('Content-type: ' . $Content_Type);
 		if(is_null($Content) && $Code != 200){
 			$Error = array("error_message" => $this->api_request->Get_Message($Code),"error_code" => $Code);
 			if(!is_null($Reason) && is_array($Reason)){
 				$Error["error_reason"] = $Reason;
 			}
-			echo json_encode($Error);
-		} else {
+			if($Content_Type == "application/xml"){
+				$Content = array_to_xml($Error);
+			} else {
+				$Content = json_encode($Error);
+			}
 			echo $Content;
+			header("Content-MD5:".md5($Content));
+			header("Content-Length:".strlen($Content));
+		} else {
+			if($Code == 200){
+				$Content["error_message"] = NULL;
+				$Content["error_code"] = NULL;
+			}
+			if($Content_Type == "application/xml"){
+				$Content = array_to_xml($Content);
+			} else {
+				$Content = json_encode($Content);
+			}
+			echo $Content;
+			header("Content-MD5:".md5($Content));
+			header("Content-Length:".strlen($Content));
 		}
 	}
 
@@ -181,8 +204,7 @@ class Api extends CI_Controller {
 	 */
 	private function Search($Query = NULL,$Table = NULL,$ClassName = NULL,$Limit = NULL,$ArrayName = NULL,$Return = false){
 		if(!is_null($Query) && !is_null($Table)){
-			$this->load->model("Api_Search");
-			
+			$this->load->model("Api_Search");	
 			$Search = new Api_Search();
 			if(!is_null($ClassName)){
 				$Search->Table = $Table;
@@ -207,7 +229,8 @@ class Api extends CI_Controller {
 			}
 			if(!$Return){
 				if($Response){
-						self::Send_Response($Code,NULL,json_encode($Response));
+						self::Send_Response($Code,NULL,$Response);
+						return;
 				} else {
 					self::Send_Response($Code);
 				}
@@ -240,7 +263,7 @@ class Api extends CI_Controller {
 					$Return["User"] = $User->Export(false,true);
 					$Return["error_message"] = NULL;
 					$Return["error_code"] = NULL;
-					self::Send_Response(200,NULL,json_encode($Return));
+					self::Send_Response(200,NULL,$Return);
 				} else {
 					$Users = array();
 					foreach ($Data as $User) {
@@ -255,7 +278,7 @@ class Api extends CI_Controller {
 					$Return["Users"] = $Users;
 					$Return["error_message"] = NULL;
 					$Return["error_code"] = NULL;
-					self::Send_Response(200,NULL,json_encode($Return));
+					self::Send_Response(200,NULL,$Return);
 				}
 			}
 		}
@@ -390,7 +413,7 @@ class Api extends CI_Controller {
 					$Data[$Class_Name] = $Class->Export(false,true);
 					$Data["error_message"] = NULL;
 					$Data["error_code"] = NULL;
-					self::Send_Response(200,"application/json",json_encode($Data));
+					self::Send_Response(200,$this->api_request->Format(),$Data);
 				} else {
 					return $Class;
 				}
@@ -404,7 +427,7 @@ class Api extends CI_Controller {
 
 	### API With Authetication Test ###
 	public function Series_Test($Id = NULL){
-		//self::_Autherized_Api_Request("Series",$Id);
+		self::Series($Id);
 	}
 
 	public function API_Test($Id = NULL){
@@ -421,10 +444,14 @@ class Api extends CI_Controller {
 	 * @since 1.1
 	 * @access public
 	 */
-	private function _Send_Response($Code = 200,$Content_Type = "application/json",$Content = NULL,$Reason = NULL){
+	private function _Send_Response($Code = 200,$Content_Type = NULL,$Content = NULL,$Reason = NULL){
+		if(is_null($Content_Type)){
+			$Content_Type = $this->api_request->Format();
+		}
 		if(is_null($Content_Type)){
 			$Content_Type = "application/json";
 		}
+		$Content_Type = $this->api_request->Content_Type($Content_Type);
 		if(is_null($Code)){
 			$Code = 200;
 		}

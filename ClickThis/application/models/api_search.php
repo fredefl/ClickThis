@@ -79,7 +79,7 @@ class Api_Search extends CI_Model{
         } else {
              $Return = FALSE;
         }
-        return$Return;
+        return $Return;
     }
 
      /**
@@ -139,6 +139,15 @@ class Api_Search extends CI_Model{
     		if(is_null($this->Limit)){
     			$Limit = 10;
     		}
+            foreach ($Query as $Key => $Value) {
+                $NotAllowed = array("format","redirect","consumer_key","consumer_secret","access_token","access_secret","token","request_code","request_token","request_secret");
+                if(in_array($Key, $NotAllowed)){
+                    unset($Query[$Key]);
+                }
+            }
+            if(count($Query) < 1){
+                return FALSE;
+            }
     		if(is_null($ClassName)){
     			$Return = array();
 	    		$Raw = $this->db->limit($this->Limit)->get_where($this->Table, $Query);
