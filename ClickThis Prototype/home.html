@@ -1,68 +1,51 @@
 <!DOCTYPE HTML>
 <html> <!-- manifest="offline.manifest"-->
 	<head>
+		<!-- title -->
 		<title>ClickThis - Home</title>
+		<!-- charset -->
 		<meta charset="utf-8">
+		<!-- viewport -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<!-- webapp -->
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="apple-touch-icon" href="img/ClickThis64.png" />
+		<!-- stylesheets -->
 		<link rel="stylesheet" href="css/theme.css"/>
 		<link rel="stylesheet" href="css/style.css"/>
-		<link rel="apple-touch-icon" href="img/ClickThis64.png" />
-		<style type="text/css">
-			.listIcon {
-				background: url("img/list-icon.png") !important;
-				width: 14px;
-				height: 13px;
-				margin-top:8.5px;
-			}
-			.arrowLeftIcon {
-				background: url("img/arrow-left-icon.png") !important;
-				width: 14px;
-				height: 14px;
-				margin-top:8px;
-			}
-		</style>
 	</head>
 	<body>
-		<input type="hidden" id="currentpage" value="user" />
 		<div id="page">
-			<!-- The full page div -->
-			<div id="home" class="current" >
-				<!-- Toolbar -->
-				<div class="toolbar">
-					<h1 id="toolbarTitle"><a href="http://illution.dk/ClickThisPrototype/home.html" title="Home" style="text-decoration:none; color:#FFF;">ClickThis</a></h1>
-					<a class="button slideup" onClick="" id="infoButton"><div class="listIcon"></div></a>
-					<a class="back Active" id="backButton" data-href="home.html" data-app-onClick="ClickThisApp.terminateApp()" data-app-text="Quit" data-app-start-mode="active" data-page-start-mode="disabled"><div class="arrowLeftIcon"></div></a>
-				</div> <!-- end of toolbar -->
-
-				<div id="notification" style="display:none;height:0px">
-					Some data has not been sent! [ <small id="notificationCount"></small> ]
-				</div> <!-- end of notification -->
-				
-				<!-- User front page -->
-				<!-- The tests -->
+			<!--########## toolbar ##########-->
+			<div class="toolbar" class="current">
+				<h1 id="toolbarTitle"><a href="http://illution.dk/ClickThisPrototype/home.html" title="Home" style="text-decoration:none; color:#FFF;">ClickThis</a></h1>
+				<a class="button slideup" onClick="" id="infoButton">
+					<div class="listIcon"></div>
+				</a>
+				<a class="back Active" id="backButton" data-href="home.html" data-app-onClick="ClickThisApp.terminateApp()" data-app-text="Quit" data-app-start-mode="active" data-page-start-mode="disabled">
+					<div class="arrowLeftIcon"></div>
+				</a>
+			</div> <!-- end of toolbar -->
+			<!--########## notification ##########-->
+			<div id="notification" style="display:none;height:0px">
+				Some data has not been sent! [ <small id="notificationCount"></small> ]
+			</div> <!-- end of notification -->
+			<!--########## home ##########-->
+			<div id="home" class="active">
+				<div id="user">
+					<ul class="rounded arrow" id="series"></ul>
+				</div>
+				<!-- the tests -->
 				<div id="test">
 					<ul class="rounded">
-						<li class="arrow"><a href="#add_issue">Add an Issue</a></li> 
 						<li class="arrow"><a href="ajaxQueue.html">Ajax Queue</a></li>
 						<li class="arrow"><a href="buttons.html">Button Showcase</a></li>  
 						<li class="arrow" id="updateButton"><a href="#">Update Desktop</a></li>
 						<li class="forward"><a>Page View Counter</a><small class="counter" id="pageCount">0</small></li>
 						<li><a id="chacheStatus">Cache status </a></li>
 					</ul>
-				</div> <!-- end of user / front page -->
-				
-				<div class="disabled" id="add_issue">
-					<form method="POST" action="http://illution.dk/ClickThisIssueCreator/index.php">
-						<span style="margin-left:5%; font:Arial, Helvetica, sans-serif; font-size:18px; font-weight:bold; color:#FFF;">Title:</span><br>
-						<input type="text" name="title" style="width:90%;margin-left:5%;"/><br>
-						<span style="margin-left:5%; font:Arial, Helvetica, sans-serif; font-size:18px; font-weight:bold; color:#FFF;">Description:</span><br>
-						<textarea name="description" style="width:90%;margin-left:5%; height:256px;"></textarea>
-						<br>
-						<input type="submit" value="Submit!" style="width:90%;margin-left:5%;"/>
-					</form>
-				</div> <!-- end of add issue -->
+				</div> <!-- end of tests-->
 			</div> <!-- end of home -->
 		</div> <!-- end of page -->
 		<!-- script section -->
