@@ -1,12 +1,14 @@
 body {
 	color: #ddd;
 }
+/*
 #page h1, #page h2 {
 	font: bold 18px "Helvetica Neue", Helvetica;
 	text-shadow: rgba(255,255,255,.2) 0 1px 1px;
 	color: #000;
 	margin: 10px 20px 5px;
 }
+*/
 /* @group Toolbar */
 #page .toolbar {
 	-webkit-box-sizing: border-box;
@@ -40,7 +42,7 @@ body {
 	white-space: nowrap;
 	color: #fff;
 }
-#page .button, #page .back, #page .cancel, #page .add {
+#page .toolbar > .button, #page .back, #page .cancel, #page .add {
 	position: absolute;
 	overflow: hidden;
 	top: 8px;

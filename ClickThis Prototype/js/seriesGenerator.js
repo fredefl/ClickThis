@@ -146,7 +146,7 @@ var seriesGenerator = {
 		// Add swipe functionality
 		this.addSwipe(container[0]); // The [0] converts the jQuery object to a DOM object
 		// Add event listeners
-		this.addListeners();
+		//this.addListeners(); <-------------------------------------------------------------------------------------
 		// Return
 		return true;
 	},
@@ -182,7 +182,7 @@ var seriesGenerator = {
 		window.questionSwipe = new Swipe(element, {
 			callback: function () {
 				buttonResizer.resizeButtons(document.body);
-				window.scrollTo(0, 1);
+				//window.scrollTo(0, 1);
 				// Send the question to the server
 				seriesGenerator.sendQuestion(window.questionSwipe.slides[window.questionSwipe.index - 1]);
 			}

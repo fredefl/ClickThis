@@ -1,5 +1,5 @@
-<!DOCTYPE HTML>
-<html> <!-- manifest="offline.manifest"-->
+<!DOCTYPE html>
+<html lang="en"> <!-- manifest="offline.manifest"-->
 	<head>
 		<!-- title -->
 		<title>ClickThis - Home</title>
@@ -13,9 +13,11 @@
 		<link rel="apple-touch-icon" href="img/ClickThis64.png" />
 		<!-- stylesheets -->
 		<link rel="stylesheet" href="css/theme.css"/>
+		<link rel="stylesheet" href="css/buttons.css"/>
 		<link rel="stylesheet" href="css/style.css"/>
+		<link rel="stylesheet" href="css/form.css" />
 	</head>
-	<body>
+	<body lang="en">
 		<div id="page">
 			<!--########## toolbar ##########-->
 			<div class="toolbar" class="current">
@@ -27,10 +29,12 @@
 					<div class="arrowLeftIcon"></div>
 				</a>
 			</div> <!-- end of toolbar -->
+
 			<!--########## notification ##########-->
 			<div id="notification" style="display:none;height:0px">
 				Some data has not been sent! [ <small id="notificationCount"></small> ]
 			</div> <!-- end of notification -->
+
 			<!--########## home ##########-->
 			<div id="home" class="active">
 				<div id="user">
@@ -56,14 +60,26 @@
 					</li>
 				</ul> <!-- end of bottom -->
 			</div> <!-- end of home -->
+
+			<!--######### series container #########-->
+			<div id="seriesContainer" style="display:none;margin-top:45px" class="Hyphenate">
+
+			</div> <!-- end of seriesContainer -->
 		</div> <!-- end of page -->
 		<!-- script section -->
 		<script src="js/jquery.min.js"></script>
 		<script src="http://cdn.illution.dk/JS/jquery.hashchange.min.js"></script>
 		<script src="http://cdn.beaconpush.com/clients/client-1.js"></script>
+		<script src="js/jquery.ui.touch-punch.min.js"></script>
+		<script src="js/swipe.js"></script>
+		<script src='js/jquery.ata.js'></script>
 		<script src="js/clickthis.js"></script>
 		<script src="js/script.js"></script>
 		<script src="js/ajaxQueue.js"></script>
+		<script src="js/buttonGenerator.js"></script>
+		<script src="js/buttonResizer.js"></script>
+		<script src="js/Hyphenator.js"></script>
+		<script src="js/seriesGenerator.js"></script>
 		<script src="js/homeGenerator.js"></script>
 		<!-- end of script section -->
 	</body> <!-- end of body -->

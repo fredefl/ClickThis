@@ -1,6 +1,6 @@
 var homeGenerator = {
 	newSeries: function (title, id, creator,creatorId) {
-		return '<li class="forward"><a href="apitest.html#'+id+'">' + title + '</a><small class="counter"><a href="user.html?user_id='+creatorId+'">' + creator + '</a></small></li>';
+		return '<li class="forward"><a onclick="goToSeries(' + id + ')">' + title + '</a><small class="counter"><a href="user.html?user_id='+creatorId+'">' + creator + '</a></small></li>';
 	}
 }
 
@@ -11,9 +11,22 @@ $.ajax({
 		$(data.Series).each(function(index,element){
 			var user = getUser(element.Creator);
 			$("#series").append(homeGenerator.newSeries(element.Title,element.Id,user.Name,user.Id));
+			$("#seriesContainer").append('<div id="series_' + element.Id + '"></div>');
+			seriesGenerator.generate(element, $("#series_" + element.Id));
+			$("#series_" + element.Id).hide();
 		});
+		$("#begin").click(function() {
+			window.questionSwipe.next();
+		})
 	}
 });
+
+function goToSeries (id) {
+	$("#home").hide();
+	$("#seriesContainer").show();
+	$("#series_" + id).show();
+	seriesGenerator.addSwipe($("#series_"+id)[0]);
+}
 
 function getUser (id){
 	var global_data;
