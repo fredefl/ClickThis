@@ -110,6 +110,29 @@ class Api_Request{
 	}
 
 	/**
+	 * This function converts a format to a content type
+	 * @param string $Format The format to convert
+	 * @return string The content type
+	 * @since 1.0
+	 * @access public
+	 */
+	public function Content_Type($Format = NULL){
+		if(!is_null($Format)){
+			$Formats = array(
+				"xml" => "application/xml",
+				"json" => "application/json"
+			);
+			if(array_key_exists(strtolower($Format), $Formats)){
+				return $Formats[$Format];
+			} else {
+				return $Format;;				
+			}
+		} else {
+			return "application/json";
+		}
+	}
+
+	/**
 	 * This function get's a response message of a HTTP code
 	 * @param integer $Code The code to get the message of
 	 * @return string The http response message
@@ -184,14 +207,19 @@ class Api_Request{
 			case 'options':
 				break;
 			case 'patch':
+				parse_str(file_get_contents('php://input', $this->_Request_Vars));
 				break;
 			default:
 				header("Content-type:application/json");
 		       	header('Allow: ' . json_encode(array("POST","GET","PUT","DELETE","HEAD","PATCH","OPTIONS")), true, 200);
 		        break;
 		}
-		if($this->_Request_Method == "put" || $this->_Request_Method == "post"){
-			self::Request_Data(json_decode($this->_Request_Vars,true));
+		if($this->_Request_Method == "put" || $this->_Request_Method == "post" || $this->_Request_Method == "patch"){
+			if($this->_Request_Format == "xml"){
+				self::Request_Data(simplexml_load_string($this->_Request_Vars));
+			} else {
+				self::Request_Data(json_decode($this->_Request_Vars,true));
+			}
 			if(is_null($this->_Request_Data) && $this->_Request_Method == "post"){
 				$this->_Request_Data = $_POST;
 			}

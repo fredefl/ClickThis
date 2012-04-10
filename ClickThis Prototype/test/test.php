@@ -42,7 +42,7 @@ function Post(){
 
 function Get(){
 	$.ajax({
-		url: "http://illution.dk/ClickThis/api/series_test/21",
+		url: "http://illution.dk/ClickThis/api/series/31",
 		type:"GET",
 		success: function(data){
 			if(typeof data.error_code == "undefined"){
