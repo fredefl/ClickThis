@@ -1,10 +1,6 @@
 var homeGenerator = {
 	newSeries: function (title, id, creator,creatorId) {
 		return '<li class="forward"><a href="apitest.html#'+id+'">' + title + '</a><small class="counter"><a href="user.html?user_id='+creatorId+'">' + creator + '</a></small></li>';
-	},
-
-	getBottom: function () {
-		return '<ul class="individual"><li><a href="profile.html">Profile</a></li><li><a href="settings.html">Settings</a></li></ul>'
 	}
 }
 
@@ -32,8 +28,6 @@ function getUser (id){
 	});
 	return global_data;
 }
-
-$("#home").append(homeGenerator.getBottom());
 
 // Random Shit
 $(window).load(function () {
