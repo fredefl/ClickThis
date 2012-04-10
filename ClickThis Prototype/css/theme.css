@@ -23,9 +23,6 @@ body {
 	width: 100%;
 	z-index: 999999;
 }
-#page .black-translucent .toolbar {
-	margin-top: 20px;
-}
 #page .toolbar > h1 {
 	position: absolute;
 	overflow: hidden;
@@ -42,10 +39,6 @@ body {
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	color: #fff;
-}
-#page.landscape .toolbar > h1 {
-	margin-left: -125px;
-	width: 250px;
 }
 #page .button, #page .back, #page .cancel, #page .add {
 	position: absolute;
@@ -74,13 +67,6 @@ body {
 	-ms-border-image: url(../img/button.png) 0 5 0 5;
 	-webkit-touch-callout:none;
 }
-#page .button.active, #page .cancel.active, #page .add.active {
-	border-image: url(../img/button_clicked.png) 0 5 0 5;
-}
-#page .blueButton {
-	border-image: url(../img/blueButton.png) 0 5 0 5;
-	border-width: 0 5px;
-}
 #page .back {
 	left: 6px;
 	right: auto;
@@ -93,52 +79,6 @@ body {
 	-o-border-image: url(../img/back_button.png) 0 8 0 14;
 	-ms-border-image: url(../img/back_button.png) 0 8 0 14;
 }
-#page .back.active {
-	border-image: url(../img/back_button_clicked.png) 0 8 0 14;
-}
-#page .leftButton, #page .cancel {
-	left: 6px;
-	right: auto;
-}
-#page .add {
-	font-size: 24px;
-	line-height: 24px;
-	font-weight: bold;
-}
-#page .whiteButton,
-#page .grayButton, #page .redButton, #page .blueButton, #page .greenButton {
-	border-width: 0 12px;
-	color: #000000;
-	display: block;
-	font-size: 20px;
-	font-weight: bold;
-	padding: 10px;
-	text-align: center;
-	text-decoration: inherit;
-	text-shadow: rgba(255, 255, 255, 0.7) 0 1px 0;
-}
-
-#page .whiteButton.active, #page .grayButton.active, #page .redButton.active, #page .blueButton.active, #page .greenButton.active,
-#page .whiteButton:active, #page .grayButton:active, #page .redButton:active, #page .blueButton:active, #page .greenButton:active {
-	border-image: url(../img/activeButton.png) 0 12 0 12;
-}
-#page .whiteButton {
-	border-image: url(../img/whiteButton.png) 0 12 0 12;
-}
-#page .grayButton {
-	border-image: url(../img/grayButton.png) 0 12 0 12;
-	color: #FFFFFF;
-}
-
-#page .redButton {
-	border-image: url(../img/redButton.png) 0 12 0 12;
-}
-
-#page .greenButton {
-	border-image: url(../img/greenButton.png) 0 12 0 12;
-}
-
-
 /* @end */
 /* @group Lists */
 #page h1 + ul, #page h2 + ul, #page h3 + ul, #page h4 + ul, #page h5 + ul, #page h6 + ul {
@@ -294,63 +234,6 @@ body {
 }
 /*
 @end */
-/* @group Forms */
-#page ul.form li {
-	padding: 7px 10px;
-}
-#page ul.form li.error {
-	border: 2px solid red;
-}
-#page ul.form li.error + li.error {
-	border-top: 0;
-}
-#page ul li input[type="text"],
-#page ul li input[type="password"],
-#page ul li input[type="tel"],
-#page ul li input[type="number"],
-#page ul li input[type="search"],
-#page ul li input[type="email"],
-#page ul li input[type="url"],
-#page ul li textarea,
-#page ul li select {
-	color: #777;
-	background: transparent url('data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==');
-	border: 0;
-	font: normal 17px "Helvetica Neue", Helvetica;
-	padding: 0;
-	display: inline-block;
-	margin-left: 0px;
-	width: 100%;
-	appearance: textarea;
-}
-#page ul li textarea {
-	height: 120px;
-	padding: 0;
-	text-indent: -2px;
-}
-#page ul li select {
-	text-indent: 0px;
-	background: transparent url(../img/chevron.png) no-repeat right center;
-	appearance: textfield;
-	margin-left: -6px;
-	width: 104%;
-}
-#page ul li input[type="checkbox"], #page ul li input[type="radio"] {
-	margin: 0;
-	padding: 10px 10px;
-}
-#page ul li input[type="checkbox"]:after, #page ul li input[type="radio"]:after {
-	content: attr(title);
-	font: 17px "Helvetica Neue", Helvetica;
-	display: block;
-	width: 246px;
-	color: #777;
-	margin: -12px 0 0 17px;
-}
-#page.android ul li input[type="checkbox"]:after, #page.android ul li input[type="radio"]:after {
-	margin: 3px 0 0 24px;
-}
-/* @end */
 /* @group Mini Label */
 #page ul li small {
 	color: #64c114;
@@ -424,37 +307,6 @@ body {
 	margin: -11px -10px -14px -10px;
 	padding: 11px 10px 14px 10px;
 	border-radius: 8px;
-}
-/* @end */
-/* @group Toggle */
-#page .toggle {
-	width: 94px;
-	position: relative;
-	height: 27px;
-	display: block;
-	overflow: hidden;
-	float: right;
-}
-#page .toggle input[type="checkbox"]:checked {
-	background-position: 0 0;
-}
-#page .toggle input[type="checkbox"] {
-	appearance: textarea;
-	border-radius: 5px;
-	tap-highlight-color: rgba(0,0,0,0);
-	transition: background-position .15s;
-	appearance: textarea;
-	border-radius: 5px;
-	tap-highlight-color: rgba(0,0,0,0);
-	transition: background-position .15s;
-	background-color: transparent;
-	background: #fff url(../img/on_off.png) -55px 0 no-repeat;
-	border: 0;
-	height: 27px;
-	margin: 0;
-	overflow: hidden;
-	position: absolute;
-	width: 94px;
 }
 /* @end */
 /* @group Info */
