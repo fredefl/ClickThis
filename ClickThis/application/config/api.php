@@ -99,4 +99,4 @@
 	 * The not allowed paramter in a search request
 	 * @since 1.0
 	 */
-	$config["api_search_not_allowed"] = array("redirect","consumer_key","consumer_secret","access_token","access_secret","token","request_code","request_token","request_secret");
+	$config["api_search_not_allowed"] = array("format","redirect","consumer_key","consumer_secret","access_token","access_secret","token","request_code","request_token","request_secret");

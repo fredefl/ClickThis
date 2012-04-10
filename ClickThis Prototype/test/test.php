@@ -135,6 +135,25 @@ function Patch(){
 		}
 	});
 }
+
+function Test(){
+	var ajax = $.ajax({
+		url: "http://illution.dk/ClickThis/api/test",
+		type:"GET",
+		headers: { 
+        	Accept : "application/xml; charset=utf-8",
+        	"Content-Type": "application/xml; charset=utf-8"
+   		},
+		success: function(data){
+			console.log(data);
+		},
+		error: function(){
+		},
+		complete: function(resp){
+        	console.log(resp.getAllResponseHeaders());
+        }
+	});
+}
 </script>
 <button onclick="Post();">Post</button>
 <button onclick="Get()">Get</button>
