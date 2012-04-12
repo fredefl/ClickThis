@@ -155,6 +155,7 @@ class Api_Request{
 	public function __construct(){
 		self::Set_Codes();
 		$this->_CI =& get_instance();
+		$this->_CI->load->helper("array_xml");
 		if(!isset($_GET["format"])){
 			$this->_Format = (strpos($_SERVER['HTTP_ACCEPT'], 'xml')) ? 'xml' : 'json';
 		} else {
@@ -195,14 +196,17 @@ class Api_Request{
 				parse_str(file_get_contents('php://input'), $this->_Request_Vars);
 				break;
 			case 'head':
+				ob_start();
 				header("Content-type: ".$this->_Format);
-		       	header('Allow: ' . json_encode(array("POST","GET","PUT","DELETE","HEAD","PATCH","OPTIONS")), true, 200);
+		       	header('Allow: ' . implode(", ", array("POST","GET","PUT","DELETE","HEAD","PATCH","OPTIONS")), true, 200);
 		       	header("Date:".time());
 		       	header("X-Powered-By: PHP/5.2.0");
 		       	header("X-UA-Compatible: IE=EmulateIE7 X-UA-Compatible: IE=edge X-UA-Compatible: Chrome=1");
 		       	header("X-Forwarded-Proto: http");
 		       	header("X-XSS-Protection: 1; mode=block");
 		       	header("Retry-After: 120");
+		       	header("Content-MD5:".md5(ob_get_contents()));
+				header("Content-Length:".ob_get_length());
 				break;
 			case 'options':
 				break;
@@ -216,7 +220,7 @@ class Api_Request{
 		}
 		if($this->_Request_Method == "put" || $this->_Request_Method == "post" || $this->_Request_Method == "patch"){
 			if($this->_Request_Format == "xml"){
-				self::Request_Data(simplexml_load_string($this->_Request_Vars));
+				self::Request_Data(object_to_array(simplexml_load_string($this->_Request_Vars)));
 			} else {
 				self::Request_Data(json_decode($this->_Request_Vars,true));
 			}

@@ -29,7 +29,7 @@ function array_to_xml($data = NULL, $rootNodeName = 'response', $xml=null)
 			if (is_numeric($key))
 			{
 				// make string key...
-				$key = "unknownNode_". (string) $key;
+				$key = "element_". (string) $key;
 			}
 
 			// replace anything not alpha numeric
@@ -51,7 +51,8 @@ function array_to_xml($data = NULL, $rootNodeName = 'response', $xml=null)
 
 		}
 		// pass back as string. or simple xml object if you want!
-		return $xml->asXML();
+		$Return = $xml->asXML();
+		return str_replace("unknownNode", "element", $Return);
 	} else {
 		return "";
 	}

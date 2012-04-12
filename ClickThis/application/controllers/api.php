@@ -23,6 +23,9 @@ class Api extends CI_Controller {
 	}
 
 	public function Test(){
+		$this->api_request->Perform_Request();
+		//echo $this->api_request->Request_Format();
+		print_r($this->api_request->Request_Data());
 		//$xml = new SimpleXMLElement();
 		/*$Data = self::Standard_API("User",1,"Users","Users",true);
 		$Return = array();
@@ -32,7 +35,7 @@ class Api extends CI_Controller {
 		self::_Send_Response(200,"application/xml",$Return);*/
 		/*$xml = simplexml_load_string('<?xml version="1.0" encoding="utf-8"?><request><User><Name>Bo Thomsen</Name><Id>1</Id><Country>Denmark</Country><ProfileImage>http://www.gravatar.com/avatar/dc07576afa6b5b172a378d6f5eb05f5f?s=256</ProfileImage><Email>boh1996@gmail.com</Email><Language>da-DK</Language></User></request>');
 		//print_r(object_to_array($xml));*/
-		echo $this->api_request->Request_Format(),"|",$this->api_request->Format();
+		//echo $this->api_request->Request_Format(),"|",$this->api_request->Format();
 	}
 
 	/**
@@ -161,6 +164,8 @@ class Api extends CI_Controller {
 		header("Content-Language:en");
 		header("Content-Location: http:/illution.dk/ClickThis/api");
 		header('Content-type: ' . $Content_Type);
+		header("Date:".time());
+		header('Allow: ' . implode(", ", array("POST","GET","PUT","DELETE","HEAD","PATCH","OPTIONS")), true, 200);
 		if(is_null($Content) && $Code != 200){
 			$Error = array("error_message" => $this->api_request->Get_Message($Code),"error_code" => $Code);
 			if(!is_null($Reason) && is_array($Reason)){
@@ -363,6 +368,17 @@ class Api extends CI_Controller {
 					case 'put':
 						self::_Update($Class,$Id);
 						break;
+					case 'patch':
+
+						break;
+
+					case 'options':
+
+						break;
+
+					case 'options':
+
+						break;
 				}
 			} else {
 				if(isset($_GET) && !empty($_GET) && $Api_Request->Request_Method() == "get" && !is_null($Table)){
@@ -460,6 +476,8 @@ class Api extends CI_Controller {
 		header("Content-Language:en");
 		header("Content-Location: http:/illution.dk/ClickThis/api");
 		header('Content-type: ' . $Content_Type);
+		header("Date:".time());
+		header('Allow: ' . implode(", ", array("POST","GET","PUT","DELETE","HEAD","PATCH","OPTIONS")), true, 200);
 		if(is_null($Content) && $Code != 200){
 			$Error = array("error_message" => $this->api_request->Get_Message($Code),"error_code" => $Code);
 			if(!is_null($Reason) && is_array($Reason)){
