@@ -121,13 +121,18 @@ class clickthis_security
 		//Check for Security
 		if(!self::loginpage($Page,'login')){
 			if(!self::IsLoggedIn())
-			{
-				$_SESSION["redirect"] = current_url();
-				redirect($this->Redirect);
-				die();
+			{	
+				if($Page != ""){
+					$_SESSION["redirect"] = current_url();
+					redirect($this->Redirect);
+					die();
+				}
 			} else {
 				if(!isset($_SESSION["clickthis_token"]) && strpos(current_url(), "token") === false){
 					redirect("token");
+				} else {
+					exit;
+					return;
 				}
 			}
 		}
