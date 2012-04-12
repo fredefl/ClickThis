@@ -18,6 +18,8 @@
 	 */
 	$config["api_apps_table"] = "Apps";
 
+	$config["api_host_url"] = "http://illution.dk/api";
+
 	/**
 	 * The database table for the users
 	 * @since 1.0

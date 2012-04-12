@@ -42,12 +42,14 @@
  * Api Routings
  */
 $route["auth"] = "api/auth";
+$route["authenticate"] = "api/authenticate";
 $route["access_token"] = "api/access_token";
 $route["request_token"] = "api/request_token";
 $route["authenrized"] = "api/authenticated";
 $route["token/regenerate"] = "api/token_regenerate";
 $route["token"] = "api/token";
 $route["token/set"] = "api/set_token";
+$route["v1/(:any)"] = "api/$1";
 
 /**
  * ClickThis Routes
@@ -68,13 +70,20 @@ $route["register"] = "login/clickthis/register";
 
 
 /**
- * Survey Mapping
+ * Frontend Mapping
  */
+$route["series/(:num)"] = "frontend/desktop/series/$1";
+$route["admin"] = "frontend/desktop/admin";
+$route["mobile/(:any)"] = "frontend/mobile/$1";
+$route["desktop/(:any)"] = "frontend/desktop/$1";
+$route["mobile"] = "frontend/mobile/";
+$route["desktop"] = "frontend/desktop/";
+
 
 /**
  * Standard CodeIgniter routings
  */
-$route['default_controller'] = "home";
+$route['default_controller'] = "frontend";
 $route['404_override'] = '';
 
 

@@ -5,6 +5,14 @@
 class Api extends CI_Controller {
 
 	/**
+	 * This array will contain the occured errors of the api
+	 * @var array
+	 * @since 1.1
+	 * @access private
+	 */
+	private $_Errors = NULL;
+
+	/**
 	 * This function is called if there's requested data about a series
 	 * @param integer $Id The database id of the series to load, if the method is get
 	 * @access public
@@ -20,22 +28,7 @@ class Api extends CI_Controller {
 		$this->load->library("api_response/std_api_response");
 		$this->load->library("api_authentication");
 		$this->load->helper("array_xml");
-	}
-
-	public function Test(){
-		$this->api_request->Perform_Request();
-		//echo $this->api_request->Request_Format();
-		print_r($this->api_request->Request_Data());
-		//$xml = new SimpleXMLElement();
-		/*$Data = self::Standard_API("User",1,"Users","Users",true);
-		$Return = array();
-		$Return["User"] = $Data->Export(false,true);
-		$Return["error_message"] = NULL;
-		$Return["error_code"] = NULL;
-		self::_Send_Response(200,"application/xml",$Return);*/
-		/*$xml = simplexml_load_string('<?xml version="1.0" encoding="utf-8"?><request><User><Name>Bo Thomsen</Name><Id>1</Id><Country>Denmark</Country><ProfileImage>http://www.gravatar.com/avatar/dc07576afa6b5b172a378d6f5eb05f5f?s=256</ProfileImage><Email>boh1996@gmail.com</Email><Language>da-DK</Language></User></request>');
-		//print_r(object_to_array($xml));*/
-		//echo $this->api_request->Request_Format(),"|",$this->api_request->Format();
+		$this->load->config("api");
 	}
 
 	/**
@@ -149,50 +142,7 @@ class Api extends CI_Controller {
 	 * @access public
 	 */
 	private function Send_Response($Code = 200,$Content_Type = NULL,$Content = NULL,$Reason = NULL){
-		if(is_null($Content_Type)){
-			$Content_Type = $this->api_request->Format();
-		}
-		if(is_null($Content_Type)){
-			$Content_Type = "application/json";
-		}
-		$Content_Type = $this->api_request->Content_Type($Content_Type);
-		if(is_null($Code)){
-			$Code = 200;
-		}
-		$Status_Header = 'HTTP/1.1 ' . $Code . ' ' . $this->api_request->Get_Message($Code); 
-		header($Status_Header); 
-		header("Content-Language:en");
-		header("Content-Location: http:/illution.dk/ClickThis/api");
-		header('Content-type: ' . $Content_Type);
-		header("Date:".time());
-		header('Allow: ' . implode(", ", array("POST","GET","PUT","DELETE","HEAD","PATCH","OPTIONS")), true, 200);
-		if(is_null($Content) && $Code != 200){
-			$Error = array("error_message" => $this->api_request->Get_Message($Code),"error_code" => $Code);
-			if(!is_null($Reason) && is_array($Reason)){
-				$Error["error_reason"] = $Reason;
-			}
-			if($Content_Type == "application/xml"){
-				$Content = array_to_xml($Error);
-			} else {
-				$Content = json_encode($Error);
-			}
-			echo $Content;
-			header("Content-MD5:".md5($Content));
-			header("Content-Length:".strlen($Content));
-		} else {
-			if($Code == 200){
-				$Content["error_message"] = NULL;
-				$Content["error_code"] = NULL;
-			}
-			if($Content_Type == "application/xml"){
-				$Content = array_to_xml($Content);
-			} else {
-				$Content = json_encode($Content);
-			}
-			echo $Content;
-			header("Content-MD5:".md5($Content));
-			header("Content-Length:".strlen($Content));
-		}
+		self::_Send_Response($Code,$Content_Type,$Content,$Reason);
 	}
 
 	/**
@@ -333,6 +283,27 @@ class Api extends CI_Controller {
 		self::Standard_API("App",$Id,"Apps");
 	}
 
+	/**
+	 * This function checks if search get parameters is set
+	 * @since 1.1
+	 * @access private
+	 * @return boolean
+	 */
+	private function _Is_Get_Set(){
+		$NotAllowed = $this->config->item("api_search_not_allowed");
+		if(isset($_GET)){
+			$Exists = FALSE;
+			foreach ($_GET as $Key => $Value) {
+				if(!in_array($Key, $NotAllowed)){
+					$Exists = TRUE;
+				}
+			}
+			return $Exists;
+		} else {
+			return FALSE;
+		}
+	}
+
 
 	/**
 	 * Thus function handles the standard API calls
@@ -347,7 +318,7 @@ class Api extends CI_Controller {
 			$this->load->library($Class);
 			$Api_Request = new Api_Request();
 			$Api_Request->Perform_Request();
-			if(!is_null($Id) || $Api_Request->Request_Method() == "post"){
+			if(!is_null($Id) || $Api_Request->Request_Method() == "post" || !self::_Is_Get_Set()){
 				switch ($Api_Request->Request_Method()) {
 					case 'get':
 						if($Return === false){
@@ -474,9 +445,14 @@ class Api extends CI_Controller {
 		$Status_Header = 'HTTP/1.1 ' . $Code . ' ' . $this->api_request->Get_Message($Code); 
 		header($Status_Header); 
 		header("Content-Language:en");
-		header("Content-Location: http:/illution.dk/ClickThis/api");
+		header("Age: 1");
+		header("Expires: 100");
+		header("Cache-Control : 100");
+		header("Content-Location: ".$this->config->item("api_host_url"));
 		header('Content-type: ' . $Content_Type);
 		header("Date:".time());
+		header("X-Content-Type-Options: nosniff");
+		header("X-XSS-Protection: 1; mode=block");
 		header('Allow: ' . implode(", ", array("POST","GET","PUT","DELETE","HEAD","PATCH","OPTIONS")), true, 200);
 		if(is_null($Content) && $Code != 200){
 			$Error = array("error_message" => $this->api_request->Get_Message($Code),"error_code" => $Code);
@@ -488,12 +464,17 @@ class Api extends CI_Controller {
 			} else {
 				$Content = json_encode($Error);
 			}
+			ob_start();
 			echo $Content;
+			$Len = ob_get_length()+5;
 			header("Content-MD5:".md5($Content));
-			header("Content-Length:".strlen($Content));
+			header("Content-Length:".$Len);
+			exit();
 		} else {
-			$Content["error_message"] = NULL;
-			$Content["error_code"] = NULL;
+			if($Code == 200){
+				$Content["error_message"] = NULL;
+				$Content["error_code"] = NULL;
+			}
 			if($Content_Type == "application/xml"){
 				$Content = array_to_xml($Content);
 			} else {
@@ -689,7 +670,6 @@ class Api extends CI_Controller {
 	 * @access public
 	 */
 	public function Auth(){
-		
 		$this->load->library("app");
 		if(isset($_SESSION["UserId"]) && !empty($_SESSION["UserId"])){
 			if($this->api_authentication->AuthDialog()){
@@ -706,7 +686,7 @@ class Api extends CI_Controller {
 			}
 		} else {
 			$_SESSION["redirect"] = self::_Create_Redirect();
-			redirect("login");
+			redirect($this->config->item("login_page"));
 		} 
 	}
 
@@ -716,7 +696,6 @@ class Api extends CI_Controller {
 	 * @access public
 	 */
 	public function Authenticated(){
-		
 		$this->api_authentication->Base_Url(base_url());
 		if($this->api_authentication->Auth()){
 			if(!is_null($this->api_authentication->Get("Request_Code"))){
@@ -741,19 +720,24 @@ class Api extends CI_Controller {
 	 * @since 1.1
 	 */
 	public function Token(){	
+		$this->load->library('user_agent');
 		if(isset($_SESSION["UserId"])){
 			if(isset($_SESSION["clickthis_token"])){
-				redirect("home");
+				redirect();
 			} else {
-				if($this->api_authentication->ClickThis_Token(3)){
+				$Level = 3;
+				if($this->agent->is_mobile() || (isset($_SESSION["platform"]) && $_SESSION["platform"] == "mobile")){
+					$Level = 2;
+				}
+				if($this->api_authentication->ClickThis_Token($Level)){
 					$_SESSION["clickthis_token"] = $this->api_authentication->Get("ClickThis_Token");
 					header("Location:".base_url()."token/set"."?token=".$_SESSION["clickthis_token"]);
 				} else {
-					redirect("login");
+					redirect($this->config->item("login_page"));
 				}
 			}
 		} else {
-			redirect("login");
+			redirect($this->config->item("login_page"));
 		}
 	}
 
@@ -767,7 +751,25 @@ class Api extends CI_Controller {
 				$_SESSION["clickthis_token"] = $this->api_authentication->Get("ClickThis_Token");
 				header("Location:".base_url()."token/set"."?token=".$_SESSION["clickthis_token"]);
 			} else {
-				redirect("login");
+				redirect($this->config->item("login_page"));
+		}
+	}
+
+	/**
+	 * This function is used to do basic HTTP Authentication
+	 * @since 1.1
+	 * @access public
+	 */
+	public function Authenticate(){
+		if (isset($_SERVER['PHP_AUTH_USER'])) {
+			$Username = $_SERVER['PHP_AUTH_USER'];
+			$Password = $_SERVER['PHP_AUTH_PW'];
+			die();
+		} else {
+		   	header('WWW-Authenticate: Basic realm="My Realm"');
+		    header('HTTP/1.0 401 Unauthorized');
+		   	redirect($this->config->item("login_page"));
+		    die();
 		}
 	}
 
@@ -787,8 +789,7 @@ class Api extends CI_Controller {
 	 * @since 1.1
 	 * @access public
 	 */
-	public function Request_Token(){
-		
+	public function Request_Token(){		
 		if($this->api_authentication->Request_Token()){
 			if(!is_null($this->api_authentication->Get("Request_Token")) && !is_null($this->api_authentication->Get("Request_Token_Secret"))){
 				if(!is_null($this->api_authentication->Get("Redirect_Url"))){
@@ -813,8 +814,7 @@ class Api extends CI_Controller {
 	 * @since 1.1
 	 * @access public
 	 */
-	public function Access_Token(){
-		
+	public function Access_Token(){	
 		if($this->api_authentication->Access_Token()){
 			if(!is_null($this->api_authentication->Get("Access_Token")) && !is_null($this->api_authentication->Get("Access_Token_Secret"))){
 				if(!is_null($this->api_authentication->Get("Redirect_Url"))){

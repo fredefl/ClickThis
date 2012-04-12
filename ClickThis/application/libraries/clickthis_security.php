@@ -3,7 +3,7 @@ class clickthis_security
 {
 	//Variables
 	public $Pages = array('login','login/google','login/linkedin','login/twitter','login/facebook','login/linkedin/callback','login/myspace'); //None redirect pages
-	public $Keywords = array('api','login','social','register'); //None redirect Keywords
+	public $Keywords = array('api','login','social','register','v1'); //None redirect Keywords
 	public $Developers = array(1 => 1, 2 => 1,'Bo Thomsen' => 1); //The Database ids of Developers
 	public $Offset = 0; //The Text offset when using Keyword array
 	public $IllutionLogin = 1; //Illtion Login of or on
@@ -132,9 +132,9 @@ class clickthis_security
 			}
 		}
 
-		/*if(self::IsLoggedIn() && !isset($_SESSION["clickthis_token"]) || self::IsLoggedIn() && isset($_SESSION["clickthis_token"]) && $_SESSION["clickthis_token"] == ""){
+		if(self::IsLoggedIn() && !isset($_SESSION["clickthis_token"]) || self::IsLoggedIn() && isset($_SESSION["clickthis_token"]) && $_SESSION["clickthis_token"] == ""){
 			redirect("token");
-		}*/
+		}
 		
 		//Check To see if the user is logged in if the user is and if the user is not Developer show The 418 - Im a Teapot Error
 		if(self::IsLoggedIn()){
@@ -147,7 +147,7 @@ class clickthis_security
 					//Llama	
 				}
 			}
-		}		
+		}
 	}
 	
 	//If the user is marked as Developer

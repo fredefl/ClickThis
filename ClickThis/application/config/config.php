@@ -50,6 +50,14 @@ $config['developers'] = array(); //The Database ids of Developers
 
 /*
 |--------------------------------------------------------------------------
+| Front Page
+|--------------------------------------------------------------------------
+| Set the standard redirect page
+*/
+//$config["front_page"] = "desktop/home";
+
+/*
+|--------------------------------------------------------------------------
 | Login Page
 |--------------------------------------------------------------------------
 | Config used in Security for Login redirection
@@ -355,7 +363,7 @@ $config['csrf_expire'] = 7200;
 | by the output class.  Do not 'echo' any values with compression enabled.
 |
 */
-$config['compress_output'] = TRUE;
+$config['compress_output'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------

@@ -10,7 +10,7 @@ class Login extends CI_Controller {
 			$mini = $this->minify->Html($content);
 			$this->output->set_output($mini);
 		} else {
-			redirect('home');	
+			redirect($this->config->item("front_page"));	
 		}
 
 	}
@@ -264,7 +264,7 @@ class Login extends CI_Controller {
 				$Error[] = 'User Not Found';	
 			}
 			if(!count($Error)){
-				redirect('home');
+				redirect($this->config->item("front_page"));
 			}
 			else{
 				redirect('login/clickthis/loginerror/'.$Error[0]);	
@@ -494,7 +494,7 @@ class Login extends CI_Controller {
 	public function logout() {
 		unset($_SESSION);
 		session_destroy();
-		redirect('login');	
+		redirect($this->config->item("login_page"));	
 		
 	}
 }
