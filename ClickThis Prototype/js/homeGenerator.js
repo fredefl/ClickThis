@@ -18,6 +18,7 @@ $.ajax({
 		$("#begin").click(function() {
 			window.questionSwipe.next();
 		})
+		shortenTitle();
 	}
 });
 
