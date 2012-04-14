@@ -72,6 +72,22 @@ $(window).load(function () {
 	ajaxQueue.registerCallback({group: "beaconpush", type: "onSuccess"},function () {
 		console.log('Notification sent!');
 	});
+	ajaxQueue.registerCallback({type: "onQueueLengthChange"}, function () {
+		var queueLength = ajaxQueue.getQueueLength();
+		if(queueLength > 0) {
+			$("#sendingCounter").html(queueLength);
+			$("#sendingLabel > a").html("Sending data");
+		} else {
+			$("#sendingLabel > a").html("Send data");
+		}
+	});
+	var queueLength = ajaxQueue.getQueueLength();
+	if(queueLength > 0) {
+		$("#sendingCounter").html(queueLength);
+		$("#sendingLabel > a").html("Sending data");
+	} else {
+		$("#sendingLabel > a").html("Send data");
+	}
 	// ESN Beaconpush test
 	Beacon.connect('ed02c2f4', ['mychannel']);
 	Beacon.listen(function (data) {
@@ -109,3 +125,14 @@ if(window.applicationCache) {
 		$('#chacheStatus').html('Cache status: Error').css('color','#991111');
 	}, false);
 };
+$("#sendingLabel").click(function () {
+	for (var i = 0; i <= 10; i++) {
+		ajaxQueue.add({
+			url: "http://illution.dk/ClickThisPrototype/ajaxQueueTest.php", 
+			data: "", 
+			group: "test",
+			type: "GET"
+		});
+	}
+	ajaxQueue.executeTasks();
+})
