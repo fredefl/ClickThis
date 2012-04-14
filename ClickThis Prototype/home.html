@@ -10,7 +10,10 @@
 		<!-- webapp -->
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
-		<link rel="apple-touch-icon" href="img/ClickThis64.png" />
+		<link rel="apple-touch-icon" sizes="57x57" href="img/logo/logo57x57.png" /> <!-- Low res iPhone and iPod touch -->
+		<link rel="apple-touch-icon" sizes="72x72" href="img/logo/logo72x72.png" /> <!-- Low res iPad -->
+		<link rel="apple-touch-icon" sizes="114x114" href="img/logo/logo114x114.png" /> <!-- High res iPhone and iPod touch -->
+		<link rel="apple-touch-icon" sizes="144x144" href="img/logo/logo144x144.png" /> <!-- High res iPad -->
 		<!-- stylesheets -->
 		<link rel="stylesheet" href="css/theme.css"/>
 		<link rel="stylesheet" href="css/buttons.css"/>
@@ -44,8 +47,8 @@
 				<!-- the tests -->
 				<div>
 					<ul class="rounded">
-						<li class="arrow"><a href="ajaxQueue.html">Ajax Queue</a></li>
 						<li class="arrow"><a href="buttons.html">Button Showcase</a></li>  
+						<li class="forward" id="sendingLabel"><a>Send data</a><small class="counter" id="sendingCounter">0</small></li>
 						<li class="arrow" id="updateButton"><a href="#">Update Desktop</a></li>
 						<li class="forward"><a>Page View Counter</a><small class="counter" id="pageCount">0</small></li>
 						<li><a id="chacheStatus">Cache status </a></li>
