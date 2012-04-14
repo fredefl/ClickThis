@@ -231,50 +231,7 @@ class Login extends CI_Controller {
 			}
 		}
 	}
-###############################Click This#######################################		
-	private function POSTData($Post){
-		$this->load->library('loginform');
-		return $this->loginform->Security($_POST[$Post]);
-	}
-	
-	public function clickthis_generatekeypair(){
-		$this->load->library('loginform');
-		$this->loginform->SendKeypair();
-	}
-	
-	public function clickthis_login1(){
-		echo "<pre>";
-		print_r($_REQUEST);
-		echo "<pre>";
-	}
-	
-	public function clickthis_login(){
-		if(isset($_POST['jCryption'])){
-			$this->load->library('loginform');
-			$Data = $this->loginform->Decrypt();
-			#################GET POST DATA###############################
-			$UsernameIn = $this->loginform->Security($Data['login-username']);
-			$PasswordIn = $this->loginform->Security($Data['login-password']);
-			##############################################################
-			$Error = $this->loginform->Check($UsernameIn,$PasswordIn);
-			if($this->loginform->UserId() != 0){
-				$_SESSION['UserId'] = $this->loginform->UserId();
-			}
-			else{
-				$Error[] = 'User Not Found';	
-			}
-			if(!count($Error)){
-				redirect($this->config->item("front_page"));
-			}
-			else{
-				redirect('login/clickthis/loginerror/'.$Error[0]);	
-			}
-		}
-		else{
-			show_error(403);	
-		}
-	}
-
+###############################Click This#######################################			
 	public function topt_server(){
 		date_default_timezone_set("UTC");
 		$Settings = array(
@@ -299,25 +256,8 @@ class Login extends CI_Controller {
 	public function clickthis($Page = NULL,$ErrorString = NULL){
 		if(!is_null($Page)){
 			switch($Page){
-				case 'loginerror':{
-					$data['errortitle'] = urldecode($ErrorString);
-					$this->load->view('clickthis_login_view',$data);	
-					break;
-				}
-				case "login":{
-					self::clickthis_login();
-					break;
-				}
-				case "login1":{
-					self::clickthis_login1();
-					break;	
-				}
 				case "register":{
 					redirect("login/clickthis/#register");
-				}
-				case "generatekeypair":{
-					self::clickthis_generatekeypair();	
-					break;
 				}
 				default:{
 					$Page = 'clickthis_'.$Page;

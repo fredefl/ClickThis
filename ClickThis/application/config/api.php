@@ -5,6 +5,22 @@
  * @category API
  * @version 1.0
  */
+	
+	/**
+	 * The table for the rsa 1024 keys
+	 * @since 1.0
+	 */
+	$config["api_rsa_key_table"] = "rsa1024";
+
+	/**
+	 * Password hmac password
+	 */
+	$config["api_hash_hmac"] = "fqqC7bsU5zt5cGHzvtGN";
+
+	/**
+	 * The length of the rsa keys
+	 */
+	$config["api_rsa_key_length"] = 1024;
 
 	/**
 	 * The database table for the request codes

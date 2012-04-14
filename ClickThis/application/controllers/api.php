@@ -346,10 +346,6 @@ class Api extends CI_Controller {
 					case 'options':
 
 						break;
-
-					case 'options':
-
-						break;
 				}
 			} else {
 				if(isset($_GET) && !empty($_GET) && $Api_Request->Request_Method() == "get" && !is_null($Table)){
@@ -783,6 +779,89 @@ class Api extends CI_Controller {
 	}
 
 	/**
+	 * This function uses jCryption to descrypt data
+	 * @param string $Data    The data to descrypt
+	 * @param integer $D       The d rsa key
+	 * @param integer $N       The n rsa key
+	 * @param pointer|array &$Return The variable to store the decrypted data in
+	 * @return boolean
+	 * @since 1.1
+	 * @access private
+	 */
+	private function _Decrypt($Data = NULL,$D = NULL,$N = NULL,&$Return = NULL){
+		if(!is_null($Data) && !is_null($D) && !is_null($N)){
+			$this->load->library("jcryption");
+			$jCryption = new jCryption();
+			$Decrypted = $jCryption->decrypt($Data,$D,$N);
+			parse_str($Decrypted,$Parsed);	
+			$Return = $Parsed;
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
+
+	/**
+	 * This function decrypts the input and matches it with the database data.
+	 * If the user exists and the username and password are correct.
+	 * @since 1.1
+	 * @access public
+	 */
+	public function Login(){
+		if(isset($_POST['jCryption']) && isset($_SESSION["d"]["int"]) && isset($_SESSION["n"]["int"])){
+			$this->load->model("api_login");
+			if(self::_Decrypt($_POST['jCryption'], $_SESSION["d"]["int"], $_SESSION["n"]["int"],$Data)){
+				unset($_SESSION["e"]);
+				unset($_SESSION["d"]);
+				unset($_SESSION["n"]);
+				if(self::_Security($Data['login-username']) && self::_Security($Data['login-password'])){
+					$UsernameIn = $Data['login-username'];
+					$PasswordIn = $Data['login-password'];
+					if($this->api_login->Username($UsernameIn,$Row)){
+						if($UsernameIn === $Row["Username"] && hash_hmac("sha512", $PasswordIn, $this->config->item("api_hash_hmac")) === $Row["Password"] && $Row["Status"] == 1){
+							$_SESSION["UserId"] = $Row["Id"];
+							redirect($this->config->item("front_page"));
+						} else {
+							redirect($this->config->item("login_page"));
+						}
+					} else {
+						redirect($this->config->item("login_page"));
+					}
+				} else {
+					redirect($this->config->item("login_page"));
+				}
+
+			} else {
+				redirect($this->config->item("login_page"));
+			}
+		}
+	}
+
+	/**
+	 * This function gets a random rsa key from the database,
+	 * and returns it as the specified format
+	 * @since 1.1
+	 * @access public
+	 */
+	public function Keypair(){
+		$this->load->model("api_login");
+		$Keypair = $this->api_login->Keypair();
+		$this->load->library("jcryption");
+		$jCryption = new jCryption();
+		$_SESSION["e"] = array("int" => $Keypair["e"], "hex" => $jCryption->dec2string($Keypair["e"],16));
+		$_SESSION["d"] = array("int" => $Keypair["d"], "hex" => $jCryption->dec2string($Keypair["d"],16));
+		$_SESSION["n"] = array("int" => $Keypair["n"], "hex" => $jCryption->dec2string($Keypair["n"],16));
+		$Return = array(
+			"e" => $_SESSION["e"]["hex"],
+			"n" => $_SESSION["n"]["hex"],
+			"maxdigits" => intval($this->config->item("api_rsa_key_length")*2/16+3)
+		);
+		$this->api_request->Perform_Request();
+		self::_Send_Response(200,$this->api_request->Format(),$Return);
+		die();
+	}
+
+	/**
 	 * This function resends a users activation email
 	 * @param integer $UserId The user id of the user to resend the email too
 	 * @since 1.1
@@ -822,7 +901,7 @@ class Api extends CI_Controller {
 				redirect("register");
 				die();
 			}
-			$Data["Password"] = hash_hmac("sha512", $Data["Password"], "fqqC7bsU5zt5cGHzvtGN");
+			$Data["Password"] = hash_hmac("sha512", $Data["Password"], $this->config->item("api_hash_hmac"));
 			if($this->api_register->User_Exists($Data["Username"],$Data["Email"])){
 				redirect("register");
 				die();
@@ -894,7 +973,7 @@ class Api extends CI_Controller {
 			$Password = $_SERVER['PHP_AUTH_PW'];
 			die();
 		} else {
-		   	header('WWW-Authenticate: Basic realm="My Realm"');
+		   	header('WWW-Authenticate: Basic realm="OAuth"');
 		    header('HTTP/1.0 401 Unauthorized');
 		   	redirect($this->config->item("login_page"));
 		    die();

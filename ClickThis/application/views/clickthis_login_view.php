@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<title>ClickThis - Login</title>
-	<link rel='stylesheet' href='http://illution.dk/ClickThis/assets/css/clickthislogin.css'>
-    <link rel='stylesheet' href='http://illution.dk/ClickThis/assets/css/colorbox.css'>
+	<link rel='stylesheet' href='<?php echo $base_url; ?>assets/css/clickthislogin.css'>
+    <link rel='stylesheet' href='<?php echo $base_url; ?>assets/css/colorbox.css'>
 </head>
 <body>
 	<div id="pageContainer">
@@ -28,7 +28,7 @@
 		</ul>
 		<!-- Sign In Tab Content -->
 		<div id="signIn" class="toggleTab">
-			<form action="http://illution.dk/ClickThis/login/clickthis/login" method="POST" class="cleanForm" id="normal">
+			<form action="<?php echo $base_url; ?>verify/login" method="POST" class="cleanForm" id="normal">
             <input type="hidden" name="h" id="h"/>
 			
 				<fieldset>
@@ -47,8 +47,8 @@
 						<label for="remember-me">Remember me on this computer</label>
 					</div>
 					<input type="submit" value="Sign In" />
-                    <img id="dot" src="http://illution.dk/ClickThis/assets/images/ClickThisLogin/RedDot.png" alt="Dot">
-            		<img id="lock" src="http://illution.dk/ClickThis/assets/images/ClickThisLogin/Locked.png" alt="Lock">
+                    <img id="dot" src="<?php echo $base_url; ?>assets/images/ClickThisLogin/RedDot.png" alt="Dot">
+            		<img id="lock" src="<?php echo $base_url; ?>assets/images/ClickThisLogin/Locked.png" alt="Lock">
 					<div class="formExtra">
 						<p><strong>Trouble signing in?</strong></p>
 						<p><a href="#recover">Recover your password</a> or <a href="#register" id="Create">Create an account</a></p>
@@ -104,8 +104,8 @@
 					</div>
 				
 					<input type="submit" value="Register" />
-                     <img id="dotreg" src="http://illution.dk/ClickThis/assets/images/ClickThisLogin/RedDot.png" alt="Dot">
-            		<img id="lockreg" src="http://illution.dk/ClickThis/assets/images/ClickThisLogin/Locked.png" alt="Lock">
+                     <img id="dotreg" src="<?php echo $base_url; ?>assets/images/ClickThisLogin/RedDot.png" alt="Dot">
+            		<img id="lockreg" src="<?php echo $base_url; ?>assets/images/ClickThisLogin/Locked.png" alt="Lock">
 
 					<div class="formExtra">
 						<p><strong>Note: </strong> Fields marked with <span class="requiredField">*</span> are required.</p>
@@ -114,18 +114,6 @@
 				</fieldset>
 			
 			</form>
-			
-			<!-- Sidebar -->
-			<div id="sidebar">
-				<h3>Benefits for signing up</h3>
-				
-				<ul>
-					<li>24/7 support from our team</li>
-					<li>Another great benefit</li>
-					<li>We're in the cloud, so accessing your data will be 10x faster</li>
-					<li>We use the latest technology on the market today</li>
-				</ul>
-			</div> <!-- end sidebar -->
 		
 		</div> <!-- end signUp -->
 	
@@ -138,12 +126,12 @@
     </div>
 	<!-- Include the JS files -->
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js"></script>
-	<script src="http://illution.dk/ClickThis/assets/js/h5f.js"></script>
-	<script src="http://illution.dk/ClickThis/assets/js/clickthislogin.js"></script>
-    <script type="text/javascript" src="http://illution.dk/ClickThis/assets/js/jquery.jcryption.js" ></script>
-     <script type="text/javascript" src="http://illution.dk/ClickThis/assets/js/jquery.ba-hashchange.min.js" ></script>
-    <script type="text/javascript" src="http://illution.dk/ClickThis/assets/js/MD5.js"></script>
-    <script type="text/javascript" src="http://illution.dk/ClickThis/assets/js/jquery.colorbox-min.js"></script>
+	<script src="<?php echo $base_url; ?>assets/js/h5f.js"></script>
+	<script src="<?php echo $base_url; ?>assets/js/clickthislogin.js"></script>
+    <script type="text/javascript" src="<?php echo $base_url; ?>assets/js/jquery.jcryption.js" ></script>
+     <script type="text/javascript" src="<?php echo $base_url; ?>assets/js/jquery.ba-hashchange.min.js" ></script>
+    <script type="text/javascript" src="<?php echo $base_url; ?>assets/js/MD5.js"></script>
+    <script type="text/javascript" src="<?php echo $base_url; ?>assets/js/jquery.colorbox-min.js"></script>
     <script type="text/javascript">
 	$(document).ready(function(){
 		$(".tos").colorbox({width:"50%", inline:true, href:"#termsofuse"});
@@ -151,7 +139,7 @@
     $(function() {
         $("#normal").jCryption({
             beforeEncryption:function() {
-                document.getElementById("lock").src = "http://illution.dk/ClickThis/assets/images/ClickThisLogin/LoadingSmall.gif";
+                document.getElementById("lock").src = "<?php echo $base_url; ?>assets/images/ClickThisLogin/LoadingSmall.gif";
                 var D="";D+=screen.height;D+=screen.width;D+=navigator.userAgent;D+=navigator.cookieEnabled;D+=window.screen.colorDepth;D+=navigator.language;D=MD5(D);
                 document.getElementById('h').value = D;
                 return true;
@@ -159,7 +147,7 @@
         });
 		$("#normalreg").jCryption({
             beforeEncryption:function() {
-                document.getElementById("lockreg").src = "http://illution.dk/ClickThis/assets/images/ClickThisLogin/LoadingSmall.gif";
+                document.getElementById("lockreg").src = "<?php echo $base_url; ?>assets/images/ClickThisLogin/LoadingSmall.gif";
                 var D="";D+=screen.height;D+=screen.width;D+=navigator.userAgent;D+=navigator.cookieEnabled;D+=window.screen.colorDepth;D+=navigator.language;D=MD5(D);
                 document.getElementById('hreg').value = D;
                 return true;
@@ -174,19 +162,19 @@
 		Dotreg.heigth=32; Dotreg.width=32;
         if(navigator.cookieEnabled == true)
         {
-            Dot.src = 'http://illution.dk/ClickThis/assets/images/ClickThisLogin/GreenDot.png';
+            Dot.src = '<?php echo $base_url; ?>assets/images/ClickThisLogin/GreenDot.png';
             Dot.title = 'Cookies are activated!';
             Dot.alt = 'Cookies are activated!';
-			Dotreg.src = 'http://illution.dk/ClickThis/assets/images/ClickThisLogin/GreenDot.png';
+			Dotreg.src = '<?php echo $base_url; ?>assets/images/ClickThisLogin/GreenDot.png';
             Dotreg.title = 'Cookies are activated!';
             Dotreg.alt = 'Cookies are activated!';
         }
         else
         {
-            Dot.src = 'http://illution.dk/ClickThis/assets/images/ClickThisLogin/RedDot.png';
+            Dot.src = '<?php echo $base_url; ?>assets/images/ClickThisLogin/RedDot.png';
             Dot.title = 'Cookies are deactivated!';
             Dot.alt = 'Cookies are deactivated!';
-			Dotreg.src = 'http://illution.dk/ClickThis/assets/images/ClickThisLogin/RedDot.png';
+			Dotreg.src = '<?php echo $base_url; ?>assets/images/ClickThisLogin/RedDot.png';
             Dotreg.title = 'Cookies are deactivated!';
             Dotreg.alt = 'Cookies are deactivated!';
         };

@@ -50,12 +50,14 @@ $route["token/regenerate"] = "api/token_regenerate";
 $route["token"] = "api/token";
 $route["token/set"] = "api/set_token";
 $route["v1/(:any)"] = "api/$1";
+$route["keypair"] = "api/keypair";
 
 /**
  * ClickThis Routes
  */
 
 $route["logout"] = "api/logout";
+$route["verify/login"] = "api/login";
 $route["home"] = "frontend";
 $route["onetimepasswordtest/php"] = "login/topt_server";
 $route["onetimepasswordtest/js"] = "login/topt_client";
