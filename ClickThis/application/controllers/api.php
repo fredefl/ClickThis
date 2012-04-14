@@ -412,16 +412,6 @@ class Api extends CI_Controller {
 		}	
 	}
 
-	### API With Authetication Test ###
-	public function Series_Test($Id = NULL){
-		self::Series($Id);
-	}
-
-	public function API_Test($Id = NULL){
-		$this->api_request->Request_Data(array("QuestionId" => 1,"UserId" => 6));
-		self::_Autherized_Api_Request("DidAnswer",7);
-	}
-
 	/**
 	 * This function outputs the content if it exists or show an error code
 	 * @param integer $Code         The HTTP status code to send
@@ -715,24 +705,49 @@ class Api extends CI_Controller {
 	}
 
 	/**
+	 * This function logs the user out
+	 * @since 1.1
+	 * @access public
+	 */
+	public function Logout(){
+		if(isset($_SESSION) && isset($_SESSION["UserId"])){
+			setcookie("token","",0,"/",$this->config->item("base_url"));
+			$Token = NULL;
+			if(isset($_SESSION["clickthis_token"])){
+				$Token = $_SESSION["clickthis_token"];
+			}
+			if($this->api_authentication->Logout($Token)){
+				$this->load->view("token_view",array("base_url" => base_url(),"DeleteToken" => "true"));
+			}
+			session_unset();
+			session_destroy();
+		} else {
+			redirect($this->config->item("login_page"));
+			die();
+		}
+	}
+
+	/**
 	 * This function is used to generate ClickThis tokens
 	 * @access public
 	 * @since 1.1
 	 */
-	public function Token(){	
+	public function Token(){
 		$this->load->library('user_agent');
 		if(isset($_SESSION["UserId"])){
 			if(isset($_SESSION["clickthis_token"])){
-				redirect();
+				redirect("home");
 			} else {
 				$Level = 3;
 				if($this->agent->is_mobile() || (isset($_SESSION["platform"]) && $_SESSION["platform"] == "mobile")){
 					$Level = 2;
 				}
 				if($this->api_authentication->ClickThis_Token($Level)){
+					echo "here";
 					$_SESSION["clickthis_token"] = $this->api_authentication->Get("ClickThis_Token");
 					header("Location:".base_url()."token/set"."?token=".$_SESSION["clickthis_token"]);
 				} else {
+					echo "error";
 					redirect($this->config->item("login_page"));
 				}
 			}
@@ -779,7 +794,7 @@ class Api extends CI_Controller {
 	 * @access public
 	 */
 	public function Set_Token(){
-		setcookie("token",$_SESSION["clickthis_token"],0,"/","http://illution.dk/ClickThis/");
+		setcookie("token",$_SESSION["clickthis_token"],0,"/",$this->config->item("base_url"));
 		$this->load->view("token_view",array("base_url" => base_url()));
 	}
 

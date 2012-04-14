@@ -1,11 +1,23 @@
 function setToken(){
-	var token = getParameterByName("token");
-	localStorage.setItem("token",token);
-	if(token == null){
-		window.location = window.location;
+	if(!killToken){
+		var token = getParameterByName("token");
+		localStorage.setItem("token",token);
+		if(token == null){
+			redirect(window.location);
+		} else {
+			redirect(root+"home");
+		}
 	} else {
-		window.location = root+"home";
+		console.log("here");
+		localStorage.removeItem("token");
+		redirect(root+"login");
 	}
+}
+
+function redirect(url){
+	setTimeout(10,function(){
+		window.location = url;	
+	})
 }
 
 function reGenerateToken(){

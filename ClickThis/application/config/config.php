@@ -28,9 +28,9 @@ $config['folder'] = '/ClickThis/';
 |--------------------------------------------------------------------------
 | Pages without Login Security Redirection
 |--------------------------------------------------------------------------
-| Add pages that shudn't have the clickthis_security applied erc 'login','login/twitter'
+| Add pages that shudn't have the clickthis_security applied etc 'login','login/twitter'
 */
-$config['pages'] = array(); //None redirect pages
+$config['pages'] = array('login','login/google','login/linkedin','login/twitter','login/twitter/auth/','login/facebook','login/linkedin/callback','login/myspace');
 
 /*
 |--------------------------------------------------------------------------
@@ -38,7 +38,7 @@ $config['pages'] = array(); //None redirect pages
 |--------------------------------------------------------------------------
 | Keywords/Controllers that doensn't need clickthis_security Login redirection etc 'login'
 */
-$config['keywords'] = array(); //None redirect Keywords
+$config['keywords'] = array('api','login','social','register','v1',"login/twitter","login/linkedin","login/facebook","login/google","login/myspace");
 
 /*
 |--------------------------------------------------------------------------
@@ -46,7 +46,7 @@ $config['keywords'] = array(); //None redirect Keywords
 |--------------------------------------------------------------------------
 | Add developers that needs to have access if developing mode is online
 */
-$config['developers'] = array(); //The Database ids of Developers
+$config['developers'] = array();
 
 /*
 |--------------------------------------------------------------------------
@@ -54,7 +54,7 @@ $config['developers'] = array(); //The Database ids of Developers
 |--------------------------------------------------------------------------
 | Set the standard redirect page
 */
-//$config["front_page"] = "desktop/home";
+$config["front_page"] = "desktop/home";
 
 /*
 |--------------------------------------------------------------------------
@@ -62,7 +62,15 @@ $config['developers'] = array(); //The Database ids of Developers
 |--------------------------------------------------------------------------
 | Config used in Security for Login redirection
 */
-$config['login_page'] = 'login'; //The Login Page
+$config['login_page'] = 'login';
+
+/*
+|--------------------------------------------------------------------------
+| Not Logged in Page
+|--------------------------------------------------------------------------
+| The page to redirect too, if the user isn't logged in
+*/
+$config['not_logged_in_page'] = 'login';
 	
 /*
 |--------------------------------------------------------------------------

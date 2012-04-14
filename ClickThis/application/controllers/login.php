@@ -14,9 +14,6 @@ class Login extends CI_Controller {
 		}
 
 	}
-	public function url() {
-		
-	}
 
 ######################################################Providers#########################################################
 
@@ -489,13 +486,6 @@ class Login extends CI_Controller {
 			}
 		}
 
-	}
-	
-	public function logout() {
-		unset($_SESSION);
-		session_destroy();
-		redirect($this->config->item("login_page"));	
-		
 	}
 }
 ?>

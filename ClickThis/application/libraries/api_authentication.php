@@ -730,5 +730,20 @@ class Api_Authentication{
 			return FALSE;
 		}
 	}
+
+	/**
+	 * This function gets the user id and calls the database unset function
+	 * @param string $Token The token to unset
+	 * @return boolean
+	 * @access public
+	 * @since 1.0
+	 */
+	public function Logout($Token = NULL){
+		if(self::_User_Id()){
+			return $this->_CI->Api_Auth->Logout($this->_User_Id,$Token);
+		} else {
+			return FALSE;
+		}
+	}
 }
 ?>

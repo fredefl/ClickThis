@@ -48,6 +48,27 @@ class Api_Auth extends CI_Model{
 	}
 
 	/**
+	 * This function deletes a simple token, based on a user id and a token
+	 * @param integer $UserId The user owning the token
+	 * @param string $Token The token to unset
+	 * @since 1.0
+	 * @access public
+	 * @return boolean
+	 */
+	public function Logout($UserId = NULL,$Token = NULL){
+		if(!is_null($UserId)){
+			if(!is_null($Token)){
+				$this->db->where(array("UserId" => $UserId,"Token" => $Token))->delete($this->config->item("api_simple_token_table"));
+			} else {
+				$this->db->where(array("UserId" => $UserId))->delete($this->config->item("api_simple_token_table"));
+			}
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
+
+	/**
 	 * This function check the data for errors and call the _Auth function
 	 * @param string $RequestCode The generated request code
 	 * @param integer $AppId       The database id of the app to auth

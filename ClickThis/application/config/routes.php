@@ -55,7 +55,8 @@ $route["v1/(:any)"] = "api/$1";
  * ClickThis Routes
  */
 
-$route["logout"] = "login/logout";
+$route["logout"] = "api/logout";
+$route["home"] = "frontend";
 $route["onetimepasswordtest/php"] = "login/topt_server";
 $route["onetimepasswordtest/js"] = "login/topt_client";
 $route["login/mobile"] = "mobile/login";
