@@ -68,6 +68,8 @@ $route["login/tablet"] = "tablet/login";
 $route["termsofservice"] = "desktop/termsofservice";
 $route["privacy"] = "desktop/privacy";
 $route["register"] = "login/clickthis/register";
+$route["verify/register"] = "api/register";
+$route["resend/email/(:num)"] = "api/resendemail/$1";
 
 
 /**

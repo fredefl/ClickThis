@@ -63,7 +63,7 @@
 		<!-- Sign Up Tab Content -->
 		<div id="signUp" class="clearfix toggleTab">
 		
-			<form action="#" method="POST" class="cleanForm" id="signUpForm" id="normalreg">
+			<form action="<?php echo $base_url; ?>verify/register" method="POST" class="cleanForm" id="signUpForm" id="normalreg">
             <input type="hidden" name="hreg" id="hreg"/>
 			
 				<fieldset>
@@ -87,15 +87,15 @@
 					</p>
 
 					<p>
-						<label for="email">Email Address: <span class="requiredField">*</span></label>
-						<input type="email" id="email" name="email" value="" required />
-						<em>Must be a valid email address. E.g. adi@envato.com</em>
+						<label for="repassword">Retype Password: <span class="requiredField">*</span></label>
+						<input type="password" id="repassword" name="repassword" value="" pattern="^[a-zA-Z0-9]{6,12}$" required />
+						<em>Between 6 and 12 characters, alphanumeric only.</em>
 					</p>
 
 					<p>
-						<label for="phone">Phone Number:</label>
-						<input type="tel" id="phone" name="phone" value="" pattern="^[0-9-]{10,}$" />
-						<em>10 or more characters, numbers and dashes only. E.g. 1-800-1111</em>
+						<label for="email">Email Address: <span class="requiredField">*</span></label>
+						<input type="email" id="email" name="email" value="" required />
+						<em>Must be a valid email address. E.g. adi@envato.com</em>
 					</p>
 					
 					<div class="distanceLeft">

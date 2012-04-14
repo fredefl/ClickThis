@@ -5,7 +5,7 @@ class Login extends CI_Controller {
 	public function index() {
 		// Load View
 		if(!isset($_SESSION['UserId'])) {
-			$this->load->view('login_view');
+			$this->load->view('login_view',array("base_url" => base_url()));
 			$content = $this->output->get_output();
 			$mini = $this->minify->Html($content);
 			$this->output->set_output($mini);
@@ -39,10 +39,11 @@ class Login extends CI_Controller {
 					redirect('token');
 				} else {
 					// User does not exist
-					$Query = $this->db->query('Insert Into Users (RealName,UserGroup,Google) Values(?,?,?)', array(
+					$Query = $this->db->query('Insert Into Users (RealName,UserGroup,Google,Status) Values(?,?,?,?)', array(
 																							$GoogleLoginData['Name'],
 																							'User',
-																							$GoogleLoginData['Email']
+																							$GoogleLoginData['Email'],
+																							1
 																							)
 					
 					);
@@ -107,10 +108,11 @@ class Login extends CI_Controller {
 				redirect('token');
 			} else {
 				// User does not exist
-				$Query = $this->db->query('Insert Into Users (RealName,UserGroup,Facebook) Values(?,?,?)', array(
+				$Query = $this->db->query('Insert Into Users (RealName,UserGroup,Facebook,Status) Values(?,?,?,?)', array(
 																						$fb_data['me']['name'],
 																						'User',
-																						$fb_data['me']['id']
+																						$fb_data['me']['id'],
+																						1
 																						));
 				redirect('login/facebook');
 			}
@@ -178,12 +180,13 @@ class Login extends CI_Controller {
 		}
 		else{
 			//The User doesn't exist now we are going to create him
-			$Query = $this->db->query('INSERT INTO Users (RealName,UserGroup,Twitter,Country,Language) Values(?,?,?,?,?)',array(
+			$Query = $this->db->query('INSERT INTO Users (RealName,UserGroup,Twitter,Country,Language) Values(?,?,?,?,?,?)',array(
 				$Data['Name'],
 				'User',
 				$Data['Id'],
 				$Data['Country'],
-				$Data['Language']
+				$Data['Language'],
+				1
 			));
 			$_SESSION['UserId'] = $this->db->insert_id(); 
 			if(isset($_SESSION['UserId'])){
@@ -329,7 +332,7 @@ class Login extends CI_Controller {
 			}
 		}
 		else{
-			$this->load->view('clickthis_login_view');	
+			$this->load->view('clickthis_login_view',array("base_url" => base_url()));	
 		}
 	}
 	
@@ -353,12 +356,13 @@ class Login extends CI_Controller {
 				redirect('token');
 			} else {
 				// User does not exist
-				$Query = $this->db->query('INSERT INTO Users (RealName,UserGroup,LinkedIn,Country) Values(?,?,?,?)', 
+				$Query = $this->db->query('INSERT INTO Users (RealName,UserGroup,LinkedIn,Country,Status) Values(?,?,?,?,?)', 
 																					array(
 																						$Data['name'],
 																						'User',
 																						$Data['id'],
-																						$Country
+																						$Country,
+																						1
 																					)	
 				);
 				$_SESSION['UserId'] = $this->db->insert_id(); 

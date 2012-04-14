@@ -728,6 +728,119 @@ class Api extends CI_Controller {
 	}
 
 	/**
+	 * This function performs some security functions on
+	 * the input
+	 * @param string $Input The input to check
+	 * @since 1.1
+	 * @access private
+	 * @return boolean
+	 */
+	private function _Security($Input = NULL){
+		if(!is_null($Input) && $Input != ""){
+			$Output = htmlentities($Input);
+			if($Output !== $Input){
+				return FALSE;
+			}
+			$Output = htmlspecialchars($Input);
+			if($Output !== $Input){
+				return FALSE;
+			}
+			$Output = strip_tags($Input);
+			if($Output !== $Input){
+				return FALSE;
+			}
+			$Output = mysql_real_escape_string($Input);
+			if($Output !== $Input){
+				return FALSE;
+			}
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
+
+	/**
+	 * This function activates a user based on the specified activation token
+	 * @param string $Token The activation token
+	 * @access public
+	 * @since 1.1
+	 */
+	public function Activate($Token = NULL){
+		if(!is_null($Token)){
+			$this->load->model("api_register");
+			if($this->api_register->Activate($Token,$UserId)){
+				echo "Success your account is activated";
+				//Show success view
+			} else {
+				//Show error view
+				echo "Sorry the token isn't correct";
+				die();
+			}
+		} else {
+			redirect("register");
+			die();
+		}
+	}
+
+	/**
+	 * This function resends a users activation email
+	 * @param integer $UserId The user id of the user to resend the email too
+	 * @since 1.1
+	 * @access public
+	 */
+	public function ResendEmail($UserId = NULL){
+		$this->load->model("api_register");
+		if($this->api_register->ResendEmail($UserId)){
+			echo "Success, check your email for an activation email, ".'<a href="'.base_url().'resend/email/'.$UserId.'">Resend Email</a>';
+		} else {
+			//Show error view
+			echo "Sorry the user isn't existing";
+			die();
+		}
+	}
+
+	/**
+	 * This function checks the input and registers the user
+	 * @access public
+	 * @since 1.0
+	 * @todo Instead of redirecting send a header with No Access
+	 */
+	public function Register(){
+		if($this->input->post("username",TRUE) && $this->input->post("terms",TRUE) == "on" && $this->input->post("full-name",TRUE) != ""){
+			$Rows = array("username","password","email","full-name","repassword");
+			$Data = array();
+			foreach ($Rows as $Row) {
+				if($this->input->post($Row,TRUE) && self::_Security($this->input->post($Row,TRUE))){
+					$Data[ucfirst($Row)] = $this->input->post($Row,TRUE);
+				} else {
+					redirect("register");
+					die();
+				}
+			}
+			$this->load->model("api_register");
+			if($Data["Password"] !== $Data["Repassword"] || strlen($Data["Password"]) < 6){
+				redirect("register");
+				die();
+			}
+			$Data["Password"] = hash_hmac("sha512", $Data["Password"], "fqqC7bsU5zt5cGHzvtGN");
+			if($this->api_register->User_Exists($Data["Username"],$Data["Email"])){
+				redirect("register");
+				die();
+			}
+			if($this->api_register->Register($Data["Username"],$Data["Password"],$Data["Full-name"],$Data["Email"],$UserId)){
+				//Load success view
+				echo "Success, check your email for an activation email, ".'<a href="'.base_url().'resend/email/'.$UserId.'">Resend Email</a>';
+			} else {
+				redirect("register");
+				die();
+			}
+		} else {
+			redirect("register");
+			die();
+		}
+	}
+
+	/**
 	 * This function is used to generate ClickThis tokens
 	 * @access public
 	 * @since 1.1

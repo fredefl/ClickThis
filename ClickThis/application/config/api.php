@@ -18,7 +18,17 @@
 	 */
 	$config["api_apps_table"] = "Apps";
 
-	$config["api_host_url"] = "http://illution.dk/api";
+	/**
+	 * The host of the api
+	 * @since 1.0
+	 */
+	$config["api_host_url"] = "http://illution.dk/ClickThis/api";
+
+	/**
+	 * The support email for the api
+	 * @since 1.0
+	 */
+	$config["api_email"] = "support@illution.dk";
 
 	/**
 	 * The database table for the users
@@ -72,6 +82,12 @@
 		9 => 432000,
 		10 => 3600
 	);
+
+	/**
+	 * The table for the activation tokens
+	 * @since 1.0
+	 */
+	$config["api_activation_token_table"] = "ActivationTokens";
 
 	/**
 	 * The largets token that has secret access(Password access)
