@@ -2,7 +2,7 @@
  * ClickThis AjaxQueue
  * http://illution.dk
  *
- * Copyright Illution (c) 2011 
+ * Copyright Illution (c) 2012 
  *
  * @author Illution
  * @copyright This file is copyright to Illution
@@ -121,7 +121,7 @@ var ajaxQueue = {
 	 * ajaxQueue.log("Hello world!");
 	 */
 	log: function (message) {
-		$('#log').append(message + '\r\n');
+		//$('#log').append(message + '\r\n');
 		//console.log(message);
 	},
 
