@@ -79,6 +79,7 @@ $(window).load(function () {
 			$("#sendingLabel > a").html("Sending data");
 		} else {
 			$("#sendingLabel > a").html("Send data");
+			$("#sendingCounter").html("0");
 		}
 	});
 	var queueLength = ajaxQueue.getQueueLength();
@@ -87,6 +88,7 @@ $(window).load(function () {
 		$("#sendingLabel > a").html("Sending data");
 	} else {
 		$("#sendingLabel > a").html("Send data");
+		$("#sendingCounter").html("0");
 	}
 	// ESN Beaconpush test
 	Beacon.connect('ed02c2f4', ['mychannel']);
