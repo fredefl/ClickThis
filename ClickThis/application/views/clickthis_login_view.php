@@ -51,7 +51,7 @@
             		<img id="lock" src="<?php echo $cdn_url; ?>images/ClickThisLogin/Locked.png" alt="Lock">
 					<div class="formExtra">
 						<p><strong>Trouble signing in?</strong></p>
-						<p><a href="#recover">Recover your password</a> or <a href="#register" id="Create">Create an account</a></p>
+						<p><a href="resetpassword">Recover your password</a> or <a href="#register" id="Create">Create an account</a></p>
 					</div>
 
 				</fieldset>

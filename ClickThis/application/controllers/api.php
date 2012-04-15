@@ -821,7 +821,7 @@ class Api extends CI_Controller {
 					if($this->api_login->Username($UsernameIn,$Row)){
 						if($UsernameIn === $Row["Username"] && hash_hmac("sha512", $PasswordIn, $this->config->item("api_hash_hmac")) === $Row["Password"] && $Row["Status"] == 1){
 							$_SESSION["UserId"] = $Row["Id"];
-							redirect($this->config->item("front_page"));
+							redirect($this->config->item("token"));
 						} else {
 							redirect($this->config->item("login_page"));
 						}
@@ -961,6 +961,105 @@ class Api extends CI_Controller {
 		}
 	}
 
+	public function ResetPassword($Token = NULL){
+		$this->load->model("api_resetpassword");
+		if(!is_null($Token) && $this->api_resetpassword->Is_Valid_Token($Token) && $this->input->post("password",TRUE) && $this->input->post("repassword",TRUE)){
+			if(self::_Security($this->input->post("repassword",TRUE)) && self::_Security($this->input->post("repassword",TRUE))){
+				$PasswordIn = $this->input->post("repassword",TRUE);
+				$RePasswordIn = $this->input->post("repassword",TRUE);
+				if($PasswordIn === $RePasswordIn){
+					if($this->api_resetpassword->ChangePassword($PasswordIn,$Token)){
+						echo "Your password has been changed ".'<a href="'.base_url().$this->config->item("login_page").'">go back</a>';
+					} else {
+						redirect($this->config->item("login_page"));
+						die();
+					}
+				} else {
+					redirect($this->config->item("login_page"));
+					die();
+				}
+			} else {
+				redirect($this->config->item("login_page"));
+				die();
+			}
+		} else {
+			redirect($this->config->item("login_page"));
+			die();
+		}
+	}
+
+	/**
+	 * This function checks the token and loads the change password view
+	 * @param string $Token The change password token
+	 * @access public
+	 * @since 1.1
+	 */
+	public function ResetPasswordForm($Token = NULL){
+		$this->load->model("api_resetpassword");
+		if(!is_null($Token) && $this->api_resetpassword->Is_Valid_Token($Token)){
+			$this->load->view("reset_password_endpoint_view",array(
+				"base_url" => base_url(),
+				"token" => $Token
+			));
+		} else {
+			redirect($this->config->item("login_page"));
+			die();
+		}
+	}
+
+	/**
+	 * This function resends the reset password email
+	 * @param string $Email The email to resend it too
+	 * @access public
+	 * @since 1.1
+	 */
+	public function ResetPasswordResendEmail($Email = NULL){
+		if(!is_null($Email)){
+			$this->load->model("api_resetpassword");
+			if($this->api_resetpassword->User_Exists($Email)){
+				if($this->api_resetpassword->Reset_Password_Token($Email)){
+					redirect($this->config->item("login_page"));
+					die();
+				} else {
+					redirect($this->config->item("login_page"));
+					die();
+				}
+			} else {
+				redirect($this->config->item("login_page"));
+				die();
+			}
+		} else {
+			redirect($this->config->item("login_page"));
+			die();
+		}
+	}
+
+	/**
+	 * This function sends a reset password email to the user if it exists
+	 * @since 1.1
+	 * @access public
+	 */
+	public function ResetPasswordEMail(){
+		if($this->input->post("email",TRUE) && self::_Security($this->input->post("email",TRUE))){
+			$this->load->model("api_resetpassword");
+			$Email = $this->input->post("email",TRUE);
+			if($this->api_resetpassword->User_Exists($Email) && !$this->api_resetpassword->TokenExists($Email)){
+				if($this->api_resetpassword->Reset_Password_Token($Email)){
+					echo "Your email has been send, ".'<a href="'.base_url()."reset/password/resend/email/". $Email.'">Resend email</a>';
+				} else {
+					redirect($this->config->item("login_page"));
+					die();
+				}
+			} else {
+				redirect($this->config->item("login_page"));
+				die();
+			}
+		} else {
+			redirect($this->config->item("login_page"));
+			die();
+		}
+	}
+
 	/**
 	 * This function is used to do basic HTTP Authentication
 	 * @since 1.1
@@ -968,13 +1067,34 @@ class Api extends CI_Controller {
 	 */
 	public function Authenticate(){
 		if (isset($_SERVER['PHP_AUTH_USER'])) {
-			$Username = $_SERVER['PHP_AUTH_USER'];
-			$Password = $_SERVER['PHP_AUTH_PW'];
-			die();
+			$this->load->model("api_login");
+			if(self::_Security($_SERVER['PHP_AUTH_USER']) && self::_Security($_SERVER['PHP_AUTH_PW'])){
+				$UsernameIn = $_SERVER['PHP_AUTH_USER'];
+				$PasswordIn = $_SERVER['PHP_AUTH_PW'];
+				if($this->api_login->Username($UsernameIn,$Row)){
+					if($UsernameIn === $Row["Username"] && hash_hmac("sha512", $PasswordIn, $this->config->item("api_hash_hmac")) === $Row["Password"] && $Row["Status"] == 1){
+						$_SESSION["UserId"] = $Row["Id"];
+						header('HTTP/1.0 202 Accepted');
+						redirect("token");
+						die();
+					} else {
+						header('WWW-Authenticate: Basic realm="OAuth"');
+			    		header('HTTP/1.0 401 Unauthorized');
+			    		die();
+					}
+				} else {
+					header('WWW-Authenticate: Basic realm="OAuth"');
+				    header('HTTP/1.0 401 Unauthorized');
+				    die();
+				}
+			} else {
+			   	header('WWW-Authenticate: Basic realm="OAuth"');
+			    header('HTTP/1.0 401 Unauthorized');
+			    die();
+			}
 		} else {
 		   	header('WWW-Authenticate: Basic realm="OAuth"');
 		    header('HTTP/1.0 401 Unauthorized');
-		   	redirect($this->config->item("login_page"));
 		    die();
 		}
 	}

@@ -26,7 +26,7 @@ class Login extends CI_Controller {
 				// Get user data
 				$GoogleLoginData = $_SESSION['GoogleLogin'];
 				// Find out if the user exists in the database
-				$Query = $this->db->query('Select (Id,Status) From Users Where Google = ?', array($GoogleLoginData['Email']));
+				$Query = $this->db->select("Id,Status")->where(array("Google" => $GoogleLoginData['Email']))->get("Users");
 				$NumRows = $Query->num_rows();
 				// Check for user existance
 				if($NumRows) {
@@ -285,6 +285,16 @@ class Login extends CI_Controller {
 		else{
 			$this->load->view('clickthis_login_view',array("base_url" => base_url(),"cdn_url" => $this->config->item("cdn_url")));	
 		}
+	}
+
+	/**
+	 * This function is called when the user clicks on the reset password button
+	 * @since 1.1
+	 * @access public
+	 */
+	public function ResetPassword(){
+		$this->load->config("api");
+		$this->load->view("reset_password_view",array("base_url" => base_url(),"api_url" => $this->config->item("api_host_url")));
 	}
 	
 ###############################LinkedIn####################################		

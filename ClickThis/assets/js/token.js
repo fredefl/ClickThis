@@ -8,16 +8,15 @@ function setToken(){
 			redirect(root+"home");
 		}
 	} else {
-		console.log("here");
 		localStorage.removeItem("token");
 		redirect(root+"login");
 	}
 }
 
 function redirect(url){
-	setTimeout(10,function(){
+	setTimeout(function(){
 		window.location = url;	
-	})
+	},200);
 }
 
 function reGenerateToken(){

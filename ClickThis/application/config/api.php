@@ -53,6 +53,12 @@
 	$config["api_users_table"] = "Users";
 
 	/**
+	 * The name of the table to store the reset password tokens
+	 * @since 1.0
+	 */
+	$config["api_resetpassword_table"] = "ResetPasswordTokens";
+
+	/**
 	 * The database table for the request tokens
 	 * @since 1.0
 	 */
