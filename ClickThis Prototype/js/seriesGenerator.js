@@ -14,6 +14,13 @@
 "use strict";
 
 var seriesGenerator = {
+
+	/**
+	 * The data that was last sent
+	 * @type {String}
+	 */
+	lastSent: "",
+
 	/**
 	 * Generates the start page
 	 * @param  {string} text The the text that welcomes the user
@@ -132,6 +139,7 @@ var seriesGenerator = {
 	/**
 	 * Generates a series
 	 * @param  {json} data The series data
+	 * @param {object} container The container to place the content in
 	 * @return {void}
 	 */
 	generate: function (data, container) {
@@ -176,6 +184,8 @@ var seriesGenerator = {
 	/**
 	 * Adds swipe functionality
 	 * @param {object} container The container element to add swipe to
+	 * @param {string} id The id of the seires
+	 * @return {void}
 	 */
 	addSwipe: function (element, id) {
 		// Initialize the swipe functionality
@@ -191,6 +201,9 @@ var seriesGenerator = {
 
 	/**
 	 * Adds button event listeners
+	 * @param {object} container The series container
+	 * @param {string} id The id of the series
+	 * @return {void}
 	 */
 	addListeners: function (container, id) {
 		$(container).find("#begin").click(function() {
@@ -202,6 +215,11 @@ var seriesGenerator = {
 		});
 	},
 
+	/**
+	 * Communicates with the mothershit
+	 * @param  {object} element The question element to send
+	 * @return {void}
+	 */
 	sendQuestion: function (element) {
 		var data,
 			json;
@@ -247,15 +265,21 @@ var seriesGenerator = {
 		// Stringify the JSON
 		json = JSON.stringify(data);
 
-		// Add to ajaxQueue
-		ajaxQueue.add({
-			url: "http://illution.dk/ClickThis/api/answer/",
-			type: "POST",
-			data: json,
-			group: "answers"
-		});
-
-		// Start the ajaxQueue
-		ajaxQueue.executeTasks();
+		// Send data, if there is options selected and the data hasn't been sent before
+		if (data.Answer.Options.length > 0 && json !== seriesGenerator.lastSent) {
+			// Add to ajaxQueue
+			ajaxQueue.add({
+				url: "http://illution.dk/ClickThis/api/answer/",
+				type: "POST",
+				data: json,
+				group: "answers"
+			});
+			// Start the ajaxQueue
+			ajaxQueue.executeTasks();
+			
+			// Set data in last sent
+			seriesGenerator.lastSent = json;
+		}
+		
 	}
 };
