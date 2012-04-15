@@ -28,11 +28,6 @@ class User_Response extends Std_Api_Response{
 		$this->_CI =& get_instance();
 		self::Config($this->_CI);
 		$this->_INTERNAL_USER_INFLUENCE = true;
-		/*$this->_INTERNAL_READ_ACCESS_LEVELS = array(
-			"State" => 3,
-			"TargetGroup" => 3,
-			"Status" => 1
-		);*/
 		$this->_INTERNAL_USER_INFLUENCE_FIELDS = array("Id");
 		$this->_INTERNAL_USER_INFLUENCE_OPERATIONS = array("WRITE","UPDATE","DELETE","READ");
 		$this->_INTERNAL_NO_CHANGE = array("Id","Password","Username");
