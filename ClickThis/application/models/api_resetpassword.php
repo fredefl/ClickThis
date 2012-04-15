@@ -22,7 +22,7 @@ class Api_Resetpassword extends CI_Model{
 			$Query = $this->db->select("Id,Username,Password,Status")->where(array("Email" => $Email))->limit(1)->get($this->config->item("api_users_table"));
 			if($Query->num_rows() > 0){
 				$Row = current($Query->result());
-				if(!is_null($Row->Username) && $Row->Username != "" /*&& !is_null($Row->Password) && $Row->Password != "" && $Row->Status == 1*/){
+				if(!is_null($Row->Username) && $Row->Username != "" && !is_null($Row->Password) && $Row->Password != "" && $Row->Status == 1){
 					return TRUE;
 				} else {
 					return FALSE;

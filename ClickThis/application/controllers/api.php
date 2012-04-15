@@ -1016,7 +1016,8 @@ class Api extends CI_Controller {
 	public function ResetPasswordResendEmail($Email = NULL){
 		if(!is_null($Email)){
 			$this->load->model("api_resetpassword");
-			if($this->api_resetpassword->User_Exists($Email)){
+			$Email = urldecode($Email);
+			if($this->api_resetpassword->User_Exists($Email) && $this->api_resetpassword->TokenExists($Email)){
 				if($this->api_resetpassword->Reset_Password_Token($Email)){
 					redirect($this->config->item("login_page"));
 					die();
@@ -1045,7 +1046,7 @@ class Api extends CI_Controller {
 			$Email = $this->input->post("email",TRUE);
 			if($this->api_resetpassword->User_Exists($Email) && !$this->api_resetpassword->TokenExists($Email)){
 				if($this->api_resetpassword->Reset_Password_Token($Email)){
-					echo "Your email has been send, ".'<a href="'.base_url()."reset/password/resend/email/". $Email.'">Resend email</a>';
+					echo "Your email has been send, ".'<a href="'.base_url()."reset/password/resend/email/". urlencode($Email).'">Resend email</a>';
 				} else {
 					redirect($this->config->item("login_page"));
 					die();
