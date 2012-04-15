@@ -1,6 +1,6 @@
 /**
  * ClickThis series generator
- * http://illution.dk
+ * http://ec2.illution.dk
  *
  * Copyright (c) 2012 Illution
  *
@@ -269,7 +269,7 @@ var seriesGenerator = {
 		if (data.Answer.Options.length > 0 && json !== seriesGenerator.lastSent) {
 			// Add to ajaxQueue
 			ajaxQueue.add({
-				url: "http://illution.dk/ClickThis/api/answer/",
+				url: "http://ec2.illution.dk/ClickThis/api/answer/",
 				type: "POST",
 				data: json,
 				group: "answers"

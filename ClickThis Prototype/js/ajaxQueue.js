@@ -1,6 +1,6 @@
 /**
  * ClickThis AjaxQueue
- * http://illution.dk
+ * http://ec2.illution.dk
  *
  * Copyright Illution (c) 2012 
  *
@@ -178,7 +178,7 @@ var ajaxQueue = {
 	 * @returns {String} The new id of the element, false in case of error
 	 * @example
 	 * ajaxQueue.add({
-	 *  url: "http://illution.dk",
+	 *  url: "http://ec2.illution.dk",
 	 *  data: "test=hehe,llama=fish",
 	 *  group: "testGroup2",
 	 *  type: "POST"

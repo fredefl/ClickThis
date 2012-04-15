@@ -1,6 +1,6 @@
 /**
  * ClickThis buttons
- * http://illution.dk
+ * http://ec2.illution.dk
  *
  * Copyright (c) 2012 Illution
  *

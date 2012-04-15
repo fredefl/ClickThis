@@ -5,7 +5,7 @@ var homeGenerator = {
 }
 
 $.ajax({
-	url: "http://illution.dk/ClickThis/api/series?ShareType=1",
+	url: "http://ec2.illution.dk/ClickThis/api/series?ShareType=1",
 	type: "GET",
 	success: function(data){
 		$("#seriesContainer").show();
@@ -25,7 +25,7 @@ $.ajax({
 function getUser (id){
 	var global_data;
 	$.ajax({
-		url: "http://illution.dk/ClickThis/api/user?Id="+id,
+		url: "http://ec2.illution.dk/ClickThis/api/user?Id="+id,
 		type: "GET",
 		async:false,
 		success: function(data){
@@ -99,7 +99,7 @@ $("#pageCount").html(localStorage.pageCounter);
 // Request update
 $('#updateButton').click(function(){
 	ajaxQueue.add({
-		url: "http://illution.dk/ClickThisPrototype/beaconpush.php",
+		url: "http://ec2.illution.dk/ClickThisPrototype/beaconpush.php",
 		data: "a=a",
 		group: "beaconpush"
 	});
@@ -123,7 +123,7 @@ if(window.applicationCache) {
 $("#sendingLabel").click(function () {
 	for (var i = 0; i <= 10; i++) {
 		ajaxQueue.add({
-			url: "http://illution.dk/ClickThisPrototype/ajaxQueueTest.php", 
+			url: "http://ec2.illution.dk/ClickThisPrototype/ajaxQueueTest.php", 
 			data: "", 
 			group: "test",
 			type: "GET"
