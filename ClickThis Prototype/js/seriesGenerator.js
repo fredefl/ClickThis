@@ -198,7 +198,7 @@ var seriesGenerator = {
 		});
 		// The end button
 		$(container).find("#end").click(function() {
-			window.location = 'http://illution.dk/ClickThisPrototype/home.html';
+			page.goTo("home");
 		});
 	},
 
