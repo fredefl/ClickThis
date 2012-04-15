@@ -20,6 +20,9 @@ var page = {
 	pages: {
 		series: function (parameters) {
 			page.goToSeries(parameters);
+		},
+		home: function () {
+			page.goToHome();
 		}
 	},
 
@@ -39,6 +42,12 @@ var page = {
 		$(element).css("visibility", "hidden");
 	},
 
+	show: function (element) {
+		$(element).removeClass("disabled").addClass("active");
+		$(element).css("display", "block");
+		$(element).css("visibility", "visible");
+	},
+
 	goTo: function (element) {
 		this.hideCurrentPage();
 		element = element.split("/");
@@ -54,7 +63,11 @@ var page = {
 			page.hide($(this));
 		})
 		$("#series_" + parameters[0]).show();
-		seriesGenerator.addSwipe($("#series_" + parameters[0])[0]);
 		page.currentPageElement = $("#seriesContainer");
+	},
+
+	goToHome: function () {
+		this.show($("#home"));
+		page.currentPageElement = $("#home");
 	}
 }

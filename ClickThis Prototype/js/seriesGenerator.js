@@ -144,9 +144,9 @@ var seriesGenerator = {
 		// Hyphenate
 		this.hyphenate(document.body);
 		// Add swipe functionality
-		this.addSwipe(container[0]); // The [0] converts the jQuery object to a DOM object
+		this.addSwipe(container[0], data.Id.toString()); // The [0] converts the jQuery object to a DOM object
 		// Add event listeners
-		//this.addListeners(); <-------------------------------------------------------------------------------------
+		this.addListeners(container, data.Id.toString());
 		// Return
 		return true;
 	},
@@ -177,14 +177,14 @@ var seriesGenerator = {
 	 * Adds swipe functionality
 	 * @param {object} container The container element to add swipe to
 	 */
-	addSwipe: function (element) {
+	addSwipe: function (element, id) {
 		// Initialize the swipe functionality
-		window.questionSwipe = new Swipe(element, {
+		window.questionSwipe[id] = new Swipe(element, {
 			callback: function () {
 				buttonResizer.resizeButtons(document.body);
 				//window.scrollTo(0, 1);
 				// Send the question to the server
-				seriesGenerator.sendQuestion(window.questionSwipe.slides[window.questionSwipe.index - 1]);
+				seriesGenerator.sendQuestion(window.questionSwipe[id.toString()].slides[window.questionSwipe[id.toString()].index - 1]);
 			}
 		});
 	},
@@ -192,14 +192,13 @@ var seriesGenerator = {
 	/**
 	 * Adds button event listeners
 	 */
-	addListeners: function () {
-		// The begin button
-		$('#begin').click(function () {
-			window.questionSwipe.next();
+	addListeners: function (container, id) {
+		$(container).find("#begin").click(function() {
+				window.questionSwipe[id].next();
 		});
 		// The end button
-		$('#end').click(function () {
-			window.location = 'http://illution.dk/ClickThisPrototype/home.html';
+		$(container).find("#end").click(function() {
+			page.goTo("home");
 		});
 	},
 

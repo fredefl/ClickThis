@@ -15,9 +15,7 @@ $.ajax({
 			seriesGenerator.generate(element, $("#series_" + element.Id));
 			$("#series_" + element.Id).hide();
 		});
-		$("#begin").click(function() {
-			window.questionSwipe.next();
-		})
+
 		shortenTitle();
 	}
 });

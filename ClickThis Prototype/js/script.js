@@ -38,3 +38,4 @@ document.addEventListener("orientationChanged", function () {
 	shortenTitle();
 	buttonResizer.resizeButtons(document.body); // POSSIBLE LEAK
 });
+window.questionSwipe = {};
