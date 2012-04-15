@@ -665,7 +665,8 @@ class Api extends CI_Controller {
 					"base_url" => base_url(),
 					"app_description" => $App->Description,
 					"app_image" => $App->Image,
-					"app_name" => $App->Name
+					"app_name" => $App->Name,
+					"cdn_url" => $this->config->item("cdn_url")
 				));	
 			} else {
 				self::_Api_Handle_Error($this->api_authentication->Get("Redirect_Url"),$this->api_authentication->Get("Errors"),400);
@@ -713,7 +714,7 @@ class Api extends CI_Controller {
 				$Token = $_SESSION["clickthis_token"];
 			}
 			if($this->api_authentication->Logout($Token)){
-				$this->load->view("token_view",array("base_url" => base_url(),"DeleteToken" => "true"));
+				$this->load->view("token_view",array("base_url" => base_url(),"DeleteToken" => "true","cdn_url" => $this->config->item("cdn_url")));
 			}
 			session_unset();
 			session_destroy();
@@ -935,11 +936,9 @@ class Api extends CI_Controller {
 					$Level = 2;
 				}
 				if($this->api_authentication->ClickThis_Token($Level)){
-					echo "here";
 					$_SESSION["clickthis_token"] = $this->api_authentication->Get("ClickThis_Token");
 					header("Location:".base_url()."token/set"."?token=".$_SESSION["clickthis_token"]);
 				} else {
-					echo "error";
 					redirect($this->config->item("login_page"));
 				}
 			}
@@ -987,7 +986,7 @@ class Api extends CI_Controller {
 	 */
 	public function Set_Token(){
 		setcookie("token",$_SESSION["clickthis_token"],0,"/",$this->config->item("base_url"));
-		$this->load->view("token_view",array("base_url" => base_url()));
+		$this->load->view("token_view",array("base_url" => base_url(),"cdn_url" => $this->config->item("cdn_url")));
 	}
 
 	/**

@@ -43,16 +43,16 @@ body {
 <div class="box">
 <table cellspacing="10">
 <tr>
-<td><a href="http://illution.dk/GoogleLogin"><img src="http://illution.dk/ClickThis/assets/images/LoginIcons/Google.png"></a></td>
-<td><a href="<?php echo base_url();?>login/clickthis"><img src="http://illution.dk/ClickThis/assets/images/LoginIcons/ClickThis.png"></a></td>
+<td><a href="http://illution.dk/GoogleLogin"><img src="<?php echo $cdn_url; ?>images/LoginIcons/Google.png"></a></td>
+<td><a href="<?php echo base_url();?>login/clickthis"><img src="<?php echo $cdn_url; ?>images/LoginIcons/ClickThis.png"></a></td>
 <td></td>
 </tr>
 <tr>
-<td><a href="<?php echo base_url();?>login/facebook/auth"><img src="http://illution.dk/ClickThis/assets/images/LoginIcons/Facebook.png"></a></td>
-<td><a href="<?php echo base_url();?>login/twitter/auth"><img src="http://illution.dk/ClickThis/assets/images/LoginIcons/Twitter.png"></a></td>
+<td><a href="<?php echo base_url();?>login/facebook/auth"><img src="<?php echo $cdn_url; ?>images/LoginIcons/Facebook.png"></a></td>
+<td><a href="<?php echo base_url();?>login/twitter/auth"><img src="<?php echo $cdn_url; ?>images/LoginIcons/Twitter.png"></a></td>
 
 <td><a href="http://illution.dk/ClickThis/login/linkedin">
-<img src="http://illution.dk/ClickThis/assets/images/LoginIcons/LinkedIn.png"></a></td>
+<img src="<?php echo $cdn_url; ?>images/LoginIcons/LinkedIn.png"></a></td>
 
 </tr>
 </table>

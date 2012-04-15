@@ -14,7 +14,7 @@
 			echo "false";
 		} 
 	?>;</script>
-	<script type="text/javascript" src="<?php echo $base_url; ?>assets/js/token.js"></script>
+	<script type="text/javascript" src="<?php echo $cdn_url; ?>js/token.js"></script>
 	<script type="text/javascript">setToken();</script>
 </body>
 </html>

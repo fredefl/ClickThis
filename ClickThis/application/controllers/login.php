@@ -5,7 +5,7 @@ class Login extends CI_Controller {
 	public function index() {
 		// Load View
 		if(!isset($_SESSION['UserId'])) {
-			$this->load->view('login_view',array("base_url" => base_url()));
+			$this->load->view('login_view',array("base_url" => base_url(),"cdn_url" => $this->config->item("cdn_url")));
 			$content = $this->output->get_output();
 			$mini = $this->minify->Html($content);
 			$this->output->set_output($mini);
@@ -26,7 +26,7 @@ class Login extends CI_Controller {
 				// Get user data
 				$GoogleLoginData = $_SESSION['GoogleLogin'];
 				// Find out if the user exists in the database
-				$Query = $this->db->query('Select (Id) From Users Where Google = ?', array($GoogleLoginData['Email']));
+				$Query = $this->db->query('Select (Id,Status) From Users Where Google = ?', array($GoogleLoginData['Email']));
 				$NumRows = $Query->num_rows();
 				// Check for user existance
 				if($NumRows) {
@@ -34,16 +34,21 @@ class Login extends CI_Controller {
 					// Get user Id
 					$Id = $Query->row(0)->Id;
 					// Set the users Id in a session
-					$_SESSION['UserId'] = $Id;
-					// Redirect the user
-					redirect('token');
+					if($Query->row(0)->Status == 1){
+						$_SESSION['UserId'] = $Id;
+						// Redirect the user
+						redirect('token');
+					} else {
+						redirect($this->confgi->item("login_page"));
+					}
 				} else {
 					// User does not exist
-					$Query = $this->db->query('Insert Into Users (RealName,UserGroup,Google,Status) Values(?,?,?,?)', array(
+					$Query = $this->db->query('Insert Into Users (RealName,UserGroup,Google,Status,Email) Values(?,?,?,?,?)', array(
 																							$GoogleLoginData['Name'],
 																							'User',
 																							$GoogleLoginData['Email'],
-																							1
+																							1,
+																							$GoogleLoginData['Email']
 																							)
 					
 					);
@@ -95,17 +100,20 @@ class Login extends CI_Controller {
 			$Language = $Locale[0].$Locale[1];
 			
 			// Find out if the user exists in the database
-			$Query = $this->db->query('Select (Id) From Users Where Facebook = ?', array($fb_data['me']['id']));
+			$Query = $this->db->query('Select (Id,Status) From Users Where Facebook = ?', array($fb_data['me']['id']));
 			$NumRows = $Query->num_rows();
 			// Check for user existance
 			if($NumRows) {
 				// User exists!
 				// Get user Id
 				$Id = $Query->row(0)->Id;
-				// Set the users Id in a session
-				$_SESSION['UserId'] = $Id;
-				// Redirect the user
-				redirect('token');
+				if($Query->row(0)->Status == 1){
+					$_SESSION['UserId'] = $Id;
+					// Redirect the user
+					redirect('token');
+				} else {
+					redirect($this->confgi->item("login_page"));
+				}
 			} else {
 				// User does not exist
 				$Query = $this->db->query('Insert Into Users (RealName,UserGroup,Facebook,Status) Values(?,?,?,?)', array(
@@ -164,7 +172,7 @@ class Login extends CI_Controller {
 	public function twitter_login($Data){
 		$_SESSION['TwitterLoginId'] = $Data['Id'];
 		$_SESSION['TwitterLogin'] = $Data;
-		$Query = $this->db->query('Select (Id) From Users Where Twitter = ?', array($Data['Id']));
+		$Query = $this->db->query('Select (Id,Status) From Users Where Twitter = ?', array($Data['Id']));
 		$NumRows = $Query->num_rows();
 		$this->load->library('countrycode');
 		$Country = $this->countrycode->country_code_to_country($Data['Language']);
@@ -173,10 +181,13 @@ class Login extends CI_Controller {
 			//The User Exists
 			//Get The Id
 			$Id = $Query->row(0)->Id;
-			// Set the users Id in a session
-			$_SESSION['UserId'] = $Id;
-			// Redirect the user
-			redirect('token');	
+			if($Query->row(0)->Status == 1){
+				$_SESSION['UserId'] = $Id;
+				// Redirect the user
+				redirect('token');
+			} else {
+				redirect($this->confgi->item("login_page"));
+			}
 		}
 		else{
 			//The User doesn't exist now we are going to create him
@@ -272,7 +283,7 @@ class Login extends CI_Controller {
 			}
 		}
 		else{
-			$this->load->view('clickthis_login_view',array("base_url" => base_url()));	
+			$this->load->view('clickthis_login_view',array("base_url" => base_url(),"cdn_url" => $this->config->item("cdn_url")));	
 		}
 	}
 	
@@ -282,7 +293,7 @@ class Login extends CI_Controller {
 	private function linkedin_login($Data){
 		$_SESSION['LinkedInLoginId'] = $Data['id']; //Set Session Id Data
 		$_SESSION['LinkedInLogin'] = $Data; //Set Session Data
-		$Query = $this->db->query('Select (Id) From Users Where LinkedIn = ?', array($Data['id']));
+		$Query = $this->db->query('Select (Id,Status) From Users Where LinkedIn = ?', array($Data['id']));
 		$this->load->library('countrycode');
 		$Country = $this->countrycode->country_code_to_country($Data['code']);
 		$NumRows = $Query->num_rows();
@@ -290,10 +301,13 @@ class Login extends CI_Controller {
 				// User exists!
 				// Get user Id
 				$Id = $Query->row(0)->Id;
-				// Set the users Id in a session
-				$_SESSION['UserId'] = $Id;
-				// Redirect the user
-				redirect('token');
+				if($Query->row(0)->Status == 1){
+					$_SESSION['UserId'] = $Id;
+					// Redirect the user
+					redirect('token');
+				} else {
+					redirect($this->confgi->item("login_page"));
+				}
 			} else {
 				// User does not exist
 				$Query = $this->db->query('INSERT INTO Users (RealName,UserGroup,LinkedIn,Country,Status) Values(?,?,?,?,?)', 
