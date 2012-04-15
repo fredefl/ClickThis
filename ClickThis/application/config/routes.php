@@ -72,6 +72,10 @@ $route["privacy"] = "desktop/privacy";
 $route["register"] = "login/clickthis/register";
 $route["verify/register"] = "api/register";
 $route["resend/email/(:num)"] = "api/resendemail/$1";
+$route["reset/password"] = "api/resetpasswordemail";
+$route["reset/password/change/(:any)"] = "api/resetpasswordform/$1";
+$route["reset/password/endpoint/(:any)"] = "api/resetpassword/$1";
+$route["reset/password/resend/email/(:any)"] = "api/resetpasswordresendemail/$1";
 
 
 /**
