@@ -437,6 +437,7 @@ class Api extends CI_Controller {
 		header("Content-Location: ".$this->config->item("api_host_url"));
 		header('Content-type: ' . $Content_Type);
 		header("Date:".time());
+		header("Access-Control-Allow-Origin: *");
 		header("X-Content-Type-Options: nosniff");
 		header("X-XSS-Protection: 1; mode=block");
 		header('Allow: ' . implode(", ", array("POST","GET","PUT","DELETE","HEAD","PATCH","OPTIONS")), true, 200);
@@ -490,6 +491,10 @@ class Api extends CI_Controller {
 		}
 	}
 
+	public function UserAuth($Id = NULL){
+		self::_Autherized_Api_Request("User",$Id);
+	}
+
 	/**
 	 * This function performs a api request that uses the new token security system
 	 * @param string $LibraryName The library to use etc App,User
@@ -500,9 +505,7 @@ class Api extends CI_Controller {
 	private function _Autherized_Api_Request($LibraryName = NULL,$Id = NULL){
 		//If authenticated or not
 		if(self::_Authenticate($Secret_Access,$Write_Access,$Reason)){
-
 			if(!is_null($LibraryName)){
-
 				//Load Up the library
 				$this->load->library("api_response/".strtolower($LibraryName."_Response"));
 				$ClassName = $LibraryName."_Response";
@@ -513,7 +516,7 @@ class Api extends CI_Controller {
 
 				//If request or search
 				if(!is_null($Id) || in_array($this->api_request->Request_Method(), array("post","put","delete","patch","head"))){
-					switch (/*$this->api_request->Request_Method()*/"patch") {
+					switch ($this->api_request->Request_Method()) {
 							case 'get':
 								if($Object->Read($Id)){
 									self::_Send_Response(200,NULL,$Object->Response);
@@ -557,6 +560,10 @@ class Api extends CI_Controller {
 							case "head":
 								self::_Send_Header(202);
 								break;	
+
+							case "options":
+								
+								break;
 
 							default:
 								self::_Send_Response(400,NULL,NULL);

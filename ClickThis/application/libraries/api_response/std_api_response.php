@@ -83,10 +83,33 @@ class Std_Api_Response{
 	 */
 	public static $_INTERNAL_WRITE_ACCESS_LEVELS = NULL;
 
+	/**
+	 * This property contains an access level
+	 * array map, of required access levels for
+	 * the delete operation
+	 * @var array
+	 * @static
+	 * @since 1.0
+	 * @access public
+	 */
 	public static $_INTERNAL_DELETE_ACCESS_LEVELS = NULL;
 
+	/**
+	 * A map of properties with the levels
+	 * that is required for performing
+	 * the update operation for the property
+	 * else is the standard level used.
+	 * @var [type]
+	 */
 	public static $_INTERNAL_UPDATE_ACCESS_LEVELS = NULL;
 
+	/**
+	 * The fields that can't be changed, with edit operations
+	 * @var array
+	 * @since 1.0
+	 * @access public
+	 * @static
+	 */
 	public static $_INTERNAL_NO_CHANGE = NULL;
 
 	/**
@@ -98,8 +121,22 @@ class Std_Api_Response{
 	 */
 	public static $_INTERNAL_USER_INFLUENCE = NULL;
 
+	/**
+	 * The properties that is user influence fields
+	 * @var array
+	 * @since 1.0
+	 * @access public
+	 * @static
+	 */
 	public static $_INTERNAL_USER_INFLUENCE_FIELDS = NULL;
 
+	/**
+	 * The operations that requires user influence
+	 * @var array
+	 * @since 1.0
+	 * @access public
+	 * @static
+	 */
 	public static $_INTERNAL_USER_INFLUENCE_OPERATIONS = NULL;
 
 	/**
