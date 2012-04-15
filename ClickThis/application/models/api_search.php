@@ -54,7 +54,7 @@ class Api_Search extends CI_Model{
     private function _Ignore_Secure($Key = NULL,$Object = NULL){
         $Return = FALSE;
         if(!is_null($Key) && !is_null($Object)){
-            if(property_exists($Object, "_INTERNAL_SECURE_EXPORT_IGNORE") && !is_null($Object->_INTERNAL_SECURE_EXPORT_IGNORE) && is_array($Object->_INTERNAL_SECURE_EXPORT_IGNORE)){
+            if(property_exists($Object, "_INTERNAL_SECURE_EXPORT_IGNORE") && isset($Object->_INTERNAL_SECURE_EXPORT_IGNORE) && !is_null($Object->_INTERNAL_SECURE_EXPORT_IGNORE) && is_array($Object->_INTERNAL_SECURE_EXPORT_IGNORE)){
                 if(array_key_exists($Key, $Object->_INTERNAL_SECURE_EXPORT_IGNORE) || in_array($Key, $Object->_INTERNAL_SECURE_EXPORT_IGNORE)){
                     $Return = TRUE;
                 } else {
@@ -163,7 +163,7 @@ class Api_Search extends CI_Model{
                 $this->_CI->load->library($ClassName);
                 $TempObject = new $ClassName();
                 $Exit = FALSE;
-                if(property_exists($TempObject, "_INTERNAL_DATABASE_NAME_CONVERT") && !is_null($TempObject->_INTERNAL_DATABASE_NAME_CONVERT) && is_array($TempObject->_INTERNAL_DATABASE_NAME_CONVERT)){
+                if(property_exists($TempObject, "_INTERNAL_DATABASE_NAME_CONVERT") && isset($TempObject->_INTERNAL_DATABASE_NAME_CONVERT) && !is_null($TempObject->_INTERNAL_DATABASE_NAME_CONVERT) && is_array($TempObject->_INTERNAL_DATABASE_NAME_CONVERT)){
                     $ConvertionTable = $TempObject->_INTERNAL_DATABASE_NAME_CONVERT;
                     foreach ($Query as $Key => $Value) {
                         $KeyName = $Key;
