@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<title>Illution - ClickThis - Authenticate</title>
-	<link rel="stylesheet" type="text/css" href="<?php echo $base_url; ?>assets/bootstrap/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="<?php echo $base_url; ?>assets/css/auth.css">
+	<link rel="stylesheet" type="text/css" href="<?php echo $cdn_url; ?>bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="<?php echo $cdn_url; ?>css/auth.css">
 	<script type="text/javascript">var root = "<?php echo $base_url; ?>";</script>
 </head>
 <body>
@@ -34,7 +34,7 @@
 	</div>
 
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-	<script type="text/javascript" src="<?php echo $base_url; ?>assets/bootstrap/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="<?php echo $base_url; ?>assets/js/auth.js"></script>
+	<script type="text/javascript" src="<?php echo $cdn_url; ?>bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="<?php echo $cdn_url; ?>js/auth.js"></script>
 </body>
 </html>
