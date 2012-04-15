@@ -16,7 +16,7 @@ function setToken(){
 function redirect(url){
 	setTimeout(function(){
 		window.location = url;	
-	},200);
+	},10);
 }
 
 function reGenerateToken(){
