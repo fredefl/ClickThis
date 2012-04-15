@@ -13,7 +13,7 @@ function createPage(){
 	var userId = getParameterByName("user_id");
 	if(typeof userId != "null"){
 		$.ajax({
-			url: "http://illution.dk/ClickThis/api/user/"+userId,
+			url: "http://ec2.illution.dk/ClickThis/api/user/"+userId,
 			success: function(data){
 				if(data.error_code == null){
 					data = data.User;
