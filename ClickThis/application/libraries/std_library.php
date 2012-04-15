@@ -269,7 +269,7 @@ class Std_Library{
 	 * @access private
 	 */
 	private function _Load_Link(){
-		if(property_exists($this, "_INTERNAL_PROPERTY_LINK") && !is_null($this->_INTERNAL_PROPERTY_LINK) && is_array($this->_INTERNAL_PROPERTY_LINK)){
+		if(property_exists($this, "_INTERNAL_PROPERTY_LINK") && isset($this->_INTERNAL_PROPERTY_LINK) && !is_null($this->_INTERNAL_PROPERTY_LINK) && is_array($this->_INTERNAL_PROPERTY_LINK)){
 			foreach ($this->_INTERNAL_PROPERTY_LINK as $Property => $Data) {
 				if(property_exists($this, $Property) && !is_null($this->{$Property})){
 					$Table = $Data[0];
@@ -300,7 +300,7 @@ class Std_Library{
 	 */
 	private function _Has_Simple_Load_Key($Property = NULL){
 		if(!is_null($Property) && property_exists($this, $Property)){
-			if(property_exists($this, "_INTERNAL_SIMPLE_LOAD") && !is_null($this->_INTERNAL_SIMPLE_LOAD) && is_array($this->_INTERNAL_SIMPLE_LOAD)){
+			if(property_exists($this, "_INTERNAL_SIMPLE_LOAD") && isset($this->_INTERNAL_SIMPLE_LOAD) && !is_null($this->_INTERNAL_SIMPLE_LOAD) && is_array($this->_INTERNAL_SIMPLE_LOAD)){
 				if(array_key_exists($Property, $this->_INTERNAL_SIMPLE_LOAD)){
 					return TRUE;
 				} else {
@@ -322,7 +322,7 @@ class Std_Library{
 	 * @access private
 	 */
 	private function _Load_From_Class($Simple = false){
-		if(property_exists($this, "_INTERNAL_LOAD_FROM_CLASS")  && !is_null($this->_INTERNAL_LOAD_FROM_CLASS) && is_array($this->_INTERNAL_LOAD_FROM_CLASS) && !$Simple){
+		if(property_exists($this, "_INTERNAL_LOAD_FROM_CLASS") && isset($this->_INTERNAL_LOAD_FROM_CLASS) && !is_null($this->_INTERNAL_LOAD_FROM_CLASS) && is_array($this->_INTERNAL_LOAD_FROM_CLASS) && !$Simple){
 			if(!is_null($this->_INTERNAL_LOAD_FROM_CLASS)){
 				foreach ($this->_INTERNAL_LOAD_FROM_CLASS as $Key => $Value) {
 					if(property_exists($this, $Key) && !is_null($this->{$Key})){
@@ -388,7 +388,7 @@ class Std_Library{
 	 * @since 1.0
 	 */
 	private function _Link_Properties(){
-		if(property_exists($this, "_INTERNAL_LINK_PROPERTIES") && !is_null($this->_INTERNAL_LINK_PROPERTIES) && is_array($this->_INTERNAL_LINK_PROPERTIES)){
+		if(property_exists($this, "_INTERNAL_LINK_PROPERTIES") && isset($this->_INTERNAL_LINK_PROPERTIES) && !is_null($this->_INTERNAL_LINK_PROPERTIES) && is_array($this->_INTERNAL_LINK_PROPERTIES)){
 			foreach ($this->_INTERNAL_LINK_PROPERTIES as $ClassProperty => $LinkData) {
 				if(is_array($LinkData)){
 					$Table = $LinkData[0];
@@ -413,7 +413,7 @@ class Std_Library{
 	private function _Secure_Ignore($Key = NULL,$Secure = true){
 		if($Secure && !is_null($Key)){
 			$Extra = array();
-			if(property_exists($this, "_INTERNAL_SECURE_EXPORT_IGNORE") && !is_null($this->_INTERNAL_SECURE_EXPORT_IGNORE) && is_array($this->_INTERNAL_SECURE_EXPORT_IGNORE)){
+			if(property_exists($this, "_INTERNAL_SECURE_EXPORT_IGNORE") && isset($this->_INTERNAL_SECURE_EXPORT_IGNORE) && !is_null($this->_INTERNAL_SECURE_EXPORT_IGNORE) && is_array($this->_INTERNAL_SECURE_EXPORT_IGNORE)){
 				$Extra = array_merge($Extra,$this->_INTERNAL_SECURE_EXPORT_IGNORE);
 			}
 			if(self::Ignore($Key,$Extra)){
@@ -437,7 +437,7 @@ class Std_Library{
 	public function Import($Array = NULL,$Override = false,$Secure = false){
 		if(!is_null($Array) && is_array($Array)){
 			foreach($Array as $Name => $Value){
-				if(property_exists($this,$Name) && !self::_Secure_Ignore($Name,$Secure)){
+				if(property_exists($this,$Name) && isset($this->{$Name}) && !self::_Secure_Ignore($Name,$Secure)){
 					if(!is_array($Value) && !is_array($Name) && strpos($Value, ";") == true){
 						if($Override == false){
 							if(is_array($this->{$Name})){
@@ -523,7 +523,7 @@ class Std_Library{
 	 */
 	private function _Has_Force_Array($Property = NULL){
 		if(!is_null($Property) && property_exists($this, $Property)){
-			if(property_exists($this, "_INTERNAL_FORCE_ARRAY") && !is_null($this->_INTERNAL_FORCE_ARRAY) && is_array($this->_INTERNAL_FORCE_ARRAY)){
+			if(property_exists($this, "_INTERNAL_FORCE_ARRAY") && isset($this->_INTERNAL_FORCE_ARRAY) && !is_null($this->_INTERNAL_FORCE_ARRAY) && is_array($this->_INTERNAL_FORCE_ARRAY)){
 				if(in_array($Property, $this->_INTERNAL_FORCE_ARRAY)){
 					return TRUE;
 				} else {
@@ -571,7 +571,7 @@ class Std_Library{
 	 */
 	private function _Has_Load_From_Class($Property = NULL){
 		if(!is_null($Property)){
-			if(property_exists($this, "_INTERNAL_LOAD_FROM_CLASS") && !is_null($this->_INTERNAL_LOAD_FROM_CLASS) && is_array($this->_INTERNAL_LOAD_FROM_CLASS) && array_key_exists($Property, $this->_INTERNAL_LOAD_FROM_CLASS)){
+			if(property_exists($this, "_INTERNAL_LOAD_FROM_CLASS") && isset($this->_INTERNAL_LOAD_FROM_CLASS) && !is_null($this->_INTERNAL_LOAD_FROM_CLASS) && is_array($this->_INTERNAL_LOAD_FROM_CLASS) && array_key_exists($Property, $this->_INTERNAL_LOAD_FROM_CLASS)){
 				return TRUE;
 			} else {
 				return FALSE;
@@ -601,7 +601,7 @@ class Std_Library{
 	 * @access private
 	 */
 	private function _Force_Array(){
-		if(property_exists($this, "_INTERNAL_FORCE_ARRAY") && !is_null($this->_INTERNAL_FORCE_ARRAY) && is_array($this->_INTERNAL_FORCE_ARRAY)){
+		if(property_exists($this, "_INTERNAL_FORCE_ARRAY") && isset($this->_INTERNAL_FORCE_ARRAY) && !is_null($this->_INTERNAL_FORCE_ARRAY) && is_array($this->_INTERNAL_FORCE_ARRAY)){
 			foreach ($this->_INTERNAL_FORCE_ARRAY as $Force) {
 				if(property_exists($this, $Force) && !is_array($this->{$Force})){
 					if(!is_null($this->{$Force})){
@@ -623,7 +623,7 @@ class Std_Library{
 	 */
 	private function _Get_Row_Name_Convert($Object = NULL){
 		if(!is_null($Object) && gettype($Object) == "object"){
-			if(property_exists($Object, "_INTERNAL_ROW_NAME_CONVERT") && !is_null($Object->_INTERNAL_ROW_NAME_CONVERT)){
+			if(property_exists($Object, "_INTERNAL_ROW_NAME_CONVERT") && isset($Object->_INTERNAL_ROW_NAME_CONVERT) && !is_null($Object->_INTERNAL_ROW_NAME_CONVERT)){
 				return $Object->_INTERNAL_ROW_NAME_CONVERT;
 			} else {
 				if(property_exists($Object, "_INTERNAL_DATABASE_NAME_CONVERT") && !is_null($Object->_INTERNAL_DATABASE_NAME_CONVERT)){
@@ -647,7 +647,7 @@ class Std_Library{
 	 * @access private
 	 */
 	private function _Save_ChildClasses_Properties(){
-		if(property_exists($this, "_INTERNAL_LOAD_FROM_CLASS") && !is_null($this->_INTERNAL_LOAD_FROM_CLASS) && is_array($this->_INTERNAL_LOAD_FROM_CLASS)){
+		if(property_exists($this, "_INTERNAL_LOAD_FROM_CLASS") && isset($this->_INTERNAL_LOAD_FROM_CLASS) && !is_null($this->_INTERNAL_LOAD_FROM_CLASS) && is_array($this->_INTERNAL_LOAD_FROM_CLASS)){
 			foreach ($this->_INTERNAL_LOAD_FROM_CLASS as $Property => $ClassName) {
 				if(!is_null($Property) && !self::_Is_Linked_Property($Property) && property_exists($this, $Property)){
 					if(is_array($this->{$Property})){
@@ -694,7 +694,7 @@ class Std_Library{
 	 */
 	private function _Is_Linked_Property($Property = NULL){
 		if(!is_null($Property)){
-			if(property_exists($this, "_INTERNAL_LINK_PROPERTIES") && !is_null($this->_INTERNAL_LINK_PROPERTIES) && is_array($this->_INTERNAL_LINK_PROPERTIES)){
+			if(property_exists($this, "_INTERNAL_LINK_PROPERTIES") && isset($this->_INTERNAL_LINK_PROPERTIES) && !is_null($this->_INTERNAL_LINK_PROPERTIES) && is_array($this->_INTERNAL_LINK_PROPERTIES)){
 				if(array_key_exists($Property,$this->_INTERNAL_LINK_PROPERTIES)){
 					return TRUE;
 				} else {
@@ -716,7 +716,7 @@ class Std_Library{
 	 * @return boolean If the data exists
 	 */
 	private function _Has_Save_Link($Property = NULL){
-		if(property_exists($this, "_INTERNAL_SAVE_LINK") && !is_null($this->_INTERNAL_SAVE_LINK) && is_array($this->_INTERNAL_SAVE_LINK)){
+		if(property_exists($this, "_INTERNAL_SAVE_LINK") && isset($this->_INTERNAL_SAVE_LINK) && !is_null($this->_INTERNAL_SAVE_LINK) && is_array($this->_INTERNAL_SAVE_LINK)){
 			if(array_key_exists($Property, $this->_INTERNAL_SAVE_LINK)){
 				return TRUE;
 			} else {
@@ -736,7 +736,7 @@ class Std_Library{
 	 */
 	private function _Get_Save_Link_Data($Property = NULL){
 		if(!is_null($Property) && self::_Has_Save_Link($Property)){
-			return (!is_null($this->_INTERNAL_SAVE_LINK[$Property]))? $this->_INTERNAL_SAVE_LINK[$Property] : NULL;
+			return (!is_null($this->_INTERNAL_SAVE_LINK[$Property]) && isset($this->_INTERNAL_SAVE_LINK[$Property]))? $this->_INTERNAL_SAVE_LINK[$Property] : NULL;
 		}
 	}
 
@@ -774,7 +774,7 @@ class Std_Library{
 	 * @since 1.0
 	 */
 	private function _Save_Linked_Properties(){
-		if(property_exists($this, "_INTERNAL_LINK_PROPERTIES") && !is_null($this->_INTERNAL_LINK_PROPERTIES) && is_array($this->_INTERNAL_LINK_PROPERTIES)){
+		if(property_exists($this, "_INTERNAL_LINK_PROPERTIES") && isset($this->_INTERNAL_LINK_PROPERTIES) && !is_null($this->_INTERNAL_LINK_PROPERTIES) && is_array($this->_INTERNAL_LINK_PROPERTIES)){
 			foreach ($this->_INTERNAL_LINK_PROPERTIES as $Property => $LinkData) {
 				$Link_Query = $LinkData[1];
 				if(property_exists($this, $Property) && !is_null($this->{$Property})){
@@ -820,7 +820,7 @@ class Std_Library{
 	 */
 	private function _Abort_On_Empty(){
 		if(!is_null($this)){
-			if(property_exists($this, "_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS_ABORT_ON_NULL") && !is_null($this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS_ABORT_ON_NULL) && is_bool($this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS_ABORT_ON_NULL)){
+			if(property_exists($this, "_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS_ABORT_ON_NULL") && isset($this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS_ABORT_ON_NULL) && !is_null($this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS_ABORT_ON_NULL) && is_bool($this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS_ABORT_ON_NULL)){
 				return $this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS_ABORT_ON_NULL;
 			} else {
 				return FALSE;
@@ -837,7 +837,7 @@ class Std_Library{
 	 * @access private
 	 */
 	private function _Not_Allowed_Dublicate_Rows(){
-		if(property_exists($this, "_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS") && !is_null($this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS) && is_array($this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS)){
+		if(property_exists($this, "_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS") && isset($this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS) && !is_null($this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS) && is_array($this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS)){
 			$Query = array();
 			$Export = self::Export(true);
 			foreach ($this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS as $Key) {
@@ -1123,7 +1123,7 @@ class Std_Library{
 	 */
 	private function _Is_Property_Linked_Row($Property = NULL){
 		if(!is_null($Property)){
-			if(property_exists($this, "_INTERNAL_PROPERTY_LINK") && !is_null($this->_INTERNAL_PROPERTY_LINK) && is_array($this->_INTERNAL_PROPERTY_LINK)){
+			if(property_exists($this, "_INTERNAL_PROPERTY_LINK") && isset($this->_INTERNAL_PROPERTY_LINK) && !is_null($this->_INTERNAL_PROPERTY_LINK) && is_array($this->_INTERNAL_PROPERTY_LINK)){
 				if(array_key_exists($Property, $this->_INTERNAL_PROPERTY_LINK)){
 					return TRUE;
 				} else {
@@ -1169,6 +1169,7 @@ class Std_Library{
 					//If the class has an name convert table, check if the current property exists in it
 					// , if it does use that as the array key
 					if(property_exists($this, "_INTERNAL_DATABASE_NAME_CONVERT") 
+						&& isset($this->_INTERNAL_DATABASE_NAME_CONVERT)
 						&& is_array($this->_INTERNAL_DATABASE_NAME_CONVERT) 
 						&& array_key_exists($Name, $this->_INTERNAL_DATABASE_NAME_CONVERT)
 						&& !is_null($this->_INTERNAL_DATABASE_NAME_CONVERT)) {
@@ -1196,7 +1197,7 @@ class Std_Library{
 			$Array = array();
 			$Array = self::_Normal_Export();
 		} else if($Secure){
-			if(property_exists($this, "_INTERNAL_SECURE_EXPORT_IGNORE") && !is_null($this->_INTERNAL_SECURE_EXPORT_IGNORE) && is_array($this->_INTERNAL_SECURE_EXPORT_IGNORE)){
+			if(property_exists($this, "_INTERNAL_SECURE_EXPORT_IGNORE") && isset($this->_INTERNAL_SECURE_EXPORT_IGNORE) && !is_null($this->_INTERNAL_SECURE_EXPORT_IGNORE) && is_array($this->_INTERNAL_SECURE_EXPORT_IGNORE)){
 				$Array = array();
 				$Array = self::_Secure_Export();
 			} 
@@ -1301,7 +1302,7 @@ class Std_Library{
 			if(!strpos($Key, "INTERNAL_") === false){
 				return true;
 			} else {
-				if(property_exists($this, "_INTERNAL_EXPORT_INGNORE") && !is_null($this->_INTERNAL_EXPORT_INGNORE)){
+				if(property_exists($this, "_INTERNAL_EXPORT_INGNORE") && isset($this->_INTERNAL_EXPORT_INGNORE) && !is_null($this->_INTERNAL_EXPORT_INGNORE)){
 					if(in_array($Key,$this->_INTERNAL_EXPORT_INGNORE)){
 						return true;
 					} else {

@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://illution.dk/ClickThis/';
+$config['base_url']	= 'http://ec2.illution.dk/ClickThis/';
 
 /*
 |--------------------------------------------------------------------------
@@ -54,7 +54,7 @@ $config['developers'] = array();
 |--------------------------------------------------------------------------
 | The url to the asset folder
 */
-$config["cdn_url"] = "http://illution.dk/ClickThis/assets/";
+$config["cdn_url"] = "http://ec2.illution.dk/ClickThis/assets/";
 
 /*
 |--------------------------------------------------------------------------

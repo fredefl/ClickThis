@@ -38,7 +38,7 @@
 	 * The host of the api
 	 * @since 1.0
 	 */
-	$config["api_host_url"] = "http://illution.dk/ClickThis/api";
+	$config["api_host_url"] = "http://ec2.illution.dk/ClickThis/api";
 
 	/**
 	 * The support email for the api

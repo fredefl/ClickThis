@@ -128,7 +128,7 @@
 	$.jCryption.defaultOptions = {
 		submitElement:false,
 		submitEvent:"click",
-		getKeysURL:"http://illution.dk/ClickThis/keypair?format=json",
+		getKeysURL:"http://ec2.illution.dk/ClickThis/keypair?format=json",
 		beforeEncryption:function(){return true},
 		postVariable:"jCryption",
 		formFieldSelector:":input"

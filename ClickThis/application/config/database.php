@@ -41,10 +41,10 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-$db['default']['hostname'] = 'mydb19.surftown.dk';
-$db['default']['username'] = 'illutio_click';
+$db['default']['hostname'] = '127.0.0.1';
+$db['default']['username'] = 'clickthisdba';
 $db['default']['password'] = base64_decode("OUloRjN6UWd2SVNP");
-$db['default']['database'] = 'illutio_clickthisdba';
+$db['default']['database'] = 'clickthis';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;

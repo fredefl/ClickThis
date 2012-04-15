@@ -211,7 +211,7 @@ class Std_Api_Response{
 	 * @return boolean
 	 */
 	private function _Settings_Property($Field = NULL,$Property = NULL,&$Value = NULL){
-		if(!is_null($Property) && property_exists($this, $Property) && is_array($this->{$Property})){
+		if(!is_null($Property) && property_exists($this, $Property) && isset($this->{$Property}) && is_array($this->{$Property})){
 			if(array_key_exists($Field, $this->{$Property})){
 				$Value = $this->{$Property}[$Field];
 				return TRUE;
@@ -263,7 +263,7 @@ class Std_Api_Response{
 	 */
 	private function _No_Change($Field = NULL,$Operation = "READ"){
 		if(!is_null($Field)){
-			if(property_exists($this, "_INTERNAL_NO_CHANGE") && is_array($this->_INTERNAL_NO_CHANGE) && in_array($Field, $this->_INTERNAL_NO_CHANGE) && $Operation != "DELETE"){
+			if(property_exists($this, "_INTERNAL_NO_CHANGE") && isset($this->_INTERNAL_NO_CHANGE) && is_array($this->_INTERNAL_NO_CHANGE) && in_array($Field, $this->_INTERNAL_NO_CHANGE) && $Operation != "DELETE"){
 				return FALSE;
 			} else {
 				return TRUE;

@@ -390,6 +390,7 @@ class Api extends CI_Controller {
 	private function Perform_Get_Operation($Class_Name = NULL,$Id = NULL,$ArrayName = NULL,$Return = false){
 		if(!is_null($Id)){
 			$Class = new $Class_Name();
+			$Class->Load($Id);
 			if($Class->Load($Id)){
 				if($Return === false){
 					$Data = array();
@@ -452,10 +453,10 @@ class Api extends CI_Controller {
 				$Content = json_encode($Error);
 			}
 			ob_start();
-			echo $Content;
 			$Len = ob_get_length()+5;
 			header("Content-MD5:".md5($Content));
 			header("Content-Length:".$Len);
+			echo $Content;
 			exit();
 		} else {
 			if($Code == 200){
@@ -467,9 +468,9 @@ class Api extends CI_Controller {
 			} else {
 				$Content = json_encode($Content);
 			}
-			echo $Content;
 			header("Content-MD5:".md5($Content));
 			header("Content-Length:".strlen($Content));
+			echo $Content;
 		}
 	}
 
@@ -842,6 +843,8 @@ class Api extends CI_Controller {
 			} else {
 				redirect($this->config->item("login_page"));
 			}
+		} else {
+			redirect($this->config->item("login_page"));
 		}
 	}
 
