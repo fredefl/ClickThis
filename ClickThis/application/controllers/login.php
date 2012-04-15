@@ -43,11 +43,12 @@ class Login extends CI_Controller {
 					}
 				} else {
 					// User does not exist
-					$Query = $this->db->query('Insert Into Users (RealName,UserGroup,Google,Status) Values(?,?,?,?)', array(
+					$Query = $this->db->query('Insert Into Users (RealName,UserGroup,Google,Status,Email) Values(?,?,?,?,?)', array(
 																							$GoogleLoginData['Name'],
 																							'User',
 																							$GoogleLoginData['Email'],
-																							1
+																							1,
+																							$GoogleLoginData['Email']
 																							)
 					
 					);
