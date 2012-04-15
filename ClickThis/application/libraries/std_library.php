@@ -1508,7 +1508,7 @@ class Std_Library{
 	 */
 	public function Find($Query = NULL){
 		if (!is_null($Query) && is_array($Query)) {
-			$Data = $this->_CI->_INTERNAL_DATABASE_MODEL->Find($Query,$this->Database_Table);
+			$Data = $this->_CI->_INTERNAL_DATABASE_MODEL->Find($Query,$this->Database_Table,$this);
 			if($Data !== false){
 				return self::Load($Data);
 			} else {

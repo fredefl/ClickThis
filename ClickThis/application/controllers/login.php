@@ -93,10 +93,12 @@ class Login extends CI_Controller {
 							'fb_data' => $fb_data,
 							);
 			//$this->load->view('facebook_test', $data);
-			$this->load->library('countrycode');
 			$Locale = array();
 			$Locale = explode("_",$fb_data['me']['locale']);
-			$Country = $Country = $this->countrycode->country_code_to_country($Locale[1]);
+			$this->load->library('country');
+			$CountryObject->Find(array("Code" => strtoupper($Locale[1])));
+			$CountryObject = new Country();
+			$Country = $CountryObject->Name;
 			$Language = $Locale[0].$Locale[1];
 			
 			// Find out if the user exists in the database
@@ -174,8 +176,10 @@ class Login extends CI_Controller {
 		$_SESSION['TwitterLogin'] = $Data;
 		$Query = $this->db->select("Id,Status")->where(array("Twitter" => $Data['Id']))->get("Users");
 		$NumRows = $Query->num_rows();
-		$this->load->library('countrycode');
-		$Country = $this->countrycode->country_code_to_country($Data['Language']);
+		$this->load->library('country');
+		$CountryObject = new Country();
+		$CountryObject->Find(array("Code" => strtoupper($Data['Language'])));
+		$Country = $CountryObject->Name;
 		$Data['Country'] = $Country;
 		if($NumRows){
 			//The User Exists
@@ -304,8 +308,10 @@ class Login extends CI_Controller {
 		$_SESSION['LinkedInLoginId'] = $Data['id']; //Set Session Id Data
 		$_SESSION['LinkedInLogin'] = $Data; //Set Session Data
 		$Query = $this->db->where(array("LinkedIn" => $Data['id']))->select("Id,Status")->get("Users");
-		$this->load->library('countrycode');
-		$Country = $this->countrycode->country_code_to_country($Data['code']);
+		$this->load->library('country');
+		$CountryObject = new Country();
+		$CountryObject->Find(array("Code" => strtoupper($Data['code'])));
+		$Country = $CountryObject->Name;
 		$NumRows = $Query->num_rows();
 			if($NumRows) {
 				// User exists!

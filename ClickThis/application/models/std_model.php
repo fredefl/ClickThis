@@ -86,7 +86,7 @@ class Std_Model extends CI_Model{
 	 */
 	private function Convert_Properties_To_Database_Row($Data = NULL,&$Class = NULL){
 		if(!is_null($Data) && !is_null($Class)){
-			if(property_exists($Class, "_INTERNAL_DATABASE_NAME_CONVERT") && !is_null($Class->_INTERNAL_DATABASE_NAME_CONVERT)){
+			if(property_exists($Class, "_INTERNAL_DATABASE_NAME_CONVERT") && isset($Class->_INTERNAL_DATABASE_NAME_CONVERT) &&!is_null($Class->_INTERNAL_DATABASE_NAME_CONVERT)){
 				$Array = array();
 				foreach ($Data as $Key => $Value) {
 					if(array_key_exists($Key,$Class->_INTERNAL_DATABASE_NAME_CONVERT)){
@@ -432,15 +432,16 @@ class Std_Model extends CI_Model{
 	 * The column names are converted using the Convert_Properties_To_Row function.
 	 * @param array $Query The assosiative array containing the search
 	 * @param string $Table The table to search in
+	 * @param object &$Class The current object
 	 * @version 1.1
 	 * @access public
 	 * @example
 	 * @return boolean|integer This function returns FALSE if fail and an id if success.
 	 * Find("Name" => "Bo","Users");
 	 */
-	public function Find($Query = NULL,$Table = NULL){
+	public function Find($Query = NULL,$Table = NULL,&$Class = NULL){
 		if(!is_null($Query) && is_array($Query) && !is_null($Table)){
-			$Data = self::Convert_Properties_To_Database_Row($Query);
+			$Data = self::Convert_Properties_To_Database_Row($Query,$Class);
 			if(!is_null($Data)){
 				$Raw = self::_Get_Query_Data($Data,$Table);
 				if($Raw->num_rows() > 0){
