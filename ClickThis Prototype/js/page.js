@@ -54,7 +54,6 @@ var page = {
 			page.hide($(this));
 		})
 		$("#series_" + parameters[0]).show();
-		seriesGenerator.addSwipe($("#series_" + parameters[0])[0], parameters[0]);
 		page.currentPageElement = $("#seriesContainer");
 	}
 }
