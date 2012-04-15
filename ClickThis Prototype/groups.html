@@ -15,7 +15,7 @@
 			<div id="home" class="current">
 				<!-- Toolbar -->
 				<div class="toolbar">
-					<h1 id="toolbarTitle"><a href="http://ec2.illution.dk/ClickThisPrototype/home.html" title="Home" style="text-decoration:none; color:#FFF;">ClickThis</a></h1>
+					<h1 id="toolbarTitle"><a href="http://illution.dk/ClickThisPrototype/home.html" title="Home" style="text-decoration:none; color:#FFF;">ClickThis</a></h1>
 					<a class="back" id="backButton" data-href="home.html" data-app-onClick="ClickThisApp.terminateApp()" data-app-text="Quit" data-app-start-mode="active" data-page-start-mode="disabled">Back</a>
 				</div> <!-- end of toolbar -->
 
@@ -58,7 +58,7 @@
 					}
 				}
 					$.ajax({
-					  url: "http://ec2.illution.dk/ClickThis/api/group/"+Id,
+					  url: "http://illution.dk/ClickThis/api/group/"+Id,
 					  success: function(data){
 					  	data = data.Group;
 						$("#notfound").removeClass("Active").addClass("Disabled");
@@ -78,12 +78,12 @@
 			});			
 			function getCreator(Id){
 				$.ajax({
-					  url: "http://ec2.illution.dk/ClickThis/api/user/"+Id,
+					  url: "http://illution.dk/ClickThis/api/user/"+Id,
 					  success: function(data){
 					  	data = data.User;
 						$("#notfound").removeClass("Active").addClass("Disabled");
 						$("#creator").html(data.Name);
-						$("#creator").attr("href","http://ec2.illution.dk/ClickThisPrototype/user.html?user_id="+data.Id);
+						$("#creator").attr("href","http://illution.dk/ClickThisPrototype/user.html?user_id="+data.Id);
 					  },
 					});
 			}

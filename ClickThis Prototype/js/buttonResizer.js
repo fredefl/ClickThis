@@ -1,6 +1,6 @@
 /**
  * ClickThis button resizer
- * http://ec2.illution.dk
+ * http://illution.dk
  *
  * Copyright (c) 2012 Illution
  *
