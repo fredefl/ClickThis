@@ -33,7 +33,7 @@
 	background: linear-gradient(top, #bababa 1%,#6d6d6d 100%); /* W3C */
 }
 body {
-	background: url(http://illution.dk/include/Errors/images/Back.png) repeat; 
+	background: url(<?php echo $cdn_url; ?>images/Back.png) repeat; 
 	width:100%; 
 	height:100%;
 }
@@ -51,7 +51,7 @@ body {
 <td><a href="<?php echo base_url();?>login/facebook/auth"><img src="<?php echo $cdn_url; ?>images/LoginIcons/Facebook.png"></a></td>
 <td><a href="<?php echo base_url();?>login/twitter/auth"><img src="<?php echo $cdn_url; ?>images/LoginIcons/Twitter.png"></a></td>
 
-<td><a href="http://illution.dk/ClickThis/login/linkedin">
+<td><a href="<?php echo base_url();?>login/linkedin">
 <img src="<?php echo $cdn_url; ?>images/LoginIcons/LinkedIn.png"></a></td>
 
 </tr>
