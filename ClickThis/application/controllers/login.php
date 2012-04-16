@@ -96,8 +96,8 @@ class Login extends CI_Controller {
 			$Locale = array();
 			$Locale = explode("_",$fb_data['me']['locale']);
 			$this->load->library('country');
-			$CountryObject->Find(array("Code" => strtoupper($Locale[1])));
 			$CountryObject = new Country();
+			$CountryObject->Find(array("Code" => strtoupper($Locale[1])));
 			$Country = $CountryObject->Name;
 			$Language = $Locale[0].$Locale[1];
 			
