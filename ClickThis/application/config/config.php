@@ -30,7 +30,7 @@ $config['folder'] = '/ClickThis/';
 |--------------------------------------------------------------------------
 | Add pages that shudn't have the clickthis_security applied etc 'login','login/twitter'
 */
-$config['pages'] = array('login','login/google','login/linkedin','login/twitter','login/twitter/auth/','login/facebook','login/linkedin/callback','login/myspace');
+$config['pages'] = array('test','login','login/google','login/linkedin','login/twitter','login/twitter/auth/','login/facebook','login/linkedin/callback','login/myspace');
 
 /*
 |--------------------------------------------------------------------------
