@@ -191,10 +191,8 @@ var seriesGenerator = {
 		// Initialize the swipe functionality
 		window.questionSwipe[id] = new Swipe(element, {
 			callback: function () {
-				buttonResizer.resizeButtonsSwipe();
-				//window.scrollTo(0, 1);
-				// Send the question to the server
-				seriesGenerator.sendQuestion(window.questionSwipe[id.toString()].slides[window.questionSwipe[id.toString()].index - 1]);
+				setTimeout("buttonResizer.resizeButtonsSwipe();", 1);
+				setTimeout("seriesGenerator.sendQuestion(window.questionSwipe[" + id.toString() + "].slides[window.questionSwipe[" + id.toString() + "].index - 1]);", 1);
 			}
 		});
 	},
