@@ -15,214 +15,26 @@ class Login extends CI_Controller {
 
 	}
 
-######################################################Providers#########################################################
-
-	public function googletest(){
-		$this->load->config("google");
-		$auth_url = "https://accounts.google.com/o/oauth2/auth";
-		$scope_url = "https://www.googleapis.com/auth/";
-		$parameters = array(
-			"response_type" => "code",
-			"client_id" => $this->config->item("google_client_id"),
-			"redirect_uri" => "http://illution.dk/ClickThis/login/google/callback", //Load this from the config
-			"scope" => array("userinfo.profile","userinfo.email"),
-			"state" => "callback",
-			"access_type" => "online",
-			"approval_prompt" => "auto"
-		);
-		foreach ($parameters["scope"] as $key => $scope) {
-			$parameters["scope"][$key] = $scope_url.$scope;
+	/**
+	 * The google login method auth means that the auth request should
+	 * be peformed and callback is after auth
+	 * @param  string $page Auth or callback
+	 * @since 1.0
+	 * @access public
+	 */
+	public function google($page = "auth"){
+		$this->load->library("auth/google");
+		$Google = new Google();
+		$Google->client();
+		$Google->redirect_uri(base_url()."login/google/callback");
+		$Google->scopes(array("userinfo.profile","userinfo.email"));
+		$Google->access_type("offline");
+		if($page == "auth"){
+			$Google->auth();
+		} else if($page == "callback"){
+			$Google->callback();
+			print_r($Google->account_data());
 		}
-		$request_url = $auth_url."?";
-		foreach ($parameters as $key => $value) {
-			if(is_array($value)){
-				$request_url .= $key."=".implode(" ", $value)."&";
-			} else {
-				$request_url .= $key."=".$value."&";
-			}
-		}
-		$request_url = rtrim($request_url,"&");
-		header("Location: ".$request_url);
-		/*// Request parameters
-        $google_discover_url         = "https://accounts.google.com/o/openid2/auth";
-        $openid_mode                 = "checkid_setup";
-        $openid_ns                     = "http://specs.openid.net/auth/2.0";
-        $openid_return_to             = "https://localhost/codeigniter/account/signin_return";
-        $openid_assoc_handle         = "ABSmpf6DNMw";
-        $openid_claimed_id             = "http://specs.openid.net/auth/2.0/identifier_select";
-        $openid_identity             = "http://specs.openid.net/auth/2.0/identifier_select";
-        $openid_realm                 = "http://illution.dk/ClickThis/";
-        // PAPE extension
-        $openid_ns_pape             = "http://specs.openid.net/extensions/pape/1.0";
-        $openid_pape_max_auth_age     = "300"; // 5 mins
-        // User interface extension
-        $openid_ui_ns                 = "http://specs.openid.net/extensions/ui/1.0";
-        $openid_ui_mode             = "popup";
-        $openid_ui_icon             = "true";
-        // Attribute exchange extension
-        $openid_ns_ax                = "http://openid.net/srv/ax/1.0";
-        $openid_ax_mode                = "fetch_request";
-        $openid_ax_required            = "country,email,firstname,language,lastname";
-        $openid_ax_type_country        = "http://axschema.org/contact/country/home";
-        $openid_ax_type_email        = "http://axschema.org/contact/email";
-        $openid_ax_type_firstname    = "http://axschema.org/namePerson/first";
-        $openid_ax_type_language    = "http://axschema.org/pref/language";
-        $openid_ax_type_lastname    = "http://axschema.org/namePerson/last";
-        
-        // Send discovery request to obtain the Google login authentication endpoint
-        $ch = curl_init ();
-        curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, 0); // See http://unitstep.net/blog/2009/05/05/using-curl-in-php-to-access-https-ssltls-protected-sites/
-        curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt ($ch, CURLOPT_URL, $google_discover_url);
-        $content = curl_exec ($ch);
-        curl_close ($ch);
-        print_r($content);
-        /*$xml = simplexml_load_string($content);
-        $google_endpoint = (string)$xml->XRD->Service->URI;
-        
-        // Send login authentication request to the Google endpoint address
-        $ch = curl_init ();
-        curl_setopt ($ch, CURLOPT_HEADER, 1);
-        curl_setopt ($ch, CURLOPT_SSL_VERIFYPEER, 0); // See http://unitstep.net/blog/2009/05/05/using-curl-in-php-to-access-https-ssltls-protected-sites/
-        curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt ($ch, CURLOPT_URL, $google_endpoint.
-            '?openid.mode='.$openid_mode.
-            '&openid;.ns='.$openid_ns.
-            '&openid;.return_to='.$openid_return_to.
-            '&openid;.assoc_handle='.$openid_assoc_handle.
-            '&openid;.claimed_id='.$openid_claimed_id.
-            '&openid;.identity='.$openid_identity.
-            '&openid;.realm='.$openid_realm.
-            '&openid;.ns.pape='.$openid_ns_pape.
-            '&openid;.pape.max_auth_age='.$openid_pape_max_auth_age.
-            '&openid;.ui.ns='.$openid_ui_ns.
-            '&openid;.ui.mode='.$openid_ui_mode.
-            '&openid;.ui.icon='.$openid_ui_icon.
-            '&openid;.ns.ax='.$openid_ns_ax.
-            '&openid;.ax.mode='.$openid_ax_mode.
-            '&openid;.ax.required='.$openid_ax_required.
-            '&openid;.ax.type.country='.$openid_ax_type_country.
-            '&openid;.ax.type.email='.$openid_ax_type_email.
-            '&openid;.ax.type.firstname='.$openid_ax_type_firstname.
-            '&openid;.ax.type.language='.$openid_ax_type_language.
-            '&openid;.ax.type.lastname='.$openid_ax_type_lastname
-        );
-        $content = curl_exec ($ch);
-        curl_close ($ch);
-        print_r($content);*/
-	}
-
-###############################Google#################################	
-	/*public function google($Page = NULL) {
-		if(is_null($Page)){
-			// If you have logged in with Google
-			if(isset($_SESSION['GoogleLogin'])) {
-				// Proceed
-				// Get user data
-				$GoogleLoginData = $_SESSION['GoogleLogin'];
-				// Find out if the user exists in the database
-				$Query = $this->db->select("Id,Status")->where(array("Google" => $GoogleLoginData['Email']))->get("Users");
-				$NumRows = $Query->num_rows();
-				// Check for user existance
-				if($NumRows) {
-					// User exists!
-					// Get user Id
-					$Id = $Query->row(0)->Id;
-					// Set the users Id in a session
-					if($Query->row(0)->Status == 1){
-						$_SESSION['UserId'] = $Id;
-						// Redirect the user
-						redirect('token');
-					} else {
-						redirect($this->confgi->item("login_page"));
-					}
-				} else {
-					// User does not exist
-					$Query = $this->db->query('Insert Into Users (RealName,UserGroup,Google,Status,Email) Values(?,?,?,?,?)', array(
-																							$GoogleLoginData['Name'],
-																							'User',
-																							$GoogleLoginData['Email'],
-																							1,
-																							$GoogleLoginData['Email']
-																							)
-					
-					);
-					redirect('login/google');
-				}
-			} else {
-				// Show an error
-				$this->output->set_output("Error");
-			}
-		}
-		else{
-			switch($Page){
-				case "login":
-					self::google_login();
-				break;
-				case "register":
-					self::google_register();
-				break;
-				case "userstatus":
-					self::google_userstatus();
-				break;
-				case "callback":
-					self::google_callback();
-				break;
-				default:
-					self::google_login();
-				break;
-			}
-		}
-	}*/
-
-	public function google($page = "callback"){
-		$this->load->config("google");
-		if($page === "callback" && isset($_GET["code"])){
-			$fields = array(
-	            'code'=> $_GET["code"],
-	            'client_id'=> $this->config->item("google_client_id"),
-	            'client_secret'=> $this->config->item("google_client_secret"),
-	            'redirect_uri'=> "http://illution.dk/ClickThis/login/google/callback",
-	            'grant_type'=> "authorization_code",
-        	);
-
-        	$fields_string = "";
-        	$url = "https://accounts.google.com/o/oauth2/token";
-
-			//url-ify the data for the POST
-			foreach($fields as $key=>$value) { $fields_string .= $key.'='.$value.'&'; }
-
-			$fields_string = rtrim($fields_string,"&");
-			//open connection
-			$ch = curl_init();
-
-			//set the url, number of POST vars, POST data
-			curl_setopt($ch,CURLOPT_URL,$url);
-			curl_setopt ($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/x-www-form-urlencoded"));
-			curl_setopt($ch,CURLOPT_POST,count($fields));
-			curl_setopt($ch,CURLOPT_POSTFIELDS,$fields_string);
-
-			//execute post
-			$result = curl_exec($ch);
-
-			$data = json_decode($result);
-
-			curl_close($ch);
-			self::_google_get_information($data["access_token"]);
-		}
-	}
-
-	private function _google_get_information($access_token){
-		    $url = "https://www.googleapis.com/oauth2/v1/userinfo";
-
-			$ch = curl_init();
-
-			curl_setopt($ch,CURLOPT_URL,$url);
-			curl_setopt ($ch, CURLOPT_HTTPHEADER, array("Authorization: Bearer ".$access_token));
-
-			$result = curl_exec($ch);
-			//print_r($result);
-			curl_close($ch);
 	}
 	
 ###############################Facebook####################################	
@@ -575,13 +387,6 @@ class Login extends CI_Controller {
 		unset($array['last-name']);
 		unset($array['first-name']);
 		self::linkedin_login($array);
-	}
-	
-	//The Debug Output Function To test Callback functionality
-	function linkedin_debug($Text){
-		echo "<pre>";
-		print_r($Text);
-		echo "</pre>";
 	}
 	
 	//The Loign Function
