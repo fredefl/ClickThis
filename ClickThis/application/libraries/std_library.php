@@ -148,7 +148,7 @@ class Std_Library{
 
 	/**
 	 * This property is used to deffine properties, in the LOAD_FROM_CLASS
-	 * that should onlye load their children with the simple mode turned on
+	 * that should only load their children with the simple mode turned on
 	 * @var array
 	 * @since 1.1
 	 * @access public

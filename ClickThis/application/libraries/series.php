@@ -255,6 +255,20 @@ class Series extends Std_Library{
 
 
 	/**
+	 * This property is used to deffine properties, in the LOAD_FROM_CLASS
+	 * that should only load their children with the simple mode turned on
+	 * @var array
+	 * @since 1.1
+	 * @access public
+	 * @static
+	 * @example
+	 * array("Class Property" => "Boolean");
+	 * @internal This is a class setting property
+	 */
+	public static $_INTERNAL_SIMPLE_LOAD = NULL;
+
+
+	/**
 	 * The local instance of CodeIgniter
 	 * @var object
 	 * @access private
@@ -275,11 +289,13 @@ class Series extends Std_Library{
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("Creator","EndTime","StartTime","Title");
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id","Questions");
+		$this->_INTERNAL_SIMPLE_LOAD = array("Creator" => true);
 		$this->_INTERNAL_LOAD_FROM_CLASS = array(
 			"TargetGroup" => "Group",
 			"TargetPeople" => "User",
 			"Questions" => "Question",
-			"School" => "School"
+			"School" => "School",
+			"Creator" => "User"
 		);
 		$this->_INTERNAL_FORCE_ARRAY = array(
 			"Questions",
