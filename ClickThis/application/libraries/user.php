@@ -376,13 +376,10 @@ class User extends Std_Library{
 			"Username",
 			"State",
 			"Method",
-			"Status"
-			/*"TargetGroup",
+			"Status",
+			"TargetGroup",
 			"UserGroup",
-			
-			
-			"Type",*/
-			
+			"Type"	
 		);
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("Name","Email","Country","Username","UserGroup","Facebook_Id","Google_Id","LinkedIn_Id","Twitter_Id");
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
