@@ -146,7 +146,7 @@ var buttonGenerator = {
 		$(button).attr("class", classArray.join(" "));
 
 		// Create an array of single choice buttons
-		singleButtons = $('.single').toArray();
+		singleButtons = $(button).parent().find('.single').toArray();
 
 		// If this is a single choice button 
 		if (!$(button).hasClass("single")) {
@@ -163,11 +163,12 @@ var buttonGenerator = {
 	/**
 	 * Uncheck all buttons
 	 */
-	unCheckAll: function () {
+	unCheckAll: function (button) {
 		var i = 0,
-			button = null;
-		for (i in $('.button').toArray()) {
-			button = $('.button').toArray()[i];
+			buttons = null;
+		buttons = $(button).parent().find('.button');
+		for (i = 0; i <= buttons.length - 1; i++) {
+			button = buttons[i];
 			if (button !== null) {
 				if (button.getAttribute("data-value") === "1") {
 					if ($(button).find(".textfield").length > 0) {
@@ -191,9 +192,9 @@ var buttonGenerator = {
 		formDeselect = formDeselect || false;
 		var value = button.getAttribute("data-value");
 		if (value === "1") {
-			this.unCheckAll();
+			this.unCheckAll(button);
 		} else {
-			this.unCheckAll();
+			this.unCheckAll(button);
 			this.changeState(button, form, formDeselect);
 		}
 	},

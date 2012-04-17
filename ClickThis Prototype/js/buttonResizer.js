@@ -38,6 +38,19 @@ var buttonResizer = {
 	desktopLevelHeigth: 32,
 
 	/**
+	 * Resize buttons in current swipe, before, current and after.
+	 * @return {void}
+	 */
+	resizeButtonsSwipe: function () {
+		if (page.currentPage === "series") {
+			var pages = [];
+			buttonResizer.resizeButtons(window.questionSwipe[page.currentSeries.toString()].slides[window.questionSwipe[page.currentSeries.toString()].index - 1]);
+			buttonResizer.resizeButtons(window.questionSwipe[page.currentSeries.toString()].slides[window.questionSwipe[page.currentSeries.toString()].index]);
+			buttonResizer.resizeButtons(window.questionSwipe[page.currentSeries.toString()].slides[window.questionSwipe[page.currentSeries.toString()].index + 1]);
+		}
+	},
+
+	/**
 	 * Resizes the buttons in the specified element.
 	 *
 	 * @param {element} element The element to search for buttons in

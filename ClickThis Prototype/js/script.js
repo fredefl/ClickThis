@@ -31,11 +31,11 @@ $(document).ready(function () {
 
 $(window).resize(function (e) {
 	shortenTitle();
-	buttonResizer.resizeButtons(document.body); // POSSIBLE LEAK
+	buttonResizer.resizeButtonsSwipe();
 });
 
 document.addEventListener("orientationChanged", function () {
 	shortenTitle();
-	buttonResizer.resizeButtons(document.body); // POSSIBLE LEAK
+	buttonResizer.resizeButtonsSwipe();
 });
 window.questionSwipe = {};
