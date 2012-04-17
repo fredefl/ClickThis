@@ -1,14 +1,5 @@
 "use strict";
 //----------- EVENT LISTENERS ----------------------//
-function resizeButtons () {
-	if (page.currentPage === "series") {
-		var pages = [];
-		buttonResizer.resizeButtons(window.questionSwipe[page.currentSeries.toString()].slides[window.questionSwipe[page.currentSeries.toString()].index - 1]);
-		buttonResizer.resizeButtons(window.questionSwipe[page.currentSeries.toString()].slides[window.questionSwipe[page.currentSeries.toString()].index]);
-		buttonResizer.resizeButtons(window.questionSwipe[page.currentSeries.toString()].slides[window.questionSwipe[page.currentSeries.toString()].index + 1]);
-	}
-	//buttonResizer.resizeButtons(document.body);
-}
 // On page load
 window.addEventListener('load', function (e) {
 	$(window).hashchange();
@@ -40,11 +31,11 @@ $(document).ready(function () {
 
 $(window).resize(function (e) {
 	shortenTitle();
-	resizeButtons();
+	buttonResizer.resizeButtonsSwipe();
 });
 
 document.addEventListener("orientationChanged", function () {
 	shortenTitle();
-	resizeButtons();
+	buttonResizer.resizeButtonsSwipe();
 });
 window.questionSwipe = {};

@@ -43,7 +43,10 @@ var page = {
 	 */
 	currentPageElement: $("#home"),
 
-
+	/**
+	 * The current series
+	 * @type {number}
+	 */
 	currentSeries: 0,
 
 	/**
