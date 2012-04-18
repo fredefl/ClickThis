@@ -15,68 +15,25 @@ class Login extends CI_Controller {
 
 	}
 
-######################################################Providers#########################################################
-
-###############################Google#################################	
-	public function google($Page = NULL) {
-		if(is_null($Page)){
-			// If you have logged in with Google
-			if(isset($_SESSION['GoogleLogin'])) {
-				// Proceed
-				// Get user data
-				$GoogleLoginData = $_SESSION['GoogleLogin'];
-				// Find out if the user exists in the database
-				$Query = $this->db->select("Id,Status")->where(array("Google" => $GoogleLoginData['Email']))->get("Users");
-				$NumRows = $Query->num_rows();
-				// Check for user existance
-				if($NumRows) {
-					// User exists!
-					// Get user Id
-					$Id = $Query->row(0)->Id;
-					// Set the users Id in a session
-					if($Query->row(0)->Status == 1){
-						$_SESSION['UserId'] = $Id;
-						// Redirect the user
-						redirect('token');
-					} else {
-						redirect($this->confgi->item("login_page"));
-					}
-				} else {
-					// User does not exist
-					$Query = $this->db->query('Insert Into Users (RealName,UserGroup,Google,Status,Email) Values(?,?,?,?,?)', array(
-																							$GoogleLoginData['Name'],
-																							'User',
-																							$GoogleLoginData['Email'],
-																							1,
-																							$GoogleLoginData['Email']
-																							)
-					
-					);
-					redirect('login/google');
-				}
-			} else {
-				// Show an error
-				$this->output->set_output("Error");
-			}
-		}
-		else{
-			switch($Page){
-				case "login":
-					self::google_login();
-				break;
-				case "register":
-					self::google_register();
-				break;
-				case "userstatus":
-					self::google_userstatus();
-				break;
-				case "callback":
-					self::google_callback();
-				break;
-				default:
-					self::google_login();
-				break;
-			}
+	/**
+	 * The google login method auth means that the auth request should
+	 * be peformed and callback is after auth
+	 * @param  string $page Auth or callback
+	 * @since 1.0
+	 * @access public
+	 */
+	public function google($page = "auth"){
+		$this->load->library("auth/google");
+		$Google = new Google();
+		$Google->client();
+		$Google->redirect_uri(base_url()."login/google/callback");
+		$Google->scopes(array("userinfo.profile","userinfo.email"));
+		$Google->access_type("offline");
+		if($page == "auth"){
+			$Google->auth();
+		} else if($page == "callback"){
+			$Google->callback();
+			print_r($Google->account_data());
 		}
 	}
 	
@@ -96,8 +53,8 @@ class Login extends CI_Controller {
 			$Locale = array();
 			$Locale = explode("_",$fb_data['me']['locale']);
 			$this->load->library('country');
-			$CountryObject->Find(array("Code" => strtoupper($Locale[1])));
 			$CountryObject = new Country();
+			$CountryObject->Find(array("Code" => strtoupper($Locale[1])));
 			$Country = $CountryObject->Name;
 			$Language = $Locale[0].$Locale[1];
 			
@@ -430,13 +387,6 @@ class Login extends CI_Controller {
 		unset($array['last-name']);
 		unset($array['first-name']);
 		self::linkedin_login($array);
-	}
-	
-	//The Debug Output Function To test Callback functionality
-	function linkedin_debug($Text){
-		echo "<pre>";
-		print_r($Text);
-		echo "</pre>";
 	}
 	
 	//The Loign Function

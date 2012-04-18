@@ -44,6 +44,12 @@ var page = {
 	currentPageElement: $("#home"),
 
 	/**
+	 * The current series
+	 * @type {number}
+	 */
+	currentSeries: 0,
+
+	/**
 	 * Hides the currently viewed page
 	 * @return {void}
 	 */
@@ -104,6 +110,8 @@ var page = {
 		});
 		$("#series_" + parameters[0]).show();
 		page.currentPageElement = $("#seriesContainer");
+		page.currentSeries = parameters[0];
+		buttonResizer.resizeButtonsSwipe();
 	},
 
 	/**
