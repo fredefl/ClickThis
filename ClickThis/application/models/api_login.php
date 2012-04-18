@@ -20,7 +20,7 @@ class Api_Login extends CI_Model{
 	 * @return array
 	 */
 	public function Keypair(){
-		$Query = $this->db->limit(1)->order_by("","random")->get($this->config->item("api_rsa_key_table"));//query("SELECT * FROM  ORDER BY RAND() LIMIT 1");
+		$Query = $this->db->limit(1)->order_by("","random")->get($this->config->item("api_rsa_key_table"));
 		return current($Query->result_array());
 	}
 

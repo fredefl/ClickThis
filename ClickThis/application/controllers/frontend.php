@@ -66,6 +66,7 @@ class Frontend extends CI_Controller {
 	}
 
 	private function _Desktop() {
+		echo $_SESSION["UserId"];
 		$this->load->view("desktop_view");
 	}
 

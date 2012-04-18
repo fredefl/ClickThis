@@ -43,7 +43,7 @@ body {
 <div class="box">
 <table cellspacing="10">
 <tr>
-<td><a href="http://illution.dk/GoogleLogin"><img src="<?php echo $cdn_url; ?>images/LoginIcons/Google.png"></a></td>
+<td><a href="<?php echo base_url();?>login/google"><img src="<?php echo $cdn_url; ?>images/LoginIcons/Google.png"></a></td>
 <td><a href="<?php echo base_url();?>login/clickthis"><img src="<?php echo $cdn_url; ?>images/LoginIcons/ClickThis.png"></a></td>
 <td></td>
 </tr>

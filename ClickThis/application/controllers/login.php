@@ -24,6 +24,7 @@ class Login extends CI_Controller {
 	 */
 	public function google($page = "auth"){
 		$this->load->library("auth/google");
+		$this->load->model("login_model");
 		$Google = new Google();
 		$Google->client();
 		$Google->redirect_uri(base_url()."login/google/callback");
@@ -33,55 +34,101 @@ class Login extends CI_Controller {
 			$Google->auth();
 		} else if($page == "callback"){
 			$Google->callback();
-			print_r($Google->account_data());
-		}
-	}
-	
-###############################Facebook####################################	
-	public function facebook(){
-		$this->load->model('Facebook_model');
-		$fb_data = $this->session->userdata('fb_data');
-		if(!$fb_data['me']) {
-			// Not logged in
-			header("Location: {$fb_data['loginUrl']}");
-		} else {
-				// If logged in
-				$data = array(
-							'fb_data' => $fb_data,
-							);
-			//$this->load->view('facebook_test', $data);
-			$Locale = array();
-			$Locale = explode("_",$fb_data['me']['locale']);
-			$this->load->library('country');
-			$CountryObject = new Country();
-			$CountryObject->Find(array("Code" => strtoupper($Locale[1])));
-			$Country = $CountryObject->Name;
-			$Language = $Locale[0].$Locale[1];
-			
-			// Find out if the user exists in the database
-			$Query = $this->db->select("Id,Status")->where(array("Facebook" => $fb_data['me']['id']))->limit(1)->get("Users");
-			$NumRows = $Query->num_rows();
-			// Check for user existance
-			if($NumRows) {
-				// User exists!
-				// Get user Id
-				$Id = $Query->row(0)->Id;
-				if($Query->row(0)->Status == 1){
-					$_SESSION['UserId'] = $Id;
-					// Redirect the user
-					redirect('token');
+			$Account = $Google->account_data();
+			if($Account !== false){
+				if(isset($_SESSION["UserId"]) && $this->login_model->User_Exists($_SESSION["UserId"],"Id")){
+					if(!$this->login_model->User_Exists($Account->id,"Google") && !$this->login_model->User_Exists($Account->email,"Google")){
+						$this->login_model->Update($_SESSION["UserId"],"Google",$Account->id);
+						if(isset($_SESSION["auth_link_redirect"])){
+							redirect($_SESSION["auth_link_redirect"]);
+						} else {
+							redirect($this->config->item("front_page"));
+						}
+					} else {
+						if(isset($_SESSION["auth_link_redirect"])){
+							redirect($_SESSION["auth_link_redirect"]);
+						} else {
+							$_SESSION["auth_error"] = "User exists";
+ 							redirect($this->config->item("front_page"));
+						}
+					}
 				} else {
-					redirect($this->confgi->item("login_page"));
+					if($this->login_model->Google($Account->name,$Account->email,$Account->picture,$Account->id,$Account->locale,$UserId)){
+						if(!is_null($UserId)){
+							$_SESSION["UserId"] = $UserId;
+							redirect($this->config->item("front_page"));
+						} else {
+							redirect($this->config->item("login_page"));
+						}
+					} else {
+						redirect($this->config->item("login_page"));
+					}
 				}
 			} else {
-				// User does not exist
-				$Query = $this->db->query('Insert Into Users (RealName,UserGroup,Facebook,Status) Values(?,?,?,?)', array(
-																						$fb_data['me']['name'],
-																						'User',
-																						$fb_data['me']['id'],
-																						1
-																						));
-				redirect('login/facebook');
+				redirect($this->config->item("login_page"));
+			}
+		}
+	}
+
+	/**
+	 * This function logs a user in using Facebook
+	 * @param  string $page The current page "auth" or "callback"
+	 * @access public
+	 * @since 1.0
+	 */
+	public function facebook($page = "auth"){
+		$this->load->library("auth/facebook");
+		$this->load->model("login_model");
+		$Facebook = new Facebook();
+		$Facebook->client();
+		$Facebook->redirect_uri = "http://illution.dk/ClickThis/login/facebook/callback"; // Change to use a config file
+		if($page == "auth"){
+			$Facebook->auth();
+		} else {
+			$this->load->library('country');
+			if($Facebook->callback()){
+				$Account = $Facebook->user();
+				if($Account !== false){
+					if(isset($_SESSION["UserId"]) && $this->login_model->User_Exists($_SESSION["UserId"],"Id")){
+						if(!$this->login_model->User_Exists($Account->id,"Facebook")){
+							$this->login_model->Update($_SESSION["UserId"],"Facebook",$Account->id);
+							if(isset($_SESSION["auth_link_redirect"])){
+								redirect($_SESSION["auth_link_redirect"]);
+							} else {
+								redirect($this->config->item("front_page"));
+							}
+						} else {
+							if(isset($_SESSION["auth_link_redirect"])){
+								redirect($_SESSION["auth_link_redirect"]);
+							} else {
+								$_SESSION["auth_error"] = "User exists";
+	 							redirect($this->config->item("front_page"));
+							}
+						}
+					} else {
+						$LocaleArray = explode("_",$Account->locale);
+						$Language = $LocaleArray[0];
+						$CountryObject = new Country();
+						$CountryObject->Find(array("Code" => strtoupper($LocaleArray[1])));
+						if(property_exists($Account, "email")){
+							$Email = $Account->email;
+						} else {
+							$Email = NULL;
+						}
+						if($this->login_model->Facebook($Account->id,$Account->name,$Email,$CountryObject->Name,$Language,$UserId)){
+							if(!is_null($UserId)){
+								$_SESSION["UserId"] = $UserId;
+								redirect($this->config->item("front_page"));
+							}	
+						} else {
+							redirect($this->config->item("login_page"));
+						}
+					}
+				} else {
+					redirect($this->config->item("login_page"));
+				}
+			} else {
+				redirect($this->config->item("login_page"));
 			}
 		}
 	}

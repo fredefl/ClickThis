@@ -532,7 +532,7 @@ class Google{
 	/**
 	 * This function returns the json decoded data from 
 	 * the account information api
-	 * @return object
+	 * @return object|boolean
 	 * @since 1.0
 	 * @access public
 	 */
@@ -551,8 +551,11 @@ class Google{
 			$data = json_decode($result);
 
 			curl_close($ch);
-
-			return $data;
+			if(!isset($data->error)){
+				return $data;
+			} else {
+				return FALSE;
+			}
 		}
 	}
 }
