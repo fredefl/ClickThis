@@ -42,11 +42,11 @@ window.questionSwipe = {};
 
 $(document).keydown(function(e){
     if (e.keyCode == 37) { 
-       window.questionSwipe[page.currentSwipe.toString()].prev();
+       window.questionSwipe[page.currentSeries.toString()].prev();
        return false;
     }
     if (e.keyCode == 39) {
-    	window.questionSwipe[page.currentSwipe.toString()].next();
+    	window.questionSwipe[page.currentSeries.toString()].next();
     	return false;
     }
 });
