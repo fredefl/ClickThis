@@ -46,6 +46,34 @@ class Login_Model extends CI_Model{
 	}
 
 	/**
+	 * This function inserts or returns the user id of the newly created or current user
+	 * @param string $Name    The name of the user
+	 * @param integer $Id      The Github user id
+	 * @param string $Picture The gravar url, for the users profile image
+	 * @param pointer|integer &$UserId A variable to store the user id of the user
+	 * @since 1.0
+	 * @access public
+	 * @return boolean
+	 */
+	public function Github($Name = NULL,$Id = NULL,$Email = NULL,$Picture = NULL,&$UserId = NULL){
+		if(self::User_Exists($Id,"Github",$UserId)){
+			return TRUE;
+		} else {
+			$Data = array(
+				"Github" => $Id,
+				"Email" => $Email,
+				"RealName" => $Name,
+			);
+			if(!is_null($Picture)){
+				$Data["ProfileImage"] = $Picture;
+			}
+			$this->db->insert($this->config->item("api_users_table"),$Data);
+			$UserId = $this->db->insert_id();
+			return TRUE;
+		}
+	}
+
+	/**
 	 * This function returns the user id of the current user or creates
 	 * a new and return the user id
 	 * @param integer $Id       The facebook id
@@ -70,6 +98,38 @@ class Login_Model extends CI_Model{
 			);
 			if(!is_null($Email)){
 				$Data["Email"] = $Email;
+			}
+			$this->db->insert($this->config->item("api_users_table"),$Data);
+			$UserId = $this->db->insert_id();
+			return TRUE;
+		}
+	}
+
+	/**
+	 * This function creates a user based on Twitter or gets the id of the linked user
+	 * @param string $Name     The name of the user
+	 * @param interger $Id       The Twitter id of the user
+	 * @param string $Picture  An optional url to the profile image
+	 * @param string $Language The language code of the user
+	 * @param string $Country  An optional country name for the user
+	 * @param pointer|integer &$UserId  The id of the created user or linked user
+	 * @since 1.0
+	 * @access public
+	 */
+	public function Twitter($Name = NULL,$Id = NULL,$Picture = NULL,$Language = NULL,$Country = NULL,&$UserId = NULL){
+		if(self::User_Exists($Id,"Twitter",$UserId)){
+			return TRUE;
+		} else {
+			$Data = array(
+				"Twitter" => $Id,
+				"RealName" => $Name,
+				"Language" => $Language
+			);
+			if(!is_null($Country)){
+				$Data["Country"] = $Country;
+			}
+			if(!is_null($Picture)){
+				$Data["ProfileImage"] = $Picture;
 			}
 			$this->db->insert($this->config->item("api_users_table"),$Data);
 			$UserId = $this->db->insert_id();

@@ -16,6 +16,66 @@ class Login extends CI_Controller {
 	}
 
 	/**
+	 * This function logs a user in or creates a new user using Github login
+	 * @param  string $page The current operation "auth" or "callback"
+	 * @since 1.0
+	 * @access public
+	 */
+	public function github($page = "auth"){
+		$this->load->library("auth/github");
+		$this->load->model("login_model");
+		$Github = new Github();
+		$Github->client();
+		$Github->scope(array("user"));
+		if($page == "auth"){
+			if($Github->auth()){
+
+			} else{
+				redirect($this->config->item("login_page"));
+			}
+		} else if($page == "callback"){
+			if($Github->callback()){
+				$Account = $Github->user();
+				if($Account !== false){
+					$Picture = "https://secure.gravatar.com/avatar/".$Account->gravatar_id;
+					if(isset($_SESSION["UserId"]) && $this->login_model->User_Exists($_SESSION["UserId"],"Id")){
+						if(!$this->login_model->User_Exists($Account->id,"Github")){
+							$this->login_model->Update($_SESSION["UserId"],"Github",$Account->id);
+							if(isset($_SESSION["auth_link_redirect"])){
+								redirect($_SESSION["auth_link_redirect"]);
+							} else {
+								redirect($this->config->item("front_page"));
+							}
+						} else {
+							if(isset($_SESSION["auth_link_redirect"])){
+								redirect($_SESSION["auth_link_redirect"]);
+							} else {
+								$_SESSION["auth_error"] = "User exists";
+	 							redirect($this->config->item("front_page"));
+							}
+						}
+					} else {
+						if($this->login_model->Github($Account->name,$Account->id,$Account->email,$Picture,$UserId)){
+							if(!is_null($UserId)){
+								$_SESSION["UserId"] = $UserId;
+								redirect($this->config->item("front_page"));
+							} else {
+								redirect($this->config->item("login_page"));
+							}
+						} else {
+							redirect($this->config->item("login_page"));
+						}
+					}
+				} else {
+					redirect($this->config->item("login_page"));
+				}
+			} else {
+				redirect($this->config->item("login_page"));
+			}
+		}
+	}
+
+	/**
 	 * The google login method auth means that the auth request should
 	 * be peformed and callback is after auth
 	 * @param  string $page Auth or callback
@@ -132,121 +192,65 @@ class Login extends CI_Controller {
 			}
 		}
 	}
-
-###############################Twitter#####################################	
 	
-	public function twitter_auth(){
-			// It really is best to auto-load this library!
-			$this->load->library('tweet');
-			$this->load->library('dataconverter');;
-			
-			// Enabling debug will show you any errors in the calls you're making, e.g:
-			$this->tweet->enable_debug(TRUE);
-			
-			// If you already have a token saved for your user
-			// (In a db for example) - See line #37
-			// 
-			// You can set these tokens before calling logged_in to try using the existing tokens.
-			// $tokens = array('oauth_token' => 'foo', 'oauth_token_secret' => 'bar');
-			// $this->tweet->set_tokens($tokens);
-			
-			
-			if ( !$this->tweet->logged_in() )
-			{
-				// This is where the url will go to after auth.
-				// ( Callback url )
-				
-				$this->tweet->set_callback(site_url('login/twitter/callback'));
-				
-				// Send the user off for login!
-				$this->tweet->login();
+	/**
+	 * This function either creates a user with twitter
+	 * link a twitter account to the current user 
+	 * or logs the user in with the twitter account
+	 * @param  string $page The current page "auth" or "callback"
+	 * @since 1.0
+	 * @access public
+	 */
+	public function twitter($page = "auth"){
+		$this->load->library("auth/twitter");
+		$this->load->model("login_model");
+		$Twitter = new Twitter();
+		$Twitter->consumer();
+		$Twitter->callback = "http://illution.dk/ClickThis/login/twitter/callback";
+		if($page != "callback"){
+			if($Twitter->auth() === false){
+				header("Location: ".base_url().$this->config->item("login_page")."/twitter/auth");
 			}
-			else
-			{
-				// You can get the tokens for the active logged in user:
-				// $tokens = $this->tweet->get_tokens();
-				$tokens = $this->tweet->get_tokens();
-				
-				$user = $this->tweet->call('get', 'account/verify_credentials');
-				$userarray = $this->dataconverter->object_to_array($user);
-				// 
-				// These can be saved in a db alongside a user record
-				// if you already have your own auth system.
-			}
-	}
-	
-	public function twitter_login($Data){
-		$_SESSION['TwitterLoginId'] = $Data['Id'];
-		$_SESSION['TwitterLogin'] = $Data;
-		$Query = $this->db->select("Id,Status")->where(array("Twitter" => $Data['Id']))->get("Users");
-		$NumRows = $Query->num_rows();
-		$this->load->library('country');
-		$CountryObject = new Country();
-		$CountryObject->Find(array("Code" => strtoupper($Data['Language'])));
-		$Country = $CountryObject->Name;
-		$Data['Country'] = $Country;
-		if($NumRows){
-			//The User Exists
-			//Get The Id
-			$Id = $Query->row(0)->Id;
-			if($Query->row(0)->Status == 1){
-				$_SESSION['UserId'] = $Id;
-				// Redirect the user
-				redirect('token');
+		} else if($page == "callback"){
+			if($Twitter->callback()){
+				$Account = $Twitter->user();
+				if($Account !== false){
+					if(isset($_SESSION["UserId"]) && $this->login_model->User_Exists($_SESSION["UserId"],"Id")){
+						if(!$this->login_model->User_Exists($Account->id,"Twitter")){
+							$this->login_model->Update($_SESSION["UserId"],"Twitter",$Account->id);
+							if(isset($_SESSION["auth_link_redirect"])){
+								redirect($_SESSION["auth_link_redirect"]);
+							} else {
+								redirect($this->config->item("front_page"));
+							}
+						} else {
+							if(isset($_SESSION["auth_link_redirect"])){
+								redirect($_SESSION["auth_link_redirect"]);
+							} else {
+								$_SESSION["auth_error"] = "User exists";
+	 							redirect($this->config->item("front_page"));
+							}
+						}
+					} else {
+						$this->load->library('country');
+						$CountryObject = new Country();
+						$CountryObject->Find(array("Code" => strtoupper($Account->lang)));
+						if($this->login_model->Twitter($Account->name,$Account->id,$Account->profile_image_url,$Account->lang,$CountryObject->Name,$UserId)){
+							if(!is_null($UserId)){
+								$_SESSION["UserId"] = $UserId;
+								redirect($this->config->item("front_page"));
+							} else {
+								redirect($this->config->item("login_page"));
+							}
+						} else {
+							redirect($this->config->item("login_page"));
+						}
+					}
+				} else {
+					redirect($this->config->item("login_page"));
+				}
 			} else {
-				redirect($this->confgi->item("login_page"));
-			}
-		}
-		else{
-			//The User doesn't exist now we are going to create him
-			$Query = $this->db->query('INSERT INTO Users (RealName,UserGroup,Twitter,Country,Language) Values(?,?,?,?,?,?)',array(
-				$Data['Name'],
-				'User',
-				$Data['Id'],
-				$Data['Country'],
-				$Data['Language'],
-				1
-			));
-			$_SESSION['UserId'] = $this->db->insert_id(); 
-			if(isset($_SESSION['UserId'])){
-				redirect('token');
-			}else{
-				redirect('login/twitter/callback');
-			}
-		}
-	}
-	
-	public function twitter_callback(){
-			// It really is best to auto-load this library!
-			$this->load->library('tweet');
-			$this->load->library('dataconverter');
-			$tokens = $this->tweet->get_tokens();
-			
-			// $user = $this->tweet->call('get', 'account/verify_credentiaaaaaaaaals');
-			// 
-			// Will throw an error with a stacktrace.
-			
-			$user = $this->tweet->call('get', 'account/verify_credentials');
-			$userarray = $this->dataconverter->object_to_array($user);
-			$UserData = array();
-			//Set Only the needed data to an specific array
-			$UserData['Language'] = $userarray['lang'];
-			$UserData['Id'] = $userarray['id_str'];
-			$UserData['Name'] = $userarray['name'];
-			$UserData['ScreenName'] = $userarray['screen_name'];
-			//Set the User Id and Click This Information
-			self::twitter_login($UserData);
-	}
-	
-	public function twitter($Parameters = 'auth'){
-		if(isset($Parameters)){
-			switch($Parameters){
-				case "auth":{
-					self::twitter_auth();
-				}
-				case "callback":{
-					self::twitter_callback();	
-				}
+				redirect($this->config->item("login_page"));
 			}
 		}
 	}

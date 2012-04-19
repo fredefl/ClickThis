@@ -17,4 +17,32 @@ function Rand_Str($Length = 32, $Chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijkl
     }
     return $String;
 }
+
+/**
+ * This function does a binary 
+ * hmac_sha1
+ * @param  string $key  The hmac password
+ * @param  string $data The data to encrypt
+ * @return string
+ * @since 1.0
+ */
+function hmacsha1($key,$data) {
+	    $blocksize=64;
+	    $hashfunc='sha1';
+	    if (strlen($key)>$blocksize)
+	        $key=pack('H*', $hashfunc($key));
+	    $key=str_pad($key,$blocksize,chr(0x00));
+	    $ipad=str_repeat(chr(0x36),$blocksize);
+	    $opad=str_repeat(chr(0x5c),$blocksize);
+	    $hmac = pack(
+	                'H*',$hashfunc(
+	                    ($key^$opad).pack(
+	                        'H*',$hashfunc(
+	                            ($key^$ipad).$data
+	                        )
+	                    )
+	                )
+	            );
+	    return $hmac;
+	}
 ?>

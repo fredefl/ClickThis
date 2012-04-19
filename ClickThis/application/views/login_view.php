@@ -45,7 +45,8 @@ body {
 <tr>
 <td><a href="<?php echo base_url();?>login/google"><img src="<?php echo $cdn_url; ?>images/LoginIcons/Google.png"></a></td>
 <td><a href="<?php echo base_url();?>login/clickthis"><img src="<?php echo $cdn_url; ?>images/LoginIcons/ClickThis.png"></a></td>
-<td></td>
+<td><a href="<?php echo base_url();?>login/github">
+<img src="<?php echo $cdn_url; ?>images/LoginIcons/Github.png"></a></td>
 </tr>
 <tr>
 <td><a href="<?php echo base_url();?>login/facebook/auth"><img src="<?php echo $cdn_url; ?>images/LoginIcons/Facebook.png"></a></td>
