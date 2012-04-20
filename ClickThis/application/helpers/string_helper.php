@@ -44,5 +44,20 @@ function hmacsha1($key,$data) {
 	                )
 	            );
 	    return $hmac;
-	}
+}
+/**
+ * This function encodes the url with the right encoding
+ * @param  string|array $input The string to encode
+ * @return string|array
+ */
+function urlencode_rfc3986($input) {
+    if (is_array($input)) {
+        return array_map(array($this, '_urlencode_rfc3986'), $input);
+    }
+    else if (is_scalar($input)) {
+        return str_replace('+',' ',str_replace('%7E', '~', rawurlencode($input)));
+    } else{
+        return '';
+    }
+}
 ?>

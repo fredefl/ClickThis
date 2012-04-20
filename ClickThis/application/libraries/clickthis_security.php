@@ -52,6 +52,9 @@ class clickthis_security {
 			$this->_UserId = $_SESSION['UserId'];
 			return true;	
 		} else {
+			if(isset($_SESSION['UserId'])){
+				unset($_SESSION['UserId']);
+			}
 			return false;	
 		}
 	}

@@ -1,4 +1,14 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
+/**
+ * This model is used to get the user id of third party provider users linked
+ * with ClickThis users and create third party linked users
+ * @package Login
+ * @license http://illution.dk/copyright © Illution 2012
+ * @subpackage Third Party
+ * @category Model
+ * @version 1.0
+ * @author Illution <support@illution.dk>
+ */ 
 class Login_Model extends CI_Model{
 
 	/**
@@ -38,6 +48,39 @@ class Login_Model extends CI_Model{
 			);
 			if(!is_null($Picture)){
 				$Data["ProfileImage"] = $Picture;
+			}
+			$this->db->insert($this->config->item("api_users_table"),$Data);
+			$UserId = $this->db->insert_id();
+			return TRUE;
+		}
+	}
+
+	/**
+	 * This function either returns the user id of the
+	 * linked account with that linkedin identifier
+	 * or create a new account based on the LinkedIn info
+	 * @param string $Name    The name of the user returned from linked in
+	 * @param integer $Id      The linkedin Unique identyfier
+	 * @param string $Picture An optinal url to the linkedin profile image
+	 * @param stirng $Country The name of the country the user is based in
+	 * @param pointer|integer &$UserId A variable to store the user ud
+	 * @since 1.0
+	 * @access public
+	 * @return boolean
+	 */
+	public function LinkedIn($Name = NULL,$Id = NULL,$Picture = NULL,$Country = NULL,&$UserId = NULL){
+		if(self::User_Exists((string)$Id,"LinkedIn",$UserId)){
+			return TRUE;
+		} else {
+			$Data = array(
+				"LinkedIn" => (string)$Id,
+				"RealName" => $Name,
+			);
+			if(!is_null($Country)){
+				$Data["Country"] = $Country;
+			}
+			if(!is_null($Picture)){
+				$Data["ProfileImage"] = (string)$Picture;
 			}
 			$this->db->insert($this->config->item("api_users_table"),$Data);
 			$UserId = $this->db->insert_id();

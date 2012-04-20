@@ -1,4 +1,13 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
+/**
+ * This library is used to Authenticate with Twitter
+ * @package Login
+ * @license http://illution.dk/copyright © Illution 2012
+ * @subpackage Twitter
+ * @category Third Party
+ * @version 1.0
+ * @author Illution <support@illution.dk>
+ */ 
 class Twitter{
 
 	/**
@@ -132,7 +141,7 @@ class Twitter{
 	}
 
 	/**
-	 * This function generates the 
+	 * This function generates the OAuth signature
 	 * @param  string $method The HTTP request method
 	 * @param  string $url    The request url
 	 * @param  array $fields The request oauth fields

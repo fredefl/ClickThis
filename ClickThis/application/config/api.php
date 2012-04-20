@@ -7,6 +7,30 @@
  */
 	
 	/**
+	 * The topt secret key
+	 * @since 1.0
+	 */
+	$config["api_topt_key"] = "12345678901234567890";
+
+	/**
+	 * The hash algorith to use for th topt system
+	 * @since 1.0
+	 */
+	$config["api_topt_algorith"] = "sha1";
+
+	/**
+	 * The  number of digits in the topt key
+	 * @since 1.0
+	 */
+	$config["api_topt_digist"] = "6";
+
+	/**
+	 * The time in seconds the topt key should live
+	 * @since 1.0
+	 */
+	$config["api_topt_timealive"] = 30;
+	
+	/**
 	 * The table for the rsa 1024 keys
 	 * @since 1.0
 	 */

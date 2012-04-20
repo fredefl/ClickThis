@@ -29,6 +29,7 @@ class Api extends CI_Controller {
 		$this->load->library("api_authentication");
 		$this->load->helper("array_xml");
 		$this->load->config("api");
+		$this->api_request->Perform_Request();
 	}
 
 	/**
@@ -762,6 +763,29 @@ class Api extends CI_Controller {
 		} else {
 			return FALSE;
 		}
+	}
+
+	/**
+	 * This function generates a Topt key
+	 * and returns in the requested format
+	 * @since 1.1
+	 * @access public
+	 */
+	public function Topt(){		
+		$this->load->library("onetimepassword");
+		date_default_timezone_set("UTC");
+		$Settings = array(
+			'Algorithm' => $this->config->item("api_topt_algorith"),
+			'Digits' => $this->config->item("api_topt_digist"),
+			'Key' => $this->config->item("api_topt_key"),
+			'Timestamp' => time(),
+			'InitialTime' => '0',
+			'TimeStep' => $this->config->item("api_topt_timealive"),
+			'TimeWindowSize' => '1'
+		);
+		$Topt = OneTimePassword::GetPassword($Settings);
+		$Content = array("key" => $Topt);
+		self::_Send_Response(200,NULL,$Content);
 	}
 
 	/**

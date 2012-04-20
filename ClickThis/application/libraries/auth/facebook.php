@@ -1,4 +1,14 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
+/**
+ * This library authenticates with Facebook and
+ * it has a function to get user info too
+ * @package Login
+ * @license http://illution.dk/copyright © Illution 2012
+ * @subpackage Facebook
+ * @category Third Party
+ * @version 1.0
+ * @author Illution <support@illution.dk>
+ */ 
 class Facebook{
 
 	/**

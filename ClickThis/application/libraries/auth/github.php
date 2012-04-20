@@ -1,4 +1,13 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
+/**
+ * This library authenticates with Github
+ * @package Slogin
+ * @license http://illution.dk/copyright © Illution 2012
+ * @subpackage Github
+ * @category Third Party
+ * @version 1.0
+ * @author Illution <support@illution.dk>
+ */ 
 class Github{
 		
 	/**
