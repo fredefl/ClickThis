@@ -77,33 +77,22 @@ h1 {
 	text-align:right;	
 }
 
-#Avatar{
-	top:75px;
-	width:256px;
-	height:256px;
-	left:30px;
-	position:absolute;
-	border:medium;
-	border-style:groove;
-	border-radius:2px;
-	border-color:#FFF;	
+.Avatar{
+	float: left;
+	margin-right:20px;
 }
 
-#Profile{
-	top:75px;
-	width:400px;
-	height:100px;
-	left:330px;
-	line-height:30px;
-	position:absolute;
+.Profile{
+	/*float: right;*/
+	margin-top:-10px;
 }
-#Email{
+.email{
 	width:200px;
 }
-#Name{
+.name{
 	width:200px;	
 }
-#Location{
+.location{
 	width:205px;	
 }
 

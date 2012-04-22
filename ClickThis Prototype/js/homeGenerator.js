@@ -1,6 +1,6 @@
 var homeGenerator = {
 	newSeries: function (title, id, creator,creatorId) {
-		return '<li class="forward"><a onclick="page.goTo(\'series/' + id + '\')">' + title + '</a><small class="counter"><a href="user.html?user_id='+creatorId+'">' + creator + '</a></small></li>';
+		return '<li class="forward"><a href="#" onclick="page.goTo(\'series/' + id + '\')">' + title + '</a><small class="counter"><a href="#" onclick="page.goTo(\'user/'+creatorId+'\')">' + creator + ')</a></small></li>';
 	}
 }
 
@@ -96,10 +96,10 @@ $(window).load(function () {
 	$("#beaconFlashHolder").css("position","absolute").css("left","-200px");
 })
 // Page view counter
-if (!localStorage.pageCounter)
+/*if (!localStorage.pageCounter)
 	localStorage.setItem('pageCounter',0);
-localStorage.setItem('pageCounter',parseInt(localStorage.pageCounter)+1);
-$("#pageCount").html(localStorage.pageCounter);
+//localStorage.setItem('pageCounter',parseInt(localStorage.pageCounter)+1);
+//$("#pageCount").html(localStorage.pageCounter);-*/
 // Request update
 $('#updateButton').click(function(){
 	ajaxQueue.add({

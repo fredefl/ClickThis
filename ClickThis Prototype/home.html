@@ -47,28 +47,45 @@
 				<!-- the tests -->
 				<div>
 					<ul class="rounded">
-						<li class="arrow"><a href="buttons.html">Button Showcase</a></li>  
 						<li class="forward" id="sendingLabel"><a>Send data</a><small class="counter" id="sendingCounter">0</small></li>
 						<li class="arrow" id="updateButton"><a href="#">Update Desktop</a></li>
-						<li class="forward"><a>Page View Counter</a><small class="counter" id="pageCount">0</small></li>
+						<!--<li class="forward"><a>Page View Counter</a><small class="counter" id="pageCount">0</small></li>-->
 						<li><a id="chacheStatus">Cache status </a></li>
 					</ul>
 				</div> <!-- end of tests-->
 				<!-- bottom -->
 				<ul class="individual">
 					<li>
-						<a href="profile.html">Profile</a>
+						<a onclick="page.goTo('user/21')">Profile</a>
 					</li>
 					<li>
-						<a href="settings.html">Settings</a>
+						<a href="#">Settings</a>
 					</li>
 				</ul> <!-- end of bottom -->
 			</div> <!-- end of home -->
 
 			<!--######### series container #########-->
-			<div id="seriesContainer" style="display:none;margin-top:45px" class="Hyphenate">
+			<div id="seriesContainer" style="display:none;margin-top:45px" class="Hyphenate"></div> <!-- end of seriesContainer -->
 
-			</div> <!-- end of seriesContainer -->
+			<!-- ######## user page container ###### -->
+			<div id="userContainer" style="display:none;"></div>
+
+			<!-- The user page template -->
+			<div id="user_template" style="display:none;padding-top:65px;margin-left:20px;width:510px;height:300px;">
+				<div class="Avatar">
+					<img  src="" height="256" width="256" class="profile_image" title="" alt="" />
+				</div>
+				<div class="Profile">
+					<label for="Name"></label><br>
+					<input type="text" class="name" id="Name" value="" disabled /><br>
+					<label for="Email">Email</label><br>
+					<input type="text" id="Email" class="email" value=""  disabled/><br>
+					<label for="Email">Location</label><br>
+					<input type="text" class="location" id="Location" disabled>
+				</div>	
+			</div>
+
+			
 		</div> <!-- end of page -->
 		<!-- script section -->
 		<script src="js/jquery.min.js"></script>
@@ -77,6 +94,7 @@
 		<script src="js/jquery.ui.touch-punch.min.js"></script>
 		<script src="js/swipe.js"></script>
 		<script src='js/jquery.ata.js?9999'></script>
+		<script src="js/userGenerator.js?9999"></script>
 		<script src="js/page.js"></script>
 		<script src="js/clickthis.js?9999"></script>
 		<script src="js/script.js?9999"></script>

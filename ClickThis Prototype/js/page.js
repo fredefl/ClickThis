@@ -28,6 +28,9 @@ var page = {
 		},
 		home: function () {
 			page.goToHome();
+		},
+		user : function(parameters){
+			page.goToUser(parameters)
 		}
 	},
 
@@ -90,12 +93,14 @@ var page = {
 	 * page.goTo("home");
 	 */
 	goTo: function (element) {
-		this.hideCurrentPage();
 		element = element.split("/");
-		this.currentPage = element[0];
 		var functionToCall = this.pages[element[0]];
 		element.shift();
-		functionToCall(element);
+		if (functionToCall != undefined) {
+			this.hideCurrentPage();
+			this.currentPage = element[0];
+			functionToCall(element);
+		}
 	},
 
 	/**
@@ -121,5 +126,25 @@ var page = {
 	goToHome: function () {
 		this.show($("#home"));
 		page.currentPageElement = $("#home");
+	},
+
+	/**
+	 * This function loads the user, and show the user page
+	 * @param  {array} parameters An array of the parameters etc user id
+	 * @return {void}
+	 */
+	goToUser : function (parameters) {
+		userGenerator.findUser(parameters[0],$.proxy(function(result) {
+			if (result) {
+				$("#userContainer").show();
+				$("#userContainer > div").each(function (index) {
+					page.hide($(this));
+				});
+				$("#user_" + parameters[0]).show();
+				page.currentPageElement = $("#userContainer");
+			} else {
+				this.goTo("home");
+			}
+		},this));
 	}
 }
