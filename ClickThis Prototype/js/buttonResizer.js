@@ -43,7 +43,6 @@ var buttonResizer = {
 	 */
 	resizeButtonsSwipe: function () {
 		if (page.currentPage === "series") {
-			var pages = [];
 			buttonResizer.resizeButtons(window.questionSwipe[page.currentSeries.toString()].slides[window.questionSwipe[page.currentSeries.toString()].index - 1]);
 			buttonResizer.resizeButtons(window.questionSwipe[page.currentSeries.toString()].slides[window.questionSwipe[page.currentSeries.toString()].index]);
 			buttonResizer.resizeButtons(window.questionSwipe[page.currentSeries.toString()].slides[window.questionSwipe[page.currentSeries.toString()].index + 1]);
@@ -75,6 +74,7 @@ var buttonResizer = {
 			resizeLevel = 0,
 			topAddition = 0,
 			paddingAddition = 0;
+
 		// Find all buttons in element and stuff them into the array
 		$(element).find('.button.mega').each(function (index, element) {
 			// Remove padding and top
@@ -82,6 +82,7 @@ var buttonResizer = {
 			// Add the element to the array
 			elementArray[index] = element;
 		});
+
 		// If the is buttons
 		if (elementArray.length > 0) {
 			// Set loop time/length
@@ -96,8 +97,10 @@ var buttonResizer = {
 					elementArray.splice(i, 1);
 				}
 			}
+
 			// Set loop time/length
 			elementArrayLength = elementArray.length;
+
 			// Loop though the array and find all the fullsize buttons and remove them
 			for (i = 0; i <= elementArrayLength; i++) {
 				element = elementArray[i];
@@ -109,22 +112,25 @@ var buttonResizer = {
 					elementArray.splice(i, 1);
 				}
 			}
+
 			// Remove the last button if the total button count is odd/uneven
 			if (elementArray.length % 2 !== 0) {
 				elementArray.splice(elementArray.length - 1, 1);
 			}
+
 			// Check if mobile
 			if ($(elementArray[0]).height() % 26 === 0) {
 				mobile = true;
 			}
+
 			// Loop through button pairs
 			for (i = 0; i <= elementArray.length - 1; i += 2) {
 				// Get buttons
 				button1 = elementArray[i];
 				button2 = elementArray[i + 1];
 				// Reset margins
-				$(button1).css("margin-bottom","");
-				$(button2).css("margin-bottom","");
+				$(button1).css("margin-bottom", "");
+				$(button2).css("margin-bottom", "");
 				// Get button heigth
 				button1Heigth = $(button1).height();
 				button2Heigth = $(button2).height();
@@ -149,25 +155,31 @@ var buttonResizer = {
 						smallestButtonHeigth = button1Heigth;
 						buttonToResize = button1;
 					}
+
 					// Calculate the proper height for the button
 					resizeLevel = ((biggestButtonHeigth - smallestButtonHeigth) / buttonHeigth);
 					topAddition = resizeLevel * levelHeigth;
 					paddingAddition = topAddition + initialHeigth;
+
 					// Add the extra height(padding) to the button
 					$(buttonToResize).css("padding", paddingAddition + "px 0 " + paddingAddition + "px 0");
 					$(buttonToResize).css("top", "-" + topAddition + "px");
-					$(buttonToResize).css("margin-bottom","-3000px");
+					$(buttonToResize).css("margin-bottom", "-3000px");
 				}
 			}
 		}
-		$("a").each(function(i,buttonElement){
-			if($(buttonElement).find(".textfield").length > 0){
-				$(buttonElement).css("min-height","65px");
+
+		// Textfield (POSSIBLE BLOAT)
+		$("a").each(function (i, buttonElement) {
+			if ($(buttonElement).find(".textfield").length > 0) {
+				$(buttonElement).css("min-height", "65px");
 			}
 		});
-		if($.fn.ata != 'undefined'){
+
+		if ($.fn.ata !== undefined) {
 			$(".textfield").ata();
 		}
+
 		// Return if it was a success
 		if (elementArray.length > 0) {
 			return true;

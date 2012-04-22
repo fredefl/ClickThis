@@ -29,8 +29,8 @@ var page = {
 		home: function () {
 			page.goToHome();
 		},
-		user : function(parameters){
-			page.goToUser(parameters)
+		user : function (parameters) {
+			page.goToUser(parameters);
 		}
 	},
 
@@ -93,13 +93,25 @@ var page = {
 	 * page.goTo("home");
 	 */
 	goTo: function (element) {
+		// Split the input string up
 		element = element.split("/");
+		// Get the responsible function
 		var functionToCall = this.pages[element[0]];
-		element.shift();
-		if (functionToCall != undefined) {
+		// Check that the function is existing, if not, screw it
+		if (functionToCall !== undefined) {
+			// Hide the current page
 			this.hideCurrentPage();
+			// Change the page string to the new one
 			this.currentPage = element[0];
+			// Remove the page name from the input array
+			element.shift();
+			// Call the function
 			functionToCall(element);
+			// Return success
+			return true;
+		} else {
+			// Return failure
+			return false;
 		}
 	},
 
@@ -109,13 +121,18 @@ var page = {
 	 * @return {void}
 	 */
 	goToSeries: function (parameters) {
+		// Show the series container, to make sure it is visible
 		$("#seriesContainer").show();
+		// Hide all the surveys
 		$("#seriesContainer > div").each(function (index) {
 			page.hide($(this));
 		});
+		// Show the correct one
 		$("#series_" + parameters[0]).show();
+		// Save the element for later use
 		page.currentPageElement = $("#seriesContainer");
 		page.currentSeries = parameters[0];
+		// Resize buttons
 		buttonResizer.resizeButtonsSwipe();
 	},
 
@@ -133,8 +150,8 @@ var page = {
 	 * @param  {array} parameters An array of the parameters etc user id
 	 * @return {void}
 	 */
-	goToUser : function (parameters) {
-		userGenerator.findUser(parameters[0],$.proxy(function(result) {
+	goToUser: function (parameters) {
+		userGenerator.findUser(parameters[0], $.proxy(function (result) {
 			if (result) {
 				$("#userContainer").show();
 				$("#userContainer > div").each(function (index) {
@@ -145,6 +162,6 @@ var page = {
 			} else {
 				this.goTo("home");
 			}
-		},this));
+		}, this));
 	}
-}
+};
