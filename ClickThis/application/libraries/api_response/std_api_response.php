@@ -140,6 +140,14 @@ class Std_Api_Response{
 	public static $_INTERNAL_USER_INFLUENCE_OPERATIONS = NULL;
 
 	/**
+	 * Use this parameter to set if the user id is requeired or can be none
+	 * @var boolean
+	 * @since 1.0
+	 * @access public
+	 */
+	public static $_INTERNAL_USERID_REQUIRED = NULL;
+
+	/**
 	 * A local instance of CodeIgniter
 	 * @var object
 	 * @since 1.0
@@ -183,9 +191,10 @@ class Std_Api_Response{
 					$Object = new $this->Library();
 					if(!is_null($Object)){
 						$Object->Import($Query,false,!$this->SecretAccess);
-						$Object->Save();
-						$this->ResponseObject = $Object;
-						$this->Response[$this->Library][]["Id"] = $Object->Id;
+						if($Object->Save()){
+							$this->ResponseObject = $Object;
+							$this->Response[$this->Library][]["Id"] = $Object->Id;
+						}
 						return TRUE;
 					} else {
 						return FALSE;
@@ -297,7 +306,11 @@ class Std_Api_Response{
 				return FALSE;
 			}
 		} else {
-			return FALSE;
+			if(property_exists($this, "_INTERNAL_USERID_REQUIRED") && !is_null($this->_INTERNAL_USERID_REQUIRED) && $this->_INTERNAL_USERID_REQUIRED === true){
+				return TRUE;
+			} else {
+				return FALSE;
+			}			
 		}
 	}
 
@@ -484,6 +497,19 @@ class Std_Api_Response{
 
 	public function Search($Query = NULL){
 
+	}
+
+	/**
+	 * This function returns the available rows that this access token can edit
+	 * @since 1.0
+	 * @access public
+	 */
+	public function Options(){
+		$this->_CI->load->library(strtolower($this->Library));
+		$Object = new $this->Library();
+		$Temp = array_keys($Object->Export(false,!$this->SecretAccess));
+		$this->Response["Options"] = array($Temp);
+		return TRUE;
 	}
 }
 ?>

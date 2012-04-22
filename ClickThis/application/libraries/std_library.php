@@ -437,7 +437,7 @@ class Std_Library{
 	public function Import($Array = NULL,$Override = false,$Secure = false){
 		if(!is_null($Array) && is_array($Array)){
 			foreach($Array as $Name => $Value){
-				if(property_exists($this,$Name) && isset($this->{$Name}) && !self::_Secure_Ignore($Name,$Secure)){
+				if(property_exists($this,$Name) && !self::_Secure_Ignore($Name,$Secure)){
 					if(!is_array($Value) && !is_array($Name) && strpos($Value, ";") == true){
 						if($Override == false){
 							if(is_array($this->{$Name})){
@@ -452,10 +452,10 @@ class Std_Library{
 						if(self::_Has_Load_From_Class($Name) && is_array($Value) && self::_Has_Sub_Array($Value)){
 							self::_Sub_Import($Value,$Name,$Override);
 						} else {
-							if(!is_integer($Value) && self::_Has_Load_From_Class($Name)){
+							if(!is_integer($Value) && self::_Has_Load_From_Class($Name) && (self::_Has_Sub_Array($Value) || self::_Has_Sub_Array($Name))){
 								self::_Sub_Import($Value,$Name,$Override);
 							} else {
-								$this->$Name = $Value;
+								$this->{$Name} = $Value;
 							}
 						}	
 					}
@@ -463,6 +463,8 @@ class Std_Library{
 			}
 			self::_Force_Array();
 			self::_Load_From_Class();
+		} else {
+			return FALSE;
 		}
 	}
 
@@ -626,7 +628,7 @@ class Std_Library{
 			if(property_exists($Object, "_INTERNAL_ROW_NAME_CONVERT") && isset($Object->_INTERNAL_ROW_NAME_CONVERT) && !is_null($Object->_INTERNAL_ROW_NAME_CONVERT)){
 				return $Object->_INTERNAL_ROW_NAME_CONVERT;
 			} else {
-				if(property_exists($Object, "_INTERNAL_DATABASE_NAME_CONVERT") && !is_null($Object->_INTERNAL_DATABASE_NAME_CONVERT)){
+				if(property_exists($Object, "_INTERNAL_DATABASE_NAME_CONVERT") && isset($Object->_INTERNAL_DATABASE_NAME_CONVERT) && !is_null($Object->_INTERNAL_DATABASE_NAME_CONVERT)){
 					$Temp = array();
 					foreach ($Object->_INTERNAL_DATABASE_NAME_CONVERT as $Property => $Row) {
 						$Temp[$Row] = $Property;
@@ -850,7 +852,7 @@ class Std_Library{
 				}
 			}
 			if(method_exists($this->_CI->_INTERNAL_DATABASE_MODEL, "Match_Data")){
-				$this->_CI->_INTERNAL_DATABASE_MODEL->Match_Data($this,$Query);
+				return !$this->_CI->_INTERNAL_DATABASE_MODEL->Match_Data($this,$Query);
 			}
 		}
 	}
@@ -864,11 +866,14 @@ class Std_Library{
 	 */
 	public function Save() {
 		if(!is_null($this->_CI) && !is_null($this->_CI->_INTERNAL_DATABASE_MODEL) ){
-			self::_Not_Allowed_Dublicate_Rows();
-			$this->_CI->_INTERNAL_DATABASE_MODEL->Save($this);		
-			self::_Save_Linked_Properties();
-			self::_Save_ChildClasses_Properties();
+			if(!self::_Not_Allowed_Dublicate_Rows()){
+				$this->_CI->_INTERNAL_DATABASE_MODEL->Save($this);		
+				self::_Save_Linked_Properties();
+				self::_Save_ChildClasses_Properties();
 			return true;
+			} else {
+				return FALSE;
+			}
 		} else {
 			return false;
 		}
@@ -1175,15 +1180,16 @@ class Std_Library{
 						&& !is_null($this->_INTERNAL_DATABASE_NAME_CONVERT)) {
 						//If the data is an array implode it with a ";" sign else just assign it
 						if(!is_null($Data) && is_array($Data) && count($Data) > 0){
-							$String = implode(";",$Data);
-							$String.= ";";
+							$String = ";";
+							$String .= implode(";",$Data);
+							$String .= ";";
 							$Array[$this->_INTERNAL_DATABASE_NAME_CONVERT[$Name]] = $String;
 						} else {
 							$Array[$this->_INTERNAL_DATABASE_NAME_CONVERT[$Name]] = $Data;
 						}
 					} else {
 						if(!is_null($Data) && is_array($Data) && count($Data) > 0 && !self::_Contains_Object($Data)){
-							$String = implode(";",$Data).";";
+							$String = ";".implode(";",$Data).";";
 							$Array[$Name] = $String;
 
 						} else {

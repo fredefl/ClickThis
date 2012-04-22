@@ -97,7 +97,7 @@ class Api_Search extends CI_Model{
             $Or_Like = array();
             foreach ($Array as $Key => $Value) {
                 if(strpos($Value, "$") !== false){
-                    $Like[$Key] = str_replace("$", "", $Value.";");
+                    $Like[$Key] = str_replace("$", "", ";".$Value.";");
                     $Or_Like[$Key] = str_replace("$", "", $Value);
                 } else {
                    $Query[$Key] = $Value;

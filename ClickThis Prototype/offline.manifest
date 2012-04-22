@@ -2,13 +2,7 @@ CACHE MANIFEST
 
 # HTML
 ajaxQueue.html
-apitest.html
-buttons.html
 home.html
-homejs.html
-profile.html
-settings.html
-user.html
 
 #JAVASCRIPT
 js/ajaxQueue.js
@@ -22,8 +16,9 @@ js/jquery.min.js
 js/jquery.ui.touch-punch.min.js
 js/script.js
 js/seriesGenerator.js
+js/userGenerator.js
+js/homeGenerator.js
 js/swipe.js
-user.js
 
 #STYLE
 css/buttons.css

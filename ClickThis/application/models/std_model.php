@@ -86,7 +86,7 @@ class Std_Model extends CI_Model{
 	 */
 	private function Convert_Properties_To_Database_Row($Data = NULL,&$Class = NULL){
 		if(!is_null($Data) && !is_null($Class)){
-			if(property_exists($Class, "_INTERNAL_DATABASE_NAME_CONVERT") && isset($Class->_INTERNAL_DATABASE_NAME_CONVERT) &&!is_null($Class->_INTERNAL_DATABASE_NAME_CONVERT)){
+			if(property_exists($Class, "_INTERNAL_DATABASE_NAME_CONVERT") && isset($Class->_INTERNAL_DATABASE_NAME_CONVERT) && !is_null($Class->_INTERNAL_DATABASE_NAME_CONVERT)){
 				$Array = array();
 				foreach ($Data as $Key => $Value) {
 					if(array_key_exists($Key,$Class->_INTERNAL_DATABASE_NAME_CONVERT)){
@@ -99,6 +99,8 @@ class Std_Model extends CI_Model{
 			} else {
 				return $Data;
 			}	
+		} else {
+			return $Data;
 		}
 	}
 
@@ -186,6 +188,7 @@ class Std_Model extends CI_Model{
 								if(!is_null($Value) && !empty($Value) && $Value != ""){
 									if(strpos($Value, ";") == true){
 										$Value = rtrim($Value,";");
+										$Value = ltrim($Value,";");
 										$Class->{$this->_INTERNAL_ROW_NAME_CONVERT[$Key]} = explode(";", $Value);
 									} else {
 										$Class->{$this->_INTERNAL_ROW_NAME_CONVERT[$Key]} = $Value;
@@ -197,6 +200,7 @@ class Std_Model extends CI_Model{
 								if(!is_null($Value) && !empty($Value) && $Value != ""){
 									if(strpos($Value, ";") == true){
 										$Value = rtrim($Value,";");
+										$Value = ltrim($Value,";");
 										$Class->{$Key} = explode(";", $Value);
 									} else {
 										$Class->{$Key} = $Value;
@@ -239,11 +243,11 @@ class Std_Model extends CI_Model{
 	 * @return boolean If the operation was succes
 	 */
 	public function Save(&$Class = NULL){
-		if( property_exists(get_class($Class), "Database_Table")){
+		if( property_exists($Class, "Database_Table")){
 			self::_Data_Exists($Class);
 			if($Class->Id != NULL && self::Exists($Class->Id,$Class->Database_Table)){
 				$Data = $Class->Export(true);
-				if(property_exists(get_class($Class), "Database_Table")){
+				if(property_exists($Class, "Database_Table") && count($Data) > 0){
 					$this->db->where(array('Id' => $Class->Id))->update($Class->Database_Table, self::Convert_Properties_To_Database_Row($Data,$Class));
 					return true; //Maybe a check for mysql errors
 				} else {
@@ -253,7 +257,7 @@ class Std_Model extends CI_Model{
 			else{
 				if(!self::Exists($Class->Id)){
 					$Data = $Class->Export(true);
-					if(!is_null($Data)){
+					if(!is_null($Data) && !is_null($Class) && count($Data) > 0){
 						$this->db->insert($Class->Database_Table, self::Convert_Properties_To_Database_Row($Data,$Class));
 						$Class->Id = $this->db->insert_id();
 						return true; //Maybe a check for mysql errors?
@@ -407,7 +411,7 @@ class Std_Model extends CI_Model{
             $Or_Like = array();
             foreach ($Array as $Key => $Value) {
                 if(strpos($Value, "$") !== false){
-                    $Like[$Key] = str_replace("$", "", $Value.";");
+                    $Like[$Key] = str_replace("$", "", ";".$Value.";");
                     $Or_Like[$Key] = str_replace("$", "", $Value);
                 } else {
                     $Like[$Key] = $Value;

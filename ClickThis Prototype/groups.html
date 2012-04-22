@@ -48,15 +48,7 @@
 				$(document).hashchange();
 			}); 
 			$(document).hashchange(function(){
-				var Id = 1;
-				if(location.hash != null && typeof location.hash != "undefined" && location.hash != ""){
-					var hash = location.hash;
-					hash = hash.replace("#","");
-					hash = parseInt(hash);
-					if(typeof hash == "number"){
-						Id = hash;
-					}
-				}
+
 					$.ajax({
 					  url: "http://illution.dk/ClickThis/api/group/"+Id,
 					  success: function(data){
@@ -67,7 +59,7 @@
 						$("#description").html(data.Description);
 						$("#title").html(data.Title);
 						$("#info").addClass("Disabled");
-						getCreator(data.Creator);
+						$("#creator").html(data.Creator.Name);
 					  },
 					  error: function(){
 						$("#groups").addClass("Disabled");
@@ -76,17 +68,6 @@
 					  }
 					});
 			});			
-			function getCreator(Id){
-				$.ajax({
-					  url: "http://illution.dk/ClickThis/api/user/"+Id,
-					  success: function(data){
-					  	data = data.User;
-						$("#notfound").removeClass("Active").addClass("Disabled");
-						$("#creator").html(data.Name);
-						$("#creator").attr("href","http://illution.dk/ClickThisPrototype/user.html?user_id="+data.Id);
-					  },
-					});
-			}
 			$("#groupData").click(function(){
 				$("#info").toggleClass("Disabled");
 			});

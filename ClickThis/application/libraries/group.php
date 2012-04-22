@@ -154,6 +154,8 @@ class Group extends Std_Library{
 	 * array("SeriesId","Title");
 	 */
 	public static $_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = NULL;	
+
+	public static $_INTERNAL_SIMPLE_LOAD = NULL;
 	
 	/**
 	 * This function is the constructor, it load's the model regarding this class,
@@ -167,6 +169,8 @@ class Group extends Std_Library{
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("Name","Creator");
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id");
+		$this->_INTERNAL_SIMPLE_LOAD = array("Creator" => true);
+		$this->_INTERNAL_LOAD_FROM_CLASS = array("Creator" => "User");
 		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 	}
 }

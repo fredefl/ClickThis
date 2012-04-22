@@ -1,6 +1,6 @@
 var homeGenerator = {
 	newSeries: function (title, id, creator,creatorId) {
-		return '<li class="forward"><a href="#" onclick="page.goTo(\'series/' + id + '\')">' + title + '</a><small class="counter"><a href="#" onclick="page.goTo(\'user/'+creatorId+'\')">' + creator + ')</a></small></li>';
+		return '<li class="forward"><a href="#" onclick="page.goTo(\'series/' + id + '\')">' + title + '</a><small class="counter"><a href="#" onclick="page.goTo(\'user/'+creatorId+'\')">' + creator + '</a></small></li>';
 	}
 }
 
@@ -25,20 +25,6 @@ $.ajax({
 		shortenTitle();
 	}
 });
-
-function getUser (id){
-	var global_data;
-	$.ajax({
-		url: "http://illution.dk/ClickThis/api/user?Id="+id,
-		type: "GET",
-		async:false,
-		success: function(data){
-			global_data = data.Users[0];
-			return;
-		}
-	});
-	return global_data;
-}
 
 // Random Shit
 $(window).load(function () {

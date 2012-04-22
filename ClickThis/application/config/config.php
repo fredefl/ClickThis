@@ -38,7 +38,7 @@ $config['pages'] = array('test','login','login/google','login/linkedin','login/t
 |--------------------------------------------------------------------------
 | Keywords/Controllers that doensn't need clickthis_security Login redirection etc 'login'
 */
-$config['keywords'] = array('verify/login','api','login','social','register','v1',"login/twitter","login/linkedin","login/facebook","login/google","login/myspace");
+$config['keywords'] = array('oauth','verify/login','api','login','social','register','v1',"login/twitter","login/linkedin","login/facebook","login/google","login/myspace");
 
 /*
 |--------------------------------------------------------------------------

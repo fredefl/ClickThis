@@ -493,9 +493,15 @@ class Api extends CI_Controller {
 		}
 	}
 
-	public function UserAuth($Id = NULL){
+	/*public function UserAuth($Id = NULL){
 		self::_Autherized_Api_Request("User",$Id);
 	}
+
+	public function AnswerTest($Id = NULL){
+		$this->api_request->Request_Data(array("UserId" => 3,"QuestionId" => 1,"Options" => array(array("OptionId" => 5,"Value" => 2))));
+		$this->api_request->Request_Method("options");
+		self::_Autherized_Api_Request("User",$Id);
+	}*/
 
 	/**
 	 * This function performs a api request that uses the new token security system
@@ -513,11 +519,12 @@ class Api extends CI_Controller {
 				$ClassName = $LibraryName."_Response";
 				$Object = new $ClassName();
 				$Object->WriteAccess = $Write_Access;
+				$Object->SecretAccess = $Secret_Access;
 				$Object->UserId = $this->api_authentication->Get("User_Id");
 				$Object->Level = $this->api_authentication->Get("Level");
 
 				//If request or search
-				if(!is_null($Id) || in_array($this->api_request->Request_Method(), array("post","put","delete","patch","head"))){
+				if(!is_null($Id) || in_array($this->api_request->Request_Method(), array("post","put","delete","patch","head","options"))){
 					switch ($this->api_request->Request_Method()) {
 							case 'get':
 								if($Object->Read($Id)){
@@ -528,8 +535,12 @@ class Api extends CI_Controller {
 								break;
 							
 							case 'post':
-								if($Object->Create($this->api_request->Request_Data())){
-									self::_Send_Response(200,NULL,$Object->Response);
+								if($Object->Create($this->api_request->Request_Data(),$this->api_authentication->Get("User_Id"))){
+									if(!is_null($Object->ResponseObject)){
+										self::_Send_Response(200,NULL,$Object->Response);
+									} else {
+										self::_Send_Response(400,NULL);
+									}
 								} else {
 									self::_Send_Response(401,NULL,NULL);
 								}
@@ -564,7 +575,11 @@ class Api extends CI_Controller {
 								break;	
 
 							case "options":
-								
+								if($Object->Options()){
+									self::_Send_Response(200,NULL,$Object->Response);
+								} else {
+									self::_Send_Response(401,NULL,NULL);
+								}
 								break;
 
 							default:
