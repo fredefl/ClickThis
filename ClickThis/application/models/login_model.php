@@ -44,7 +44,8 @@ class Login_Model extends CI_Model{
 				"Google" => $Id,
 				"Email" => $Email,
 				"RealName" => $Name,
-				"Language" => $Locale
+				"Language" => $Locale,
+				"Status" => 1
 			);
 			if(!is_null($Picture)){
 				$Data["ProfileImage"] = $Picture;
@@ -75,10 +76,40 @@ class Login_Model extends CI_Model{
 			$Data = array(
 				"LinkedIn" => (string)$Id,
 				"RealName" => $Name,
+				"Status" => 1
 			);
 			if(!is_null($Country)){
 				$Data["Country"] = $Country;
 			}
+			if(!is_null($Picture)){
+				$Data["ProfileImage"] = (string)$Picture;
+			}
+			$this->db->insert($this->config->item("api_users_table"),$Data);
+			$UserId = $this->db->insert_id();
+			return TRUE;
+		}
+	}
+
+	/**
+	 * This function either returns the id of the linked instagram user
+	 * or creates a new user based on the input
+	 * @param string $Name    The name of the user taken from Instagram
+	 * @param integer $Id      The Instagram user id
+	 * @param string $Picture A url string to the profile image of the user
+	 * @param pointer|integer &$UserId A variable to store the user id of the new or linked user
+	 * @return boolean
+	 * @since 1.0
+	 * @access public
+	 */
+	public function Instagram($Name = NULL,$Id = NULL,$Picture = NULL,&$UserId = NULL){
+		if(self::User_Exists((string)$Id,"Instagram",$UserId)){
+			return TRUE;
+		} else {
+			$Data = array(
+				"Instagram" => (string)$Id,
+				"RealName" => $Name,
+				"Status" => 1
+			);
 			if(!is_null($Picture)){
 				$Data["ProfileImage"] = (string)$Picture;
 			}
@@ -106,6 +137,7 @@ class Login_Model extends CI_Model{
 				"Github" => $Id,
 				"Email" => $Email,
 				"RealName" => $Name,
+				"Status" => 1
 			);
 			if(!is_null($Picture)){
 				$Data["ProfileImage"] = $Picture;
@@ -137,7 +169,8 @@ class Login_Model extends CI_Model{
 				"Facebook" => $Id,
 				"RealName" => $Name,
 				"Language" => $Language,
-				"Country" => $Country
+				"Country" => $Country,
+				"Status" => 1
 			);
 			if(!is_null($Email)){
 				$Data["Email"] = $Email;
@@ -166,7 +199,8 @@ class Login_Model extends CI_Model{
 			$Data = array(
 				"Twitter" => $Id,
 				"RealName" => $Name,
-				"Language" => $Language
+				"Language" => $Language,
+				"Status" => 1
 			);
 			if(!is_null($Country)){
 				$Data["Country"] = $Country;

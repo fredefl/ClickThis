@@ -365,5 +365,76 @@ class Login extends CI_Controller {
 		$this->load->config("api");
 		$this->load->view("reset_password_view",array("base_url" => base_url(),"api_url" => $this->config->item("api_host_url")));
 	}
+
+	/**
+	 * This function lets the user login with Instagram
+	 * @param string $page The current operation "auth" or "callback"
+	 * @since 1.0
+	 * @access public
+	 */
+	public function Instagram($page = "auth"){
+		$this->load->library("auth/instagram");
+		$this->load->model("login_model");
+		$Instagram = new Instagram();
+		$Instagram->client();
+		$Instagram->redirect_uri = base_url()."login/instagram/callback";
+		$Instagram->scope(array("basic"));
+		if($page !== "callback"){
+			if(!$Instagram->auth()){
+				redirect($this->config->item("login_page"));
+			}
+		} else {
+			if($Instagram->callback()){
+				$Account = $Instagram->user;
+
+				//User is logged in link the instagram account
+				if(isset($_SESSION["UserId"]) && $this->login_model->User_Exists($_SESSION["UserId"],"Id")){
+
+					//No user with that instatgram id is existing
+					if(!$this->login_model->User_Exists($Account->id,"Instagram")){
+
+						//Update the user with the Instagram Id
+						$this->login_model->Update($_SESSION["UserId"],"Instagram",$Account->id);
+
+						//Redirect the user to either the front page or to a specified callback url
+						if(isset($_SESSION["auth_link_redirect"])){
+							redirect($_SESSION["auth_link_redirect"]);
+						} else {
+							redirect($this->config->item("front_page"));
+						}
+
+					//Redirect the user, to either the front page or to a specifed callback
+					} else {
+						if(isset($_SESSION["auth_link_redirect"])){
+							$_SESSION["auth_error"] = "User exists";
+							redirect($_SESSION["auth_link_redirect"]);
+						} else {
+							$_SESSION["auth_error"] = "User exists";
+ 							redirect($this->config->item("front_page"));
+						}
+					}
+				} else {
+
+					//Get the user of the linked user or of the newly created user
+					if($this->login_model->Instagram($Account->{'full-name'},$Account->id,$Account->{'profile_picture'},$UserId)){
+
+						//The user id was set, set the $_SESSION["UserId"] to that user id, so the user now is logged in
+						if(!is_null($UserId)){
+							$_SESSION["UserId"] = $UserId;
+							redirect($this->config->item("front_page"));
+
+						//No user was found or an error occured, redirect the user to the login page
+						} else {
+							redirect($this->config->item("login_page"));
+						}
+					} else {
+						redirect($this->config->item("login_page"));
+					}
+				}
+			} else {
+				redirect($this->config->item("login_page"));
+			}
+		}
+	}
 }
 ?>
