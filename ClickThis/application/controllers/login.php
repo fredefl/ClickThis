@@ -436,5 +436,81 @@ class Login extends CI_Controller {
 			}
 		}
 	}
+
+	/**
+	 * This function let the users login and link their account with Foursquare
+	 * @param string $page The current operation "auth" or "callback"
+	 * @since 1.0
+	 * @access public
+	 */
+	public function Foursquare($page = "auth"){
+		$this->load->library("auth/foursquare");
+		$this->load->model("login_model");
+		$Foursquare = new Foursquare();
+		$Foursquare->client();
+		$Foursquare->redirect_uri = "http://illution.dk/ClickThis/login/foursquare/callback";
+		$Foursquare->web_request = false;
+		if($page !== "callback"){
+			if(!$Foursquare->auth()){
+				redirect($this->config->item("login_page"));
+			}
+		} else {
+			if($Foursquare->callback()){
+				$Account = $Foursquare->user();
+				if($Account !== false){
+					$Email = $Account->contact->email;
+					$Name = $Account->firstName." ".$Account->lastName;
+					$Id = $Account->id;
+					$Picture = $Account->photo;
+
+					//If the user is logged in and exists link the accounts else create a new account
+					if(isset($_SESSION["UserId"]) && $this->login_model->User_Exists($_SESSION["UserId"],"Id")){
+
+						//if no user with that foursquare id is existing link the accounts else return error
+						if(!$this->login_model->User_Exists($Id,"Foursquare")){
+
+							//Link the users account with foursquare
+							$this->login_model->Update($_SESSION["UserId"],"Foursquare",$Id);
+
+							//Redirect the user to either the front page or to a specified callback url
+							if(isset($_SESSION["auth_link_redirect"])){
+								redirect($_SESSION["auth_link_redirect"]);
+							} else {
+								redirect($this->config->item("front_page"));
+							}
+						} else {
+							if(isset($_SESSION["auth_link_redirect"])){
+								$_SESSION["auth_error"] = "User exists";
+								redirect($_SESSION["auth_link_redirect"]);
+							} else {
+								$_SESSION["auth_error"] = "User exists";
+	 							redirect($this->config->item("front_page"));
+							}
+						}
+					} else {
+
+						//If the creation of the account was success log the user in else redirect to the login page
+						if($this->login_model->Foursquare($Name,$Id,$Picture,$Email,$UserId)){
+							//if the user id is set, set the $_SESSION["UserId"] to that user id, so the user now is logged in else redirec to login page
+							if(!is_null($UserId) && $UserId != ""){
+								$_SESSION["UserId"] = $UserId;
+								redirect($this->config->item("front_page"));
+
+							//No user was found or an error occured, redirect the user to the login page
+							} else {
+								redirect($this->config->item("login_page"));
+							}
+						} else {
+							redirect($this->config->item("login_page"));
+						}
+					}
+				} else {
+					redirect($this->config->item("login_page"));
+				}
+			} else {
+				redirect($this->config->item("login_page"));
+			}
+		}
+	}
 }
 ?>

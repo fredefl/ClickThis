@@ -91,6 +91,39 @@ class Login_Model extends CI_Model{
 	}
 
 	/**
+	 * This function either returns gets the id of a linked accoutn
+	 * or create a new account based on Foursquare data
+	 * @param string $Name    The name of the user
+	 * @param integer $Id      The foursquare identifier
+	 * @param string $Picture The users profile picture if set
+	 * @param string $Email   The users email taken fromt foursquare
+	 * @param pointer|integer &$UserId A variable to store the returned user id
+	 * @return boolean
+	 * @since 1.0
+	 * @access public
+	 */
+	public function Foursquare($Name = NULL,$Id = NULL,$Picture = NULL,$Email = NULL,&$UserId = NULL){
+		if(self::User_Exists((string)$Id,"Foursquare",$UserId)){
+			return TRUE;
+		} else {
+			$Data = array(
+				"Foursquare" => (string)$Id,
+				"RealName" => $Name,
+				"Status" => 1
+			);
+			if(!is_null($Email)){
+				$Data["Email"] = $Email;
+			}
+			if(!is_null($Picture)){
+				$Data["ProfileImage"] = (string)$Picture;
+			}
+			$this->db->insert($this->config->item("api_users_table"),$Data);
+			$UserId = $this->db->insert_id();
+			return TRUE;
+		}
+	}
+
+	/**
 	 * This function either returns the id of the linked instagram user
 	 * or creates a new user based on the input
 	 * @param string $Name    The name of the user taken from Instagram
