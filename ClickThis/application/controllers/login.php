@@ -416,7 +416,7 @@ class Login extends CI_Controller {
 				} else {
 
 					//Get the user of the linked user or of the newly created user
-					if($this->login_model->Instagram($Account->{'full-name'},$Account->id,$Account->{'profile_picture'},$UserId)){
+					if($this->login_model->Instagram($Account->{'full_name'},$Account->id,$Account->{'profile_picture'},$UserId)){
 
 						//The user id was set, set the $_SESSION["UserId"] to that user id, so the user now is logged in
 						if(!is_null($UserId)){
