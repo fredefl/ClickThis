@@ -149,36 +149,12 @@ var seriesGenerator = {
 		}
 		// Add the html
 		$(container).html(this.generateHtml(data));
-		// Hyphenate
-		this.hyphenate(document.body);
 		// Add swipe functionality
 		this.addSwipe(container[0], data.Id.toString()); // The [0] converts the jQuery object to a DOM object
 		// Add event listeners
 		this.addListeners(container, data.Id.toString());
 		// Return
 		return true;
-	},
-
-	/**
-	 * Runs the hyphenator
-	 * @param  {object} element The element to hyphenate
-	 * @return {void}
-	 */
-	hyphenate: function (element) {
-		if (element === undefined) {
-			element = document.body;
-		}
-		// Configurate Hyphenator.js
-		Hyphenator.config({
-			displaytogglebox : true,
-			minwordlength : 4,
-			useCSS3hyphenation: true,
-			onhyphenationdonecallback : function () {
-				buttonResizer.resizeButtonsSwipe();
-			}
-		});
-		// Run the hyphenation
-		Hyphenator.run();
 	},
 
 	/**

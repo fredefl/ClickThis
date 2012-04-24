@@ -950,7 +950,7 @@ var Hyphenator = (function (window) {
 		rem = document.addEventListener ? 'removeEventListener' : 'detachEvent',
 		pre = document.addEventListener ? '' : 'on';
 		
-		if (documentLoaded && !hyphRunForThis[w.location.href]) {
+		if (!hyphRunForThis[w.location.href]) {
 			f();
 			hyphRunForThis[w.location.href] = true;
 			return;

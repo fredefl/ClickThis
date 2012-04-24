@@ -23,6 +23,7 @@ $.ajax({
 		});
 		$("#seriesContainer").hide();
 		shortenTitle();
+		Hyphenator.run();
 	}
 });
 
