@@ -879,7 +879,12 @@ var Hyphenator = (function (window) {
 			clearChanges: function () {
 				var change;
 				while (!!(change = changes.pop())) {
-					removeRule(change.sheet, change.index);
+					try {
+						removeRule(change.sheet, change.index);
+					} catch (error) {
+						
+					}
+					
 				}
 			}
 		};
