@@ -43,7 +43,7 @@ class CI_Image_lib {
 	var	$y_axis				= '';
 
 	// Watermark Vars
-	var $wm_text			= 'Illution';			// Watermark text if graphic is not used
+	var $wm_text			= '';			// Watermark text if graphic is not used
 	var $wm_type			= 'text';		// Type of watermarking.  Options:  text/overlay
 	var $wm_x_transp		= 4;
 	var $wm_y_transp		= 4;

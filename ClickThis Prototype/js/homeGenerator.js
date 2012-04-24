@@ -23,6 +23,12 @@ $.ajax({
 		});
 		$("#seriesContainer").hide();
 		shortenTitle();
+		Hyphenator.config({
+			onhyphenationdonecallback : function () {
+				buttonResizer.resizeButtonsSwipe();
+			}
+		});
+		Hyphenator.run();
 	}
 });
 
