@@ -108,6 +108,7 @@ class Google{
 
 	/**
 	 * The requested scopes
+	 * The scopes are "drive.file","userinfo.email" and "userinfo.profile"
 	 * @var array
 	 * @since 1.0
 	 * @access private
