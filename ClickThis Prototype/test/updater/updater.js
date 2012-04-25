@@ -5,7 +5,7 @@
  * Copyright (c) 2012 Illution
  *
  * @author Illution
- * @version 1.0
+ * @version 1.1
  */
 /**
  * updater Class
