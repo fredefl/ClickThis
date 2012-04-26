@@ -6,7 +6,7 @@
  *
  * @author Illution
  * @copyright This file is copyright to Illution
- * @version 1.0
+ * @version 1.1
  * @package ClickThis
  * @subpackage User
  * @requires jQuery
