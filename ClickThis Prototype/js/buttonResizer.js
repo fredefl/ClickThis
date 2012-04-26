@@ -42,6 +42,7 @@ var buttonResizer = {
 	 * @return {void}
 	 */
 	resizeButtonsSwipe: function () {
+		console.log("Resizing buttons");
 		if (page.currentPage === "series") {
 			buttonResizer.resizeButtons(window.questionSwipe[page.currentSeries.toString()].slides[window.questionSwipe[page.currentSeries.toString()].index - 1]);
 			buttonResizer.resizeButtons(window.questionSwipe[page.currentSeries.toString()].slides[window.questionSwipe[page.currentSeries.toString()].index]);
