@@ -114,7 +114,7 @@ if(window.applicationCache) {
 $("#sendingLabel").click(function () {
 	for (var i = 0; i <= 10; i++) {
 		ajaxQueue.add({
-			url: "http://illution.dk/ClickThisPrototype/ajaxQueueTest.php", 
+			url: "http://illution.dk/ClickThisPrototype/test/ajaxQueueTest.php", 
 			data: "", 
 			group: "test",
 			type: "GET"
