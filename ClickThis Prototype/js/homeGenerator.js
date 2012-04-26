@@ -87,11 +87,6 @@ $(window).load(function () {
 	});
 	$("#beaconFlashHolder").css("position","absolute").css("left","-200px");
 })
-// Page view counter
-/*if (!localStorage.pageCounter)
-	localStorage.setItem('pageCounter',0);
-//localStorage.setItem('pageCounter',parseInt(localStorage.pageCounter)+1);
-//$("#pageCount").html(localStorage.pageCounter);-*/
 // Request update
 $('#updateButton').click(function(){
 	ajaxQueue.add({
