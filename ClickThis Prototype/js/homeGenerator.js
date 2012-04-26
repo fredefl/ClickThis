@@ -90,7 +90,7 @@ $(window).load(function () {
 // Request update
 $('#updateButton').click(function(){
 	ajaxQueue.add({
-		url: "http://illution.dk/ClickThisPrototype/beaconpush.php",
+		url: "http://illution.dk/ClickThisPrototype/test/beaconpush.php",
 		data: "a=a",
 		group: "beaconpush"
 	});
