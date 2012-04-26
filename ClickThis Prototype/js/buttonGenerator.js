@@ -4,7 +4,10 @@
  *
  * Copyright (c) 2012 Illution
  *
- * @author Illution
+ * @package ClickThis
+ * @subpackage Button generator
+ * @author Illution <support@illution.dk>
+ * @license http://illution.dk/copyright © Illution 2012
  * @version 1.1
  */
 /**
@@ -18,8 +21,10 @@ var buttonGenerator = {
 	 */
 	defaultColor: "blue",
 	/**
-	 * Creates a new button
+	 * Creates a new button as HTML.
+	 * Parameters are: id, color, text, type, group, size and value.
 	 *
+	 * @static
 	 * @example
 	 * buttonGenerator.newButton({
 	 *  id: 1, // The id of the button
@@ -52,6 +57,7 @@ var buttonGenerator = {
 			json.value = 0;
 		}
 
+		// Textfield stuff
 		if (json.type === 3 || json.type === 4) {
 			currentText = '<textarea placeholder="' + json.text + '" class="textfield" spellcheck="0" lang="en" data-value="0" data-id="1" data-submitgroup="1"></textarea>';
 		} else {
@@ -69,16 +75,20 @@ var buttonGenerator = {
 		}
 
 		// Get the javascript functions
-		if (json.type === 1) {
+		if (json.type === 1) { 
+			// Multi
 			onClickFunctions += "buttonGenerator.multipleChoice(this," + textfield + ");";
 		}
-		if (json.type === 2) { // Single
+		if (json.type === 2) { 
+			// Single
 			onClickFunctions += "buttonGenerator.singleChoice(this," + textfield + ");";
 		}
-		if (json.type === 3) { // Multi Textfield
+		if (json.type === 3) { 
+			// Multi Textfield
 			cssClasses.push("textfield");
 		}
-		if (json.type === 4) { // Single Textfield
+		if (json.type === 4) { 
+			// Single Textfield
 			cssClasses.push("textfield");
 		}
 		// Special Classes
@@ -99,8 +109,9 @@ var buttonGenerator = {
 		return html;
 	},
 	/**
-	 * Changes the button's state from On to Off, or from Off to On.
+	 * Changes the button's state from On to Off or from Off to On.
 	 *
+	 * @static
 	 * @param {object} button The button that it should change state on
 	 * @param {boolean} form Boolean to set if the current element is a form element
 	 * @param {boolean} formDeselect If this parameter is set to true other form deselect options will be overruled
@@ -127,6 +138,7 @@ var buttonGenerator = {
 			}
 		}
 
+		// Textfield stuff
 		if (form && $(button).find(".textfield").val() !== "" && formDeselect !== true) {
 			if (value === "1") {
 				return;
@@ -161,19 +173,28 @@ var buttonGenerator = {
 		}
 	},
 	/**
-	 * Uncheck all buttons
+	 * Unchecks all buttons.
+	 * @static
 	 */
 	unCheckAll: function (button) {
 		var i = 0,
 			buttons = null;
+		// Find all buttons in the current question scope
 		buttons = $(button).parent().find('.button');
+		// Loop though them
 		for (i = 0; i <= buttons.length - 1; i++) {
+			// Get the button
 			button = buttons[i];
+			// Check if the button actually exists
 			if (button !== null) {
+				// If it is on
 				if (button.getAttribute("data-value") === "1") {
+					// Check if textfield
 					if ($(button).find(".textfield").length > 0) {
+						// Change the state, thus turning it off
 						this.changeState(button, true);
 					} else {
+						// Change the state, thus turning it off
 						this.changeState(button);
 					}
 				}
@@ -183,31 +204,41 @@ var buttonGenerator = {
 	/**
 	 * Single Choice button click
 	 *
+	 * @static
 	 * @param {object} button The button to perform actions on
 	 * @param {boolean} form A boolean to set if the element is a form element
 	 * @param {boolean} formDeselect If this is set to true all other form select/deselect options will be overwritten
 	 */
 	singleChoice: function (button, form, formDeselect) {
+		// Get the buttons current state
+		var value = button.getAttribute("data-value");
+		// Failure prevention
 		form = form || false;
 		formDeselect = formDeselect || false;
-		var value = button.getAttribute("data-value");
+		// If button is on
 		if (value === "1") {
+			// Uncheck all others as this is single choice
 			this.unCheckAll(button);
 		} else {
+			// Uncheck all the others
 			this.unCheckAll(button);
+			// And turn this one on
 			this.changeState(button, form, formDeselect);
 		}
 	},
 	/**
 	 * Multiple Choice button click
 	 *
+	 * @static
 	 * @param {object} button The button to perform actions on
 	 * @param {boolean} form A boolean to set if the element is a form element
 	 * @param {boolean} formDeselect If this is set to true all other form select/deselect options will be overwritten
 	 */
 	multipleChoice: function (button, form, formDeselect) {
+		// Failure prevention
 		form = form || false;
 		formDeselect = formDeselect || false;
+		// Change the state
 		this.changeState(button, form, formDeselect);
 	}
 };
