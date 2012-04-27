@@ -153,6 +153,8 @@ var seriesGenerator = {
 		this.addSwipe(container[0], data.Id.toString()); // The [0] converts the jQuery object to a DOM object
 		// Add event listeners
 		this.addListeners(container, data.Id.toString());
+		// Call ata for the textfields
+		$(".textfield").ata();
 		// Return
 		return true;
 	},

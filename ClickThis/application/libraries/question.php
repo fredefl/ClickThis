@@ -191,8 +191,8 @@ class Question extends Std_Library{
 		self::Config($this->_CI);
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("Title","SeriesId");
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
-		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id","Options");
-		$this->_INTERNAL_LOAD_FROM_CLASS = array("Options" => "Option");
+		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id","Options","Answers");
+		$this->_INTERNAL_LOAD_FROM_CLASS = array("Options" => "Option","Answers" => "Answer");
 		$this->_INTERNAL_LINK_PROPERTIES = array("Options" => array("Options",array("QuestionId" => "Id")));
 		$this->_INTERNAL_FORCE_ARRAY = array("Options");
 		$this->_INTERNAL_CONVERT_TO_BOOLEAN = array("ForceAnswer");

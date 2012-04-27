@@ -71,6 +71,15 @@ class Option extends Std_Library{
 	 */
 	public $Size = NULL;
 
+	/**
+	 * If the current user has selected this option
+	 * then this will contain the value object
+	 * @var object
+	 * @since 1.0
+	 * @access public
+	 */
+	public $Value = 0;
+
 	#### Class Setttings ####
 
 	/**
@@ -172,9 +181,43 @@ class Option extends Std_Library{
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("QuestionId","Title");
 		$this->_INTERNAL_DATABASE_NAME_CONVERT = array("OptionType" => "Type");
-		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id");
+		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id","Value");
 		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_DATABASE_NAME_CONVERT);
+	}
+
+	/**
+	 * This function adds the user id property
+	 * to the Load function so it's possible to
+	 * load the answers for a specific question
+	 * @param integer  $Id    The id of the question to load
+	 * @param boolean $Simple If the Simple load property should be turned on
+	 * @param integer  $UserId The current user
+	 * @since 1.0
+	 * @access public
+	 */
+	public function Load($Id = NULL,$Simple = false,$UserId = NULL){
+		$Return = parent::Load($Id,$Simple);
+		$this->_CI->load->library("Answer");
+		$this->_CI->load->library("Value");
+		$Answer = new Answer();
+		if(!is_null($UserId) && $UserId != "" && is_integer($UserId)){
+			$Query = array(
+				"UserId" => $UserId,
+				"QuestionId" => $this->QuestionId
+			);
+			$Query = $this->_CI->db->select("Id")->where($Query)->like("Options",";".$this->Id.";")->get($Answer->Database_Table);
+			if($Query->num_rows() > 0){
+				$Row = current($Query->result());
+				$Value = new Value();
+				if($Value->Find(array("OptionId" => $this->Id,"AnswerId" => $Row->Id))){
+					if((int)$Value->Value !== 0){
+						$this->Value = $Value->Value;
+					}
+				}
+			}
+		}
+		return $Return;
 	}
 }
 ?>

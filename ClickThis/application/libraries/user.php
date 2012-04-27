@@ -117,16 +117,6 @@ class User extends Std_Library{
 	public $UserGroup = NULL;
 
 	/**
-	 * This variable contains the state that the user lives in
-	 * @var string
-	 * @access public
-	 * @since 1.0
-	 * @example
-	 * Virginia
-	 */
-	public $State = NULL;
-
-	/**
 	 * This variable contains the ClickThis username, if the user has deffined one
 	 * @var string
 	 * @access public

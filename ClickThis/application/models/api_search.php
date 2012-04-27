@@ -134,7 +134,7 @@ class Api_Search extends CI_Model{
      * @access public
      * @since 1.0
      */
-    public function Search($Query = NULL,$ClassName = NULL,$Export = false,$Database = false,$Secure = false){
+    public function Search($Query = NULL,$ClassName = NULL,$Export = false,$Database = false,$Secure = false,$UserId = NULL){
     	if(!is_null($this->Table) && !is_null($Query)){
     		if(is_null($this->Limit)){
     			$Limit = 10;
@@ -204,7 +204,7 @@ class Api_Search extends CI_Model{
             					$Temp = NULL;
             					if(!is_null($Class)){
             						if(method_exists($Class, "Load")){
-            							$Class->Load($Row->Id);
+            							$Class->Load($Row->Id,false,$UserId);
             							if($Export && method_exists($Class, "Export")){
             								$Temp = $Class->Export($Database,$Secure);
             							} else {

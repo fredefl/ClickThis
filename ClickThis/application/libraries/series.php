@@ -70,15 +70,6 @@ class Series extends Std_Library{
 	public $State = NULL;
 
 	/**
-	 * If its a educational survey this and state property can be set.
-	 * This contains the name of the school.
-	 * @var string
-	 * @access public
-	 * @since 1.0
-	 */
-	public $School = NULL;
-
-	/**
 	 * If the series is anonymous or not
 	 * @var integer
 	 * @since 1,0
@@ -294,7 +285,6 @@ class Series extends Std_Library{
 			"TargetGroup" => "Group",
 			"TargetPeople" => "User",
 			"Questions" => "Question",
-			"School" => "School",
 			"Creator" => "User"
 		);
 		$this->_INTERNAL_FORCE_ARRAY = array(

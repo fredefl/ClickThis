@@ -158,7 +158,7 @@ class Api extends CI_Controller {
 	 * @access private
 	 * @since 1.0
 	 */
-	private function Search($Query = NULL,$Table = NULL,$ClassName = NULL,$Limit = NULL,$ArrayName = NULL,$Return = false){
+	private function Search($Query = NULL,$Table = NULL,$ClassName = NULL,$Limit = NULL,$ArrayName = NULL,$Return = false,$UserId = NULL){
 		if(!is_null($Query) && !is_null($Table)){
 			$this->load->model("Api_Search");	
 			$Search = new Api_Search();
@@ -171,7 +171,7 @@ class Api extends CI_Controller {
 			if(is_null($ArrayName)){
 				$ArrayName = $ClassName;
 			}
-			$Content = $Search->Search($Query,$ClassName,true,false,true);
+			$Content = $Search->Search($Query,$ClassName,true,false,true,$UserId);
 			if(!$Content){
 				$Code = 404;
 				$Response[$ArrayName] = array();
@@ -315,6 +315,7 @@ class Api extends CI_Controller {
 	 * @since 1.0
 	 */
 	private function Standard_API($Class = NULL,$Id = NULL,$Table = NULL,$ArrayName = NULL,$Return = false){
+		$UserId = 1;
 		if(!is_null($Class)){		
 			$this->load->library($Class);
 			$Api_Request = new Api_Request();
@@ -323,7 +324,7 @@ class Api extends CI_Controller {
 				switch ($Api_Request->Request_Method()) {
 					case 'get':
 						if($Return === false){
-							self::Perform_Get_Operation($Class,$Id);
+							self::Perform_Get_Operation($Class,$Id,NULL,false,$UserId);
 						} else {
 							return self::Perform_Get_Operation($Class,$Id,$ArrayName,true);
 						}
@@ -364,9 +365,9 @@ class Api extends CI_Controller {
 					}
 					if(count($Query) > 0){
 						if(!$Return){
-							self::Search($Query,$Table,$Class,$Limit,$ArrayName);
+							self::Search($Query,$Table,$Class,$Limit,$ArrayName,false,$UserId);
 						} else {
-							return self::Search($Query,$Table,$Class,$Limit,$ArrayName,true);
+							return self::Search($Query,$Table,$Class,$Limit,$ArrayName,true,$UserId);
 						}
 					} else {
 						self::Send_Response(400);
@@ -388,11 +389,11 @@ class Api extends CI_Controller {
 	 * @access private
 	 * @since 1.0
 	 */
-	private function Perform_Get_Operation($Class_Name = NULL,$Id = NULL,$ArrayName = NULL,$Return = false){
+	private function Perform_Get_Operation($Class_Name = NULL,$Id = NULL,$ArrayName = NULL,$Return = false,$UserId = NULL){
 		if(!is_null($Id)){
 			$Class = new $Class_Name();
 			$Class->Load($Id);
-			if($Class->Load($Id)){
+			if($Class->Load($Id,false,$UserId)){
 				if($Return === false){
 					$Data = array();
 					$Data[$Class_Name] = $Class->Export(false,true);
