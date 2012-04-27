@@ -65,7 +65,7 @@ var buttonGenerator = {
 		}
 
 		// Declare the basic CSS classes
-		cssClasses.push("mega", "button", "color-" + json.color, "size-" + size);
+		cssClasses.push("mega", "button", "color-" + (json.value ? this.defaultColor : json.color), "size-" + size);
 
 		// Check type, add the correct class
 		if (json.type === 1 || json.type === 3) {

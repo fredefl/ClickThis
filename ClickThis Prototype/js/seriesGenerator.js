@@ -99,7 +99,7 @@ var seriesGenerator = {
 				type: parseInt(option.OptionType, 10),
 				group: 1,
 				size: option.Size,
-				value: option.Value || 0
+				value: option.Value
 			});
 		}
 
