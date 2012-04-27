@@ -169,17 +169,6 @@ var buttonResizer = {
 			}
 		}
 
-		// Textfield (POSSIBLE BLOAT)
-		$("a").each(function (i, buttonElement) {
-			if ($(buttonElement).find(".textfield").length > 0) {
-				$(buttonElement).css("min-height", "65px");
-			}
-		});
-
-		if ($.fn.ata !== undefined) {
-			$(".textfield").ata();
-		}
-
 		// Return if it was a success
 		if (elementArray.length > 0) {
 			return true;

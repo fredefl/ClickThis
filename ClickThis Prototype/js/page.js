@@ -132,8 +132,11 @@ var page = {
 		// Save the element for later use
 		page.currentPageElement = $("#seriesContainer");
 		page.currentSeries = parameters[0];
+		// Swipe
+		window.questionSwipe[parameters[0]].setup();
 		// Resize buttons
 		buttonResizer.resizeButtonsSwipe();
+
 	},
 
 	/**

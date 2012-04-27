@@ -22,6 +22,12 @@ var seriesGenerator = {
 	lastSent: "",
 
 	/**
+	 * SwipeStep makes sure that the swipe callback isn't executed twice
+	 * @type {Number}
+	 */
+	swipeStep: 0,
+
+	/**
 	 * Generates the start page
 	 * @param  {string} text The the text that welcomes the user
 	 * @return {string}
@@ -92,7 +98,8 @@ var seriesGenerator = {
 				text: option.Title,
 				type: parseInt(option.OptionType, 10),
 				group: 1,
-				size: option.Size
+				size: option.Size,
+				value: option.Value
 			});
 		}
 
@@ -169,8 +176,16 @@ var seriesGenerator = {
 		// Initialize the swipe functionality
 		window.questionSwipe[id] = new Swipe(element, {
 			callback: function () {
-				setTimeout("buttonResizer.resizeButtonsSwipe();", 1);
-				setTimeout("seriesGenerator.sendQuestion(window.questionSwipe[" + id.toString() + "].slides[window.questionSwipe[" + id.toString() + "].index - 1]);", 1);
+				// Increment the swipestep, read in the variable decleration to learn more
+				seriesGenerator.swipeStep++;
+				// Check that it is the last step
+				if (seriesGenerator.swipeStep == 2) {
+					// Execute commands here
+					setTimeout("buttonResizer.resizeButtonsSwipe();", 1);
+					setTimeout("seriesGenerator.sendQuestion(window.questionSwipe[" + id.toString() + "].slides[window.questionSwipe[" + id.toString() + "].index - 1]);", 1);
+					// Reset the swipestep
+					seriesGenerator.swipeStep = 0;
+				}
 			}
 		});
 	},
@@ -199,7 +214,6 @@ var seriesGenerator = {
 	sendQuestion: function (element) {
 		var data,
 			json;
-
 		// If it isn't a question, fuck it!
 		if (!$(element).hasClass("question")) {
 			return false;

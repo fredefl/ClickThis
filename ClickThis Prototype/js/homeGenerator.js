@@ -25,7 +25,7 @@ $.ajax({
 		shortenTitle();
 		Hyphenator.config({
 			onhyphenationdonecallback : function () {
-				buttonResizer.resizeButtonsSwipe();
+				setTimeout("buttonResizer.resizeButtonsSwipe();", 1);
 			}
 		});
 		Hyphenator.run();
@@ -87,15 +87,10 @@ $(window).load(function () {
 	});
 	$("#beaconFlashHolder").css("position","absolute").css("left","-200px");
 })
-// Page view counter
-/*if (!localStorage.pageCounter)
-	localStorage.setItem('pageCounter',0);
-//localStorage.setItem('pageCounter',parseInt(localStorage.pageCounter)+1);
-//$("#pageCount").html(localStorage.pageCounter);-*/
 // Request update
 $('#updateButton').click(function(){
 	ajaxQueue.add({
-		url: "http://illution.dk/ClickThisPrototype/beaconpush.php",
+		url: "http://illution.dk/ClickThisPrototype/test/beaconpush.php",
 		data: "a=a",
 		group: "beaconpush"
 	});
@@ -119,7 +114,7 @@ if(window.applicationCache) {
 $("#sendingLabel").click(function () {
 	for (var i = 0; i <= 10; i++) {
 		ajaxQueue.add({
-			url: "http://illution.dk/ClickThisPrototype/ajaxQueueTest.php", 
+			url: "http://illution.dk/ClickThisPrototype/test/ajaxQueueTest.php", 
 			data: "", 
 			group: "test",
 			type: "GET"

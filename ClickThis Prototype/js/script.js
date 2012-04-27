@@ -31,12 +31,7 @@ $(document).ready(function () {
 
 $(window).resize(function (e) {
 	shortenTitle();
-	try {
-		Hyphenator.run();
-	} catch (error) {
-		// Hello there
-	}
-	
+	Hyphenator.run();
 	buttonResizer.resizeButtonsSwipe();
 });
 
