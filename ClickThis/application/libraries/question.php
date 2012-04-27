@@ -5,7 +5,7 @@
  * @license http://illution.dk/copyright © Illution 2012
  * @subpackage Question
  * @category Surveys
- * @version 1.0
+ * @version 1.1
  * @author Illution <support@illution.dk>
  * @todo Load up the options and answers if available
  */ 
@@ -59,6 +59,15 @@ class Question extends Std_Library{
 	 * @access public
 	 */
 	public $ViewOrder = NULL;
+
+	/**
+	 * This property determine if the user
+	 * is going to be forced to answer a question
+	 * @var boolean
+	 * @since 1.0
+	 * @access public
+	 */
+	public $ForceAnswer = NULL;
 
 	#### Class Setttings ####
 
@@ -186,6 +195,7 @@ class Question extends Std_Library{
 		$this->_INTERNAL_LOAD_FROM_CLASS = array("Options" => "Option");
 		$this->_INTERNAL_LINK_PROPERTIES = array("Options" => array("Options",array("QuestionId" => "Id")));
 		$this->_INTERNAL_FORCE_ARRAY = array("Options");
+		$this->_INTERNAL_CONVERT_TO_BOOLEAN = array("ForceAnswer");
 		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 	}
 }

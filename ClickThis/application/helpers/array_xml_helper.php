@@ -45,7 +45,11 @@ function array_to_xml($data = NULL, $rootNodeName = 'response', $xml=null)
 			else 
 			{
 				// add single node.
-	                            $value = htmlentities($value);
+                            	if(is_bool($value)){
+                            		$value = (int) $value;
+                            	}
+                            	$value = htmlentities($value);
+
 				$xml->addChild($key,$value);
 			}
 
