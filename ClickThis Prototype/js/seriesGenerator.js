@@ -98,7 +98,8 @@ var seriesGenerator = {
 				text: option.Title,
 				type: parseInt(option.OptionType, 10),
 				group: 1,
-				size: option.Size
+				size: option.Size,
+				value: option.Value || 0
 			});
 		}
 
