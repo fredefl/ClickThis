@@ -441,8 +441,6 @@ class Api extends CI_Controller {
 		header('Content-type: ' . $Content_Type);
 		header("Date:".time());
 		header("Access-Control-Allow-Origin: *");
-		header("X-Content-Type-Options: nosniff");
-		header("X-XSS-Protection: 1; mode=block");
 		header('Allow: ' . implode(", ", array("POST","GET","PUT","DELETE","HEAD","PATCH","OPTIONS")), true, 200);
 		if(is_null($Content) && $Code != 200){
 			$Error = array("error_message" => $this->api_request->Get_Message($Code),"error_code" => $Code);
