@@ -42,12 +42,16 @@ document.addEventListener("orientationChanged", function () {
 window.questionSwipe = {};
 
 $(document).keydown(function(e){
-    if (e.keyCode == 37) { 
-       window.questionSwipe[page.currentSeries.toString()].prev();
-       return false;
-    }
-    if (e.keyCode == 39) {
-    	window.questionSwipe[page.currentSeries.toString()].next();
-    	return false;
-    }
+	if (e.keyCode == 37) { 
+		if (page.currentPage === "series") {
+			window.questionSwipe[page.currentSeries.toString()].prev();
+			return false;
+		}
+	}
+	if (e.keyCode == 39) {
+		if (page.currentPage === "series") {
+			window.questionSwipe[page.currentSeries.toString()].next();
+			return false;
+		}
+	}
 });

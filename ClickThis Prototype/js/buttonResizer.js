@@ -46,6 +46,9 @@ var buttonResizer = {
 			buttonResizer.resizeButtons(window.questionSwipe[page.currentSeries.toString()].slides[window.questionSwipe[page.currentSeries.toString()].index - 1]);
 			buttonResizer.resizeButtons(window.questionSwipe[page.currentSeries.toString()].slides[window.questionSwipe[page.currentSeries.toString()].index]);
 			buttonResizer.resizeButtons(window.questionSwipe[page.currentSeries.toString()].slides[window.questionSwipe[page.currentSeries.toString()].index + 1]);
+			return true;
+		} else {
+			return false;
 		}
 	},
 
@@ -76,12 +79,7 @@ var buttonResizer = {
 			paddingAddition = 0;
 
 		// Find all buttons in element and stuff them into the array
-		$(element).find('.button.mega').each(function (index, element) {
-			// Remove padding and top
-			$(element).removeAttr('style');
-			// Add the element to the array
-			elementArray[index] = element;
-		});
+		elementArray = $(element).find('.button.mega').toArray();
 
 		// If the is buttons
 		if (elementArray.length > 0) {
@@ -91,6 +89,8 @@ var buttonResizer = {
 			for (i = elementArrayLength - 1; i >= 0; i--) {
 				// Define current element
 				element = elementArray[i];
+				// Remove styles
+				$(element).removeAttr('style');
 				// Get element height
 				if ($(element).height() === 0 || $(element).height() === undefined || $(element).height() === null) {
 					// Remove element if it has no height
