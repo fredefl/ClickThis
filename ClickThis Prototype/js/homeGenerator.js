@@ -25,7 +25,7 @@ $.ajax({
 		shortenTitle();
 		Hyphenator.config({
 			onhyphenationdonecallback : function () {
-				buttonResizer.resizeButtonsSwipe();
+				setTimeout("buttonResizer.resizeButtonsSwipe();", 1);
 			}
 		});
 		Hyphenator.run();

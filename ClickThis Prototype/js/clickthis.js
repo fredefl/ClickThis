@@ -23,36 +23,38 @@ function isset(data) {
 * Shortens the titles of the list elements in the series div.
 */
 function shortenTitle() {
-	$('#series').find('.forward').each(function (index, element) {
-		// Get the title
-		var title = $(element).find('a:first'),
-			titleContents = null,
-			author = null,
-			titleWidth = null,
-			authorWidth = null,
-			titleMaxWidth = null,
-			maxChars = null,
-			maxRealChars = null,
-			currentChars = null;
-		// Get the title contents or the data attribute content
-		if ($(title).attr("data-title")) {
-			titleContents = $(title).attr("data-title");
-		} else {
-			titleContents = $(title).html();
-			$(title).attr("data-title", titleContents);
-		}
-		// Get the author
-		author = $(element).find('small');
-		titleWidth = $(title).width();
-		authorWidth = $(author).width();
-		titleMaxWidth = titleWidth - authorWidth;
-		maxChars = titleMaxWidth / 9;
-		maxRealChars = maxChars - 4;
-		currentChars = titleContents.length;
-		if (currentChars > maxRealChars) {
-			$(title).html(titleContents.substring(0, maxRealChars) + "...");
-		} else {
-			$(title).html(titleContents);
-		}
-	});
+	if (page.currentPage === 'home') {
+		$('#series').find('.forward').each(function (index, element) {
+			// Get the title
+			var title = $(element).find('a:first'),
+				titleContents = null,
+				author = null,
+				titleWidth = null,
+				authorWidth = null,
+				titleMaxWidth = null,
+				maxChars = null,
+				maxRealChars = null,
+				currentChars = null;
+			// Get the title contents or the data attribute content
+			if ($(title).attr("data-title")) {
+				titleContents = $(title).attr("data-title");
+			} else {
+				titleContents = $(title).html();
+				$(title).attr("data-title", titleContents);
+			}
+			// Get the author
+			author = $(element).find('small');
+			titleWidth = $(title).width();
+			authorWidth = $(author).width();
+			titleMaxWidth = titleWidth - authorWidth;
+			maxChars = titleMaxWidth / 9;
+			maxRealChars = maxChars - 4;
+			currentChars = titleContents.length;
+			if (currentChars > maxRealChars) {
+				$(title).html(titleContents.substring(0, maxRealChars) + "...");
+			} else {
+				$(title).html(titleContents);
+			}
+		});
+	}
 }

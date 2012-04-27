@@ -85,9 +85,6 @@ Swipe.prototype = {
 	// hide slider element but keep positioning during setup
 	this.container.style.visibility = 'hidden';
 
-	//Test
-	this.width = this.width;
-
 	// dynamic css
 	this.element.style.width = (this.slides.length * this.width) + 'px';
 	var index = this.slides.length;
