@@ -1,15 +1,15 @@
 /**
- * ClickThis User page Class
+ * ClickThis User Generator
  * http://illution.dk
  *
- * Copyright Illution (c) 2012 
+ * Copyright (c) 2012 Illution
  *
- * @author Illution
- * @copyright This file is copyright to Illution
- * @version 1.1
+ * @author Illution <support@illution.dk>
  * @package ClickThis
- * @subpackage User
+ * @subpackage User Generator
+ * @copyright http://illution.dk/copyright
  * @requires jQuery
+ * @version 1.1
  */
 /**
  * user Class

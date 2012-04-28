@@ -2,15 +2,15 @@
  * ClickThis AjaxQueue
  * http://illution.dk
  *
- * Copyright Illution (c) 2012 
+ * Copyright (c) 2012 Illution 
  *
- * @author Illution
- * @copyright This file is copyright to Illution
- * @version 1.1
+ * @author Illution <support@illution.dk>
  * @package ClickThis
- * @subpackage AjaxQueue
+ * @subpackage Ajax Queue
+ * @copyright http://illution.dk/copyright
  * @requires jQuery
  * @requires JSON
+ * @version 1.1
  */
 /**
  * ajaxQueue Class

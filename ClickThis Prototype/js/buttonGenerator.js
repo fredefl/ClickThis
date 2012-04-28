@@ -1,13 +1,13 @@
 /**
- * ClickThis buttons
+ * ClickThis Button Generator
  * http://illution.dk
  *
  * Copyright (c) 2012 Illution
  *
+ * @author Illution <support@illution.dk>
  * @package ClickThis
  * @subpackage Button generator
- * @author Illution <support@illution.dk>
- * @license http://illution.dk/copyright © Illution 2012
+ * @copyright http://illution.dk/copyright
  * @version 1.1
  */
 /**
