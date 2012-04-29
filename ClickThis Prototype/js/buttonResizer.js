@@ -1,10 +1,14 @@
 /**
- * ClickThis button resizer
+ * ClickThis Button Resizer
  * http://illution.dk
  *
  * Copyright (c) 2012 Illution
  *
- * @author Illution
+ * @author Illution <support@illution.dk>
+ * @package ClickThis
+ * @subpackage Button resizer
+ * @copyright http://illution.dk/copyright
+ * @requires jQuery
  * @version 1.1
  */
 /**
@@ -13,6 +17,31 @@
  */
 "use strict";
 var buttonResizer = {
+	/**
+	 * This class is using predefined measurements on buttons, here's the deal:
+	 * Desktop:	
+	 *  One size up:
+	 *   padding: 52px 0 52px 0;
+	 *   top: -32;
+	 *  Two sizes up:
+	 *   padding: 84px 0 84px 0;
+	 *   top: -64;
+	 *  Algo:
+	 *   padding = 20 + (32*n)
+	 *   top = -32*n
+	 * 
+	 * Mobile:
+	 *  One size up:
+	 *   padding: 23px 0 23px 0;
+	 *   top: -13px;
+	 * 
+	 *  Two sizes up:
+	 *   padding: 36px 0 36px 0;
+	 *   top: 26px;
+	 *  Algo:
+	 *   padding = 10 + (13*n)
+	 *   top = -13 * n
+	 */
 	/**
 	 * The initial height of a button when padding should be added.
 	 * THIS IS NOT THE STANDARD BUTTON HEIGHT!!!

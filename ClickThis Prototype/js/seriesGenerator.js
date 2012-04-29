@@ -1,10 +1,14 @@
 /**
- * ClickThis series generator
+ * ClickThis Series Generator
  * http://illution.dk
  *
  * Copyright (c) 2012 Illution
  *
- * @author Illution
+ * @author Illution <support@illution.dk>
+ * @package ClickThis
+ * @subpackage Series Generator
+ * @copyright http://illution.dk/copyright
+ * @requires jQuery
  * @version 1.1
  */
 /**

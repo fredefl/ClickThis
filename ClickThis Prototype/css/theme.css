@@ -81,7 +81,7 @@ body {
 #page ul {
 	color: #aaa;
 	border: 0px solid #000;
-	font: bold 18px "Helvetica Neue", Helvetica;
+	font: bold 18px Arial, "Helvetica Neue", Helvetica;
 	padding: 0;
 	margin: 15px 10px 17px 10px;
 }
@@ -239,6 +239,7 @@ body {
 	padding: 0 15px;
 }
 #page ul li small.counter {
+	height: 17px;
 	font-size: 17px;
 	line-height: 13px;
 	font-weight: bold;
@@ -248,7 +249,7 @@ body {
 	padding: 3px 10px 4px 10px;
 	display: block;
 	width: auto;
-	margin-top: -22px;
+	margin-top: -25px;
 	box-shadow: rgba(255,255,255,.1) 0 1px 0;
 }
 #page ul li.arrow small.counter {
