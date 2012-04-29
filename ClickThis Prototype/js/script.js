@@ -58,27 +58,6 @@ $(document).keydown(function(e){
 
 // Random Shit
 $(window).load(function () {
-	ajaxQueue.registerCallback({type:"onStatusCodeChange"}, function () {
-		var statusCode = ajaxQueue.getStatusCode();
-		var notification = $("#notification");
-		$("#notificationCount").html(ajaxQueue.getQueueLength());
-		if(statusCode === 0 && notification.css("heigth") !== 0) {
-			notification.animate({
-				height: "0px"
-			}, 500,function () {
-				notification.hide();
-			});
-		}
-		if(statusCode !== 0 && notification.css("heigth") !== 45) {
-			$(notification).show();
-			$(notification).animate({
-				height: "45px"
-			}, 500);  
-		}
-	});
-	ajaxQueue.registerCallback({type: "onQueueLengthChange"}, function () {
-		$("#notificationCount").html(ajaxQueue.getQueueLength());
-	});
 	ajaxQueue.load();
 	ajaxQueue.executeTasks();
 	ajaxQueue.setConfig({ajaxTimeout: 6000})
@@ -121,7 +100,7 @@ $('#updateButton').click(function(){
 	ajaxQueue.executeTasks();
 });
 if(window.applicationCache) {
-	cache = window.applicationCache;
+	var cache = window.applicationCache;
 	cache.addEventListener('cached', function() {
 		$('#chacheStatus').html('Cache status: Cached').css('color','#119911');
 	}, false);
