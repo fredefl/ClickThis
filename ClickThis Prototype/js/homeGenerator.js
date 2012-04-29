@@ -1,124 +1,94 @@
 var homeGenerator = {
+	/**
+	 * Creates a new series button in home
+	 * @param  {string} title     The title of the series
+	 * @param  {string} id        The id of the series
+	 * @param  {string} creator   The creator of the series' name
+	 * @param  {string} creatorId The creator of the series' id
+	 * @return {string}           The HTML of the the series button
+	 */
 	newSeries: function (title, id, creator,creatorId) {
 		return '<li class="forward"><a href="#" onclick="page.goTo(\'series/' + id + '\')">' + title + '</a><small class="counter"><a href="#" onclick="page.goTo(\'user/'+creatorId+'\')">' + creator + '</a></small></li>';
-	}
-}
+	},
 
-$.ajax({
-	url: "http://illution.dk/ClickThis/api/series?ShareType=1",
-	type: "GET",
-	success: function(data){
+	/**
+	 * Generates a complete series, that is, adding button to home, adding the series html, and configuring/running swipe and Hyphenation.
+	 * @param  {JSON} data The series data to parse
+	 * @return {void}
+	 */
+	generate: function (data) {
+		// Show the series container so swipe can run
 		$("#seriesContainer").show();
+		// Loop through all the series
 		$(data.Series).each(function(index,element){
+			// A the series to home
 			$("#series").append(homeGenerator.newSeries(
 				element.Title,
 				element.Id, 
 				element.Creator.Name, 
 				element.Creator.Id
 			));
+			// Add the div that should contain the series
 			$("#seriesContainer").append('<div id="series_' + element.Id + '"></div>');
+			// Generate the series
 			seriesGenerator.generate(element, $("#series_" + element.Id));
+			// Add some swipe magic
 			seriesGenerator.addSwipe($("#series_" + element.Id)[0], element.Id);
+			// Hide the series again
 			$("#series_" + element.Id).hide();
 		});
+		// Hide the series container again
 		$("#seriesContainer").hide();
-		shortenTitle();
+		// Shorten titles on home
+		homeGenerator.shortenTitles();
+		// Configure Hyphenator.js
 		Hyphenator.config({
 			onhyphenationdonecallback : function () {
 				setTimeout("buttonResizer.resizeButtonsSwipe();", 1);
 			}
 		});
+		// Run the hyphenation
 		Hyphenator.run();
-	}
-});
+	},
 
-// Random Shit
-$(window).load(function () {
-	ajaxQueue.registerCallback({type:"onStatusCodeChange"}, function () {
-		var statusCode = ajaxQueue.getStatusCode();
-		var notification = $("#notification");
-		$("#notificationCount").html(ajaxQueue.getQueueLength());
-		if(statusCode === 0 && notification.css("heigth") !== 0) {
-			notification.animate({
-				height: "0px"
-			}, 500,function () {
-				notification.hide();
+	/**
+	 * Shorten titles in home
+	 * @return {void}
+	 */
+	shortenTitles: function () {
+		if (page.currentPage === 'home') {
+			$('#series').find('.forward').each(function (index, element) {
+				// Get the title
+				var title = $(element).find('a:first'),
+					titleContents = null,
+					author = null,
+					titleWidth = null,
+					authorWidth = null,
+					titleMaxWidth = null,
+					maxChars = null,
+					maxRealChars = null,
+					currentChars = null;
+				// Get the title contents or the data attribute content
+				if ($(title).attr("data-title")) {
+					titleContents = $(title).attr("data-title");
+				} else {
+					titleContents = $(title).html();
+					$(title).attr("data-title", titleContents);
+				}
+				// Get the author
+				author = $(element).find('small');
+				titleWidth = $(title).width();
+				authorWidth = $(author).width();
+				titleMaxWidth = titleWidth - authorWidth;
+				maxChars = titleMaxWidth / 9;
+				maxRealChars = maxChars - 4;
+				currentChars = titleContents.length;
+				if (currentChars > maxRealChars) {
+					$(title).html(titleContents.substring(0, maxRealChars) + "...");
+				} else {
+					$(title).html(titleContents);
+				}
 			});
 		}
-		if(statusCode !== 0 && notification.css("heigth") !== 45) {
-			$(notification).show();
-			$(notification).animate({
-				height: "45px"
-			}, 500);  
-		}
-	});
-	ajaxQueue.registerCallback({type: "onQueueLengthChange"}, function () {
-		$("#notificationCount").html(ajaxQueue.getQueueLength());
-	});
-	ajaxQueue.load();
-	ajaxQueue.executeTasks();
-	ajaxQueue.setConfig({ajaxTimeout: 6000})
-	ajaxQueue.registerCallback({group: "beaconpush", type: "onSuccess"},function () {
-		console.log('Notification sent!');
-	});
-	ajaxQueue.registerCallback({type: "onQueueLengthChange"}, function () {
-		var queueLength = ajaxQueue.getQueueLength();
-		if(queueLength > 0) {
-			$("#sendingCounter").html(queueLength);
-			$("#sendingLabel > a").html("Sending data");
-		} else {
-			$("#sendingLabel > a").html("Send data");
-			$("#sendingCounter").html("0");
-		}
-	});
-	var queueLength = ajaxQueue.getQueueLength();
-	if(queueLength > 0) {
-		$("#sendingCounter").html(queueLength);
-		$("#sendingLabel > a").html("Sending data");
-	} else {
-		$("#sendingLabel > a").html("Send data");
-		$("#sendingCounter").html("0");
 	}
-	// ESN Beaconpush test
-	Beacon.connect('ed02c2f4', ['mychannel']);
-	Beacon.listen(function (data) {
-		setTimeout('$("#toolbarTitle").css("-webkit-transform","rotate(360deg)")',1000);
-		setTimeout('$("#toolbarTitle").css("-webkit-transform","rotate(0deg)")',2000);
-	});
-	$("#beaconFlashHolder").css("position","absolute").css("left","-200px");
-})
-// Request update
-$('#updateButton').click(function(){
-	ajaxQueue.add({
-		url: "http://illution.dk/ClickThisPrototype/test/beaconpush.php",
-		data: "a=a",
-		group: "beaconpush"
-	});
-	ajaxQueue.executeTasks();
-});
-if(window.applicationCache) {
-	cache = window.applicationCache;
-	cache.addEventListener('cached', function() {
-		$('#chacheStatus').html('Cache status: Cached').css('color','#119911');
-	}, false);
-	cache.addEventListener('noupdate', function() {
-		$('#chacheStatus').html('Cache status: Cached').css('color','#119911');
-	}, false);
-	cache.addEventListener('downloading', function() {
-		$('#chacheStatus').html('Cache status: Downloading').css('color','#999911');
-	}, false);
-	cache.addEventListener('error', function() {
-		$('#chacheStatus').html('Cache status: Error').css('color','#991111');
-	}, false);
-};
-$("#sendingLabel").click(function () {
-	for (var i = 0; i <= 10; i++) {
-		ajaxQueue.add({
-			url: "http://illution.dk/ClickThisPrototype/test/ajaxQueueTest.php", 
-			data: "", 
-			group: "test",
-			type: "GET"
-		});
-	}
-	ajaxQueue.executeTasks();
-})
+}
