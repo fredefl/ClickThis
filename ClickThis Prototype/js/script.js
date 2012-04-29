@@ -59,7 +59,7 @@ document.addEventListener("orientationChanged", function () {
 
 // Get the series
 $.ajax({
-	url: "http://illution.dk/ClickThis/api/series?ShareType=1",
+	url: (location.protocol === 'https:' ? "https" : "http") + "://illution.dk/ClickThis/api/series?ShareType=1",
 	type: "GET",
 	success: function(data){
 		homeGenerator.generate(data);
@@ -113,12 +113,14 @@ $(window).load(function () {
 		$("#sendingCounter").html("0");
 	}
 	// ESN Beaconpush test
-	Beacon.connect('ed02c2f4', ['mychannel']);
-	Beacon.listen(function (data) {
-		setTimeout('$("#toolbarTitle").css("-webkit-transform","rotate(360deg)")',1000);
-		setTimeout('$("#toolbarTitle").css("-webkit-transform","rotate(0deg)")',2000);
-	});
-	$("#beaconFlashHolder").css("position","absolute").css("left","-200px");
+	if (location.protocol !== 'https:') {
+		Beacon.connect('ed02c2f4', ['mychannel']);
+		Beacon.listen(function (data) {
+			setTimeout('$("#toolbarTitle").css("-webkit-transform","rotate(360deg)")',1000);
+			setTimeout('$("#toolbarTitle").css("-webkit-transform","rotate(0deg)")',2000);
+		});
+		$("#beaconFlashHolder").css("position","absolute").css("left","-200px");
+	}
 })
 // Request update
 $('#updateButton').click(function(){
