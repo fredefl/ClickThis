@@ -1,7 +1,7 @@
 /* Tablet and Computer */
 @media all and (min-width: 768px) {
 	/* Button */
-	.button, .button:visited {
+	.button {
 		/* Borders */
 		border-radius:10px;
 		-moz-border-radius:10px; 
@@ -11,13 +11,13 @@
 	}
 
 	/* Mega Button */								  
-	.mega.button, .mega.button:visited {
+	.mega.button {
 		font-size: 4em;
 		padding: 20px 0 20px 0;
 	}
 		
 	/* Halfsize Button */						
-	.size-2.button, .size-2.button:visited {
+	.size-2.button {
 		width:43.3%;
 		left:2.5%; 
 		margin-left:3%;
@@ -26,7 +26,7 @@
 	}
 	
 	/* Fullsize Button */
-	.size-1.button, .size-1.button:visited {
+	.size-1.button {
 		width:90%;
 		left:2.5%; 
 		margin-left:3%;
@@ -38,7 +38,7 @@
 /* Phones */
 @media all and (max-width: 767px) {
 	/* Button */
-	.button, .button:visited {
+	.button {
 		/* Borders */
 		border-radius:5px;
 		-moz-border-radius:5px; 
@@ -47,12 +47,12 @@
 		-o-border-radius:5px;
 	}
 	/* Mega Button */								  
-	.mega.button, .mega.button:visited {
+	.mega.button {
 		font-size: 1.6em;
 		padding: 10px 0 10px 0;
 	}
 	/* Mobile Button */						
-	.size-2.button, .size-2.button:visited {
+	.size-2.button {
 		width:45%;
 		left:2%; 
 		margin-left:2%;
@@ -61,7 +61,7 @@
 	}
 	
 	/* Fullsize Button */
-	.size-1.button, .size-1.button:visited {
+	.size-1.button {
 		width:92%;
 		left:2%; 
 		margin-left:2%;
@@ -73,7 +73,7 @@
 /* General */
 
 /* Button */
-.button, .button:visited {
+.button {
 	/* Background */	
 	/*background: #222 url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAyCAQAAAA38nkBAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAACFJREFUCNdj+O/AxPAfjBhgDDj6h8EmSP4jWjGmFQhnAAAvpzBjYnpesAAAAABJRU5ErkJggg%3D%3D) repeat-x;
 	*//* General */
@@ -127,7 +127,7 @@
 /* Colors & Glow */
 
 /* Pink */
-.color-pink.button, .color-pink.button:visited {
+.color-pink.button{
 	background-color: #e22092;
 }
 .glow.color-pink.button {
@@ -137,7 +137,7 @@
 }
 	
 /* Green */
-.color-green.button, .color-green.button:visited {
+.color-green.button {
 	background-color: #91bd09;
 }
 .glow.color-green.button {
@@ -146,7 +146,7 @@
 	-webkit-box-shadow: 0px 0px 30px #91bd09;
 }
 /* Red */ 
-.color-red.button, .color-red.button:visited {
+.color-red.button {
 	background-color: #e62727;
 }
 .glow.color-red.button {
@@ -156,7 +156,7 @@
 }
 
 /* Orange */
-.color-orange.button, .color-orange.button:visited {
+.color-orange.button {
 	background-color: #ff5c00;
 }
 .glow.color-orange.button {
@@ -166,7 +166,7 @@
 }
 	
 /* Blue */
-.color-blue.button, .color-blue.button:visited { 
+.color-blue.button { 
 	background-color: #2981e4; 
 }
 .glow.color-blue.button {
@@ -176,7 +176,7 @@
 }	
 
 /* Yellow */
-.color-yellow.button, .color-yellow.button:visited {
+.color-yellow.button {
 	background-color: #ffb515;
 }
 .glow.color-yellow.button {
@@ -186,7 +186,7 @@
 }
 	
 /* Black */
-.color-black.button, .color-black.button:visited {
+.color-black.button {
 	background-color: #000000;
 }
 .glow.color-black.button {
@@ -196,7 +196,7 @@
 }
 	
 /* Gray */
-.color-gray.button, .color-gray.button:visited {
+.color-gray.button {
 	background-color: #5D5D5D;
 }
 .glow.color-gray.button {
@@ -206,7 +206,7 @@
 }
 
 /* White */
-.color-white.button, .color-white.button:visited {
+.color-white.button {
 	background-color: #FFFFFF;
 	color:#D1D1D1;
 }
@@ -217,7 +217,7 @@
 }
 	
 /* Purple */
-.color-purple.button, .color-purple.button:visited {
+.color-purple.button {
 	background-color: #C0C;
 }
 .glow.color-purple.button {
@@ -227,7 +227,7 @@
 }
 	
 /* Brown */	
-.color-brown.button, .color-brown.button:visited {
+.color-brown.button {
 	background-color: #630;
 }
 .glow.color-brown.button {
@@ -237,7 +237,7 @@
 }
 	
 /* Gold */	
-.color-gold.button, .color-gold.button:visited {
+.color-gold.button {
 	background-color: #D4A017;
 }
 .glow.color-gold.button {
@@ -247,7 +247,7 @@
 }
 	
 /* Cyan */	
-.color-cyan.button, .color-cyan.button:visited {
+.color-cyan.button {
 	background-color: #00FFFF;
 }
 .glow.color-cyan.button {
@@ -257,7 +257,7 @@
 }
 	
 /* Lime */	
-.color-lime.button, .color-lime.button:visited {
+.color-lime.button {
 	background-color: #00FF00;
 }
 .glow.color-lime.button {
@@ -267,7 +267,7 @@
 }
 	
 /* Silver */	
-.color-silver.button, .color-silver.button:visited {
+.color-silver.button {
 	background-color: #C0C0C0;
 }
 .glow.color-silver.button {
@@ -277,7 +277,7 @@
 }
 	
 /* Maroon */	
-.color-maroon.button, .color-maroon.button:visited {
+.color-maroon.button {
 	background-color: #800000;
 }
 .glow.color-maroon.button {
@@ -287,7 +287,7 @@
 }
 
 /* Olive */	
-.color-olive.button, .color-olive.button:visited {
+.color-olive.button {
 	background-color: #808000;
 }
 .glow.color-olive.button {
