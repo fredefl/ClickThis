@@ -263,7 +263,7 @@ var seriesGenerator = {
 		if (data.Answer.Options.length > 0 && json !== seriesGenerator.lastSent) {
 			// Add to ajaxQueue
 			ajaxQueue.add({
-				url: "http://illution.dk/ClickThis/api/answer/",
+				url: (location.protocol === 'https:' ? "https" : "http") + "://illution.dk/ClickThis/api/answer/",
 				type: "POST",
 				data: json,
 				group: "answers"
