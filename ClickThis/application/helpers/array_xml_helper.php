@@ -25,6 +25,9 @@ function array_to_xml($data = NULL, $rootNodeName = 'response', $xml=null)
 		// loop through the data passed in.
 		foreach($data as $key => $value)
 		{
+			if(is_object($value)){
+				$value = get_object_vars($value);
+			}
 			// no numeric keys in our xml please!
 			if (is_numeric($key))
 			{
