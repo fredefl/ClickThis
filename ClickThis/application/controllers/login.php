@@ -10,11 +10,106 @@ class Login extends CI_Controller {
 	public function index() {
 		if(!isset($_SESSION['UserId'])) {
 			$this->load->view('login_view',array("base_url" => base_url(),"cdn_url" => $this->config->item("cdn_url")));
-		} else {
+		} else if($_SESSION["check_topt"] !== true || isset($_SESSION['UserId'])){
 			redirect($this->config->item("front_page"));	
+		} else {
+			redirect("login/two_step");
 		}
-
 	}
+
+	/**
+	 * This function is called each time a user is going to have the login screen shown
+	 * @since 1.0
+	 * @access public
+	 */
+	public function __construct(){
+		parent::__construct();
+		if(!isset($_SESSION["two_step_confirmed"]) || $_SESSION["two_step_confirmed"] !== "yes"){
+			$_SESSION["check_topt"] = true;
+		}
+ 	}
+
+ 	/**
+ 	 * This function loads the topt view if the user is going to have it shown
+ 	 * @since 1.0
+ 	 * @access public
+ 	 */
+ 	public function two_step(){
+ 		if(isset($_SESSION["UserId"]) && $_SESSION["check_topt"] === true){
+ 			$this->load->view("topt_view",array("base_url" => base_url()));
+ 		} else if(!isset($_SESSION["UserId"])){
+ 			redirect("login");
+ 		} else {
+ 			redirect($this->config->item("front_page"));
+ 		}
+ 	}
+
+ 	/**
+ 	 * This function checks if the posted TOPT key is correct
+ 	 * @since 1.0
+ 	 * @access public
+ 	 */
+ 	public function check_topt(){
+ 		if(isset($_SESSION["UserId"]) && $_SESSION["check_topt"] === true){
+ 			if($this->input->post("key",TRUE) && (isset($_SESSION["two_step_tries"]) && $_SESSION["two_step_tries"] < 3 || !isset($_SESSION["two_step_tries"]))){
+ 				$Key = $this->input->post("key",TRUE);
+ 				if($Key == self::_Get_TOPT()){
+ 					$_SESSION["check_topt"] = false;
+ 					$_SESSION["two_step_confirmed"] = "yes";
+ 					redirect($this->config->item("front_page"));
+ 				} else {
+ 					if(isset($_SESSION["two_step_tries"])){
+ 						$_SESSION["two_step_tries"] = (int)$_SESSION["two_step_tries"] + 1;
+ 						redirect("login/two_step");
+ 					} else {
+ 						$_SESSION["two_step_tries"] = 1;
+ 					}
+ 					redirect("two_step");
+ 				}
+ 			} else {
+ 				unset($_SESSION["UserId"]);
+ 				unset($_SESSION["two_step_tries"]);
+ 				unset($_SESSION["check_topt"]);
+ 				redirect("login");
+ 			}
+ 		} else if(!isset($_SESSION["UserId"])){
+ 			redirect("login");
+ 		} else {
+ 			redirect($this->config->item("front_page"));
+ 		}
+ 	}
+
+ 	/**
+ 	 * This function get the users current TOPT key
+ 	 * @since 1.0
+ 	 * @access private
+ 	 */
+ 	private function _Get_TOPT(){
+ 		$Query = $this->db->where(array("Id" => $_SESSION["UserId"]))->get($this->config->item("api_users_table"));
+		if($Query->num_rows() > 0){
+			$Row = current($Query->result());
+			if(!is_null($Row->TOPT) && $Row->TOPT != ""){
+				$this->load->library("onetimepassword");
+				date_default_timezone_set("UTC");
+				$Settings = array(
+					'Algorithm' => $this->config->item("api_topt_algorithm"),
+					'Digits' => $this->config->item("api_topt_digist"),
+					'Key' => $Row->TOPT,
+					'Timestamp' => time(),
+					'InitialTime' => '0',
+					'TimeStep' => $this->config->item("api_topt_timealive"),
+					'TimeWindowSize' => '1'
+				);
+				$Topt = OneTimePassword::GetPassword($Settings,$TimeLeft);
+				return $Topt;
+			} else {
+				return FALSE;
+			}
+		} else {
+			return FALSE;
+		}
+ 	}
+
 
 	/**
 	 * This function minifies all output send from this controller

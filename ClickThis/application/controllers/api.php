@@ -845,29 +845,6 @@ class Api extends CI_Controller {
 	}
 
 	/**
-	 * This function uses jCryption to descrypt data
-	 * @param string $Data    The data to descrypt
-	 * @param integer $D       The d rsa key
-	 * @param integer $N       The n rsa key
-	 * @param pointer|array &$Return The variable to store the decrypted data in
-	 * @return boolean
-	 * @since 1.1
-	 * @access private
-	 */
-	private function _Decrypt($Data = NULL,$D = NULL,$N = NULL,&$Return = NULL){
-		if(!is_null($Data) && !is_null($D) && !is_null($N)){
-			$this->load->library("jcryption");
-			$jCryption = new jCryption();
-			$Decrypted = $jCryption->decrypt($Data,$D,$N);
-			parse_str($Decrypted,$Parsed);	
-			$Return = $Parsed;
-			return TRUE;
-		} else {
-			return FALSE;
-		}
-	}
-
-	/**
 	 * This function decrypts the input and matches it with the database data.
 	 * If the user exists and the username and password are correct.
 	 * @since 1.1

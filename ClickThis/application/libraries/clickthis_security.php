@@ -131,8 +131,42 @@ class clickthis_security {
 				redirect($this->_CI->config->item("not_logged_in_page"));
 				die();	
 			}
+		} else if(self::IsLoggedIn() && !self::_Pages() && !self::_Keywords()){
+			if(!strpos($this->_CI->uri->ruri_string(), $this->_CI->config->item("login_page")) && $_SESSION["check_topt"] === true && self::Uses_To_Step()){
+				redirect("login/two_step");
+				return;
+			}
 		}
 		self::_Ensure_TOPT();
+		self::_Ensure_Token();
+	}
+
+	/**
+	 * This function checks if the current user uses two step varifiction
+	 * @since 1.0
+	 * @access private
+	 */
+	public function Uses_To_Step(){
+		$Query = $this->_CI->db->select("Id,TOPT,TwoStep")->where(array("Id" => $_SESSION["UserId"]))->get($this->_CI->config->item("api_users_table"));
+		if($Query->num_rows() > 0){
+			$Row = current($Query->result());
+			if($Row->TOPT !== "" || is_null($Row->TOPT) && ($Row->TwoStep === 1 || $Row->TwoStep === "1")){
+				return TRUE;
+			}
+		} 
+		return FALSE;
+	}
+
+	/**
+	 * This function ensures that the user has a generated token ready
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _Ensure_Token(){
+		if(self::IsLoggedIn() && !self::_Pages() && !self::_Keywords() && (!isset($_SESSION["clickthis_token"]) || isset($_SESSION["clickthis_token"]) && $_SESSION["clickthis_token"] === "")){
+			unset($_SESSION["clickthis_token"]);
+			redirect("token");
+		}
 	}
 
 	/**
