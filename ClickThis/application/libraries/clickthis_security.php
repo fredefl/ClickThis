@@ -132,6 +132,28 @@ class clickthis_security {
 				die();	
 			}
 		}
+		self::_Ensure_TOPT();
+	}
+
+	/**
+	 * This function generates a TOPT secret if the user hasn't got one
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _Ensure_TOPT(){
+		$this->_CI->load->helper("rand");
+		$this->_CI->load->config("api");
+		$key = rand_number(32);
+		if(isset($_SESSION["UserId"])){
+			$Query = $this->_CI->db->select("Id,TOPT")->where(array("Id" => $_SESSION["UserId"]))->get($this->_CI->config->item("api_users_table"));
+			if($Query->num_rows() > 0){
+				$Row = current($Query->result());
+				if($Row->TOPT === "" || is_null($Row->TOPT)){
+					$this->_CI->db->where(array("Id" => $_SESSION["UserId"]))->update($this->_CI->config->item("api_users_table"),array("TOPT" => $key));
+				}
+			}
+		}
+
 	}
 }
 ?>

@@ -5,7 +5,7 @@ class OneTimePassword {
 		// Nothing
 	}
 	
-	public static function GetPassword($Settings){
+	public static function GetPassword($Settings,&$time_left){
 		//Get some settings from array
 		
 		$hash_hmac_algo=$Settings['Algorithm'];
@@ -18,6 +18,11 @@ class OneTimePassword {
 		$time_step=0+$Settings['TimeStep'];
 		$time_step_window=0+$Settings['TimeWindowSize'];
 		$t=self::generate_t_value($current_unix_time,$t_0,$time_step);
+		$current = $t;
+		$next = floor(($current+1)*$Settings['TimeStep']);
+		if(!isset($time_left)){
+			$time_left = $next - time();
+		}
 		$t=str_pad(dechex($t),2,"0",STR_PAD_LEFT);
 		while(strlen($t)<16)
 		{

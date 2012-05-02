@@ -16,7 +16,7 @@
 	 * The hash algorith to use for th topt system
 	 * @since 1.0
 	 */
-	$config["api_topt_algorith"] = "sha1";
+	$config["api_topt_algorithm"] = "sha1";
 
 	/**
 	 * The  number of digits in the topt key

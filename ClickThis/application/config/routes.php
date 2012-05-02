@@ -60,7 +60,6 @@ $route["logout"] = "api/logout";
 $route["verify/login"] = "api/login";
 $route["home"] = "frontend";
 $route["onetimepasswordtest/php"] = "api/topt";
-$route["onetimepasswordtest/js"] = "login/topt_client";
 $route["login/mobile"] = "mobile/login";
 $route["register/mobile"] = "mobile/register";
 $route["login/desktop"] = "login/clickthis";

@@ -17,15 +17,6 @@ class Login extends CI_Controller {
 	}
 
 	/**
-	 * This function loads the topt view
-	 * @since 1.0
-	 * @access public
-	 */
-	public function topt_client(){
-		$this->load->view("topt");
-	}
-
-	/**
 	 * This function minifies all output send from this controller
 	 * @since 1.1
 	 * @access public

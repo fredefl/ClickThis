@@ -790,21 +790,35 @@ class Api extends CI_Controller {
 	 * @since 1.1
 	 * @access public
 	 */
-	public function Topt(){		
-		$this->load->library("onetimepassword");
-		date_default_timezone_set("UTC");
-		$Settings = array(
-			'Algorithm' => $this->config->item("api_topt_algorith"),
-			'Digits' => $this->config->item("api_topt_digist"),
-			'Key' => $this->config->item("api_topt_key"),
-			'Timestamp' => time(),
-			'InitialTime' => '0',
-			'TimeStep' => $this->config->item("api_topt_timealive"),
-			'TimeWindowSize' => '1'
-		);
-		$Topt = OneTimePassword::GetPassword($Settings);
-		$Content = array("key" => $Topt);
-		self::_Send_Response(200,NULL,$Content);
+	public function Topt(){
+		if(isset($_SESSION["UserId"])){
+			$Query = $this->db->where(array("Id" => $_SESSION["UserId"]))->get($this->config->item("api_users_table"));
+			if($Query->num_rows() > 0){
+				$Row = current($Query->result());
+				if(!is_null($Row->TOPT) && $Row->TOPT != ""){
+					$this->load->library("onetimepassword");
+					date_default_timezone_set("UTC");
+					$Settings = array(
+						'Algorithm' => $this->config->item("api_topt_algorithm"),
+						'Digits' => $this->config->item("api_topt_digist"),
+						'Key' => $Row->TOPT,
+						'Timestamp' => time(),
+						'InitialTime' => '0',
+						'TimeStep' => $this->config->item("api_topt_timealive"),
+						'TimeWindowSize' => '1'
+					);
+					$Topt = OneTimePassword::GetPassword($Settings,$TimeLeft);
+					$Content = array("key" => $Topt,"time_left" => $TimeLeft);
+					self::_Send_Response(200,NULL,$Content);
+				} else {
+					self::_Send_Response(404,NULL);
+				}
+			} else {
+				self::_Send_Response(401,NULL);
+			}
+		} else {
+			self::_Send_Response(401,NULL);
+		}
 	}
 
 	/**
@@ -882,30 +896,6 @@ class Api extends CI_Controller {
 		} else {
 			redirect($this->config->item("login_page"));
 		}
-	}
-
-	/**
-	 * This function gets a random rsa key from the database,
-	 * and returns it as the specified format
-	 * @since 1.1
-	 * @access public
-	 */
-	public function Keypair(){
-		$this->load->model("api_login");
-		$Keypair = $this->api_login->Keypair();
-		$this->load->library("jcryption");
-		$jCryption = new jCryption();
-		$_SESSION["e"] = array("int" => $Keypair["e"], "hex" => $jCryption->dec2string($Keypair["e"],16));
-		$_SESSION["d"] = array("int" => $Keypair["d"], "hex" => $jCryption->dec2string($Keypair["d"],16));
-		$_SESSION["n"] = array("int" => $Keypair["n"], "hex" => $jCryption->dec2string($Keypair["n"],16));
-		$Return = array(
-			"e" => $_SESSION["e"]["hex"],
-			"n" => $_SESSION["n"]["hex"],
-			"maxdigits" => intval($this->config->item("api_rsa_key_length")*2/16+3)
-		);
-		$this->api_request->Perform_Request();
-		self::_Send_Response(200,$this->api_request->Format(),$Return);
-		die();
 	}
 
 	/**
