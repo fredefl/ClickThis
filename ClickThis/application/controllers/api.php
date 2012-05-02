@@ -33,6 +33,18 @@ class Api extends CI_Controller {
 	}
 
 	/**
+	 * This function minifies all output send from this controller
+	 * @since 1.1
+	 * @access public
+	 */
+	public function _output(){
+		$content = $this->output->get_output();
+		$mini = $this->minify->Html($content);
+		$this->output->set_output($mini);
+		echo $this->output->get_output();
+	}
+
+	/**
 	 * This function performs the PUT requests
 	 * @param string  $ClassName The classname of the class to use
 	 * @param integer  $Id        The id to update
@@ -492,16 +504,6 @@ class Api extends CI_Controller {
 		}
 	}
 
-	/*public function UserAuth($Id = NULL){
-		self::_Autherized_Api_Request("User",$Id);
-	}
-
-	public function AnswerTest($Id = NULL){
-		$this->api_request->Request_Data(array("UserId" => 3,"QuestionId" => 1,"Options" => array(array("OptionId" => 5,"Value" => 2))));
-		$this->api_request->Request_Method("options");
-		self::_Autherized_Api_Request("User",$Id);
-	}*/
-
 	/**
 	 * This function performs a api request that uses the new token security system
 	 * @param string $LibraryName The library to use etc App,User
@@ -691,6 +693,9 @@ class Api extends CI_Controller {
 					"app_name" => $App->Name,
 					"cdn_url" => $this->config->item("cdn_url")
 				));	
+				$content = $this->output->get_output();
+				$mini = $this->minify->Html($content);
+				$this->output->set_output($mini);
 			} else {
 				self::_Api_Handle_Error($this->api_authentication->Get("Redirect_Url"),$this->api_authentication->Get("Errors"),400);
 			}

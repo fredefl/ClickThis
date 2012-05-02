@@ -46,6 +46,18 @@ class Frontend extends CI_Controller {
 	}
 
 	/**
+	 * This function minifies all output send from this controller
+	 * @since 1.1
+	 * @access public
+	 */
+	public function _output(){
+		$content = $this->output->get_output();
+		$mini = $this->minify->Html($content);
+		$this->output->set_output($mini);
+		echo $this->output->get_output();
+	}
+
+	/**
 	 * This function detects the users platform
 	 * @since 1.0
 	 * @access private

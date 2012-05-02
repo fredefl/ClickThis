@@ -10,13 +10,50 @@ class Login extends CI_Controller {
 	public function index() {
 		if(!isset($_SESSION['UserId'])) {
 			$this->load->view('login_view',array("base_url" => base_url(),"cdn_url" => $this->config->item("cdn_url")));
-			$content = $this->output->get_output();
-			$mini = $this->minify->Html($content);
-			$this->output->set_output($mini);
 		} else {
 			redirect($this->config->item("front_page"));	
 		}
 
+	}
+
+	/**
+	 * This function loads the topt view
+	 * @since 1.0
+	 * @access public
+	 */
+	public function topt_client(){
+		$this->load->view("topt");
+	}
+
+	/**
+	 * This function minifies all output send from this controller
+	 * @since 1.1
+	 * @access public
+	 */
+	public function _output(){
+		$content = $this->output->get_output();
+		$mini = $this->minify->Html($content);
+		$this->output->set_output($mini);
+		echo $this->output->get_output();
+	}
+		
+	/**
+	 * This function is called when the ClickThis login screen is going to be shown
+	 * @param  string $Page        If register or login
+	 * @since 1.0
+	 * @access public
+	 */
+	public function clickthis($Page = NULL){
+		if(!is_null($Page)){
+			switch($Page){
+				case "register":{
+					redirect("login/clickthis/#register");
+				}
+			}
+		}
+		else{
+			$this->load->view('clickthis_login_view',array("base_url" => base_url(),"cdn_url" => $this->config->item("cdn_url")));	
+		}
 	}
 
 	/**
@@ -321,38 +358,6 @@ class Login extends CI_Controller {
 			} else {
 				redirect($this->config->item("login_page"));
 			}
-		}
-	}
-
-	/**
-	 * This function loads the topt view
-	 * @since 1.0
-	 * @access public
-	 */
-	public function topt_client(){
-		$this->load->view("topt");
-	}
-	
-	public function clickthis($Page = NULL,$ErrorString = NULL){
-		if(!is_null($Page)){
-			switch($Page){
-				case "register":{
-					redirect("login/clickthis/#register");
-				}
-				default:{
-					$Page = 'clickthis_'.$Page;
-					if(function_exists($Page)){
-						self::$Page();
-					}
-					else{
-						show_error(404);	
-					}
-					break;	
-				}
-			}
-		}
-		else{
-			$this->load->view('clickthis_login_view',array("base_url" => base_url(),"cdn_url" => $this->config->item("cdn_url")));	
 		}
 	}
 
