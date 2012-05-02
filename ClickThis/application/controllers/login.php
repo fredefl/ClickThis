@@ -24,7 +24,7 @@ class Login extends CI_Controller {
 	 */
 	public function __construct(){
 		parent::__construct();
-		if(!isset($_SESSION["two_step_confirmed"]) || $_SESSION["two_step_confirmed"] !== "yes"){
+		if(!isset($_SESSION["two_step_confirmed"]) || $_SESSION["two_step_confirmed"] !== "yes" || (isset($_SESSION["no_topt"]) && $_SESSION["no_topt"] !== true)){
 			$_SESSION["check_topt"] = true;
 		}
  	}

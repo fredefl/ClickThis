@@ -132,7 +132,7 @@ class clickthis_security {
 				die();	
 			}
 		} else if(self::IsLoggedIn() && !self::_Pages() && !self::_Keywords()){
-			if(!strpos($this->_CI->uri->ruri_string(), $this->_CI->config->item("login_page")) && $_SESSION["check_topt"] === true && self::Uses_To_Step()){
+			if(!strpos($this->_CI->uri->ruri_string(), $this->_CI->config->item("login_page")) && $_SESSION["check_topt"] === true && self::Uses_Two_Step() === true){
 				redirect("login/two_step");
 				return;
 			}
@@ -146,14 +146,16 @@ class clickthis_security {
 	 * @since 1.0
 	 * @access private
 	 */
-	public function Uses_To_Step(){
+	public function Uses_Two_Step(){
 		$Query = $this->_CI->db->select("Id,TOPT,TwoStep")->where(array("Id" => $_SESSION["UserId"]))->get($this->_CI->config->item("api_users_table"));
 		if($Query->num_rows() > 0){
 			$Row = current($Query->result());
-			if($Row->TOPT !== "" || is_null($Row->TOPT) && ($Row->TwoStep === 1 || $Row->TwoStep === "1")){
+			if($Row->TOPT !== "" && !is_null($Row->TOPT) && ($Row->TwoStep === 1 || $Row->TwoStep === "1")){
 				return TRUE;
 			}
 		} 
+		$_SESSION["check_topt"] = false;
+		$_SESSION["no_topt"] = TRUE;
 		return FALSE;
 	}
 
