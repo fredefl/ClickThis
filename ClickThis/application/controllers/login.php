@@ -145,7 +145,7 @@ class Login extends CI_Controller {
 		$this->load->model("login_model");
 		$Facebook = new Facebook();
 		$Facebook->client();
-		$Facebook->redirect_uri = "http://illution.dk/ClickThis/login/facebook/callback"; // Change to use a config file
+		$Facebook->redirect_uri = base_url()."login/facebook/callback";
 		if($page == "auth"){
 			$Facebook->auth();
 		} else {
@@ -211,7 +211,7 @@ class Login extends CI_Controller {
 		$this->load->model("login_model");
 		$Twitter = new Twitter();
 		$Twitter->consumer();
-		$Twitter->callback = "http://illution.dk/ClickThis/login/twitter/callback";
+		$Twitter->callback = base_url()."login/twitter/callback";
 		if($page != "callback"){
 			if($Twitter->auth() === false){
 				header("Location: ".base_url().$this->config->item("login_page")."/twitter/auth");
@@ -448,7 +448,7 @@ class Login extends CI_Controller {
 		$this->load->model("login_model");
 		$Foursquare = new Foursquare();
 		$Foursquare->client();
-		$Foursquare->redirect_uri = "http://illution.dk/ClickThis/login/foursquare/callback";
+		$Foursquare->redirect_uri = base_url()."login/foursquare/callback";
 		$Foursquare->web_request = false;
 		if($page !== "callback"){
 			if(!$Foursquare->auth()){

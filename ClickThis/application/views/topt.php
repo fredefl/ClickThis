@@ -1,6 +1,6 @@
 <html>
 <head>
-  <link rel="shortcut icon" href="http://code.google.com/p/google-authenticator/logo" type="image/png">
+  <link rel="shortcut icon" href="https://code.google.com/p/google-authenticator/logo" type="image/png">
   <title>TOTP Debugger</title>
   <script>
  

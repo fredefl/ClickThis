@@ -33,7 +33,7 @@
 		</table>		
 	</div>
 
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script type="text/javascript" src="<?php echo $this->config->item("jquery_url"); ?>"></script>
 	<script type="text/javascript" src="<?php echo $cdn_url; ?>bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="<?php echo $cdn_url; ?>js/auth.js"></script>
 </body>

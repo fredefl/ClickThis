@@ -176,6 +176,22 @@ class Api_Request{
 	}
 
 	/**
+	 * This function is used to merge the existing request vars with the new
+	 * @param array $Input The items to add
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _Request_Vars($Input = NULL){
+		if(!is_null($Input)){
+			if(!is_null($this->_Request_Vars)){
+				$this->_Request_Vars = array_merge($this->_Request_Vars,$Input);
+			} else {
+				$this->_Request_Vars = $Input;
+			}
+		}
+	}
+
+	/**
 	 * This function gets the request data
 	 * @access public
 	 * @since 1.0
@@ -184,10 +200,16 @@ class Api_Request{
 		switch ($this->_Request_Method)
 		{
 			case 'get':
-				$this->_Request_Vars = $_GET;
+				if(isset($_GET)){
+					$this->_Request_Vars = $_GET;
+				}
 				break;
 			case 'post':
-				$this->_Request_Vars = $GLOBALS["HTTP_RAW_POST_DATA"];
+				if(isset($GLOBALS["HTTP_RAW_POST_DATA"])){
+					$this->_Request_Vars = self::_Request_Vars($GLOBALS["HTTP_RAW_POST_DATA"]);
+				} else if(isset($_POST)){
+					$this->_Request_Vars = self::_Request_Vars($_POST);
+				}
 				break;
 			case 'put':
 				parse_str(file_get_contents('php://input', $this->_Request_Vars));

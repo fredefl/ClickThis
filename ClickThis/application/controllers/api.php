@@ -215,7 +215,7 @@ class Api extends CI_Controller {
 			if(!is_null($Data)){
 				if(!is_null($Id)){
 					$User = $Data;
-					($User->CheckProfileImage())? $User->ProfileImage = $User->ProfileImage: $User->ProfileImage = "http://gravatar.com/avatar?s=256";
+					($User->CheckProfileImage())? $User->ProfileImage = $User->ProfileImage: $User->ProfileImage = "https://gravatar.com/avatar?s=256";
 					$Return["User"] = $User->Export(false,true);
 					$Return["error_message"] = NULL;
 					$Return["error_code"] = NULL;
@@ -224,7 +224,7 @@ class Api extends CI_Controller {
 					$Users = array();
 					foreach ($Data as $User) {
 						if(is_null($User["ProfileImage"])){
-							$User["ProfileImage"] = "http://gravatar.com/avatar?s=256";
+							$User["ProfileImage"] = "https://gravatar.com/avatar?s=256";
 							$Users[] = $User;
 						} else {
 							$Users[] = $User;
@@ -855,29 +855,22 @@ class Api extends CI_Controller {
 	 * @access public
 	 */
 	public function Login(){
-		if(isset($_POST['jCryption']) && isset($_SESSION["d"]["int"]) && isset($_SESSION["n"]["int"])){
+		$Data = $this->input->post(NULL,TRUE);
+		if($this->input->post("login-username",TRUE)){
 			$this->load->model("api_login");
-			if(self::_Decrypt($_POST['jCryption'], $_SESSION["d"]["int"], $_SESSION["n"]["int"],$Data)){
-				unset($_SESSION["e"]);
-				unset($_SESSION["d"]);
-				unset($_SESSION["n"]);
-				if(self::_Security($Data['login-username']) && self::_Security($Data['login-password'])){
-					$UsernameIn = $Data['login-username'];
-					$PasswordIn = $Data['login-password'];
-					if($this->api_login->Username($UsernameIn,$Row)){
-						if($UsernameIn === $Row["Username"] && hash_hmac("sha512", $PasswordIn, $this->config->item("api_hash_hmac")) === $Row["Password"] && $Row["Status"] == 1){
-							$_SESSION["UserId"] = $Row["Id"];
-							redirect($this->config->item("token"));
-						} else {
-							redirect($this->config->item("login_page"));
-						}
+			if(self::_Security($Data['login-username']) && self::_Security($Data['login-password'])){
+				$UsernameIn = $Data['login-username'];
+				$PasswordIn = $Data['login-password'];
+				if($this->api_login->Username($UsernameIn,$Row)){
+					if($UsernameIn === $Row["Username"] && hash_hmac("sha512", $PasswordIn, $this->config->item("api_hash_hmac")) === $Row["Password"] && $Row["Status"] == 1){
+						$_SESSION["UserId"] = $Row["Id"];
+						redirect($this->config->item("token"));
 					} else {
 						redirect($this->config->item("login_page"));
 					}
 				} else {
 					redirect($this->config->item("login_page"));
 				}
-
 			} else {
 				redirect($this->config->item("login_page"));
 			}
@@ -1009,6 +1002,12 @@ class Api extends CI_Controller {
 		}
 	}
 
+	/**
+	 * This function uses a token and the posted new password to reset the users password
+	 * @param string $Token The reset password token
+	 * @since 1.1
+	 * @access public
+	 */
 	public function ResetPassword($Token = NULL){
 		$this->load->model("api_resetpassword");
 		if(!is_null($Token) && $this->api_resetpassword->Is_Valid_Token($Token) && $this->input->post("password",TRUE) && $this->input->post("repassword",TRUE)){

@@ -1,4 +1,5 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443 || isset($_SERVER["SPDY_VERSION"])) ? "https://" : "http://";
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +15,11 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://illution.dk/ClickThis/';
+if($protocol === "http"){
+	$config['base_url']	= 'http://illution.dk/ClickThis/';
+} else {
+	$config['base_url']	= 'https://illution.dk/ClickThis/';
+}
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +45,11 @@ $config['pages'] = array('test','login','login/google','login/linkedin','login/t
 */
 $config['keywords'] = array('oauth','verify/login','api','login','social','register','v1',"login/twitter","login/linkedin","login/facebook","login/google","login/myspace");
 
+/**
+ * The url to get jquery from
+ */
+$config["jquery_url"] = "https://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js";
+
 /*
 |--------------------------------------------------------------------------
 | Developers
@@ -54,7 +64,11 @@ $config['developers'] = array();
 |--------------------------------------------------------------------------
 | The url to the asset folder
 */
-$config["cdn_url"] = "http://illution.dk/ClickThis/assets/";
+if($protocol === "http"){
+	$config["cdn_url"] = "http://illution.dk/ClickThis/assets/";
+} else {
+	$config["cdn_url"] = "https://illution.dk/ClickThis/assets/";
+}
 
 /*
 |--------------------------------------------------------------------------
