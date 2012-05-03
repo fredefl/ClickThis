@@ -32,7 +32,8 @@ $('#page ul li').bind('touchmove', function () {
 });
 
 $("#menuButton").click(function () {
-	$(".menu").toggle();
+	$("#menu").toggle();
+	$("#menuOverlay").toggle();
 })
 
 // When the dom is ready

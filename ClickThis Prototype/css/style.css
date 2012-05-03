@@ -194,8 +194,8 @@ h1 {
 	margin-top:8px;
 }
 
-.menu {
-	z-index:999999999999999999999999999999999;
+#menu {
+	z-index:9999999;
 	width:100px;
 	height: 200px;
 	position: fixed;
@@ -216,7 +216,8 @@ h1 {
 	border-width: 1px;
 	border-style: solid;
 }
-.menu:after {
+
+#menu:after {
 	content:"";
 	position:absolute;
 	border-style:solid;
@@ -226,4 +227,15 @@ h1 {
 	left:auto;
 	border-width:0 15px 15px;
 	border-color:#666 transparent;
+}
+
+#menuOverlay {
+	z-index:1000;
+	background: #000;
+	opacity: 0.4;
+	height:100%;
+	width:100%;
+	position: fixed;
+	top:45px;
+	left:0px;
 }
