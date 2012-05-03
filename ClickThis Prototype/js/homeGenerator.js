@@ -1,3 +1,20 @@
+/**
+ * ClickThis Home Generator
+ * http://illution.dk
+ *
+ * Copyright (c) 2012 Illution
+ *
+ * @author Illution <support@illution.dk>
+ * @package ClickThis
+ * @subpackage Home generator
+ * @copyright http://illution.dk/copyright
+ * @version 1.1
+ */
+/**
+ * homeGenerator Class
+ * @class homeGenerator Class
+ */
+"use strict";
 var homeGenerator = {
 	/**
 	 * Creates a new series button in home
@@ -7,8 +24,8 @@ var homeGenerator = {
 	 * @param  {string} creatorId The creator of the series' id
 	 * @return {string}           The HTML of the the series button
 	 */
-	newSeries: function (title, id, creator,creatorId) {
-		return '<li class="forward"><a href="#" onclick="page.goTo(\'series/' + id + '\')">' + title + '</a><small class="counter"><a href="#" onclick="page.goTo(\'user/'+creatorId+'\')">' + creator + '</a></small></li>';
+	newSeries: function (title, id, creator, creatorId) {
+		return '<li class="forward"><a href="#" onclick="page.goTo(\'series/' + id + '\')">' + title + '</a><small class="counter"><a href="#" onclick="page.goTo(\'user/' + creatorId + '\')">' + creator + '</a></small></li>';
 	},
 
 	/**
@@ -20,12 +37,12 @@ var homeGenerator = {
 		// Show the series container so swipe can run
 		$("#seriesContainer").show();
 		// Loop through all the series
-		$(data.Series).each(function(index,element){
+		$(data.Series).each(function (index, element) {
 			// A the series to home
 			$("#series").append(homeGenerator.newSeries(
 				element.Title,
-				element.Id, 
-				element.Creator.Name, 
+				element.Id,
+				element.Creator.Name,
 				element.Creator.Id
 			));
 			// Add the div that should contain the series
@@ -44,7 +61,7 @@ var homeGenerator = {
 		// Configure Hyphenator.js
 		Hyphenator.config({
 			onhyphenationdonecallback : function () {
-				setTimeout("buttonResizer.resizeButtonsSwipe();", 1);
+				setTimeout(buttonResizer.resizeButtonsSwipe, 1);
 			}
 		});
 		// Run the hyphenation
@@ -91,4 +108,4 @@ var homeGenerator = {
 			});
 		}
 	}
-}
+};

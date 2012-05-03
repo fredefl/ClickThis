@@ -75,20 +75,20 @@ var buttonGenerator = {
 		}
 
 		// Get the javascript functions
-		if (json.type === 1) { 
+		if (json.type === 1) {
 			// Multi
 			onClickFunctions += "buttonGenerator.multipleChoice(this," + textfield + ");";
 		}
-		if (json.type === 2) { 
+		if (json.type === 2) {
 			// Single
 			onClickFunctions += "buttonGenerator.singleChoice(this," + textfield + ");";
 		}
-		if (json.type === 3) { 
+		if (json.type === 3) {
 			// Multi Textfield
 			cssClasses.push("textfield");
 			//onClickFunctions += "buttonGenerator.multipleChoice(this," + textfield + ");";
 		}
-		if (json.type === 4) { 
+		if (json.type === 4) {
 			// Single Textfield
 			cssClasses.push("textfield");
 			//onClickFunctions += "buttonGenerator.singleChoice(this," + textfield + ");";
@@ -252,7 +252,7 @@ var buttonGenerator = {
 				if (button.value.length === 0) {
 					// Change the state, thus turning it off
 					this.changeState($(button).parent().parent()[0], true);
-				} 
+				}
 			} else {
 				if (button.value.length > 0) {
 					// Change the state, thus turning it off
