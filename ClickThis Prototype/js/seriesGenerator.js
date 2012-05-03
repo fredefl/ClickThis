@@ -165,7 +165,7 @@ var seriesGenerator = {
 		// Add event listeners
 		this.addListeners(container, data.Id.toString());
 		// Call ata for the textfields
-		$(".textfield").ata();
+		$(".textfield").ata().css("min-heigth", "65px");
 		// Return
 		return true;
 	},
