@@ -183,9 +183,9 @@ var seriesGenerator = {
 				// Increment the swipestep, read in the variable decleration to learn more
 				seriesGenerator.swipeStep++;
 				// Check that it is the last step
-				if (seriesGenerator.swipeStep == 2) {
+				if (seriesGenerator.swipeStep === 2) {
 					// Execute commands here
-					setTimeout("buttonResizer.resizeButtonsSwipe();", 1);
+					setTimeout(buttonResizer.resizeButtonsSwipe, 1);
 					setTimeout("seriesGenerator.sendQuestion(window.questionSwipe[" + id.toString() + "].slides[window.questionSwipe[" + id.toString() + "].index - 1]);", 1);
 					// Reset the swipestep
 					seriesGenerator.swipeStep = 0;
@@ -201,11 +201,11 @@ var seriesGenerator = {
 	 * @return {void}
 	 */
 	addListeners: function (container, id) {
-		$(container).find("#begin").click(function() {
-				window.questionSwipe[id].next();
+		$(container).find("#begin").click(function () {
+			window.questionSwipe[id].next();
 		});
 		// The end button
-		$(container).find("#end").click(function() {
+		$(container).find("#end").click(function () {
 			page.goTo("home");
 		});
 	},
@@ -270,10 +270,9 @@ var seriesGenerator = {
 			});
 			// Start the ajaxQueue
 			ajaxQueue.executeTasks();
-			
+
 			// Set data in last sent
 			seriesGenerator.lastSent = json;
 		}
-		
 	}
 };
