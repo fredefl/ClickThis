@@ -744,6 +744,9 @@ class Api extends CI_Controller {
 			if($this->api_authentication->Logout($Token)){
 				$this->load->view("token_view",array("base_url" => base_url(),"DeleteToken" => "true","cdn_url" => $this->config->item("cdn_url")));
 			}
+			$_SESSION["check_topt"] = false;
+			$_SESSION["no_topt"] = TRUE;
+			$_SESSION["two_step_tries"] = 0;
 			session_unset();
 			session_destroy();
 		} else {

@@ -48,7 +48,7 @@ $config['keywords'] = array('oauth','verify/login','api','login','social','regis
 /**
  * The url to get jquery from
  */
-$config["jquery_url"] = "https://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js";
+$config["jquery_url"] = "https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js";
 
 /*
 |--------------------------------------------------------------------------
