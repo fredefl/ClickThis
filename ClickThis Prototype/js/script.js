@@ -31,6 +31,10 @@ $('#page ul li').bind('touchmove', function () {
 	$(this).removeClass("touchActive");
 });
 
+$("#menuButton").click(function () {
+	$(".menu").toggle();
+})
+
 // When the dom is ready
 $(document).ready(function () {
 	// Shorten titles in home
