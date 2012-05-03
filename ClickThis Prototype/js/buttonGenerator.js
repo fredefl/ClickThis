@@ -59,7 +59,7 @@ var buttonGenerator = {
 
 		// Textfield stuff
 		if (json.type === 3 || json.type === 4) {
-			currentText = '<textarea placeholder="' + json.text + '" class="textfield" spellcheck="0" lang="en" data-value="0" data-id="1" data-submitgroup="1"></textarea>';
+			currentText = '<textarea placeholder="' + json.text + '" class="textfield" onkeyup="buttonGenerator.keypress(this)" spellcheck="0" lang="en" data-value="0" data-id="1" data-submitgroup="1"></textarea>';
 		} else {
 			currentText = json.text;
 		}
@@ -86,10 +86,12 @@ var buttonGenerator = {
 		if (json.type === 3) { 
 			// Multi Textfield
 			cssClasses.push("textfield");
+			//onClickFunctions += "buttonGenerator.multipleChoice(this," + textfield + ");";
 		}
 		if (json.type === 4) { 
 			// Single Textfield
 			cssClasses.push("textfield");
+			//onClickFunctions += "buttonGenerator.singleChoice(this," + textfield + ");";
 		}
 		// Special Classes
 		if (json.type === 2) { // Single
@@ -104,7 +106,7 @@ var buttonGenerator = {
 			'data-color="' + json.color + '"',
 			specialFunctions,
 			'>' + currentText + '</a>\r\n'
-		].join("");
+		].join("").trim(" onclick ");
 		// Return the Html Code
 		return html;
 	},
@@ -240,5 +242,23 @@ var buttonGenerator = {
 		formDeselect = formDeselect || false;
 		// Change the state
 		this.changeState(button, form, formDeselect);
+	},
+
+	keypress: function (button) {
+		// Check if the button actually exists
+		if (button !== null) {
+			// If it is on
+			if ($(button).parent().parent().attr("data-value") === "1") {
+				if (button.value.length === 0) {
+					// Change the state, thus turning it off
+					this.changeState($(button).parent().parent()[0], true);
+				} 
+			} else {
+				if (button.value.length > 0) {
+					// Change the state, thus turning it off
+					this.changeState($(button).parent().parent()[0]);
+				}
+			}
+		}
 	}
 };
