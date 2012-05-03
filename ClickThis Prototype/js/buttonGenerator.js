@@ -8,6 +8,7 @@
  * @package ClickThis
  * @subpackage Button generator
  * @copyright http://illution.dk/copyright
+ * @requires jQuery
  * @version 1.1
  */
 /**
