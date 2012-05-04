@@ -1,13 +1,13 @@
 /**
  * ClickThis Home Generator
- * http://illution.dk
+ * https://illution.dk
  *
  * Copyright (c) 2012 Illution
  *
  * @author Illution <support@illution.dk>
  * @package ClickThis
  * @subpackage Home generator
- * @copyright http://illution.dk/copyright
+ * @copyright https://illution.dk/copyright
  * @version 1.1
  */
 /**

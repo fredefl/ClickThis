@@ -1,6 +1,6 @@
 /**
  * ClickThis Page Class
- * http://illution.dk
+ * https://illution.dk
  *
  * Copyright Illution (c) 2012 
  *

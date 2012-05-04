@@ -10,7 +10,7 @@ var series;
 function Post(){
 		Get();
 		$.ajax({
-			url: "http://illution.dk/ClickThis/api/test/",
+			url: "https://illution.dk/ClickThis/api/test/",
 			type:"POST",
 			contentType: 'application/xml',
 			data : series,
@@ -32,7 +32,7 @@ function Post(){
 
 function Get(){
 	$.ajax({
-		url: "http://illution.dk/ClickThis/api/series/31?format=xml",
+		url: "https://illution.dk/ClickThis/api/series/31?format=xml",
 		type:"GET",
 		success: function(data){
 			if(typeof data.error_code == "undefined"){
@@ -49,7 +49,7 @@ function Get(){
 }
 function Delete(){
 	$.ajax({
-		url: "http://illution.dk/ClickThis/api/series_test/30",
+		url: "https://illution.dk/ClickThis/api/series_test/30",
 		type:"DELETE",
 		success: function(data){
 			console.log("Success");
@@ -66,7 +66,7 @@ function Delete(){
 }
 function Put(){
 	$.ajax({
-		url: "http://illution.dk/ClickThis/api/series_test/3/",
+		url: "https://illution.dk/ClickThis/api/series_test/3/",
 		type:"PUT",
 		data: '{"TargetPeople":["1","2"],"StartText":"Llama","Creator": "Bo"}',
 		success: function(data){
@@ -84,7 +84,7 @@ function Put(){
 
 function Options(){
 	$.ajax({
-		url: "http://illution.dk/ClickThis/api/test/",
+		url: "https://illution.dk/ClickThis/api/test/",
 		type:"OPTIONS",
 		success: function(data){
 			if(typeof data.error_code == "undefined"){
@@ -101,7 +101,7 @@ function Options(){
 
 function Head(){
 	var ajax = $.ajax({
-		url: "http://illution.dk/ClickThis/api/test/",
+		url: "https://illution.dk/ClickThis/api/test/",
 		type:"HEAD",
 		//data: '{"TargetPeople":["1","2"],"StartText":"Llama","Creator": "Bo"}',
 		success: function(data){
@@ -118,7 +118,7 @@ function Head(){
 }
 function Patch(){
 	var ajax = $.ajax({
-		url: "http://illution.dk/ClickThis/api/test/",
+		url: "https://illution.dk/ClickThis/api/test/",
 		type:"PATCH",
 		success: function(data){
 		},
@@ -129,7 +129,7 @@ function Patch(){
 
 function Test(){
 	var ajax = $.ajax({
-		url: "http://illution.dk/ClickThis/api/test",
+		url: "https://illution.dk/ClickThis/api/test",
 		type:"GET",
 		headers: { 
         	Accept : "application/xml; charset=utf-8",

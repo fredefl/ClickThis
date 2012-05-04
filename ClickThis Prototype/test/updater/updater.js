@@ -1,6 +1,6 @@
 /**
  * ClickThis updater
- * http://illution.dk
+ * https://illution.dk
  *
  * Copyright (c) 2012 Illution
  *

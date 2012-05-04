@@ -1,13 +1,13 @@
 /**
  * ClickThis User Generator
- * http://illution.dk
+ * https://illution.dk
  *
  * Copyright (c) 2012 Illution
  *
  * @author Illution <support@illution.dk>
  * @package ClickThis
  * @subpackage User Generator
- * @copyright http://illution.dk/copyright
+ * @copyright https://illution.dk/copyright
  * @requires jQuery
  * @version 1.1
  */
@@ -53,7 +53,7 @@ var userGenerator = {
 		if (this.userContainer.find("#user_" + id).length === 0) {
 			return $.ajax({
 
-				url : "http://illution.dk/ClickThis/api/user/" + id,
+				url : "https://illution.dk/ClickThis/api/user/" + id,
 
 				success: $.proxy(function (data) {
 					this.lastResponse = data;
