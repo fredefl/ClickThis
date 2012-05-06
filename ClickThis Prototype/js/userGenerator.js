@@ -1,13 +1,13 @@
 /**
  * ClickThis User Generator
- * http://illution.dk
+ * https://illution.dk
  *
  * Copyright (c) 2012 Illution
  *
  * @author Illution <support@illution.dk>
  * @package ClickThis
  * @subpackage User Generator
- * @copyright http://illution.dk/copyright
+ * @copyright https://illution.dk/copyright
  * @requires jQuery
  * @version 1.1
  */
@@ -49,30 +49,30 @@ var userGenerator = {
 	 * @param  {integer} id The user id of the user to request
 	 * @return {boolean}
 	 */
-	findUser : function (id,callback) {
-		if (this.userContainer.find("#user_"+id).length == 0) {
+	findUser : function (id, callback) {
+		if (this.userContainer.find("#user_" + id).length === 0) {
 			return $.ajax({
 
-				url : "http://illution.dk/ClickThis/api/user/"+id,
+				url : "https://illution.dk/ClickThis/api/user/" + id,
 
-				success: $.proxy(function (data){ 
-   					this.lastResponse = data;
-   					this.lastCode = 200;
-   					this.successResponseCallback();
+				success: $.proxy(function (data) {
+					this.lastResponse = data;
+					this.lastCode = 200;
+					this.successResponseCallback();
 				}, this),
 
-				error: $.proxy(function(data){
+				error: $.proxy(function (data) {
 					this.lastResponse = data;
 					this.lastCode = 404;
-				},this),
+				}, this)
 
 			}).done($.proxy(function () {
-				if(this.lastCode == 200){
+				if (this.lastCode === 200) {
 					callback(true);
 				} else {
 					callback(false);
 				}
-			},this));
+			}, this));
 		} else {
 			callback(true);
 		}
@@ -83,15 +83,15 @@ var userGenerator = {
 	 */
 	createUser : function () {
 		var element = $("#user_template").clone();
-		element.attr("id",'user_'+this.lastResponse.User.Id);
-		element.find(".profile_image").attr("src",this.lastResponse.User.ProfileImage);
+		element.attr("id", 'user_' + this.lastResponse.User.Id);
+		element.find(".profile_image").attr("src", this.lastResponse.User.ProfileImage);
 		element.find(".name").val(this.lastResponse.User.Name);
 		element.find(".email").val(this.lastResponse.User.Email);
 		element.find(".location").val(this.lastResponse.User.Country);
-		if($("body").css("width").replace("px","") < 600){
-			element.find(".profile_image").attr("width","128");
-			element.find(".profile_image").attr("height","128");
+		if ($("body").css("width").replace("px", "") < 600) {
+			element.find(".profile_image").attr("width", "128");
+			element.find(".profile_image").attr("height", "128");
 		}
 		this.userContainer.append(element);
 	}
-}
+};

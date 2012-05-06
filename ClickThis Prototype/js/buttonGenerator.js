@@ -1,13 +1,14 @@
 /**
  * ClickThis Button Generator
- * http://illution.dk
+ * https://illution.dk
  *
  * Copyright (c) 2012 Illution
  *
  * @author Illution <support@illution.dk>
  * @package ClickThis
  * @subpackage Button generator
- * @copyright http://illution.dk/copyright
+ * @copyright https://illution.dk/copyright
+ * @requires jQuery
  * @version 1.1
  */
 /**
@@ -75,23 +76,23 @@ var buttonGenerator = {
 		}
 
 		// Get the javascript functions
-		if (json.type === 1) { 
+		if (json.type === 1) {
 			// Multi
 			onClickFunctions += "buttonGenerator.multipleChoice(this," + textfield + ");";
 		}
-		if (json.type === 2) { 
+		if (json.type === 2) {
 			// Single
 			onClickFunctions += "buttonGenerator.singleChoice(this," + textfield + ");";
 		}
-		if (json.type === 3) { 
+		if (json.type === 3) {
 			// Multi Textfield
 			cssClasses.push("textfield");
 			//onClickFunctions += "buttonGenerator.multipleChoice(this," + textfield + ");";
 		}
-		if (json.type === 4) { 
+		if (json.type === 4) {
 			// Single Textfield
 			cssClasses.push("textfield");
-			//onClickFunctions += "buttonGenerator.singleChoice(this," + textfield + ");";
+			onClickFunctions += "buttonGenerator.singleChoice(this," + textfield + ");";
 		}
 		// Special Classes
 		if (json.type === 2) { // Single
@@ -178,11 +179,11 @@ var buttonGenerator = {
 	 * Unchecks all buttons.
 	 * @static
 	 */
-	unCheckAll: function (button) {
+	unCheckAll: function (button, textfield) {
 		var i = 0,
 			buttons = null;
 		// Find all buttons in the current question scope
-		buttons = $(button).parent().find('.button');
+		buttons = (textfield ? $(button).parent().parent().find('.button') : $(button).parent().find('.button'));
 		// Loop though them
 		for (i = 0; i <= buttons.length - 1; i++) {
 			// Get the button
@@ -252,12 +253,19 @@ var buttonGenerator = {
 				if (button.value.length === 0) {
 					// Change the state, thus turning it off
 					this.changeState($(button).parent().parent()[0], true);
-				} 
+				}
 			} else {
 				if (button.value.length > 0) {
-					// Change the state, thus turning it off
-					this.changeState($(button).parent().parent()[0]);
+					// Change the state, thus turning it on
+					if (!$(button).parent().parent().hasClass("single")) {
+						this.changeState($(button).parent().parent()[0]);
+						console.log("Dude?");
+					}
 				}
+			}
+			if ($(button).parent().parent().hasClass("single")) {
+				this.unCheckAll($(button).parent().parent()[0], true);
+				console.log("Why?");
 			}
 		}
 	}

@@ -1,6 +1,6 @@
 /**
  * ClickThis Page Class
- * http://illution.dk
+ * https://illution.dk
  *
  * Copyright Illution (c) 2012 
  *
@@ -97,6 +97,8 @@ var page = {
 		element = element.split("/");
 		// Get the responsible function
 		var functionToCall = this.pages[element[0]];
+		// Back button
+		page.checkBackButton(element[0]);
 		// Check that the function is existing, if not, screw it
 		if (functionToCall !== undefined) {
 			// Hide the current page
@@ -112,6 +114,19 @@ var page = {
 		} else {
 			// Return failure
 			return false;
+		}
+	},
+
+	/**
+	 * Checks if a back button is necessary.
+	 * @param  {string} page The new page that we're changing to
+	 * @return {void}
+	 */
+	checkBackButton: function (page) {
+		if (page === "home") {
+			$("#backButton").hide();
+		} else {
+			$("#backButton").show();
 		}
 	},
 

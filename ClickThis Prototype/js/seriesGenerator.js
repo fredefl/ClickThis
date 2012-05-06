@@ -1,13 +1,13 @@
 /**
  * ClickThis Series Generator
- * http://illution.dk
+ * https://illution.dk
  *
  * Copyright (c) 2012 Illution
  *
  * @author Illution <support@illution.dk>
  * @package ClickThis
  * @subpackage Series Generator
- * @copyright http://illution.dk/copyright
+ * @copyright https://illution.dk/copyright
  * @requires jQuery
  * @version 1.1
  */
@@ -183,9 +183,9 @@ var seriesGenerator = {
 				// Increment the swipestep, read in the variable decleration to learn more
 				seriesGenerator.swipeStep++;
 				// Check that it is the last step
-				if (seriesGenerator.swipeStep == 2) {
+				if (seriesGenerator.swipeStep === 2) {
 					// Execute commands here
-					setTimeout("buttonResizer.resizeButtonsSwipe();", 1);
+					setTimeout(buttonResizer.resizeButtonsSwipe, 1);
 					setTimeout("seriesGenerator.sendQuestion(window.questionSwipe[" + id.toString() + "].slides[window.questionSwipe[" + id.toString() + "].index - 1]);", 1);
 					// Reset the swipestep
 					seriesGenerator.swipeStep = 0;
@@ -201,11 +201,11 @@ var seriesGenerator = {
 	 * @return {void}
 	 */
 	addListeners: function (container, id) {
-		$(container).find("#begin").click(function() {
-				window.questionSwipe[id].next();
+		$(container).find("#begin").click(function () {
+			window.questionSwipe[id].next();
 		});
 		// The end button
-		$(container).find("#end").click(function() {
+		$(container).find("#end").click(function () {
 			page.goTo("home");
 		});
 	},
@@ -217,7 +217,8 @@ var seriesGenerator = {
 	 */
 	sendQuestion: function (element) {
 		var data,
-			json;
+			json,
+			textfield;
 		// If it isn't a question, fuck it!
 		if (!$(element).hasClass("question")) {
 			return false;
@@ -235,20 +236,20 @@ var seriesGenerator = {
 		// Iterate through the list of buttons
 		$(element).find(".button").each(function (id) {
 			// If it has a value
-			if ($(this).data("value") !== 0 || $(element).hasClass("textfield")) {
+			if ($(this).data("value") !== 0) {
 				// Standard button
-				if (!$(element).hasClass("textfield")) {
+				if (!$(this).hasClass("textfield")) {
 					data.Answer.Options.push({
 						OptionId: $(this).data("id"),
 						Value: $(this).data("value")
 					});
 				// Textfield
 				} else {
-					element = $(element).find("textarea");
-					if (element.html() !== "") {
+					textfield = $(this).find("textarea");
+					if (textfield.val() !== "") {
 						data.Answer.Options.push({
-							OptionId: element.data("id"),
-							Value: element.html()
+							OptionId: $(this).data("id"),
+							Value: textfield.val()
 						});
 					}
 				}
@@ -270,10 +271,9 @@ var seriesGenerator = {
 			});
 			// Start the ajaxQueue
 			ajaxQueue.executeTasks();
-			
+
 			// Set data in last sent
 			seriesGenerator.lastSent = json;
 		}
-		
 	}
 };
