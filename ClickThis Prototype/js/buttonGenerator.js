@@ -21,6 +21,13 @@ var buttonGenerator = {
 	 * The default color when the button is on (String)
 	 */
 	defaultColor: "blue",
+
+	/**
+	 * Specifies whenever to use high resolution buttons or not
+	 * @type {Boolean}
+	 */
+	highRes: true,
+
 	/**
 	 * Creates a new button as HTML.
 	 * Parameters are: id, color, text, type, group, size and value.
@@ -66,7 +73,13 @@ var buttonGenerator = {
 		}
 
 		// Declare the basic CSS classes
-		cssClasses.push("mega", "button", "color-" + (json.value ? this.defaultColor : json.color), "size-" + size);
+		cssClasses.push(
+			"mega", 
+			"button", 
+			"color-" + (json.value ? this.defaultColor : json.color), 
+			"size-" + size,
+			(this.highRes ? "high-res" : "")
+		);
 
 		// Check type, add the correct class
 		if (json.type === 1 || json.type === 3) {
@@ -111,6 +124,15 @@ var buttonGenerator = {
 		// Return the Html Code
 		return html;
 	},
+
+	newBeginButton: function () {
+		return '<a class="mega button color-orange size-1' + (this.highRes ? " high-res" : "") + '" id="begin">Begin the survey</a>';
+	},
+
+	newEndButton: function () {
+		return '<a class="mega button color-orange size-1' + (this.highRes ? " high-res" : "") + '" id="end_survey">End the survey</a>';
+	},
+
 	/**
 	 * Changes the button's state from On to Off or from Off to On.
 	 *
