@@ -19,12 +19,16 @@ class Auth extends CI_Controller {
 
 	/**
 	 * The optional state parameter
-	 * @var [type]
+	 * @var string
+	 * @since 1.0
+	 * @access public
 	 */
 	public $state = NULL;
 
 	/**
 	 * This function is the constructor, it loads up some helpers and the api config
+	 * @since 1.0
+	 * @access public
 	 */
 	public function __construct(){
 		parent::__construct();
