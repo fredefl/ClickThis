@@ -23,12 +23,6 @@ var buttonGenerator = {
 	defaultColor: "blue",
 
 	/**
-	 * Specifies whenever to use high resolution buttons or not
-	 * @type {Boolean}
-	 */
-	highRes: false,
-
-	/**
 	 * Creates a new button as HTML.
 	 * Parameters are: id, color, text, type, group, size and value.
 	 *
@@ -78,7 +72,7 @@ var buttonGenerator = {
 			"button", 
 			"color-" + (json.value ? this.defaultColor : json.color), 
 			"size-" + size,
-			(this.highRes ? "high-res" : "")
+			(settings.get("high-res") ? "high-res" : "")
 		);
 
 		// Check type, add the correct class
@@ -126,11 +120,11 @@ var buttonGenerator = {
 	},
 
 	newBeginButton: function () {
-		return '<a class="mega button color-orange size-1' + (this.highRes ? " high-res" : "") + '" id="begin">Begin the survey</a>';
+		return '<a class="mega button color-orange size-1' + (settings.get("high-res") ? " high-res" : "") + '" id="begin">Begin the survey</a>';
 	},
 
 	newEndButton: function () {
-		return '<a class="mega button color-orange size-1' + (this.highRes ? " high-res" : "") + '" id="end_survey">End the survey</a>';
+		return '<a class="mega button color-orange size-1' + (settings.get("high-res") ? " high-res" : "") + '" id="end_survey">End the survey</a>';
 	},
 
 	/**

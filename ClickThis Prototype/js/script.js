@@ -16,6 +16,14 @@ window.addEventListener('load', function (e) {
 	}
 }, false);
 
+$("#settings-highRes").click(function () {
+	$(".button.mega").toggleClass("high-res");
+	settings.toggle("high-res");
+});
+
+$("#settings-clearQueue").click(function () {
+	ajaxQueue.clear();
+});
 
 // Add the touch effect to the list buttons
 $('#page ul li').bind('touchstart', function () {
@@ -41,6 +49,8 @@ $("#menuButton").click(function () {
 $(document).ready(function () {
 	// Shorten titles in home
 	homeGenerator.shortenTitles();
+	// Load the settings!
+	settings.load();
 });
 
 // When the window resizes
