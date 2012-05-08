@@ -26,7 +26,7 @@ var buttonGenerator = {
 	 * Specifies whenever to use high resolution buttons or not
 	 * @type {Boolean}
 	 */
-	highRes: true,
+	highRes: false,
 
 	/**
 	 * Creates a new button as HTML.

@@ -8,13 +8,14 @@ window.questionSwipe = {};
 
 // On page load
 window.addEventListener('load', function (e) {
-	$(window).hashchange();
+	/*$(window).hashchange();*/
 	// If is Android
 	if (isAndroid) {
 		// Scoll past the address bar.
 		window.scrollTo(0, 1);
 	}
 }, false);
+
 
 // Add the touch effect to the list buttons
 $('#page ul li').bind('touchstart', function () {
