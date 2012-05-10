@@ -16,12 +16,12 @@ window.addEventListener('load', function (e) {
 	}
 }, false);
 
-$("#settings-highRes").click(function () {
+$("#settings-highRes").bind("click", function () {
 	$(".button.mega").toggleClass("high-res");
 	settings.toggle("high-res");
 });
 
-$("#settings-clearQueue").click(function () {
+$("#settings-clearQueue").bind("click", function () {
 	ajaxQueue.clear();
 });
 
@@ -40,7 +40,7 @@ $('#page ul li').bind('touchmove', function () {
 	$(this).removeClass("touchActive");
 });
 
-$("#menuButton").click(function () {
+$("#menuButton").bind("click", function () {
 	$("#menu").toggle();
 	$("#menuOverlay").toggle();
 })
@@ -162,7 +162,7 @@ if(window.applicationCache) {
 		$('#chacheStatus').html('Cache status: Error').css('color','#991111');
 	}, false);
 };
-$("#sendingLabel").click(function () {
+$("#sendingLabel").bind("click", function () {
 	for (var i = 0; i <= 10; i++) {
 		ajaxQueue.add({
 			url: (location.protocol === 'https:' ? "https" : "http") + "://illution.dk/ClickThisPrototype/test/ajaxQueueTest.php", 
