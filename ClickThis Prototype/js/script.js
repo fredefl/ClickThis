@@ -128,20 +128,25 @@ $(window).load(function () {
 		$("#sendingLabel > a").html("Send data");
 		$("#sendingCounter").html("0");
 	}
-	// ESN Beaconpush test
-	if (location.protocol !== 'https:') {
-		Beacon.connect('ed02c2f4', ['mychannel']);
-		Beacon.listen(function (data) {
-			setTimeout('$("#toolbarTitle").css("-webkit-transform","rotate(360deg)")',1000);
-			setTimeout('$("#toolbarTitle").css("-webkit-transform","rotate(0deg)")',2000);
-		});
-		$("#beaconFlashHolder").css("position","absolute").css("left","-200px");
-	}
+	// Real time service
+	var sockjs_url = 'https://illution.dk:9999/echo';
+	var sockjs = new SockJS(sockjs_url);
+
+	sockjs.onopen    = function()  {
+		console.log('Connected to realtime service with: ', sockjs.protocol);
+	};
+	sockjs.onmessage = function(e) {
+		setTimeout('$("#toolbarTitle").css("-webkit-transform","rotate(360deg)")',1000);
+		setTimeout('$("#toolbarTitle").css("-webkit-transform","rotate(0deg)")',2000);
+	};
+	sockjs.onclose   = function()  {
+		console.log("Disconnected from realtime service")
+	};
 })
 // Request update
 $('#updateButton').click(function(){
 	ajaxQueue.add({
-		url: "https://illution.dk/ClickThisPrototype/test/beaconpush.php",
+		url: "https://illution.dk/ClickThisPrototype/test/realtime.php",
 		data: "a=a",
 		group: "beaconpush"
 	});
