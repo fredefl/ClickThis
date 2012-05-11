@@ -107,7 +107,7 @@ $(window).load(function () {
 	ajaxQueue.load();
 	ajaxQueue.executeTasks();
 	ajaxQueue.setConfig({ajaxTimeout: 6000})
-	ajaxQueue.registerCallback({group: "beaconpush", type: "onSuccess"},function () {
+	ajaxQueue.registerCallback({group: "push", type: "onSuccess"},function () {
 		console.log('Notification sent!');
 	});
 	ajaxQueue.registerCallback({type: "onQueueLengthChange"}, function () {
@@ -129,7 +129,7 @@ $(window).load(function () {
 		$("#sendingCounter").html("0");
 	}
 	// Real time service
-	var sockjs_url = 'https://illution.dk:9999/echo';
+	var sockjs_url = 'https://illution.dk:9999/push';
 	var sockjs = new SockJS(sockjs_url);
 
 	sockjs.onopen    = function()  {
@@ -148,7 +148,7 @@ $('#updateButton').click(function(){
 	ajaxQueue.add({
 		url: "https://illution.dk/ClickThisPrototype/test/realtime.php",
 		data: "a=a",
-		group: "beaconpush"
+		group: "push"
 	});
 	ajaxQueue.executeTasks();
 });

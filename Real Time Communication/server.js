@@ -1,48 +1,61 @@
-var http = require('https');
-var sockjs = require('sockjs');
-var fs = require("fs");
+var https = require('https');	// HTTPS
+var http = require('http');		// HTTP
+var sockjs = require('sockjs');	// SOCKJS
+var fs = require("fs");			// FILE SYSTEM
 
-console.log("lollo");
-
+// SSL options
 var options = {
   key: fs.readFileSync('/etc/httpd/conf.d/ssl.key'),
   cert: fs.readFileSync('/etc/httpd/conf.d/ssl.crt')
 };
 
+// An object containing all clients
 var broadcast = {};
-var echo = sockjs.createServer();
-echo.on('connection', function(conn) {
-    console.log('    [+] broadcast open ' + conn);
+
+// Create sockjs server
+var messageServer = sockjs.createServer();
+
+// Add sockjs on connection listener
+messageServer.on('connection', function(conn) {
+	// Log
+    console.log('Client connected: ' + conn);
+
+    // Add it the the broadcast object
     broadcast[conn.id] = conn;
+
+    // And sockjs on close listener to this client
     conn.on('close', function() {
+    	// Remove the client from the broadcast object
         delete broadcast[conn.id];
-        console.log('    [-] broadcast close' + conn);
+        console.log('Client disconnected: ' + conn);
     });
+
+    // And sockjs on message listener to this client
     conn.on('data', function(m) {
-        console.log('    [-] broadcast message', m);
+    	// Do not allow clients to send messages
+    	/*
         for(var id in broadcast) {
             broadcast[id].write(m);
-        }
+        } */
     });
 });
 
-console.log("lolz");
-var server2 = http.createServer(function(req, res) {
+// Create sockjs server
+var messageHttpsServer = https.createServer(options);
+messageServer.installHandlers(messageHttpsServer, {prefix:'/push'});
+
+// Create http API server
+var apiServer = http.createServer(function(req, res) {
 	res.writeHead(200);
-	console.log("Created http");
-	res.end('Hello Http');
+	res.end('Mail recieved!');
 	req.on('data', function(chunk){
-		console.log("Recieved crap, " + chunk)
+		console.log("Recieved message from API: '" + chunk + "'");
 		for(var id in broadcast) {
         	broadcast[id].write("" + chunk);
         }
 	});
 });
-server2.listen(81);
 
-var server = http.createServer(options);
-echo.installHandlers(server, {prefix:'/echo'});
-server.listen(9999, '0.0.0.0');
-
-var bodyarr = [];
-
+// Listen
+apiServer.listen(81);
+messageHttpsServer.listen(9999, '0.0.0.0');
