@@ -7,10 +7,12 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebSettings.RenderPriority;
 import android.webkit.WebView;
@@ -45,6 +47,16 @@ public class MainActivity extends Activity {
         return true;
     }
     
+    public final class EclairClient extends WebChromeClient
+    {
+	    private String TAG = "WebErrorLog";
+	    // This is a test of console.log, because we don't have this in Android 2.01
+	    public void addMessageToConsole(String message, int lineNumber, String sourceID)
+	    {
+	    	Log.d(TAG, sourceID + ": Line " + Integer.toString(lineNumber) + " : " + message);
+	    }
+    }
+    
     public void setUpWebView () {
     	// Find the WebView element
         mainWebView = (WebView) findViewById(R.id.mainWebView);
@@ -67,6 +79,9 @@ public class MainActivity extends Activity {
         // Add the JavaScript interface
         mainWebView.addJavascriptInterface(new JavaScriptInterface(this), "ClickThisApp");
         
+        EclairClient chromeClient = new EclairClient();
+        mainWebView.setWebChromeClient(chromeClient);
+        
         // Handle redirects so it won't open in the built in browser
         mainWebView.setWebViewClient(new WebViewClient() {
             public boolean shouldOverrideUrlLoading(WebView view, String url){
@@ -79,8 +94,10 @@ public class MainActivity extends Activity {
         // Clear cache
         mainWebView.clearCache(true);
         // Load the ClickThis Prototype
-        mainWebView.loadUrl("http://illution.dk/ClickThisPrototype");
+        mainWebView.loadUrl("https://illution.dk/ClickThisPrototype");
     }
+    
+
     
     protected void sendNotification (String title, String message) {
  	   String ns = Context.NOTIFICATION_SERVICE;

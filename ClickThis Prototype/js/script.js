@@ -25,6 +25,7 @@ $("#settings-clearQueue").bind("click", function () {
 	ajaxQueue.clear();
 });
 
+
 // Add the touch effect to the list buttons
 $('#page ul li').bind('touchstart', function () {
 	$(this).addClass("touchActive");
@@ -38,6 +39,20 @@ $('#page ul li').bind('touchend', function () {
 // Add the touch effect to the list buttons
 $('#page ul li').bind('touchmove', function () {
 	$(this).removeClass("touchActive");
+});
+
+$("#page ul li > a").bind('touchstart', function () {
+	$(this).parent().addClass("touchActive");
+});
+
+// Add the touch effect to the list buttons
+$("#page ul li > a").bind('touchend', function () {
+	$(this).parent().removeClass("touchActive");
+});
+
+// Add the touch effect to the list buttons
+$("#page ul li > a").bind('touchmove', function () {
+	$(this).parent().removeClass("touchActive");
 });
 
 $("#menuButton").bind("click", function () {
@@ -102,6 +117,32 @@ $(document).keydown(function(e){
 	}
 });
 
+var sockjs;
+
+function connectToPush () {
+	var sockjs_url = 'https://illution.dk:81/clickthis';
+	try {
+		sockjs.close();
+	} catch (e) {
+		e = null;
+	}
+	sockjs = null;
+	sockjs = new SockJS(sockjs_url);
+
+	sockjs.onopen    = function()  {
+		console.log('Connected to realtime service with: ', sockjs.protocol);
+		$('#pushStatus').html('Connected').css('color','#119911');
+	};
+	sockjs.onmessage = function(e) {
+		setTimeout('$("#toolbarTitle").css("-webkit-transform","rotate(360deg)")',1000);
+		setTimeout('$("#toolbarTitle").css("-webkit-transform","rotate(0deg)")',2000);
+	};
+	sockjs.onclose   = function()  {
+		console.log("Disconnected from realtime service");
+		$('#pushStatus').html('Disconnected').css('color','#991111');
+	};
+}
+
 // Random Shit
 $(window).load(function () {
 	ajaxQueue.load();
@@ -128,22 +169,9 @@ $(window).load(function () {
 		$("#sendingLabel > a").html("Send data");
 		$("#sendingCounter").html("0");
 	}
-	// Real time service
-	var sockjs_url = 'https://illution.dk:81/clickthis';
-	var sockjs = new SockJS(sockjs_url);
 
-	sockjs.onopen    = function()  {
-		console.log('Connected to realtime service with: ', sockjs.protocol);
-		$('#pushStatus').html('Connected').css('color','#119911');
-	};
-	sockjs.onmessage = function(e) {
-		setTimeout('$("#toolbarTitle").css("-webkit-transform","rotate(360deg)")',1000);
-		setTimeout('$("#toolbarTitle").css("-webkit-transform","rotate(0deg)")',2000);
-	};
-	sockjs.onclose   = function()  {
-		console.log("Disconnected from realtime service");
-		$('#pushStatus').html('Disconnected').css('color','#991111');
-	};
+	// Real time service
+	connectToPush();
 })
 // Request update
 $('#updateButton').click(function(){
@@ -173,9 +201,9 @@ $("#sendingLabel").bind("click", function () {
 	for (var i = 0; i <= 10; i++) {
 		ajaxQueue.add({
 			url: (location.protocol === 'https:' ? "https" : "http") + "://illution.dk/ClickThisPrototype/test/ajaxQueueTest.php", 
-			data: "", 
+			data: "hehe", 
 			group: "test",
-			type: "GET"
+			type: "POST"
 		});
 	}
 	ajaxQueue.executeTasks();
