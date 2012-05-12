@@ -17,6 +17,8 @@ import android.webkit.WebSettings;
 import android.webkit.WebSettings.RenderPriority;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.net.http.*;
+import android.webkit.*;
 
 public class MainActivity extends Activity {
 	WebView mainWebView;
@@ -47,16 +49,6 @@ public class MainActivity extends Activity {
         return true;
     }
     
-    public final class EclairClient extends WebChromeClient
-    {
-	    private String TAG = "WebErrorLog";
-	    // This is a test of console.log, because we don't have this in Android 2.01
-	    public void addMessageToConsole(String message, int lineNumber, String sourceID)
-	    {
-	    	Log.d(TAG, sourceID + ": Line " + Integer.toString(lineNumber) + " : " + message);
-	    }
-    }
-    
     public void setUpWebView () {
     	// Find the WebView element
         mainWebView = (WebView) findViewById(R.id.mainWebView);
@@ -79,9 +71,6 @@ public class MainActivity extends Activity {
         // Add the JavaScript interface
         mainWebView.addJavascriptInterface(new JavaScriptInterface(this), "ClickThisApp");
         
-        EclairClient chromeClient = new EclairClient();
-        mainWebView.setWebChromeClient(chromeClient);
-        
         // Handle redirects so it won't open in the built in browser
         mainWebView.setWebViewClient(new WebViewClient() {
             public boolean shouldOverrideUrlLoading(WebView view, String url){
@@ -90,6 +79,9 @@ public class MainActivity extends Activity {
                 view.loadUrl(url);
                 return false; // then it is not handled by default action
            }
+            public void onReceivedSslError (WebView view, SslErrorHandler handler, SslError error) {
+        		handler.proceed() ;
+        	}
         });
         // Clear cache
         mainWebView.clearCache(true);

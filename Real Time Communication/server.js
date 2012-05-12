@@ -13,7 +13,7 @@ var options = {
 var broadcast = {};
 
 // Create sockjs server
-var messageServer = sockjs.createServer({sockjs_url: "lololol.dk", log: function (severity, message) {
+var messageServer = sockjs.createServer({log: function (severity, message) {
 	console.log(message);
 }});
 
