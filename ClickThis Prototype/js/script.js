@@ -58,6 +58,11 @@ $("#page ul li > a").bind('touchmove', function () {
 $("#menuButton").bind("click", function () {
 	$("#menu").toggle();
 	$("#menuOverlay").toggle();
+});
+
+$("#menuOverlay").bind("click", function () {
+	$("#menu").toggle();
+	$("#menuOverlay").toggle();
 })
 
 // When the dom is ready
