@@ -129,18 +129,20 @@ $(window).load(function () {
 		$("#sendingCounter").html("0");
 	}
 	// Real time service
-	var sockjs_url = 'https://illution.dk:9999/push';
+	var sockjs_url = 'https://illution.dk:81/clickthis';
 	var sockjs = new SockJS(sockjs_url);
 
 	sockjs.onopen    = function()  {
 		console.log('Connected to realtime service with: ', sockjs.protocol);
+		$('#pushStatus').html('Connected').css('color','#119911');
 	};
 	sockjs.onmessage = function(e) {
 		setTimeout('$("#toolbarTitle").css("-webkit-transform","rotate(360deg)")',1000);
 		setTimeout('$("#toolbarTitle").css("-webkit-transform","rotate(0deg)")',2000);
 	};
 	sockjs.onclose   = function()  {
-		console.log("Disconnected from realtime service")
+		console.log("Disconnected from realtime service");
+		$('#pushStatus').html('Disconnected').css('color','#991111');
 	};
 })
 // Request update
@@ -155,16 +157,16 @@ $('#updateButton').click(function(){
 if(window.applicationCache) {
 	var cache = window.applicationCache;
 	cache.addEventListener('cached', function() {
-		$('#chacheStatus').html('Cache status: Cached').css('color','#119911');
+		$('#cacheStatus').html('Cached').css('color','#119911');
 	}, false);
 	cache.addEventListener('noupdate', function() {
-		$('#chacheStatus').html('Cache status: Cached').css('color','#119911');
+		$('#cacheStatus').html('Cached').css('color','#119911');
 	}, false);
 	cache.addEventListener('downloading', function() {
-		$('#chacheStatus').html('Cache status: Downloading').css('color','#999911');
+		$('#cacheStatus').html('Downloading').css('color','#999911');
 	}, false);
 	cache.addEventListener('error', function() {
-		$('#chacheStatus').html('Cache status: Error').css('color','#991111');
+		$('#cacheStatus').html('Error').css('color','#991111');
 	}, false);
 };
 $("#sendingLabel").bind("click", function () {

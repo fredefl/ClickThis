@@ -42,7 +42,7 @@ messageServer.on('connection', function(conn) {
 
 // Create sockjs server
 var messageHttpsServer = https.createServer(options);
-messageServer.installHandlers(messageHttpsServer, {prefix:'/push'});
+messageServer.installHandlers(messageHttpsServer, {prefix:'/clickthis'});
 
 // Create http API server
 var apiServer = http.createServer(function(req, res) {
@@ -57,5 +57,5 @@ var apiServer = http.createServer(function(req, res) {
 });
 
 // Listen
-apiServer.listen(81);
-messageHttpsServer.listen(9999, '0.0.0.0');
+messageHttpsServer.listen(81);
+apiServer.listen(82);
