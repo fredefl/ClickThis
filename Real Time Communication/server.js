@@ -5,8 +5,8 @@ var fs = require("fs");			// FILE SYSTEM
 
 // SSL options
 var options = {
-  key: fs.readFileSync('/etc/httpd/conf.d/ssl.key'),
-  cert: fs.readFileSync('/etc/httpd/conf.d/ssl.crt')
+  key: fs.readFileSync('/etc/httpd/conf.d/www-ssl.key'),
+  cert: fs.readFileSync('/etc/httpd/conf.d/www-ssl.crt')
 };
 
 // An object containing all clients
