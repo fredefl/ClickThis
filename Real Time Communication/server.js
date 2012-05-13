@@ -13,33 +13,44 @@ var options = {
 var broadcast = {};
 
 // Create sockjs server
-var messageServer = sockjs.createServer({jsessionid: true, log: function (severity, message) {
-	console.log(message);
+var messageServer = sockjs.createServer({
+	jsessionid: function () {
+		var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
+		var string_length = 12;
+		var randomstring = '';
+		for (var i=0; i<string_length; i++) {
+			var rnum = Math.floor(Math.random() * chars.length);
+			randomstring += chars.substring(rnum,rnum+1);
+		}
+		return randomString;
+	}, 
+	log: function (severity, message) {
+		console.log(message);
 }});
 
 // Add sockjs on connection listener
 messageServer.on('connection', function(conn) {
 	// Log
-    console.log('Client connected: ' + conn);
+	console.log('Client connected: ' + conn);
 
-    // Add it the the broadcast object
-    broadcast[conn.id] = conn;
+	// Add it the the broadcast object
+	broadcast[conn.id] = conn;
 
-    // And sockjs on close listener to this client
-    conn.on('close', function() {
-    	// Remove the client from the broadcast object
-        delete broadcast[conn.id];
-        console.log('Client disconnected: ' + conn);
-    });
+	// And sockjs on close listener to this client
+	conn.on('close', function() {
+		// Remove the client from the broadcast object
+		delete broadcast[conn.id];
+		console.log('Client disconnected: ' + conn);
+	});
 
-    // And sockjs on message listener to this client
-    conn.on('data', function(m) {
-    	// Do not allow clients to send messages
-    	/*
-        for(var id in broadcast) {
-            broadcast[id].write(m);
-        } */
-    });
+	// And sockjs on message listener to this client
+	conn.on('data', function(m) {
+		// Do not allow clients to send messages
+		/*
+		for(var id in broadcast) {
+			broadcast[id].write(m);
+		} */
+	});
 });
 
 // Create sockjs server
@@ -53,8 +64,8 @@ var apiServer = http.createServer(function(req, res) {
 	req.on('data', function(chunk){
 		console.log("Recieved message from API: '" + chunk + "'");
 		for(var id in broadcast) {
-        	broadcast[id].write("" + chunk);
-        }
+			broadcast[id].write("" + chunk);
+		}
 	});
 });
 
