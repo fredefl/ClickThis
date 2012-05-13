@@ -12,7 +12,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebSettings.RenderPriority;
 import android.webkit.WebView;
@@ -74,7 +73,7 @@ public class MainActivity extends Activity {
         // Handle redirects so it won't open in the built in browser
         mainWebView.setWebViewClient(new WebViewClient() {
             public boolean shouldOverrideUrlLoading(WebView view, String url){
-                // do your handling codes here, which URL is the requested url
+                // do your handling codes here, which URL is the requested URL
                 // probably you need to open that URL rather than redirect:
                 view.loadUrl(url);
                 return false; // then it is not handled by default action
