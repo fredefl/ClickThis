@@ -135,7 +135,7 @@ function connectToPush () {
 	sockjs = new SockJS(sockjs_url);
 
 	sockjs.onopen    = function()  {
-		console.log('Connected to realtime service with: ', sockjs.protocol);
+		console.log('Connected to realtime service with: ' + sockjs.protocol);
 		$('#pushStatus').html('Connected' + (sockjs.protocol === 'websocket' ? "(WS)" : "(XHR)")).css('color','#119911');
 	};
 	sockjs.onmessage = function(e) {
