@@ -1,4 +1,6 @@
 <?php
+header("access-control-allow-origin: *");
+header("allow:POST, GET, PUT, DELETE, HEAD, PATCH, OPTIONS");
 $ch = curl_init();
 
 curl_setopt($ch, CURLOPT_URL,            "http://127.0.0.1:82" );
