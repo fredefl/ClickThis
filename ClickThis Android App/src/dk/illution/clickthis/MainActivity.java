@@ -52,7 +52,7 @@ public class MainActivity extends Activity {
     public void setUpWebView () {
     	// Find the WebView element
         mainWebView = (WebView) findViewById(R.id.mainWebView);
-        mainWebView.loadUrl("http://illution.dk/ClickThisPrototype");
+        mainWebView.loadUrl("http://illution.dk/ClickThisPrototype"); 
         
         // Get settings once
         WebSettings settings = mainWebView.getSettings();
@@ -80,7 +80,11 @@ public class MainActivity extends Activity {
                 return false; // then it is not handled by default action
            }
             public void onReceivedSslError (WebView view, SslErrorHandler handler, SslError error) {
-        		handler.proceed() ;
+            	if (android.os.Build.VERSION.SDK_INT < 14) {
+            		handler.proceed() ;
+            	} else {
+            		handler.cancel();
+            	}
         	}
         });
         // Clear cache
