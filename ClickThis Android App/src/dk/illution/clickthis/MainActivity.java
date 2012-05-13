@@ -80,11 +80,13 @@ public class MainActivity extends Activity {
                 return false; // then it is not handled by default action
            }
             public void onReceivedSslError (WebView view, SslErrorHandler handler, SslError error) {
-            	if (android.os.Build.VERSION.SDK_INT < 14) {
-            		handler.proceed() ;
+            	Log.d("ClickThis", "We've got an SSL error. Android " + android.os.Build.VERSION.SDK_INT + " O " + error.getCertificate().getIssuedBy().getOName());
+            	if (android.os.Build.VERSION.SDK_INT < 14 && error.getCertificate().getIssuedBy().getOName().equals("StartCom Ltd.")) {
+            		handler.proceed();
             	} else {
             		handler.cancel();
             	}
+            	
         	}
         });
         // Clear cache
