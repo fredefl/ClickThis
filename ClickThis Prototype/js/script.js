@@ -136,7 +136,7 @@ function connectToPush () {
 
 	sockjs.onopen    = function()  {
 		console.log('Connected to realtime service with: ', sockjs.protocol);
-		$('#pushStatus').html('Connected').css('color','#119911');
+		$('#pushStatus').html('Connected' + (sockjs.protocol === 'websocket' ? "(WS)" : "(XHR)")).css('color','#119911');
 	};
 	sockjs.onmessage = function(e) {
 		setTimeout('$("#toolbarTitle").css("-webkit-transform","rotate(360deg)")',1000);
