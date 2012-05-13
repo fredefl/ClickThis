@@ -1,12 +1,15 @@
-var https = require('https');	// HTTPS
+//var https = require('https');	// HTTPS
 var http = require('http');		// HTTP
+var express = require('express');
 var sockjs = require('sockjs');	// SOCKJS
 var fs = require("fs");			// FILE SYSTEM
 
 // SSL options
 var options = {
   key: fs.readFileSync('/etc/httpd/conf.d/www-ssl.key'),
-  cert: fs.readFileSync('/etc/httpd/conf.d/www-ssl.crt')
+  cert: fs.readFileSync('/etc/httpd/conf.d/www-ssl.crt'),
+  ca: fs.readFileSync('/etc/httpd/conf.d/ca.pem'),
+  NPNProtocols: ['spdy/2']
 };
 
 // An object containing all clients
@@ -44,7 +47,7 @@ messageServer.on('connection', function(conn) {
 });
 
 // Create sockjs server
-var messageHttpsServer = https.createServer(options);
+var messageHttpsServer = express.createServer(options);
 messageServer.installHandlers(messageHttpsServer, {prefix:'/clickthis'});
 
 // Create http API server
