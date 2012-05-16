@@ -1,19 +1,29 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * An open source application development framework for PHP 5.2.4 or newer
+ *
+ * NOTICE OF LICENSE
+ *
+ * Licensed under the Open Software License version 3.0
+ *
+ * This source file is subject to the Open Software License (OSL 3.0) that is
+ * bundled with this package in the files license.txt / license.rst.  It is
+ * also available through the world wide web at this URL:
+ * http://opensource.org/licenses/OSL-3.0
+ * If you did not receive a copy of the license and are unable to obtain it
+ * through the world wide web, please send an email to
+ * licensing@ellislab.com so we can send you a copy immediately.
  *
  * @package		CodeIgniter
- * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc.
- * @license		http://codeigniter.com/user_guide/license.html
+ * @author		EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2012, EllisLab, Inc. (http://ellislab.com/)
+ * @license		http://opensource.org/licenses/OSL-3.0 Open Software License (OSL 3.0)
  * @link		http://codeigniter.com
  * @since		Version 1.0
  * @filesource
  */
-
-// ------------------------------------------------------------------------
 
 /**
  * Language Class
@@ -21,7 +31,7 @@
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	Language
- * @author		ExpressionEngine Dev Team
+ * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/libraries/language.html
  */
 class CI_Lang {
@@ -31,22 +41,23 @@ class CI_Lang {
 	 *
 	 * @var array
 	 */
-	var $language	= array();
+	public $language =	array();
+
 	/**
 	 * List of loaded language files
 	 *
 	 * @var array
 	 */
-	var $is_loaded	= array();
+	public $is_loaded =	array();
 
 	/**
-	 * Constructor
+	 * Initialize language class
 	 *
-	 * @access	public
+	 * @return	void
 	 */
-	function __construct()
+	public function __construct()
 	{
-		log_message('debug', "Language Class Initialized");
+		log_message('debug', 'Language Class Initialized');
 	}
 
 	// --------------------------------------------------------------------
@@ -54,7 +65,6 @@ class CI_Lang {
 	/**
 	 * Load a language file
 	 *
-	 * @access	public
 	 * @param	mixed	the name of the language file to be loaded. Can be an array
 	 * @param	string	the language (english, etc.)
 	 * @param	bool	return loaded array of translations
@@ -62,28 +72,26 @@ class CI_Lang {
 	 * @param 	string	alternative path to look for language file
 	 * @return	mixed
 	 */
-	function load($langfile = '', $idiom = '', $return = FALSE, $add_suffix = TRUE, $alt_path = '')
+	public function load($langfile = '', $idiom = '', $return = FALSE, $add_suffix = TRUE, $alt_path = '')
 	{
 		$langfile = str_replace('.php', '', $langfile);
 
 		if ($add_suffix == TRUE)
 		{
-			$langfile = str_replace('_lang.', '', $langfile).'_lang';
+			$langfile = str_replace('_lang', '', $langfile).'_lang';
 		}
 
 		$langfile .= '.php';
 
-		if (in_array($langfile, $this->is_loaded, TRUE))
-		{
-			return;
-		}
-
-		$config =& get_config();
-
 		if ($idiom == '')
 		{
-			$deft_lang = ( ! isset($config['language'])) ? 'english' : $config['language'];
-			$idiom = ($deft_lang == '') ? 'english' : $deft_lang;
+			$config =& get_config();
+			$idiom = ( ! empty($config['language'])) ? $config['language'] : 'english';
+		}
+
+		if ($return == FALSE && isset($this->is_loaded[$langfile]) && $this->is_loaded[$langfile] === $idiom)
+		{
+			return;
 		}
 
 		// Determine where the language file is and load it
@@ -112,9 +120,14 @@ class CI_Lang {
 		}
 
 
-		if ( ! isset($lang))
+		if ( ! isset($lang) OR ! is_array($lang))
 		{
 			log_message('error', 'Language file contains no data: language/'.$idiom.'/'.$langfile);
+
+			if ($return == TRUE)
+			{
+				return array();
+			}
 			return;
 		}
 
@@ -123,9 +136,8 @@ class CI_Lang {
 			return $lang;
 		}
 
-		$this->is_loaded[] = $langfile;
+		$this->is_loaded[$langfile] = $idiom;
 		$this->language = array_merge($this->language, $lang);
-		unset($lang);
 
 		log_message('debug', 'Language file loaded: language/'.$idiom.'/'.$langfile);
 		return TRUE;
@@ -136,11 +148,10 @@ class CI_Lang {
 	/**
 	 * Fetch a single line of text from the language array
 	 *
-	 * @access	public
 	 * @param	string	$line	the language line
 	 * @return	string
 	 */
-	function line($line = '')
+	public function line($line = '')
 	{
 		$value = ($line == '' OR ! isset($this->language[$line])) ? FALSE : $this->language[$line];
 
@@ -154,7 +165,6 @@ class CI_Lang {
 	}
 
 }
-// END Language Class
 
 /* End of file Lang.php */
 /* Location: ./system/core/Lang.php */

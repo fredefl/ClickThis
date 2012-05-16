@@ -8,13 +8,23 @@ window.questionSwipe = {};
 
 // On page load
 window.addEventListener('load', function (e) {
-	$(window).hashchange();
+	/*$(window).hashchange();*/
 	// If is Android
 	if (isAndroid) {
 		// Scoll past the address bar.
 		window.scrollTo(0, 1);
 	}
 }, false);
+
+$("#settings-highRes").bind("click", function () {
+	$(".button.mega").toggleClass("high-res");
+	settings.toggle("high-res");
+});
+
+$("#settings-clearQueue").bind("click", function () {
+	ajaxQueue.clear();
+});
+
 
 // Add the touch effect to the list buttons
 $('#page ul li').bind('touchstart', function () {
@@ -31,7 +41,26 @@ $('#page ul li').bind('touchmove', function () {
 	$(this).removeClass("touchActive");
 });
 
-$("#menuButton").click(function () {
+$("#page ul li > a").bind('touchstart', function () {
+	$(this).parent().addClass("touchActive");
+});
+
+// Add the touch effect to the list buttons
+$("#page ul li > a").bind('touchend', function () {
+	$(this).parent().removeClass("touchActive");
+});
+
+// Add the touch effect to the list buttons
+$("#page ul li > a").bind('touchmove', function () {
+	$(this).parent().removeClass("touchActive");
+});
+
+$("#menuButton").bind("click", function () {
+	$("#menu").toggle();
+	$("#menuOverlay").toggle();
+});
+
+$("#menuOverlay").bind("click", function () {
 	$("#menu").toggle();
 	$("#menuOverlay").toggle();
 })
@@ -40,6 +69,8 @@ $("#menuButton").click(function () {
 $(document).ready(function () {
 	// Shorten titles in home
 	homeGenerator.shortenTitles();
+	// Load the settings!
+	settings.load();
 });
 
 // When the window resizes
@@ -91,12 +122,38 @@ $(document).keydown(function(e){
 	}
 });
 
+var sockjs;
+
+function connectToPush () {
+	var sockjs_url = 'https://illution.dk:81/clickthis';
+	try {
+		sockjs.close();
+	} catch (e) {
+		e = null;
+	}
+	sockjs = null;
+	sockjs = new SockJS(sockjs_url);
+
+	sockjs.onopen    = function()  {
+		console.log('Connected to realtime service with: ' + sockjs.protocol);
+		$('#pushStatus').html('Connected' + (sockjs.protocol === 'websocket' ? "(WS)" : "(XHR)")).css('color','#119911');
+	};
+	sockjs.onmessage = function(e) {
+		setTimeout('$("#toolbarTitle").css("-webkit-transform","rotate(360deg)")',1000);
+		setTimeout('$("#toolbarTitle").css("-webkit-transform","rotate(0deg)")',2000);
+	};
+	sockjs.onclose   = function()  {
+		console.log("Disconnected from realtime service");
+		$('#pushStatus').html('Disconnected').css('color','#991111');
+	};
+}
+
 // Random Shit
 $(window).load(function () {
 	ajaxQueue.load();
 	ajaxQueue.executeTasks();
 	ajaxQueue.setConfig({ajaxTimeout: 6000})
-	ajaxQueue.registerCallback({group: "beaconpush", type: "onSuccess"},function () {
+	ajaxQueue.registerCallback({group: "push", type: "onSuccess"},function () {
 		console.log('Notification sent!');
 	});
 	ajaxQueue.registerCallback({type: "onQueueLengthChange"}, function () {
@@ -117,47 +174,41 @@ $(window).load(function () {
 		$("#sendingLabel > a").html("Send data");
 		$("#sendingCounter").html("0");
 	}
-	// ESN Beaconpush test
-	if (location.protocol !== 'https:') {
-		Beacon.connect('ed02c2f4', ['mychannel']);
-		Beacon.listen(function (data) {
-			setTimeout('$("#toolbarTitle").css("-webkit-transform","rotate(360deg)")',1000);
-			setTimeout('$("#toolbarTitle").css("-webkit-transform","rotate(0deg)")',2000);
-		});
-		$("#beaconFlashHolder").css("position","absolute").css("left","-200px");
-	}
+
+	// Real time service
+	connectToPush();
 })
 // Request update
 $('#updateButton').click(function(){
 	ajaxQueue.add({
-		url: "https://illution.dk/ClickThisPrototype/test/beaconpush.php",
+		url: "https://illution.dk/ClickThisPrototype/test/realtime.php",
 		data: "a=a",
-		group: "beaconpush"
+		group: "push"
 	});
 	ajaxQueue.executeTasks();
 });
 if(window.applicationCache) {
 	var cache = window.applicationCache;
 	cache.addEventListener('cached', function() {
-		$('#chacheStatus').html('Cache status: Cached').css('color','#119911');
+		$('#cacheStatus').html('Cached').css('color','#119911');
 	}, false);
 	cache.addEventListener('noupdate', function() {
-		$('#chacheStatus').html('Cache status: Cached').css('color','#119911');
+		$('#cacheStatus').html('Cached').css('color','#119911');
 	}, false);
 	cache.addEventListener('downloading', function() {
-		$('#chacheStatus').html('Cache status: Downloading').css('color','#999911');
+		$('#cacheStatus').html('Downloading').css('color','#999911');
 	}, false);
 	cache.addEventListener('error', function() {
-		$('#chacheStatus').html('Cache status: Error').css('color','#991111');
+		$('#cacheStatus').html('Error').css('color','#991111');
 	}, false);
 };
-$("#sendingLabel").click(function () {
+$("#sendingLabel").bind("click", function () {
 	for (var i = 0; i <= 10; i++) {
 		ajaxQueue.add({
 			url: (location.protocol === 'https:' ? "https" : "http") + "://illution.dk/ClickThisPrototype/test/ajaxQueueTest.php", 
-			data: "", 
+			data: "hehe", 
 			group: "test",
-			type: "GET"
+			type: "POST"
 		});
 	}
 	ajaxQueue.executeTasks();

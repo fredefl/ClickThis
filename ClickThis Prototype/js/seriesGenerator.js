@@ -42,7 +42,7 @@ var seriesGenerator = {
 		// Append the text
 		html += '<h1>' + text + '</h1>';
 		// Append the begin the survey button
-		html += '<a class="mega button color-orange size-1" id="begin">Begin the survey</a>';
+		html += buttonGenerator.newBeginButton();
 		// Append end of div
 		html += '</div>';
 		// Return the markup
@@ -60,7 +60,7 @@ var seriesGenerator = {
 		// Append the text
 		html += '<h1>' + text + '</h1>';
 		// Append the end the survey button
-		html += '<a class="mega button color-orange size-1" id="end_survey">End the survey</a>';
+		html += buttonGenerator.newEndButton();
 		// Append end of div
 		html += '</div>';
 		// Return the markup

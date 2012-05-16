@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,13 +16,16 @@ import android.webkit.WebSettings;
 import android.webkit.WebSettings.RenderPriority;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.net.http.*;
+import android.webkit.*;
+import android.widget.ProgressBar;
 
 public class MainActivity extends Activity {
 	WebView mainWebView;
+	ProgressBar progressBar;
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-    	// The standard crap
     	super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         setUpWebView();
@@ -46,9 +50,12 @@ public class MainActivity extends Activity {
     }
     
     public void setUpWebView () {
+    	progressBar = (ProgressBar) findViewById(R.id.progressbar);
+    	progressBar.setProgress(0);
+    	progressBar.setVisibility(View.VISIBLE);
     	// Find the WebView element
         mainWebView = (WebView) findViewById(R.id.mainWebView);
-        mainWebView.loadUrl("http://illution.dk/ClickThisPrototype");
+        mainWebView.loadUrl("http://illution.dk/ClickThisPrototype"); 
         
         // Get settings once
         WebSettings settings = mainWebView.getSettings();
@@ -70,17 +77,38 @@ public class MainActivity extends Activity {
         // Handle redirects so it won't open in the built in browser
         mainWebView.setWebViewClient(new WebViewClient() {
             public boolean shouldOverrideUrlLoading(WebView view, String url){
-                // do your handling codes here, which URL is the requested url
-                // probably you need to open that URL rather than redirect:
+            	// Load the URL
                 view.loadUrl(url);
-                return false; // then it is not handled by default action
+                // Disable default action
+                return false; 
            }
+            public void onReceivedSslError (WebView view, SslErrorHandler handler, SslError error) {
+            	Log.d("ClickThis", "We've got an SSL error. Android " + android.os.Build.VERSION.SDK_INT + " O " + error.getCertificate().getIssuedBy().getOName());
+            	if (android.os.Build.VERSION.SDK_INT < 14 && error.getCertificate().getIssuedBy().getOName().equals("StartCom Ltd.")) {
+            		handler.proceed();
+            	} else {
+            		handler.cancel();
+            	}
+            	
+        	}
         });
+        
+        mainWebView.setWebChromeClient(new WebChromeClient() {
+        	 public void onProgressChanged(WebView view, int progress) {
+        		progressBar.setProgress(progress);
+                if(progress == 100) {
+                	progressBar.setVisibility(View.GONE);
+                }
+             }
+       });
+        
         // Clear cache
         mainWebView.clearCache(true);
         // Load the ClickThis Prototype
-        mainWebView.loadUrl("http://illution.dk/ClickThisPrototype");
+        mainWebView.loadUrl("https://illution.dk/ClickThisPrototype/home.html");
     }
+    
+
     
     protected void sendNotification (String title, String message) {
  	   String ns = Context.NOTIFICATION_SERVICE;
@@ -118,11 +146,9 @@ public class MainActivity extends Activity {
             mContext = c;
         }
         
-        // Terminates the native android app
+        // Terminates the native Android application
         public void terminateApp () {
-        	
         	MainActivity.this.moveTaskToBack(true);
-        	
         }
         
         public void startSeries () {

@@ -3,7 +3,7 @@
 	<head>
 		<!-- title -->
 		<title>ClickThis</title>
-		<!-- For a better speed -->
+		<!-- DNS prefetching -->
 		<!--<link rel="dns-prefetch" href="https://ajax.google.com">-->
 		<!--<link rel="dns-prefetch" href="https://cdn.illution.dk">-->
 		<!-- charset -->
@@ -21,12 +21,11 @@
 		<link rel="stylesheet" href="css/theme.css?1439"/>
 		<link rel="stylesheet" href="css/buttons.css?1439"/>
 		<link rel="stylesheet" href="css/style.css?1439"/>
-		<link rel="stylesheet" href="css/form.css?1439" />
 	</head>
 	<body>
 		<div id="page">
 			<!--########## toolbar ##########-->
-			<div class="toolbar" class="current">
+			<div class="toolbar current">
 				<h1 id="toolbarTitle">ClickThis</h1>
 				<a class="button slideup" id="menuButton">
 					<div class="listIcon"></div>
@@ -37,6 +36,8 @@
 			</div> <!-- end of toolbar -->
 
 			<div id="menu" style="display:none">
+				<p id="settings-highRes">High-res</p>
+				<p id="settings-clearQueue">Clear Queue</p>
 			</div>
 
 			<div id="menuOverlay" style="display:none"></div>
@@ -50,8 +51,9 @@
 				<div>
 					<ul class="rounded">
 						<li class="forward" id="sendingLabel"><a>Send data</a><small class="counter" id="sendingCounter">0</small></li>
-						<li class="arrow" id="updateButton"><a href="#">Update Desktop</a></li>
-						<li><a id="chacheStatus">Cache status </a></li>
+						<li class="arrow" id="updateButton"><a>Update Desktop</a></li>
+						<li><a>Cache status <span style="float:right" id="cacheStatus"></span></a></li>
+						<li><a onclick="connectToPush();">Push status <span style="float:right" id="pushStatus"></span></a></li>
 					</ul>
 				</div> <!-- end of tests-->
 				<!-- bottom -->
@@ -60,7 +62,7 @@
 						<a onclick="page.goTo('user/21')">Profile</a>
 					</li>
 					<li>
-						<a href="#">Settings</a>
+						<a onclick="page.goTo('groups')">Groups</a>
 					</li>
 				</ul> <!-- end of bottom -->
 			</div> <!-- end of home -->
@@ -86,13 +88,16 @@
 				</div>	
 			</div>
 
-			
 		</div> <!-- end of page -->
 		<!-- script section -->
 		<script src="js/jquery.min.js?1439"></script>
-		<script src="js/jquery.hashchange.min.js?1439"></script>
-		<script src="js/client-1.js?1439"></script>
-		<script src="js/jquery.ui.touch-punch.min.js?1439"></script>
+		<!--<script src="js/jq.mobi.min.js?1439"></script>-->
+		<script src="js/settings.js"></script>
+		<script src="js/browserDetect.js?1439"></script>
+		<!--<script src="js/jquery.hashchange.min.js?1439"></script>-->
+		<!--<script src="js/client-1.js?1439"></script>-->
+		<script src="js/sockjs-0.3.min.js"></script>
+		<!--<script src="js/jquery.ui.touch-punch.min.js?1439"></script>-->
 		<script src="js/Hyphenator.js?1439"></script>
 		<script src="js/swipe.js?1439"></script>
 		<script src="js/jquery.ata.js?1439"></script>
