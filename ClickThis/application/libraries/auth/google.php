@@ -276,7 +276,15 @@ class Google{
 	public function scopes($scopes = NULL){
 		if(!is_null($scopes)){
 			foreach ($scopes as $scope) {
-				$this->_scope[] = $this->_scope_url.$scope;
+				if(is_array($this->_CI->config->item("google_api_scopes"))){
+					if(in_array($scope, $this->_CI->config->item("google_api_scopes"))){
+						$this->_scope[] = $scope;
+					} else if(in_array($this->_scope_url.$scope, $this->_CI->config->item("google_api_scopes"))){
+						$this->_scope[] = $this->_scope_url.$scope;
+					}
+				} else {
+					$this->_scope[] = $this->_scope_url.$scope;
+				}
 			}
 		}
 	}
