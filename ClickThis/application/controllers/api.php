@@ -95,33 +95,13 @@ class Api extends CI_Controller {
 			$Class->Import($Data);
 			if($Class->Save() == true){
 				$Response = array();
-				$Response[$ClassName] = array("id" => $Class->id);
+				$Response[strtolower($ClassName)] = array("id" => $Class->id);
 				$Response["error_message"] = NULL;
 				$Response["error_code"] = NULL;
 				self::Send_Response(200,NULL,$Response);
 			} else {
 				self::Send_Response(400);
 			}
-		}
-	}
-
-	/**
-	 * [EnsureCase description]
-	 * @param [type] $Array [description]
-	 */
-	private function EnsureCase($Array = NULL){
-		if(!is_null($Array)){
-			if(is_array($Array)){
-				$Return = array();
-				foreach ($Array as $Key => $Data) {
-					$Return[ucfirst($Key)] = $Data;
-				}
-			} else if(gettype($Array) == "string"){
-				$Return = ucfirst($Array);
-			} else {
-				return $Array;
-			}
-			return $Return;
 		}
 	}
 
