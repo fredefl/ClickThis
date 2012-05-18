@@ -204,7 +204,7 @@ class Api_Search extends CI_Model{
             					$Temp = NULL;
             					if(!is_null($Class)){
             						if(method_exists($Class, "Load")){
-            							$Class->Load($Row->Id,false,$UserId);
+            							$Class->Load($Row->id,false,$UserId);
             							if($Export && method_exists($Class, "Export")){
             								$Temp = $Class->Export($Database,$Secure);
             							} else {
