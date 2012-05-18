@@ -29,7 +29,7 @@ class User extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Name = NULL;
+	public $name = NULL;
 
 	/**
 	 * The database id of the user
@@ -37,7 +37,7 @@ class User extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Id = NULL;
+	public $id = NULL;
 
 	/**
 	 * This variable holds the country of the user
@@ -45,7 +45,7 @@ class User extends Std_Library{
 	 * @since 1.0
 	 * @var string
 	 */
-	public $Country = NULL;
+	public $country = NULL;
 
 	/**
 	 * This property will contain a link to the users profile image
@@ -53,7 +53,7 @@ class User extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $ProfileImage = NULL;
+	public $profile_image = NULL;
 
 	/**
 	 * This variable holds the email of the user if deffined
@@ -61,7 +61,7 @@ class User extends Std_Library{
 	 * @since 1.0
 	 * @var string
 	 */
-	public $Email = NULL;
+	public $email = NULL;
 
 	/**
 	 * This contains the users type
@@ -69,17 +69,7 @@ class User extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Type = NULL;
-
-	/**
-	 * This holds the user's login method
-	 * @var string
-	 * @access public
-	 * @since 1.0
-	 * @example
-	 * "User"/Teacher/Pupil
-	 */
-	public $Method = NULL;
+	public $type = NULL;
 
 	/**
 	 * This variable contains the users activation status,
@@ -88,7 +78,7 @@ class User extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Status = NULL;
+	public $status = NULL;
 
 	/**
 	 * This array contains the ClickThis subscription groups that the user is member of
@@ -96,7 +86,7 @@ class User extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $TargetGroup = NULL;
+	public $target_group = NULL;
 
 	/**
 	 * This variable contains the users preferable language
@@ -106,7 +96,7 @@ class User extends Std_Library{
 	 * @example
 	 * "da_DK"
 	 */
-	public $Language = NULL;
+	public $language = NULL;
 
 	/**
 	 * This array contains the user's privilige groups, etc admin, user
@@ -114,7 +104,7 @@ class User extends Std_Library{
 	 * @since 1.0
 	 * @access public
 	 */
-	public $UserGroup = NULL;
+	public $user_group = NULL;
 
 	/**
 	 * This variable contains the ClickThis username, if the user has deffined one
@@ -122,7 +112,7 @@ class User extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Username = NULL;
+	public $username = NULL;
 
 	/**
 	 * This variable contains the user's TOPT token, if the user has 2 step verification turned on.
@@ -130,7 +120,7 @@ class User extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $TOPT = NULL;
+	public $topt = NULL;
 	
 	/*#### USER TOKENS ####*/
 
@@ -140,7 +130,7 @@ class User extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Twitter_Id = NULL;
+	public $twitter_id = NULL;
 
 	/**
 	 * This variable stores the user's Facebook Id/alias if the user has a Facebook account linked
@@ -148,7 +138,7 @@ class User extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Facebook_Id = NULL;
+	public $facebook_id = NULL;
 
 	/**
 	 * This variable stores a id associated with the users Linked In,
@@ -157,7 +147,7 @@ class User extends Std_Library{
 	 * @since 1.0
 	 * @access public
 	 */
-	public $LinkedIn_Id = NULL;
+	public $linkedin_id = NULL;
 
 	/**
 	 * This variable stores the Google Id/Google Email if the user has a Google account linked
@@ -165,65 +155,7 @@ class User extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Google_Id = NULL;
-
-	/**
-	 * Stores the Illution database Id for the user if the user has an Illution Account
-	 * @var string
-	 * @access public
-	 * @since 1.0
-	 * @deprecated This login method is deprecated as of version 1, it's only implemented for testing purposes
-	 */
-	public $Illution_Id = NULL;
-
-	/**
-	 * This property stores the OpenId, user id if the user has one specified
-	 * @var string
-	 * @since 1.0
-	 * @access public
-	 */
-	public $OpenId_Token = NULL;
-
-	/**
-	 * This property stores the Users database id row value
-	 * @var string
-	 * @see $this->Id
-	 * @since 1.0
-	 * @access public
-	 */
-	public $ClickThis_Id = NULL;
-
-	/**
-	 * This property stores the users Flick user id/username if the user has one linked
-	 * @var string
-	 * @since 1.0
-	 * @access public
-	 */
-	public $Flickr_Id = NULL;
-
-	/**
-	 * This property stores the Myspace user id/username if the user has a Myspace account linked
-	 * @var string
-	 * @access public
-	 * @since 1.0
-	 */
-	public $Myspace_Id = NULL;
-
-	/**
-	 * This property stores the Yahoo user name/id if the user has an Yahoo account linked
-	 * @var string
-	 * @since 1.0
-	 * @access public
-	 */
-	public $Yahoo_Id = NULL;
-
-	/**
-	 * This property stores the wordpress.com user id if the user has one account linked
-	 * @var string
-	 * @since 1.0
-	 * @access public
-	 */
-	public $Wordpress_Id = NULL;
+	public $google_id = NULL;
 
 	#### Class Setttings ####
 
@@ -233,7 +165,7 @@ class User extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Database_Table = "Users";
+	public $Database_Table = "users";
 	
 	/**
 	 * This function is the constructor, it makes an instance of CodeIgniter and put it in the $this->CI property
@@ -244,44 +176,29 @@ class User extends Std_Library{
 		$this->_CI =& get_instance();
 		self::Config($this->_CI);
 		$this->_INTERNAL_DATABASE_NAME_CONVERT = array(
-			"Name" => "RealName",
-			"Facebook_Id" => "Facebook",
-			"LinkedIn_Id" => "LinkedIn",
-			"Google_Id" => "Google",
-			"Illution_Id" => "Userid",
-			"OpenId_Token" => "OpenId",
-			"Flickr_Id" => "Flickr",
-			"Myspace_Id" => "Myspace",
-			"Yahoo_Id" => "Yahoo",
-			"Wordpress_Id" => "Wordpress",
-			"Twitter_Id" => "Twitter"
+			"name" => "real_name",
+			"facebook_id" => "facebook",
+			"linkedin_id" => "linkedin",
+			"google_Id" => "google",
+			"twitter_id" => "twitter"
 		);
 		$this->_INTERNAL_SECURE_EXPORT_IGNORE = array(
-			"ClickThis_Id",
-			"OpenId_Token",
-			"Illution_Id",
-			"Wordpress_Id",
-			"Yahoo_Id",
-			"Myspace_Id",
-			"Flickr_Id",
-			"Google_Id",
-			"LinkedIn_Id",
-			"Facebook_Id",
-			"Twitter_Id",
-			"TOPT",
-			"Username",
-			"State",
-			"Method",
-			"Status",
-			"TargetGroup",
-			"UserGroup",
-			"Type"	
+			"google_id",
+			"linkedin_id",
+			"facebook_id",
+			"twitter_id",
+			"topt",
+			"username",
+			"status",
+			"target_group",
+			"user_group",
+			"type"	
 		);
-		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("Name","Email","Country","Username","UserGroup","Facebook_Id","Google_Id","LinkedIn_Id","Twitter_Id");
+		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("name","email","country","username","user_group","facebook_id","google_id","linkedin_id","twitter_id");
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
-		$this->_INTERNAL_FORCE_ARRAY = array("UserGroup","TargetGroup");
-		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id","ClickThis_Id");
-		$this->_INTERNAL_LOAD_FROM_CLASS = array("TargetGroup" => "Group");
+		$this->_INTERNAL_FORCE_ARRAY = array("user_group","target_group");
+		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
+		$this->_INTERNAL_LOAD_FROM_CLASS = array("target_group" => "Group");
 		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_DATABASE_NAME_CONVERT);
 	}
@@ -290,7 +207,7 @@ class User extends Std_Library{
 	 * This function checks if the users profile image is set
 	 */
 	public function CheckProfileImage(){
-		if(is_null($this->ProfileImage)){
+		if(is_null($this->profile_image)){
 			return FALSE;
 		} else {
 			return TRUE;

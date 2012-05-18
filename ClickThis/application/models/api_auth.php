@@ -31,11 +31,11 @@ class Api_Auth extends CI_Model{
 				$EndTime = 3600;
 			}
 			$Query = $this->db->insert($this->config->item("api_simple_token_table"),array(
-				"Token" => $Token,
-				"StartTime" => $StartTime,
-				"EndTime" => $EndTime,
-				"Level" => $Level,
-				"UserId" => $UserId
+				"token" => $Token,
+				"start_time" => $StartTime,
+				"end_time" => $EndTime,
+				"level" => $Level,
+				"user_id" => $UserId
 			));
 			if(is_integer($this->db->insert_id())){
 				return TRUE;
@@ -101,7 +101,7 @@ class Api_Auth extends CI_Model{
 	 */
 	public function App_Exists($AppId = NULL){
 		if(!is_null($AppId)){
-			$Query = $this->db->select("Id")->where(array("Id" => $AppId))->get($this->config->item("api_apps_table"));
+			$Query = $this->db->select("id")->where(array("id" => $AppId))->get($this->config->item("api_apps_table"));
 			if($Query->num_rows() > 0){
 				return TRUE;
 			} else {
@@ -121,7 +121,7 @@ class Api_Auth extends CI_Model{
 	 */
 	private function _User_Exists($UserId = NULL){
 		if(!is_null($UserId)){
-			$Query = $this->db->select("Id")->where(array("Id" => $UserId))->get($this->config->item("api_users_table"));
+			$Query = $this->db->select("id")->where(array("id" => $UserId))->get($this->config->item("api_users_table"));
 			if($Query->num_rows() > 0){
 				return TRUE;
 			} else {
@@ -165,12 +165,12 @@ class Api_Auth extends CI_Model{
 			}
 			$this->db->insert($this->config->item("api_request_code_table"),
 				array(
-					"StartTime" => time(),
-					"RequestCode" => $RequestCode,
-					"AppId" => $AppId,
-					"UserId" => $UserId,
-					"Level" => $Level,
-					"Sections" => $Sections
+					"start_time" => time(),
+					"request_code" => $RequestCode,
+					"app_id" => $AppId,
+					"user_id" => $UserId,
+					"level" => $Level,
+					"sections" => $Sections
 			));	
 			if($this->db->insert_id() !== false && $this->db->insert_id() != 0){
 				return TRUE;
@@ -192,7 +192,7 @@ class Api_Auth extends CI_Model{
 	public function AuthenticationEndpoint($AppId = NULL){
 		if(!is_null($AppId)){
 			if(self::App_Exists($AppId)){
-				$Query = $this->db->select("AuthenticationEndpoint")->limit(1)->where(array("Id" => $AppId))->get($this->config->item("api_apps_table"));
+				$Query = $this->db->select("authentication_endpoint")->limit(1)->where(array("id" => $AppId))->get($this->config->item("api_apps_table"));
 				if($Query->num_rows() > 0){
 					$Data = $Query->result();
 					if(!is_null($Data[0]->AuthenticationEndpoint)){
@@ -220,10 +220,10 @@ class Api_Auth extends CI_Model{
 	 */
 	public function Get_App_Id($RequestCode = NULL){
 		if(!is_null($RequestCode)){
-			$Query = $this->db->select("AppId")->where(array("RequestCode" => $RequestCode))->limit(1)->get($this->config->item("api_request_code_table"));
+			$Query = $this->db->select("app_id")->where(array("request_code" => $RequestCode))->limit(1)->get($this->config->item("api_request_code_table"));
 			if($Query->num_rows() > 0){
 				$Row = current($Query->result());
-				return $Row->AppId;
+				return $Row->app_id;
 			}
 		}
 	}
@@ -237,13 +237,13 @@ class Api_Auth extends CI_Model{
 	 */
 	public function Is_Valid_SimpleToken($Token = NULL){
 		if(!is_null($Token)){
-			$Query = $this->db->where(array("Token" => $Token))->limit(1)->from($this->config->item("api_simple_token_table"))->get();
+			$Query = $this->db->where(array("token" => $Token))->limit(1)->from($this->config->item("api_simple_token_table"))->get();
 			if(!is_null($Query) && $Query->num_rows() > 0){
 				$Row = current($Query->result());
-				if($Row->EndTime == 0){
+				if($Row->end_time == 0){
 					return TRUE;
 				} else {
-					return time() > $Row->EndTime;
+					return time() > $Row->end_time;
 				}
 			} else {
 				return FALSE;
@@ -267,11 +267,11 @@ class Api_Auth extends CI_Model{
 			$Query = $this->db->select("Level,UserId")->where(array("Token" => $Token))->from($this->config->item("api_simple_token_table"))->limit(1)->get();
 			if($Query->num_rows() > 0){
 				$Row = current($Query->result());
-				if(!is_null($Row->Level) && $Row->Level != "" && $Row->Level != 0){
-					$Level = $Row->Level;
+				if(!is_null($Row->level) && $Row->level != "" && $Row->level != 0){
+					$Level = $Row->level;
 				}
-				if(!is_null($Row->UserId) && $Row->UserId != "" && self::_User_Exists($Row->UserId)){
-					$UserId = $Row->UserId;
+				if(!is_null($Row->user_id) && $Row->user_id != "" && self::_User_Exists($Row->user_id)){
+					$UserId = $Row->user_id;
 					return TRUE;
 				} else {
 					return FALSE;
@@ -292,13 +292,13 @@ class Api_Auth extends CI_Model{
 	 */
 	public function Is_Valid_ClickThis_Token($Token = NULL){
 		if(!is_null($Token)){
-			$Query = $this->db->where(array("Token" => $Token))->limit(1)->get($this->config->item("api_simple_token_table"));
+			$Query = $this->db->where(array("token" => $Token))->limit(1)->get($this->config->item("api_simple_token_table"));
 			if($Query->num_rows() > 0){
 				$Row = current($Query->result());
-				if($Row->EndTime == 0 || is_null($Row->EndTime)){
+				if($Row->end_time == 0 || is_null($Row->end_time)){
 					return TRUE;
 				} else {
-					if(time() > $Row->StartTime + $Row->EndTime){
+					if(time() > $Row->start_time + $Row->end_time){
 						return FALSE;
 					} else {
 						return TRUE;
@@ -323,16 +323,16 @@ class Api_Auth extends CI_Model{
 	public function Is_Valid_Access_Token($Token = NULL,$Secret = NULL){
 		if(!is_null($Token)){
 			if(!is_null($Secret)){
-				$Query = $this->db->limit(1)->where(array("AccessKey" => $Token,"AccessSecret" => $Secret))->get($this->config->item("api_access_token_table"));
+				$Query = $this->db->limit(1)->where(array("access_key" => $Token,"access_secret" => $Secret))->get($this->config->item("api_access_token_table"));
 			} else {
-				$Query = $this->db->limit(1)->where(array("AccessKey" => $Token))->get($this->config->item("api_access_token_table"));
+				$Query = $this->db->limit(1)->where(array("access_key" => $Token))->get($this->config->item("api_access_token_table"));
 			}
 			if($Query->num_rows() > 0){
 				$Row = current($Query->result());
-				if($Row->EndTime == 0){
+				if($Row->end_time == 0){
 					return TRUE;
 				} else {
-					if(time() > $Row->StartTime + $Row->EndTime || is_null($Row->EndTime)){
+					if(time() > $Row->start_time + $Row->end_time || is_null($Row->end_time)){
 						return FALSE;
 					} else {
 						return TRUE;
@@ -357,11 +357,11 @@ class Api_Auth extends CI_Model{
 	 */
 	private function _Get_User_On_Request_Tokens($Token = NULL,$Secret = NULL,&$UserId = NULL){
 		if(!is_null($Token) && !is_null($Secret)){
-			$JoinString = $this->config->item("api_request_code_table").".RequestCode"." = ".$this->config->item("api_request_token_table").".RequestCode";
-			$Query = $this->db->select("UserId")->where(array("RequestKey" => $Token,"RequestSecret" => $Secret))->from($this->config->item("api_request_token_table"))->join($this->config->item("api_request_code_table"),$JoinString,"left")->get();
+			$JoinString = $this->config->item("api_request_code_table").".request_code"." = ".$this->config->item("api_request_token_table").".request_code";
+			$Query = $this->db->select("user_id")->where(array("request_key" => $Token,"request_secret" => $Secret))->from($this->config->item("api_request_token_table"))->join($this->config->item("api_request_code_table"),$JoinString,"left")->get();
 			if($Query->num_rows() > 0){
 				$Row = current($Query->result());
-				$UserId = $Row->UserId;
+				$UserId = $Row->user_id;
 				return TRUE;
 			} else {
 				return FALSE;
@@ -385,9 +385,9 @@ class Api_Auth extends CI_Model{
 	public function Authenticate($Token = NULL,$Secret = NULL,&$Level = NULL,&$Sections = NULL,&$UserId = NULL){
 		if(!is_null($Token) && self::Is_Valid_Access_Token($Token,$Secret)){
 			if(!is_null($Secret)){
-				$Query = $this->db->limit(1)->where(array("AccessKey" => $Token,"AccessSecret" => $Secret))->get($this->config->item("api_access_token_table"));
+				$Query = $this->db->limit(1)->where(array("access_key" => $Token,"access_secret" => $Secret))->get($this->config->item("api_access_token_table"));
 			} else {
-				$Query = $this->db->limit(1)->where(array("AccessKey" => $Token))->get($this->config->item("api_access_token_table"));
+				$Query = $this->db->limit(1)->where(array("access_key" => $Token))->get($this->config->item("api_access_token_table"));
 			}
 			if($Query->num_rows() > 0){
 				$Row = current($Query->result());
@@ -425,7 +425,7 @@ class Api_Auth extends CI_Model{
 			if(!is_null($RequestCode)){
 				$AppId = self::Get_App_Id($RequestCode);
 				if(self::App_Exists($AppId)){
-					$Query = $this->db->select("Id")->limit(1)->where(array("ConsumerKey" => $Key,"ConsumerSecret" => $Secret,"Id" => $AppId))->get($this->config->item("api_apps_table"));
+					$Query = $this->db->select("id")->limit(1)->where(array("consumer_key" => $Key,"consumer_secret" => $Secret,"id" => $AppId))->get($this->config->item("api_apps_table"));
 					if($Query->num_rows > 0){
 						return TRUE;
 					} else {
@@ -433,7 +433,7 @@ class Api_Auth extends CI_Model{
 					}
 				} 
 		    }else {
-		    	$Query = $this->db->select("Id")->limit(1)->where(array("ConsumerKey" => $Key,"ConsumerSecret" => $Secret))->get($this->config->item("api_apps_table"));
+		    	$Query = $this->db->select("id")->limit(1)->where(array("consumer_key" => $Key,"consumer_secret" => $Secret))->get($this->config->item("api_apps_table"));
 				if($Query->num_rows > 0){
 					return TRUE;
 				} else {
@@ -453,7 +453,7 @@ class Api_Auth extends CI_Model{
 	 */
 	public function Is_Valid_Request_Code($Code = NULL){
 		if(!is_null($Code)){
-			$Query = $this->db->select("StartTime")->where(array("RequestCode" => $Code))->limit(1)->get($this->config->item("api_request_code_table"));
+			$Query = $this->db->select("start_time")->where(array("request_code" => $Code))->limit(1)->get($this->config->item("api_request_code_table"));
 			if($Query->num_rows() > 0){
 				$Row = $Query->result();
 				$Row = $Row[0];
@@ -482,7 +482,7 @@ class Api_Auth extends CI_Model{
 	 * @since 1.0
 	 */
 	private function _Insert_Request_Tokens($Key,$Secret,$RequestCode,$AppId){
-		$Query = $this->db->insert($this->config->item("api_request_token_table"),array("AppId" => $AppId,"RequestKey" => $Key,"RequestSecret" => $Secret,"RequestCode" => $RequestCode,"StartTime" => time()));
+		$Query = $this->db->insert($this->config->item("api_request_token_table"),array("app_id" => $AppId,"request_key" => $Key,"request_secret" => $Secret,"request_code" => $RequestCode,"start_time" => time()));
 		if(is_integer($this->db->insert_id())){
 			return TRUE;
 		} else {
@@ -499,7 +499,7 @@ class Api_Auth extends CI_Model{
 	 */
 	private function _Is_Request_Token_With_Request_Code_Existing($RequestCode = NULL){
 		if(!is_null($RequestCode)){
-			$Query = $this->db->select("Id")->where("RequestCode",$RequestCode)->limit(1)->get($this->config->item("api_request_token_table"));
+			$Query = $this->db->select("id")->where("request_code",$RequestCode)->limit(1)->get($this->config->item("api_request_token_table"));
 			if($Query->num_rows() > 0){
 				return TRUE;
 			} else {
@@ -543,7 +543,7 @@ class Api_Auth extends CI_Model{
 	 */
 	private function _Get_App_Of_Consumer($ConsumerSecret = NULL,$ConsumerKey = NULL){
 		if(!is_null($ConsumerKey) && !is_null($ConsumerSecret)){
-			$Query = $this->db->limit(1)->select("Id")->where(array("ConsumerKey" => $ConsumerKey,"ConsumerSecret" => $ConsumerSecret))->get($this->config->item("api_apps_table"));
+			$Query = $this->db->limit(1)->select("id")->where(array("consumer_key" => $ConsumerKey,"consumer_secret" => $ConsumerSecret))->get($this->config->item("api_apps_table"));
 			if($Query->num_rows() > 0){
 				$Row = current($Query->result());
 				return $Row->Id;
@@ -565,7 +565,7 @@ class Api_Auth extends CI_Model{
 		if(!is_null($Key) && !is_null($Secret) && !is_null($ConsumerSecret) && !is_null($ConsumerKey)){
 			$AppId = self::_Get_App_Of_Consumer($ConsumerSecret,$ConsumerKey);
 			if(!is_null($AppId)){
-				$Query = $this->db->limit(1)->select("Id")->where(array("AppId" => $AppId,"RequestKey" => $Key,"RequestSecret" => $Secret))->get($this->config->item("api_request_token_table"));
+				$Query = $this->db->limit(1)->select("Id")->where(array("app_id" => $AppId,"request_key" => $Key,"request_secret" => $Secret))->get($this->config->item("api_request_token_table"));
 				if(!is_null($Query) && $Query->num_rows() > 0){
 					return TRUE;
 				} else {
@@ -591,7 +591,7 @@ class Api_Auth extends CI_Model{
 	 */
 	private function _Get_App_Of_Request_Token($Key = NULL,$Secret = NULL,&$RequestCode,&$AppId){
 		if(!is_null($Key) && !is_null($Secret)){
-			$Query = $this->db->select("AppId,RequestCode")->limit(1)->where(array("RequestKey" => $Key,"RequestSecret" => $Secret))->get($this->config->item("api_request_token_table"));
+			$Query = $this->db->select("app_id,request_code")->limit(1)->where(array("request_key" => $Key,"request_secret" => $Secret))->get($this->config->item("api_request_token_table"));
 			if($Query->num_rows() > 0){
 				$Row = current($Query->result());
 				$RequestCode = $Row->RequestCode;
@@ -615,7 +615,7 @@ class Api_Auth extends CI_Model{
 	 */
 	private function _Get_Permissions($RequestCode = NULL,&$Sections,&$Level){
 		if(!is_null($RequestCode)){
-			$Query = $this->db->select("Sections,Level")->limit(1)->where(array("RequestCode" => $RequestCode))->get($this->config->item("api_request_code_table"));
+			$Query = $this->db->select("sections,level")->limit(1)->where(array("request_code" => $RequestCode))->get($this->config->item("api_request_code_table"));
 			if($Query->num_rows() > 0){
 				$Row = current($Query->result());
 				$Sections = $Row->Sections;
@@ -653,15 +653,15 @@ class Api_Auth extends CI_Model{
 			$EndTime = 432000;
 		}
 		$Query = $this->db->insert($this->config->item("api_access_token_table"),array(
-			"AppId" => $AppId,
-			"RequestKey" => $RequestToken,
-			"RequestSecret" => $RequestSecret,
-			"AccessKey" => $Key,
-			"AccessSecret" => $Secret,
-			"StartTime" => $StartTime,
-			"EndTime" => $EndTime,
-			"Level" => $Level,
-			"Sections" => $Sections
+			"app_id" => $AppId,
+			"request_key" => $RequestToken,
+			"request_secret" => $RequestSecret,
+			"access_key" => $Key,
+			"access_secret" => $Secret,
+			"start_time" => $StartTime,
+			"end_time" => $EndTime,
+			"level" => $Level,
+			"sections" => $Sections
 		));
 		if(is_integer($this->db->insert_id()) && $this->db->insert_id() != 0){
 			return true;
@@ -680,7 +680,7 @@ class Api_Auth extends CI_Model{
 	 */
 	private function _Is_Request_Token_Used($Key = NULL,$Secret = NULL){
 		if(!is_null($Key) && !is_null($Secret)){
-			$Query = $this->db->select("Id")->limit(1)->where(array("RequestKey" => $Key,"RequestSecret" => $Secret))->get($this->config->item("api_access_token_table"));
+			$Query = $this->db->select("Id")->limit(1)->where(array("request_key" => $Key,"request_secret" => $Secret))->get($this->config->item("api_access_token_table"));
 			if(!is_null($Query) && $Query->num_rows() == 0){
 				return FALSE;
 			} else {

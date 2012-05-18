@@ -35,7 +35,7 @@ class Api_Login extends CI_Model{
 	 */
 	public function Username($Username = NULL,&$Result = NULL){
 		if(!is_null($Username)){
-			$Query = $this->db->select("Id,Password,Username,Status")->limit(1)->where(array("Username" => $Username))->get($this->config->item("api_users_table"));
+			$Query = $this->db->select("id,password,username,status")->limit(1)->where(array("username" => $Username))->get($this->config->item("api_users_table"));
 			if($Query->num_rows() > 0){
 				$Result = current($Query->result_array());
 				return TRUE;

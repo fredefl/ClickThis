@@ -16,7 +16,7 @@ class Group extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Id = NULL;
+	public $id = NULL;
 
 	/**
 	 * The name of the group
@@ -24,7 +24,7 @@ class Group extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Name = NULL;
+	public $name = NULL;
 
 	/**
 	 * This property stores the id of the members of this grouo
@@ -32,7 +32,7 @@ class Group extends Std_Library{
 	 * @since 1.0
 	 * @access public
 	 */
-	public $Members = NULL;
+	public $members = NULL;
 
 	/**
 	 * This property stores the id's of the administrators of this group
@@ -40,7 +40,7 @@ class Group extends Std_Library{
 	 * @since 1.0
 	 * @access public
 	 */
-	public $Administrators = NULL;
+	public $administrators = NULL;
 
 	/**
 	 * This property stores the group's title, displayed on the group page
@@ -48,7 +48,7 @@ class Group extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Title = NULL;
+	public $title = NULL;
 
 	/**
 	 * This property stores a description of the group, displayed on the groups page
@@ -56,7 +56,7 @@ class Group extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Description = NULL;
+	public $description = NULL;
 
 	/**
 	 * This property stores the database id of the user that created this group
@@ -64,7 +64,7 @@ class Group extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Creator = NULL;
+	public $creator = NULL;
 
 	#### Class Setttings ####
 
@@ -82,7 +82,7 @@ class Group extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Database_Table = "Groups";
+	public $Database_Table = "groups";
 	
 	/**
 	 * This function is the constructor, it load's the model regarding this class,
@@ -95,9 +95,9 @@ class Group extends Std_Library{
 		self::Config($this->_CI);
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("Name","Creator");
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
-		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id");
-		$this->_INTERNAL_SIMPLE_LOAD = array("Creator" => true);
-		$this->_INTERNAL_LOAD_FROM_CLASS = array("Creator" => "User");
+		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
+		$this->_INTERNAL_SIMPLE_LOAD = array("creator" => true);
+		$this->_INTERNAL_LOAD_FROM_CLASS = array("creator" => "User");
 		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 	}
 }

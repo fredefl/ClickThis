@@ -17,7 +17,7 @@ class Answer extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Id = NULL;
+	public $id = NULL;
 
 	/**
 	 * The selected options
@@ -25,7 +25,7 @@ class Answer extends Std_Library{
 	 * @since 1.0
 	 * @access public
 	 */
-	public $Options = NULL;
+	public $options = NULL;
 
 	/**
 	 * The database id, of the question that this answer contains too.
@@ -33,15 +33,15 @@ class Answer extends Std_Library{
 	 * @since 1.0
 	 * @access public
 	 */
-	public $QuestionId = NULL;
+	public $question_id = NULL;
 
 	/**
-	 * [$UserId description]
+	 * The id of the user that has answered if not anynomous
 	 * @var integer
 	 * @since 1.0
 	 * @access public
 	 */
-	public $UserId = NULL; //If Not annonymouse the use this
+	public $user_id = NULL; //If Not annonymouse the use this
 
 	#### Class Setttings ####
 
@@ -51,7 +51,7 @@ class Answer extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Database_Table = "Answers";
+	public $Database_Table = "answers";
 
 	/**
 	 * This property contains a pointer to Code Igniter
@@ -71,14 +71,14 @@ class Answer extends Std_Library{
 		$this->_CI =& get_instance();
 		self::Config($this->_CI);
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
-		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id");
-		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("UserId","QuestionId");
+		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
+		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("user_id","question_id");
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS_ABORT_ON_NULL = true;
-		$this->_INTERNAL_FORCE_ARRAY = array("Options");
-		$this->_INTERNAL_SAVE_LINK = array("Options" => array("AnswerId" => "Id"));
-		$this->_INTERNAL_PROPERTY_LINK = array("Options" => array("Values","OptionId"));
+		$this->_INTERNAL_FORCE_ARRAY = array("options");
+		$this->_INTERNAL_SAVE_LINK = array("options" => array("answer_id" => "id"));
+		$this->_INTERNAL_PROPERTY_LINK = array("options" => array("values","option_id"));
 		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
-		$this->_INTERNAL_LOAD_FROM_CLASS = array("Options" => "Value");	
+		$this->_INTERNAL_LOAD_FROM_CLASS = array("options" => "Value");	
 	}
 }
 ?>

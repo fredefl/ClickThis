@@ -106,9 +106,9 @@ class Api_Search extends CI_Model{
             $Raw = array();
             if(count($Query) > 0){
                 if(count($Like) > 0){
-                    $Raw = $this->db->limit($this->Limit)->where($Query)->select("Id")->or_like(array_merge($Like,$Or_Like))->get($this->Table);
+                    $Raw = $this->db->limit($this->Limit)->where($Query)->select("id")->or_like(array_merge($Like,$Or_Like))->get($this->Table);
                 } else {
-                     $Raw = $this->db->limit($this->Limit)->where($Query)->select("Id")->get($this->Table);
+                     $Raw = $this->db->limit($this->Limit)->where($Query)->select("id")->get($this->Table);
                 }
             } else if(count($Like) > 0){
                $Raw = $this->db->or_like($Like)->get($this->Table);
@@ -199,12 +199,12 @@ class Api_Search extends CI_Model{
         			$Raw = self::_Get_Query_Data($Query);
         			if(count($Raw) > 0){
                         foreach ($Raw->result() as $Row) {
-            				if(!is_null($Row) && property_exists($Row, "Id")){
+            				if(!is_null($Row) && property_exists($Row, "id")){
             					$Class = new $ClassName();
             					$Temp = NULL;
             					if(!is_null($Class)){
             						if(method_exists($Class, "Load")){
-            							$Class->Load($Row->Id,false,$UserId);
+            							$Class->Load($Row->id,false,$UserId);
             							if($Export && method_exists($Class, "Export")){
             								$Temp = $Class->Export($Database,$Secure);
             							} else {

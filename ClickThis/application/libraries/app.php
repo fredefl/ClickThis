@@ -16,7 +16,7 @@ class App extends Std_Library{
 	 * @since 1.0
 	 * @access public
 	 */
-	public $Id = NULL;
+	public $id = NULL;
 
 	/**
 	 * The contact email of the app support
@@ -24,7 +24,7 @@ class App extends Std_Library{
 	 * @access public
 	 * @var string
 	 */
-	public $Email = NULL;
+	public $email = NULL;
 
 	/**
 	 * The website of the app, if any
@@ -32,7 +32,7 @@ class App extends Std_Library{
 	 * @since 1.0
 	 * @access public
 	 */
-	public $Website = NULL;
+	public $website = NULL;
 
 	/**
 	 * The standard Auth endpoint url
@@ -40,7 +40,7 @@ class App extends Std_Library{
 	 * @since 1.0
 	 * @access public
 	 */
-	public $AuthenticationEndpoint = NULL;
+	public $authentication_endpoint = NULL;
 
 	/**
 	 * The consumer key of the app,
@@ -49,7 +49,7 @@ class App extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $ConsumerKey = NULL;
+	public $consumer_key = NULL;
 
 	/**
 	 * The consumer secret of the app,
@@ -58,7 +58,7 @@ class App extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $ConsumerSecret = NULL;
+	public $consumer_secret = NULL;
 
 	/**
 	 * The name of the app
@@ -66,7 +66,7 @@ class App extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Name = NULL;
+	public $name = NULL;
 
 	/**
 	 * A short app description
@@ -74,7 +74,7 @@ class App extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Description = NULL;
+	public $description = NULL;
 
 	/**
 	 * An application icon, if specified for the app.
@@ -83,7 +83,7 @@ class App extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Image = NULL;
+	public $image = NULL;
 
 	/**
 	 * The database id the user,
@@ -92,7 +92,7 @@ class App extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $UserId = NULL;
+	public $user_id = NULL;
 
 	#### Class settings ####
 
@@ -102,7 +102,7 @@ class App extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Database_Table = "Apps";
+	public $Database_Table = "apps";
 
 	/**
 	 * The constructor of the app class
@@ -110,12 +110,12 @@ class App extends Std_Library{
 	public function App(){
 		$this->_CI =& get_instance();
 		self::Config($this->_CI);
-		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("Name","UserId");
+		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("name","user_id");
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","_CI","Database_Table");
-		$this->_INTERNAL_SECURE_EXPORT_IGNORE = array("AuthenticationEndpoint","ConsumerSecret","ConsumerKey");
+		$this->_INTERNAL_SECURE_EXPORT_IGNORE = array("authentication_endpoint","consumer_secret","consumer_key");
 		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
-		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id");
-		$this->_INTERNAL_LOAD_FROM_CLASS = array("UserId" => "User");
+		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
+		$this->_INTERNAL_LOAD_FROM_CLASS = array("user_id" => "User");
 	}
 
 	/**
@@ -124,8 +124,8 @@ class App extends Std_Library{
 	 * @param integer $ConsumerSecretLength The length of the consumer secret key
 	 */
 	public function Consumer($ConsumerLength = 64,$ConsumerSecretLength = 128){
-		$this->ConsumerKey = self::_Rand_Str($ConsumerLength);
-		$this->ConsumerSecret = self::_Rand_Str($ConsumerSecretLength);
+		$this->consumer_key = self::_Rand_Str($ConsumerLength);
+		$this->consumer_cecret = self::_Rand_Str($ConsumerSecretLength);
 	}
 
 	/**

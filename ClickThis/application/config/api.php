@@ -50,13 +50,13 @@
 	 * The database table for the request codes
 	 * @since 1.0
 	 */
-	$config["api_request_code_table"] = "RequestCodes";
+	$config["api_request_code_table"] = "request_codes";
 
 	/**
 	 * The database tables for the apps
 	 * @since 1.0
 	 */
-	$config["api_apps_table"] = "Apps";
+	$config["api_apps_table"] = "apps";
 
 	/**
 	 * The host of the api
@@ -74,31 +74,31 @@
 	 * The database table for the users
 	 * @since 1.0
 	 */
-	$config["api_users_table"] = "Users";
+	$config["api_users_table"] = "users";
 
 	/**
 	 * The name of the table to store the reset password tokens
 	 * @since 1.0
 	 */
-	$config["api_resetpassword_table"] = "ResetPasswordTokens";
+	$config["api_resetpassword_table"] = "reset_password_tokens";
 
 	/**
 	 * The database table for the request tokens
 	 * @since 1.0
 	 */
-	$config["api_request_token_table"] = "RequestTokens";
+	$config["api_request_token_table"] = "request_tokens";
 
 	/**
 	 * The database table for the access tokens
 	 * @since 1.0
 	 */
-	$config["api_access_token_table"] = "AccessTokens";
+	$config["api_access_token_table"] = "access_tokens";
 
 	/**
 	 * The database table for the simple tokens
 	 * @since 1.0
 	 */
-	$config["api_simple_token_table"] = "Tokens";
+	$config["api_simple_token_table"] = "tokens";
 
 	/**
 	 * The time to live for the request tokens in seconds
@@ -133,7 +133,7 @@
 	 * The table for the activation tokens
 	 * @since 1.0
 	 */
-	$config["api_activation_token_table"] = "ActivationTokens";
+	$config["api_activation_token_table"] = "activation_tokens";
 
 	/**
 	 * The largets token that has secret access(Password access)

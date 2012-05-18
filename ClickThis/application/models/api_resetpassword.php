@@ -19,10 +19,10 @@ class Api_Resetpassword extends CI_Model{
 	 */
 	public function User_Exists($Email = NULL){
 		if(!is_null($Email)){
-			$Query = $this->db->select("Id,Username,Password,Status")->where(array("Email" => $Email))->limit(1)->get($this->config->item("api_users_table"));
+			$Query = $this->db->select("id,username,password,status")->where(array("email" => $Email))->limit(1)->get($this->config->item("api_users_table"));
 			if($Query->num_rows() > 0){
 				$Row = current($Query->result());
-				if(!is_null($Row->Username) && $Row->Username != "" && !is_null($Row->Password) && $Row->Password != "" && $Row->Status == 1){
+				if(!is_null($Row->username) && $Row->username != "" && !is_null($Row->password) && $Row->password != "" && $Row->status == 1){
 					return TRUE;
 				} else {
 					return FALSE;
@@ -45,7 +45,7 @@ class Api_Resetpassword extends CI_Model{
 	public function TokenExists($Email = NULL){
 		if(!is_null($Email)){
 			if(self::_Get_User_Information($Email,$Name,$UserId)){
-				$Query = $this->db->where(array("Email" => $Email,"UserId" => $UserId))->limit(1)->get($this->config->item("api_resetpassword_table"));
+				$Query = $this->db->where(array("email" => $Email,"user_id" => $UserId))->limit(1)->get($this->config->item("api_resetpassword_table"));
 				if($Query->num_rows() > 0){
 					return TRUE;
 				} else {
@@ -68,7 +68,7 @@ class Api_Resetpassword extends CI_Model{
 	 */
 	public function Is_Valid_Token($Token = NULL){
 		if(!is_null($Token)){
-			$Query = $this->db->where(array("Token" => $Token))->limit(1)->get($this->config->item("api_resetpassword_table"));
+			$Query = $this->db->where(array("token" => $Token))->limit(1)->get($this->config->item("api_resetpassword_table"));
 			if($Query->num_rows() > 0){
 				return TRUE;
 			} else {
@@ -90,11 +90,11 @@ class Api_Resetpassword extends CI_Model{
 	 */
 	private function _Get_User_Information($Email = NULL,&$Name = NULL,&$UserId = NULL){
 		if(!is_null($Email)){
-			$Query = $this->db->select("Id,RealName")->where(array("Email" => $Email))->limit(1)->get($this->config->item("api_users_table"));
+			$Query = $this->db->select("id,real_name")->where(array("email" => $Email))->limit(1)->get($this->config->item("api_users_table"));
 			if($Query->num_rows() > 0){
 				$Row = current($Query->result());
-				$Name = $Row->RealName;
-				$UserId = $Row->Id;
+				$Name = $Row->real_name;
+				$UserId = $Row->id;
 				return TRUE;
 			} else {
 				return FALSE;
@@ -205,10 +205,10 @@ class Api_Resetpassword extends CI_Model{
 	 */
 	private function _Get_User_Information_From_Token($Token = NULL,&$UserId = NULL){
 		if(!is_null($Token)){
-			$Query = $this->db->select("UserId")->limit(1)->where(array("Token" => $Token))->get($this->config->item("api_resetpassword_table"));
+			$Query = $this->db->select("user_id")->limit(1)->where(array("token" => $Token))->get($this->config->item("api_resetpassword_table"));
 			if($Query->num_rows() > 0){
 				$Row = current($Query->result());
-				$UserId = $Row->UserId;
+				$UserId = $Row->user_id;
 				return TRUE;
 			} else {
 				return FALSE;
@@ -229,9 +229,9 @@ class Api_Resetpassword extends CI_Model{
 	public function ChangePassword($Password = NULL,$Token = NULL){
 		if(!is_null($Password) && !is_null($Token) && self::Is_Valid_Token($Token) && self::_Get_User_Information_From_Token($Token,$UserId)){
 			$Data = array(
-				"Password" => hash_hmac("sha512", $Password, $this->config->item("api_hash_hmac"))
+				"password" => hash_hmac("sha512", $Password, $this->config->item("api_hash_hmac"))
 			);
-			$this->db->where(array("Id" => $UserId))->update($this->config->item("api_users_table"),$Data);
+			$this->db->where(array("id" => $UserId))->update($this->config->item("api_users_table"),$Data);
 			self::_Remove_Token($UserId);
 			return TRUE;
 		} else {
@@ -248,7 +248,7 @@ class Api_Resetpassword extends CI_Model{
 	 */
 	private function _Remove_Token($UserId = NULL){
 		if(!is_null($UserId)){
-			$this->db->where(array("UserId" => $UserId))->delete($this->config->item("api_resetpassword_table"));
+			$this->db->where(array("user_id" => $UserId))->delete($this->config->item("api_resetpassword_table"));
 			return TRUE;
 		} else {
 			return FALSE;

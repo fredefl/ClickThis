@@ -19,7 +19,7 @@ class Api extends CI_Controller {
 	 * @since 1.0
 	 */
 	public function Series($Id = NULL){
-		self::Standard_API("Series",$Id,"Series");
+		self::Standard_API("Series",$Id,"series");
 	}
 
 	public function __construct(){
@@ -84,8 +84,8 @@ class Api extends CI_Controller {
 			if(is_null($Data)){
 				$this->api_request->Perform_Request();
 				$Data = $this->api_request->Request_Data();
-				if(isset($Data[$ClassName])){
-					$Data = $Data[$ClassName];
+				if(isset($Data[strtolower($ClassName)])){
+					$Data = $Data[strtolower($ClassName)];
 				} else {
 					self::Send_Response(400);
 					return FALSE;
@@ -95,33 +95,13 @@ class Api extends CI_Controller {
 			$Class->Import($Data);
 			if($Class->Save() == true){
 				$Response = array();
-				$Response[$ClassName] = array("Id" => $Class->Id);
+				$Response[strtolower($ClassName)] = array("id" => $Class->id);
 				$Response["error_message"] = NULL;
 				$Response["error_code"] = NULL;
 				self::Send_Response(200,NULL,$Response);
 			} else {
 				self::Send_Response(400);
 			}
-		}
-	}
-
-	/**
-	 * [EnsureCase description]
-	 * @param [type] $Array [description]
-	 */
-	private function EnsureCase($Array = NULL){
-		if(!is_null($Array)){
-			if(is_array($Array)){
-				$Return = array();
-				foreach ($Array as $Key => $Data) {
-					$Return[ucfirst($Key)] = $Data;
-				}
-			} else if(gettype($Array) == "string"){
-				$Return = ucfirst($Array);
-			} else {
-				return $Array;
-			}
-			return $Return;
 		}
 	}
 
@@ -183,7 +163,7 @@ class Api extends CI_Controller {
 			if(is_null($ArrayName)){
 				$ArrayName = $ClassName;
 			}
-			$Content = $Search->Search($Query,$ClassName,true,false,true,$UserId);
+			$Content = $Search->Search($Query,strtolower($ClassName),true,false,true,$UserId);
 			if(!$Content){
 				$Code = 404;
 				$Response[$ArrayName] = array();
@@ -220,7 +200,7 @@ class Api extends CI_Controller {
 	 * @param [type] $Id [description]
 	 */
 	public function User($Id = NULL){
-		$Data = self::Standard_API("User",$Id,"Users","Users",true);
+		$Data = self::Standard_API("User",$Id,"users","users",true);
 		if($Data === false){
 			self::Send_Response(404);
 		} else {
@@ -228,14 +208,14 @@ class Api extends CI_Controller {
 				if(!is_null($Id)){
 					$User = $Data;
 					($User->CheckProfileImage())? $User->ProfileImage = $User->ProfileImage: $User->ProfileImage = "https://gravatar.com/avatar?s=256";
-					$Return["User"] = $User->Export(false,true);
+					$Return["user"] = $User->Export(false,true);
 					$Return["error_message"] = NULL;
 					$Return["error_code"] = NULL;
 					self::Send_Response(200,NULL,$Return);
 				} else {
 					$Users = array();
 					foreach ($Data as $User) {
-						if(is_null($User["ProfileImage"])){
+						if(is_null($User["profile_image"])){
 							$User["ProfileImage"] = "https://gravatar.com/avatar?s=256";
 							$Users[] = $User;
 						} else {
@@ -243,7 +223,7 @@ class Api extends CI_Controller {
 						}
 					}
 					$Return = array();
-					$Return["Users"] = $Users;
+					$Return["users"] = $Users;
 					$Return["error_message"] = NULL;
 					$Return["error_code"] = NULL;
 					self::Send_Response(200,NULL,$Return);
@@ -253,47 +233,31 @@ class Api extends CI_Controller {
 	}
 
 	public function Group($Id = NULL){
-		self::Standard_API("Group",$Id,"Groups");
+		self::Standard_API("Group",$Id,"groups");
 	}
 
 	public function Question($Id = NULL){
-		self::Standard_API("Question",$Id,"Questions");
+		self::Standard_API("Question",$Id,"questions");
 	}
 
 	public function Answer($Id = NULL){
-		self::Standard_API("Answer",$Id,"Answers");
+		self::Standard_API("Answer",$Id,"answers");
 	}
 
 	public function Option($Id = NULL){
-		self::Standard_API("Option",$Id,"Options");
+		self::Standard_API("Option",$Id,"options");
 	}
 
 	public function DidAnswer($Id = NULL){
-		self::Standard_API("DidAnswer",$Id,"DidAnswer","DidAnswers");
-	}
-
-	public function State($Id = NULL){
-		self::Standard_API("State",$Id,"States");
+		self::Standard_API("DidAnswer",$Id,"did_answer","did_answers");
 	}
 
 	public function Country($Id = NULL){
-		self::Standard_API("Country",$Id,"Countries");
-	}
-
-	public function Teacher($Id = NULL){
-		self::Standard_API("Teacher",$Id,"Teachers");
-	}
-
-	public function Pupil($Id = NULL){
-		self::Standard_API("Pupil",$Id,"Pupils");
-	}
-
-	public function School($Id = NULL){
-		self::Standard_API("School",$Id,"Schools");
+		self::Standard_API("Country",$Id,"countries");
 	}
 
 	public function App($Id = NULL){
-		self::Standard_API("App",$Id,"Apps");
+		self::Standard_API("App",$Id,"apps");
 	}
 
 	/**
@@ -408,7 +372,7 @@ class Api extends CI_Controller {
 			if($Class->Load($Id,false,$UserId)){
 				if($Return === false){
 					$Data = array();
-					$Data[$Class_Name] = $Class->Export(false,true);
+					$Data[strtolower($Class_Name)] = $Class->Export(false,true);
 					$Data["error_message"] = NULL;
 					$Data["error_code"] = NULL;
 					self::Send_Response(200,$this->api_request->Format(),$Data);
@@ -682,10 +646,10 @@ class Api extends CI_Controller {
 	 */
 	public function Auth(){
 		$this->load->library("app");
-		if(isset($_SESSION["UserId"]) && !empty($_SESSION["UserId"])){
+		if(isset($_SESSION["UserId"]) && !empty($_SESSION["user_id"])){
 			if($this->api_authentication->AuthDialog()){
 				$App = new App();
-				$App->Load($this->api_authentication->Get("App_Id"));
+				$App->Load($this->api_authentication->Get("app_id"));
 				$this->load->view("auth_view",array(
 					"base_url" => base_url(),
 					"app_description" => $App->Description,
@@ -798,13 +762,13 @@ class Api extends CI_Controller {
 			$Query = $this->db->where(array("Id" => $_SESSION["UserId"]))->get($this->config->item("api_users_table"));
 			if($Query->num_rows() > 0){
 				$Row = current($Query->result());
-				if(!is_null($Row->TOPT) && $Row->TOPT != ""){
+				if(!is_null($Row->topt) && $Row->topt != ""){
 					$this->load->library("onetimepassword");
 					date_default_timezone_set("UTC");
 					$Settings = array(
 						'Algorithm' => $this->config->item("api_topt_algorithm"),
 						'Digits' => $this->config->item("api_topt_digist"),
-						'Key' => $Row->TOPT,
+						'Key' => $Row->topt,
 						'Timestamp' => time(),
 						'InitialTime' => '0',
 						'TimeStep' => $this->config->item("api_topt_timealive"),
@@ -1095,8 +1059,8 @@ class Api extends CI_Controller {
 				$UsernameIn = $_SERVER['PHP_AUTH_USER'];
 				$PasswordIn = $_SERVER['PHP_AUTH_PW'];
 				if($this->api_login->Username($UsernameIn,$Row)){
-					if($UsernameIn === $Row["Username"] && hash_hmac("sha512", $PasswordIn, $this->config->item("api_hash_hmac")) === $Row["Password"] && $Row["Status"] == 1){
-						$_SESSION["UserId"] = $Row["Id"];
+					if($UsernameIn === $Row["username"] && hash_hmac("sha512", $PasswordIn, $this->config->item("api_hash_hmac")) === $Row["password"] && $Row["status"] == 1){
+						$_SESSION["user_id"] = $Row["id"];
 						header('HTTP/1.0 202 Accepted');
 						redirect("token");
 						die();

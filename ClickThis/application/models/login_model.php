@@ -41,14 +41,14 @@ class Login_Model extends CI_Model{
 			return TRUE;
 		} else {
 			$Data = array(
-				"Google" => $Id,
-				"Email" => $Email,
-				"RealName" => $Name,
-				"Language" => $Locale,
-				"Status" => 1
+				"google" => $Id,
+				"email" => $Email,
+				"real_name" => $Name,
+				"language" => $Locale,
+				"status" => 1
 			);
 			if(!is_null($Picture)){
-				$Data["ProfileImage"] = $Picture;
+				$Data["profile_image"] = $Picture;
 			}
 			$this->db->insert($this->config->item("api_users_table"),$Data);
 			$UserId = $this->db->insert_id();
@@ -74,15 +74,15 @@ class Login_Model extends CI_Model{
 			return TRUE;
 		} else {
 			$Data = array(
-				"LinkedIn" => (string)$Id,
-				"RealName" => $Name,
-				"Status" => 1
+				"linkedin" => (string)$Id,
+				"real_name" => $Name,
+				"status" => 1
 			);
 			if(!is_null($Country)){
-				$Data["Country"] = $Country;
+				$Data["country"] = $Country;
 			}
 			if(!is_null($Picture)){
-				$Data["ProfileImage"] = (string)$Picture;
+				$Data["profile_image"] = (string)$Picture;
 			}
 			$this->db->insert($this->config->item("api_users_table"),$Data);
 			$UserId = $this->db->insert_id();
@@ -107,15 +107,15 @@ class Login_Model extends CI_Model{
 			return TRUE;
 		} else {
 			$Data = array(
-				"Foursquare" => (string)$Id,
-				"RealName" => $Name,
-				"Status" => 1
+				"foursquare" => (string)$Id,
+				"real_name" => $Name,
+				"status" => 1
 			);
 			if(!is_null($Email)){
-				$Data["Email"] = $Email;
+				$Data["email"] = $Email;
 			}
 			if(!is_null($Picture)){
-				$Data["ProfileImage"] = (string)$Picture;
+				$Data["profile_image"] = (string)$Picture;
 			}
 			$this->db->insert($this->config->item("api_users_table"),$Data);
 			$UserId = $this->db->insert_id();
@@ -139,12 +139,12 @@ class Login_Model extends CI_Model{
 			return TRUE;
 		} else {
 			$Data = array(
-				"Instagram" => (string)$Id,
-				"RealName" => $Name,
-				"Status" => 1
+				"instagram" => (string)$Id,
+				"real_name" => $Name,
+				"status" => 1
 			);
 			if(!is_null($Picture)){
-				$Data["ProfileImage"] = (string)$Picture;
+				$Data["profile_image"] = (string)$Picture;
 			}
 			$this->db->insert($this->config->item("api_users_table"),$Data);
 			$UserId = $this->db->insert_id();
@@ -167,13 +167,13 @@ class Login_Model extends CI_Model{
 			return TRUE;
 		} else {
 			$Data = array(
-				"Github" => $Id,
-				"Email" => $Email,
-				"RealName" => $Name,
-				"Status" => 1
+				"github" => $Id,
+				"email" => $Email,
+				"real_name" => $Name,
+				"status" => 1
 			);
 			if(!is_null($Picture)){
-				$Data["ProfileImage"] = $Picture;
+				$Data["profile_image"] = $Picture;
 			}
 			$this->db->insert($this->config->item("api_users_table"),$Data);
 			$UserId = $this->db->insert_id();
@@ -199,14 +199,14 @@ class Login_Model extends CI_Model{
 			return TRUE;
 		} else {
 			$Data = array(
-				"Facebook" => $Id,
-				"RealName" => $Name,
-				"Language" => $Language,
-				"Country" => $Country,
-				"Status" => 1
+				"facebook" => $Id,
+				"real_name" => $Name,
+				"language" => $Language,
+				"country" => $Country,
+				"status" => 1
 			);
 			if(!is_null($Email)){
-				$Data["Email"] = $Email;
+				$Data["email"] = $Email;
 			}
 			$this->db->insert($this->config->item("api_users_table"),$Data);
 			$UserId = $this->db->insert_id();
@@ -230,10 +230,10 @@ class Login_Model extends CI_Model{
 			return TRUE;
 		} else {
 			$Data = array(
-				"Twitter" => $Id,
-				"RealName" => $Name,
-				"Language" => $Language,
-				"Status" => 1
+				"twitter" => $Id,
+				"real_name" => $Name,
+				"language" => $Language,
+				"status" => 1
 			);
 			if(!is_null($Country)){
 				$Data["Country"] = $Country;
@@ -258,10 +258,10 @@ class Login_Model extends CI_Model{
 	 */
 	public function User_Exists($Id = NULL,$Provider = NULL,&$UserId = NULL){
 		if(!is_null($Id)){
-			$Query = $this->db->where(array($Provider => $Id))->limit(1)->select("Id")->get($this->config->item("api_users_table"));
+			$Query = $this->db->where(array(strtolower($Provider) => $Id))->limit(1)->select("id")->get($this->config->item("api_users_table"));
 			if($Query->num_rows() > 0){
 				$Row = current($Query->result());
-				$UserId = $Row->Id;
+				$UserId = $Row->id;
 				return TRUE;
 			} else {
 				return FALSE;
@@ -283,7 +283,7 @@ class Login_Model extends CI_Model{
 			$Data = array(
 				$Provider => $Id
 			);
-			$this->db->where(array("Id" => $UserId))->update($this->config->item("api_users_table"),$Data);
+			$this->db->where(array("id" => $UserId))->update($this->config->item("api_users_table"),$Data);
 		}
 	}
 }

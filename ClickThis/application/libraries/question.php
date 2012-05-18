@@ -17,7 +17,7 @@ class Question extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $SeriesId = NULL;
+	public $series_id = NULL;
 
 	/**
 	 * This property contains the title/question
@@ -25,7 +25,7 @@ class Question extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Title = NULL;
+	public $title = NULL;
 
 	/**
 	 * This property contains the database id of the question
@@ -33,7 +33,7 @@ class Question extends Std_Library{
 	 * @since 1.0
 	 * @access public
 	 */
-	public $Id = NULL;
+	public $id = NULL;
 
 	/**
 	 * This property will contain an array of the options for the question
@@ -41,7 +41,7 @@ class Question extends Std_Library{
 	 * @since 1.0
 	 * @access public
 	 */
-	public $Options = NULL;
+	public $options = NULL;
 
 	/**
 	 * Hold the type of the question multiple Choice or Single Choice
@@ -50,7 +50,7 @@ class Question extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Type = NULL;
+	public $type = NULL;
 
 	/**
 	 * This property contains the view order of the question, in the series
@@ -58,7 +58,7 @@ class Question extends Std_Library{
 	 * @since 1.0
 	 * @access public
 	 */
-	public $ViewOrder = NULL;
+	public $view_order = NULL;
 
 	/**
 	 * This property determine if the user
@@ -67,7 +67,7 @@ class Question extends Std_Library{
 	 * @since 1.0
 	 * @access public
 	 */
-	public $ForceAnswer = NULL;
+	public $force_answer = NULL;
 
 	#### Class Setttings ####
 
@@ -77,7 +77,7 @@ class Question extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Database_Table = "Questions";
+	public $Database_Table = "questions";
 
 	/**
 	 * This is an internal property containing a CodeIgniter pointer
@@ -96,13 +96,13 @@ class Question extends Std_Library{
 	public function Question () {
 		$this->_CI =& get_instance();
 		self::Config($this->_CI);
-		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("Title","SeriesId");
+		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("title","series_id");
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
-		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id","Options","Answers");
-		$this->_INTERNAL_LOAD_FROM_CLASS = array("Options" => "Option","Answers" => "Answer");
-		$this->_INTERNAL_LINK_PROPERTIES = array("Options" => array("Options",array("QuestionId" => "Id")));
-		$this->_INTERNAL_FORCE_ARRAY = array("Options");
-		$this->_INTERNAL_CONVERT_TO_BOOLEAN = array("ForceAnswer");
+		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id","options","answers");
+		$this->_INTERNAL_LOAD_FROM_CLASS = array("options" => "option","answers" => "answer");
+		$this->_INTERNAL_LINK_PROPERTIES = array("options" => array("options",array("question_id" => "id")));
+		$this->_INTERNAL_FORCE_ARRAY = array("options");
+		$this->_INTERNAL_CONVERT_TO_BOOLEAN = array("force_answer");
 		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 	}
 }

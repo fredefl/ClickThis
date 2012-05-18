@@ -18,7 +18,7 @@ class Series extends Std_Library{
 	 * @since 1.0
 	 * @access public
 	 */
-	public $Id = NULL;
+	public $id = NULL;
 
 	/**
 	 * An array of the questions of the Series, in objects
@@ -26,7 +26,7 @@ class Series extends Std_Library{
 	 * @since 1.0
 	 * @access public
 	 */
-	public $Questions = NULL;
+	public $questions = NULL;
 
 	/**
 	 * The start time of the series, when it's going to be published
@@ -34,7 +34,7 @@ class Series extends Std_Library{
 	 * @since 1.0
 	 * @access public
 	 */
-	public $StartTime = NULL;
+	public $start_time = NULL;
 
 	/**
 	 * The time that the series will end
@@ -42,7 +42,7 @@ class Series extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $EndTime = NULL;
+	public $end_time = NULL;
 
 	/**
 	 * The surveys title
@@ -50,7 +50,7 @@ class Series extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Title = NULL;
+	public $title = NULL;
 
 	/**
 	 * The database id of the creator
@@ -58,7 +58,7 @@ class Series extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Creator = NULL;
+	public $creator = NULL;
 
 	/**
 	 * The state of the series,
@@ -67,7 +67,7 @@ class Series extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $State = NULL;
+	public $state = NULL;
 
 	/**
 	 * If the series is anonymous or not
@@ -75,7 +75,7 @@ class Series extends Std_Library{
 	 * @since 1,0
 	 * @access public
 	 */
-	public $Type = NULL;
+	public $type = NULL;
 
 	/**
 	 * The series description, will be shown in the series view
@@ -83,7 +83,7 @@ class Series extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Description = NULL; 
+	public $description = NULL; 
 
 	/**
 	 * The groups that is going to be able see the series
@@ -91,7 +91,7 @@ class Series extends Std_Library{
 	 * @since 1.0
 	 * @access public
 	 */
-	public $TargetGroup = NULL;
+	public $target_group = NULL;
 
 	/**
 	 * This property can be used to share a series with only peoples instead
@@ -101,7 +101,7 @@ class Series extends Std_Library{
 	 * @todo Add this property to the Database
 	 * @access public
 	 */
-	public $TargetPeople = NULL;
+	public $target_people = NULL;
 
 	/**
 	 * The text to show in the beginning of the series
@@ -109,7 +109,7 @@ class Series extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $StartText = NULL;
+	public $start_text = NULL;
 
 	/**
 	 * The text to show in the end of the survey
@@ -117,7 +117,7 @@ class Series extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $EndText = NULL;
+	public $end_text = NULL;
 
 	/**
 	 * If the sruvey is going to be shared public, private or with link.
@@ -126,7 +126,7 @@ class Series extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $ShareType = NULL;
+	public $share_type = NULL;
 
 	### Class Settings ###
 
@@ -136,7 +136,7 @@ class Series extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Database_Table = "Series";
+	public $Database_Table = "series";
 
 	/**
 	 * The local instance of CodeIgniter
@@ -154,24 +154,24 @@ class Series extends Std_Library{
 		$this->_CI =& get_instance();
 		self::Config($this->_CI);
 		$this->_INTERNAL_DATABASE_NAME_CONVERT = array(
-			"Type" => "SeriesType"
+			"type" => "series_type"
 		);
-		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("Creator","EndTime","StartTime","Title");
+		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("creator","end_time","start_time","title");
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
-		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id","Questions");
-		$this->_INTERNAL_SIMPLE_LOAD = array("Creator" => true);
+		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id","questions");
+		$this->_INTERNAL_SIMPLE_LOAD = array("creator" => true);
 		$this->_INTERNAL_LOAD_FROM_CLASS = array(
-			"TargetGroup" => "Group",
-			"TargetPeople" => "User",
-			"Questions" => "Question",
-			"Creator" => "User"
+			"target_group" => "Group",
+			"target_people" => "User",
+			"questions" => "Question",
+			"creator" => "User"
 		);
 		$this->_INTERNAL_FORCE_ARRAY = array(
-			"Questions",
-			"TargetPeople",
-			"TargetGroup"
+			"questions",
+			"target_people",
+			"target_group"
 		);
-		$this->_INTERNAL_LINK_PROPERTIES = array("Questions" => array("Questions",array("SeriesId" => "Id")));
+		$this->_INTERNAL_LINK_PROPERTIES = array("questions" => array("questions",array("series_id" => "id")));
 		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_DATABASE_NAME_CONVERT);
 	}

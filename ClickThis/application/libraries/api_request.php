@@ -205,17 +205,13 @@ class Api_Request{
 				}
 				break;
 			case 'post':
-				if(isset($GLOBALS["HTTP_RAW_POST_DATA"])){
-					$this->_Request_Vars = self::_Request_Vars($GLOBALS["HTTP_RAW_POST_DATA"]);
-				} else if(isset($_POST)){
-					$this->_Request_Vars = self::_Request_Vars($_POST);
-				}
+				$this->_Request_Vars = file_get_contents("php://input");
 				break;
 			case 'put':
-				parse_str(file_get_contents('php://input', $this->_Request_Vars));
+				$this->_Request_Vars = file_get_contents("php://input");
 				break;
 			case 'delete':
-				parse_str(file_get_contents('php://input'), $this->_Request_Vars);
+				$this->_Request_Vars = file_get_contents("php://input");
 				break;
 			case 'head':
 				ob_start();
@@ -233,7 +229,7 @@ class Api_Request{
 			case 'options':
 				break;
 			case 'patch':
-				parse_str(file_get_contents('php://input', $this->_Request_Vars));
+				$this->_Request_Vars = file_get_contents("php://input");
 				break;
 			default:
 				header("Content-type:application/json");
