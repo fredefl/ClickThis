@@ -40,19 +40,19 @@ var homeGenerator = {
 		$(data.Series).each(function (index, element) {
 			// A the series to home
 			$("#series").append(homeGenerator.newSeries(
-				element.Title,
-				element.Id,
-				element.Creator.Name,
-				element.Creator.Id
+				element.title,
+				element.id,
+				element.creator.name,
+				element.creator.id
 			));
 			// Add the div that should contain the series
-			$("#seriesContainer").append('<div id="series_' + element.Id + '"></div>');
+			$("#seriesContainer").append('<div id="series_' + element.id + '"></div>');
 			// Generate the series
-			seriesGenerator.generate(element, $("#series_" + element.Id));
+			seriesGenerator.generate(element, $("#series_" + element.id));
 			// Add some swipe magic
-			seriesGenerator.addSwipe($("#series_" + element.Id)[0], element.Id);
+			seriesGenerator.addSwipe($("#series_" + element.id)[0], element.id);
 			// Hide the series again
-			$("#series_" + element.Id).hide();
+			$("#series_" + element.id).hide();
 		});
 		// Hide the series container again
 		$("#seriesContainer").hide();
