@@ -16,7 +16,7 @@ class Country extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Id = NULL;
+	public $id = NULL;
 
 	/**
 	 * The languages of the country
@@ -24,7 +24,7 @@ class Country extends Std_Library{
 	 * @since 1.0
 	 * @access public
 	 */
-	public $Languages = NULL;
+	public $languages = NULL;
 
 	/**
 	 * The calling code of the country
@@ -32,7 +32,7 @@ class Country extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $CallingCode = NULL;
+	public $calling_code = NULL;
 
 	/**
 	 * The countrys abbrevation
@@ -40,13 +40,13 @@ class Country extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Abbrevation = NULL;
+	public $abbrevation = NULL;
 
 	/**
 	 * The name of the country
 	 * @var string
 	 */
-	public $Name = NULL;
+	public $name = NULL;
 
 	/**
 	 * The upper case name of the country
@@ -54,7 +54,7 @@ class Country extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $UName = NULL;
+	public $upper_name = NULL;
 
 	/**
 	 * A two digit code of the country
@@ -62,7 +62,7 @@ class Country extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Code = NULL;
+	public $code = NULL;
 
 	#### Class Setttings ####
 
@@ -72,7 +72,7 @@ class Country extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Database_Table = "Countries";
+	public $Database_Table = "countries";
 
 	/**
 	 * This is an internal property containing a CodeIgniter pointer
@@ -93,11 +93,11 @@ class Country extends Std_Library{
 		self::Config($this->_CI);
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_DATABASE_NAME_CONVERT = array(
-			"UName" => "UpperCaseName",
-			"Name" => "LowerCaseName"
+			"upper_name" => "upper_case_name",
+			"name" => "lower_case_name"
 		);
-		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id");
-		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("Code","Abbrevation");
+		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
+		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("code","abbrevation");
 		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_DATABASE_NAME_CONVERT);
 	}	

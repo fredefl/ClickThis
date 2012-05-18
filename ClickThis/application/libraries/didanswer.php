@@ -17,7 +17,7 @@ class DidAnswer extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Id = NULL; 
+	public $id = NULL; 
 
 	/**
 	 * The id of the user that is loaded
@@ -25,7 +25,7 @@ class DidAnswer extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $UserId = NULL;
+	public $user_id = NULL;
 
 	/**
 	 * The id of the question that is answered
@@ -33,7 +33,7 @@ class DidAnswer extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $QuestionId = NULL;
+	public $question_id = NULL;
 
 	### Class Settings ###
 
@@ -43,7 +43,7 @@ class DidAnswer extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Database_Table = "DidAnswer";
+	public $Database_Table = "did_answer";
 
 	/**
 	 * The local instance of CodeIgniter
@@ -65,7 +65,7 @@ class DidAnswer extends Std_Library{
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("UserId","QuestionId");
 		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
-		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id");
+		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
 	}
 }
 ?>

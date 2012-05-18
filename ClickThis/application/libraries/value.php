@@ -16,7 +16,7 @@ class Value extends Std_Library{
 	 * @since 1.0
 	 * @access public
 	 */
-	public $Id = NULL;
+	public $id = NULL;
 
 	/**
 	 * The database id of the selected option
@@ -24,7 +24,7 @@ class Value extends Std_Library{
 	 * @since 1.0
 	 * @access public
 	 */
-	public $OptionId = NULL;
+	public $option_id = NULL;
 
 	/**
 	 * The selected value
@@ -32,7 +32,7 @@ class Value extends Std_Library{
 	 * @since 1.0
 	 * @var string|integer
 	 */
-	public $Value = NULL;
+	public $value = NULL;
 
 	/**
 	 * The id of the answer that this value is a child of
@@ -40,7 +40,7 @@ class Value extends Std_Library{
 	 * @since 1.0
 	 * @access public
 	 */
-	public $AnswerId = NULL;
+	public $answer_id = NULL;
 
 	#### Class Setttings ####
 
@@ -50,7 +50,7 @@ class Value extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Database_Table = "Values";
+	public $Database_Table = "values";
 
 	/**
 	 * This property contains a pointer to Code Igniter
@@ -65,8 +65,8 @@ class Value extends Std_Library{
 		$this->_CI =& get_instance();
 		self::Config($this->_CI);
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI","Id");
-		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("OptionId","AnswerId");
-		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id");
+		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("option_id","answer_id");
+		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
 		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 	}
 }

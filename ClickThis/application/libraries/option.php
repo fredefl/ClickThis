@@ -16,7 +16,7 @@ class Option extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Id = NULL;
+	public $id = NULL;
 
 	/**
 	 * The option title/option
@@ -24,7 +24,7 @@ class Option extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Title = NULL;
+	public $title = NULL;
 
 	/**
 	 * The option type etc Multiple choice,single choice, form field
@@ -37,7 +37,7 @@ class Option extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $OptionType = NULL;
+	public $option_type = NULL;
 
 	/**
 	 * The id of the parent question
@@ -45,7 +45,7 @@ class Option extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $QuestionId = NULL;
+	public $question_id = NULL;
 
 	/**
 	 * The view order of the option etc 5
@@ -53,7 +53,7 @@ class Option extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $ViewOrder = NULL;
+	public $view_order = NULL;
 
 	/**
 	 * The button color
@@ -61,7 +61,7 @@ class Option extends Std_Library{
 	 * @since 1.0
 	 * @access public
 	 */
-	public $Color = NULL;
+	public $color = NULL;
 
 	/**
 	 * The size of the option
@@ -69,7 +69,7 @@ class Option extends Std_Library{
 	 * @since 1.1
 	 * @access public
 	 */
-	public $Size = NULL;
+	public $size = NULL;
 
 	/**
 	 * If the current user has selected this option
@@ -78,7 +78,7 @@ class Option extends Std_Library{
 	 * @since 1.0
 	 * @access public
 	 */
-	public $Value = 0;
+	public $value = 0;
 
 	#### Class Setttings ####
 
@@ -88,7 +88,7 @@ class Option extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $Database_Table = "Options";
+	public $Database_Table = "options";
 
 	/**
 	 * A local pointer to CodeIgniter
@@ -108,9 +108,9 @@ class Option extends Std_Library{
 		$this->_CI =& get_instance();
 		self::Config($this->_CI);
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
-		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("QuestionId","Title");
-		$this->_INTERNAL_DATABASE_NAME_CONVERT = array("OptionType" => "Type");
-		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("Id","Value");
+		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("question_id","title");
+		$this->_INTERNAL_DATABASE_NAME_CONVERT = array("option_type" => "type");
+		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id","value");
 		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_DATABASE_NAME_CONVERT);
 	}
@@ -132,16 +132,16 @@ class Option extends Std_Library{
 		$Answer = new Answer();
 		if(!is_null($UserId) && $UserId != "" && is_integer($UserId)){
 			$Query = array(
-				"UserId" => $UserId,
-				"QuestionId" => $this->QuestionId
+				"user_id" => $UserId,
+				"question_id" => $this->question_id
 			);
-			$Query = $this->_CI->db->select("Id")->where($Query)->like("Options",";".$this->Id.";")->get($Answer->Database_Table);
+			$Query = $this->_CI->db->select("id")->where($Query)->like("options",";".$this->id.";")->get($Answer->Database_Table);
 			if($Query->num_rows() > 0){
 				$Row = current($Query->result());
 				$Value = new Value();
-				if($Value->Find(array("OptionId" => $this->Id,"AnswerId" => $Row->Id))){
-					if((int)$Value->Value !== 0){
-						$this->Value = $Value->Value;
+				if($Value->Find(array("option_id" => $this->Id,"answer_id" => $Row->id))){
+					if((int)$Value->value !== 0){
+						$this->value = $Value->value;
 					}
 				}
 			}

@@ -28,8 +28,8 @@ class Api_Register extends CI_Model{
 	 */
 	public function User_Exists($Username = NULL,$Email = NULL){
 		if(!is_null($Username) && !is_null($Email)){
-			$EmailQuery = $this->db->where(array("Email" => $Email))->limit(1)->get($this->config->item("api_users_table"));
-			$UsernameQuery = $this->db->where(array("Username" => $Username))->limit(1)->get($this->config->item("api_users_table"));
+			$EmailQuery = $this->db->where(array("email" => $Email))->limit(1)->get($this->config->item("api_users_table"));
+			$UsernameQuery = $this->db->where(array("username" => $Username))->limit(1)->get($this->config->item("api_users_table"));
 			if($EmailQuery->num_rows() > 0 || $UsernameQuery->num_rows() > 0){
 				return TRUE;
 			} else {
@@ -52,25 +52,25 @@ class Api_Register extends CI_Model{
 	 * @access public
 	 */
 	public function Register($Username = NULL,$Password = NULL,$Name = NULL,$Email = NULL,&$ReturnUserId){
-		$Data = array("UserGroup" => "User","Status" => 0);
+		$Data = array("user_group" => "user","status" => 0);
 		if(!is_null($Username)){
-			$Data["Username"] = $Username;
+			$Data["username"] = $Username;
 		}
 		if(!is_null($Password)){
-			$Data["Password"] = $Password;
+			$Data["password"] = $Password;
 		}
 		if(!is_null($Email)){
-			$Data["Email"] = $Email;
+			$Data["email"] = $Email;
 		}
 		if(!is_null($Name)){
-			$Data["RealName"] = $Name;
+			$Data["real_name"] = $Name;
 		}
 		$this->db->insert($this->config->item("api_users_table"),$Data);
 		if(is_integer($this->db->insert_id())){
 			$UserId = $this->db->insert_id();
 			$ReturnUserId = $UserId;
 			if(self::_User_Exists($UserId)){
-				return self::_ActivationToken($UserId,$Data["Email"],$Data["RealName"]);
+				return self::_ActivationToken($UserId,$Data["email"],$Data["real_name"]);
 			} else {
 				return FALSE;
 			}
@@ -114,10 +114,10 @@ class Api_Register extends CI_Model{
 		if(!is_null($UserId) && !is_null($Email)){
 			$Token = self::_Rand_Str(64);
 			$TokenData = array(
-				"Token" => $Token,
-				"UserId" => $UserId,
-				"Email" => $Email,
-				"CreatedTime" => time()
+				"token" => $Token,
+				"user_id" => $UserId,
+				"email" => $Email,
+				"created_time" => time()
 			);
 			$this->Token = $Token;
 			$this->db->insert($this->config->item("api_activation_token_table"),$TokenData);
@@ -137,7 +137,7 @@ class Api_Register extends CI_Model{
 	 */
 	private function _User_Exists($UserId = NULL){
 		if(!is_null($UserId)){
-			$Query = $this->db->select("Id")->where(array("Id" => $UserId))->get($this->config->item("api_users_table"));
+			$Query = $this->db->select("id")->where(array("id" => $UserId))->get($this->config->item("api_users_table"));
 			if($Query->num_rows() > 0){
 				return TRUE;
 			} else {
@@ -180,13 +180,13 @@ class Api_Register extends CI_Model{
 	 */
 	private function _Get_User_By_Activation_Token($Token = NULL,&$UserId,&$Status = NULL){
 		if(!is_null($Token)){
-			$Query = $this->db->where(array("Token" => $Token))->limit(1)->get($this->config->item("api_activation_token_table"));
+			$Query = $this->db->where(array("token" => $Token))->limit(1)->get($this->config->item("api_activation_token_table"));
 			if($Query->num_rows() > 0){
 				$Row = current($Query->result());
-				if(self::_User_Exists($Row->UserId)){
-					$UserId = $Row->UserId;
-					if(!is_null($Status) && !is_null($Row->Status)){
-						$Status = $Row->Status;
+				if(self::_User_Exists($Row->user_id)){
+					$UserId = $Row->user_id;
+					if(!is_null($Status) && !is_null($Row->status)){
+						$Status = $Row->status;
 					} else {
 						$Status = 0;
 					}
@@ -211,8 +211,8 @@ class Api_Register extends CI_Model{
 	 */
 	private function _Activate_User($UserId = NULL){
 		if(!is_null($UserId)){
-			$Data = array("Status" => 1);
-			$this->db->where(array("Id" => $UserId))->update($this->config->item("api_users_table"),$Data);
+			$Data = array("status" => 1);
+			$this->db->where(array("id" => $UserId))->update($this->config->item("api_users_table"),$Data);
 			return TRUE;
 		} else {
 			return FALSE;
@@ -228,7 +228,7 @@ class Api_Register extends CI_Model{
 	 */
 	private function _Remove_Token($Token = NULL){
 		if(!is_null($Token)){
-			$this->db->where(array("Token" => $Token))->delete($this->config->item("api_activation_token_table"));
+			$this->db->where(array("token" => $Token))->delete($this->config->item("api_activation_token_table"));
 			return TRUE;
 		} else {
 			return FALSE;
@@ -272,12 +272,12 @@ class Api_Register extends CI_Model{
 	 */
 	private function _Get_User_Information($UserId = NULL,&$Email,&$Name,&$Status = NULL){
 		if(!is_null($UserId)){
-			$Query = $this->db->where(array("Id" => $UserId))->limit(1)->get($this->config->item("api_users_table"));
+			$Query = $this->db->where(array("id" => $UserId))->limit(1)->get($this->config->item("api_users_table"));
 			if($Query->num_rows() > 0){
 				$Row = current($Query->result());
-				$Email = $Row->Email;
-				$Name = $Row->RealName;
-				$Status = $Row->Status;
+				$Email = $Row->email;
+				$Name = $Row->real_name;
+				$Status = $Row->status;
 				return TRUE;
 			} else {
 				return FALSE;

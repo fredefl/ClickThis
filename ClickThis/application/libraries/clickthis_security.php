@@ -147,10 +147,10 @@ class clickthis_security {
 	 * @access private
 	 */
 	public function Uses_Two_Step(){
-		$Query = $this->_CI->db->select("Id,TOPT,TwoStep")->where(array("Id" => $_SESSION["UserId"]))->get($this->_CI->config->item("api_users_table"));
+		$Query = $this->_CI->db->select("id,topt,two_step")->where(array("id" => $_SESSION["UserId"]))->get($this->_CI->config->item("api_users_table"));
 		if($Query->num_rows() > 0){
 			$Row = current($Query->result());
-			if($Row->TOPT !== "" && !is_null($Row->TOPT) && ($Row->TwoStep === 1 || $Row->TwoStep === "1")){
+			if($Row->topt !== "" && !is_null($Row->topt) && ($Row->two_step === 1 || $Row->two_step === "1")){
 				return TRUE;
 			}
 		} 
@@ -181,11 +181,11 @@ class clickthis_security {
 		$this->_CI->load->config("api");
 		$key = rand_number(32);
 		if(isset($_SESSION["UserId"])){
-			$Query = $this->_CI->db->select("Id,TOPT")->where(array("Id" => $_SESSION["UserId"]))->get($this->_CI->config->item("api_users_table"));
+			$Query = $this->_CI->db->select("id,topt")->where(array("id" => $_SESSION["UserId"]))->get($this->_CI->config->item("api_users_table"));
 			if($Query->num_rows() > 0){
 				$Row = current($Query->result());
-				if($Row->TOPT === "" || is_null($Row->TOPT)){
-					$this->_CI->db->where(array("Id" => $_SESSION["UserId"]))->update($this->_CI->config->item("api_users_table"),array("TOPT" => $key));
+				if($Row->topt === "" || is_null($Row->topt)){
+					$this->_CI->db->where(array("id" => $_SESSION["UserId"]))->update($this->_CI->config->item("api_users_table"),array("topt" => $key));
 				}
 			}
 		}
