@@ -95,7 +95,7 @@ document.addEventListener("orientationChanged", function () {
 
 // Get the series
 $.ajax({
-	url: (location.protocol === 'https:' ? "https" : "http") + "://illution.dk/ClickThis/api/series?ShareType=1",
+	url: (location.protocol === 'https:' ? "https" : "http") + "://illution.dk/ClickThis/api/series?share_type=1",
 	type: "GET",
 	success: function(data){
 		homeGenerator.generate(data);

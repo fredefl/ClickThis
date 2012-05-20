@@ -75,18 +75,18 @@ var seriesGenerator = {
 	generateQuestion: function (data) {
 		// Append the container div
 		var i,
-			html = '<div id="question_' + data.Id + '" class="question" data-id="' + data.Id + '">',
+			html = '<div id="question_' + data.id + '" class="question" data-id="' + data.id + '">',
 			options = [],
 			option = null;
 		// Append title
-		html += '<h1>' + data.Title + '</h1>';
+		html += '<h1>' + data.title + '</h1>';
 		// Sort the options
-		options = data.Options;
+		options = data.options;
 		options.sort(function (a, b) {
 			// This sort function sorts so that those items with the lowest view order is first
-			if (parseInt(a.ViewOrder, 10) < parseInt(b.ViewOrder, 10)) { // A is first
+			if (parseInt(a.view_order, 10) < parseInt(b.view_vrder, 10)) { // A is first
 				return -1;
-			} else if (parseInt(a.ViewOrder, 10) > parseInt(b.ViewOrder, 10)) { // B is first
+			} else if (parseInt(a.view_order, 10) > parseInt(b.view_order, 10)) { // B is first
 				return 1;
 			} else {
 				return 0;
@@ -97,13 +97,13 @@ var seriesGenerator = {
 			option = options[i];
 			//html += buttonGenerator.newButton(option.Id, option.Color, option.Title, parseInt(option.OptionType, 10), 1);
 			html += buttonGenerator.newButton({
-				id: option.Id,
-				color: option.Color,
-				text: option.Title,
-				type: parseInt(option.OptionType, 10),
+				id: option.id,
+				color: option.color,
+				text: option.title,
+				type: parseInt(option.option_type, 10),
 				group: 1,
-				size: option.Size,
-				value: option.Value
+				size: option.size,
+				value: option.value
 			});
 		}
 
@@ -137,11 +137,11 @@ var seriesGenerator = {
 		// Append container div
 		var html = "<div>";
 		// Append the start page
-		html += this.generateStart(data.StartText);
+		html += this.generateStart(data.start_text);
 		// Append the questions
-		html += this.generateQuestions(data.Questions);
+		html += this.generateQuestions(data.questions);
 		// Append the end page
-		html += this.generateEnd(data.EndText);
+		html += this.generateEnd(data.end_text);
 		// End the container div
 		html += "</div>";
 		return html;
@@ -161,9 +161,9 @@ var seriesGenerator = {
 		// Add the html
 		$(container).html(this.generateHtml(data));
 		// Add swipe functionality
-		this.addSwipe(container[0], data.Id.toString()); // The [0] converts the jQuery object to a DOM object
+		this.addSwipe(container[0], data.id.toString()); // The [0] converts the jQuery object to a DOM object
 		// Add event listeners
-		this.addListeners(container, data.Id.toString());
+		this.addListeners(container, data.id.toString());
 		// Call ata for the textfields
 		$(".textfield").ata().css("min-heigth", "65px");
 		// Return
@@ -226,10 +226,10 @@ var seriesGenerator = {
 
 		// Build up the query
 		data = {
-			Answer:
+			answer:
 				{
-					QuestionId: $(element).data("id"),
-					Options: []
+					question_id: $(element).data("id"),
+					options: []
 				}
 		};
 
@@ -239,17 +239,17 @@ var seriesGenerator = {
 			if ($(this).data("value") !== 0) {
 				// Standard button
 				if (!$(this).hasClass("textfield")) {
-					data.Answer.Options.push({
-						OptionId: $(this).data("id"),
-						Value: $(this).data("value")
+					data.answer.options.push({
+						option_id: $(this).data("id"),
+						value: $(this).data("value")
 					});
 				// Textfield
 				} else {
 					textfield = $(this).find("textarea");
 					if (textfield.val() !== "") {
-						data.Answer.Options.push({
-							OptionId: $(this).data("id"),
-							Value: textfield.val()
+						data.answer.options.push({
+							option_id: $(this).data("id"),
+							value: textfield.val()
 						});
 					}
 				}
@@ -261,7 +261,7 @@ var seriesGenerator = {
 		json = JSON.stringify(data);
 
 		// Send data, if there is options selected and the data hasn't been sent before
-		if (data.Answer.Options.length > 0 && json !== seriesGenerator.lastSent) {
+		if (data.answer.options.length > 0 && json !== seriesGenerator.lastSent) {
 			// Add to ajaxQueue
 			ajaxQueue.add({
 				url: (location.protocol === 'https:' ? "https" : "http") + "://illution.dk/ClickThis/api/answer/",
