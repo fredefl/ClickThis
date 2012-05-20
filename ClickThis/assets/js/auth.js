@@ -11,6 +11,10 @@ $(document).ready(function(){
 		title:$(".application-tooltip").html(),
 		placement:"right"
 	});
+	var scopes_description = scopes.split(";");
+	/*$(scopes_description).each(function(index, element){
+		$("#scopes").append(element+"<br>");
+	});*/
 });
 
 /**
@@ -21,16 +25,6 @@ function submitForm(value){
 	if(value != "auth" && value != "cancel"){
 		value == "cancel";
 	}
-	var app_id = getParameterByName("app_id");
-	var redirect = getParameterByName("redirect");
-	var url = $("#base_url").val()+"api/authenticated/?app_id="+app_id+"&redirect="+redirect;
-	if(getParameterByName("level") != null){
-		url = url+"&level="+getParameterByName("level");
-	}
-	if(getParameterByName("sections") != null){
-		url = url+"&sections="+getParameterByName("sections");
-	}
-	$("#myform").attr("action",url);
 	$("#auth").attr("value",value);
 	document.myform.submit();
 }

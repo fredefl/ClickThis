@@ -6,6 +6,7 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo $cdn_url; ?>bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo $cdn_url; ?>css/auth.css">
 	<script type="text/javascript">var root = "<?php echo $base_url; ?>";</script>
+	<script type="text/javascript">var scopes = "<?php echo $scopes; ?>";</script>
 </head>
 <body>
 
@@ -13,9 +14,13 @@
 		<form name="myform" id="myform" method="post" action="">
 			<input type="hidden" hidden value="<?php echo $base_url; ?>" id="base_url" name="base_url" />
 			<input type="hidden" hidden name="auth" id="auth" hidden/>
+			<input type="hidden" hidden name="auth_token" value="<?php echo $auth_token; ?>" hidden/>
 			<div class="application-description-container">
-				<p class="ask-for-permission">Do you wish to authenticate <strong><?php echo $app_name; ?></strong>?</p>
+				<p class="ask-for-permission">Do you wish to authenticate <strong><a href="<?php echo $app_url; ?>"><?php echo $app_name; ?></a></strong>?</p>
 			</div> 
+			<div id="scopes">
+
+			</div>
 			<img src="<?php echo $app_image; ?>" height="98" width="98" class="application-image">
 			<div class="button-container">
 				<input type="button" id="authenticate" value="Authenticate" class="btn btn-primary">

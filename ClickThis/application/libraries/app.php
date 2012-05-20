@@ -40,7 +40,7 @@ class App extends Std_Library{
 	 * @since 1.0
 	 * @access public
 	 */
-	public $authentication_endpoint = NULL;
+	public $auth_endpoint = NULL;
 
 	/**
 	 * The consumer key of the app,
@@ -49,7 +49,7 @@ class App extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $consumer_key = NULL;
+	public $client_id = NULL;
 
 	/**
 	 * The consumer secret of the app,
@@ -58,7 +58,7 @@ class App extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $consumer_secret = NULL;
+	public $client_secret = NULL;
 
 	/**
 	 * The name of the app
@@ -67,6 +67,14 @@ class App extends Std_Library{
 	 * @since 1.0
 	 */
 	public $name = NULL;
+
+	/**
+	 * The URL where the app is hosted
+	 * @var string
+	 * @since 1.0
+	 * @access public
+	 */
+	public $app_url = NULL;
 
 	/**
 	 * A short app description
@@ -83,7 +91,7 @@ class App extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $image = NULL;
+	public $icon_url = NULL;
 
 	/**
 	 * The database id the user,
@@ -92,7 +100,7 @@ class App extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public $user_id = NULL;
+	public $owner_ids = NULL;
 
 	#### Class settings ####
 
@@ -110,12 +118,13 @@ class App extends Std_Library{
 	public function App(){
 		$this->_CI =& get_instance();
 		self::Config($this->_CI);
-		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("name","user_id");
+		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("name","owner_ids");
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","_CI","Database_Table");
-		$this->_INTERNAL_SECURE_EXPORT_IGNORE = array("authentication_endpoint","consumer_secret","consumer_key");
+		$this->_INTERNAL_SECURE_EXPORT_IGNORE = array("authn_endpoint","client_secret","client_id");
 		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
-		$this->_INTERNAL_LOAD_FROM_CLASS = array("user_id" => "User");
+		$this->_INTERNAL_FORCE_ARRAY = array("owner_ids");
+		$this->_INTERNAL_LOAD_FROM_CLASS = array("owner_ids" => "User");
 	}
 
 	/**
@@ -124,8 +133,8 @@ class App extends Std_Library{
 	 * @param integer $ConsumerSecretLength The length of the consumer secret key
 	 */
 	public function Consumer($ConsumerLength = 64,$ConsumerSecretLength = 128){
-		$this->consumer_key = self::_Rand_Str($ConsumerLength);
-		$this->consumer_cecret = self::_Rand_Str($ConsumerSecretLength);
+		$this->client_id = self::_Rand_Str($ConsumerLength);
+		$this->client_id = self::_Rand_Str($ConsumerSecretLength);
 	}
 
 	/**
