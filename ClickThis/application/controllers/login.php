@@ -88,13 +88,13 @@ class Login extends CI_Controller {
  		$Query = $this->db->where(array("Id" => $_SESSION["UserId"]))->get($this->config->item("api_users_table"));
 		if($Query->num_rows() > 0){
 			$Row = current($Query->result());
-			if(!is_null($Row->TOPT) && $Row->TOPT != ""){
+			if(!is_null($Row->topt) && $Row->topt != ""){
 				$this->load->library("onetimepassword");
 				date_default_timezone_set("UTC");
 				$Settings = array(
 					'Algorithm' => $this->config->item("api_topt_algorithm"),
 					'Digits' => $this->config->item("api_topt_digist"),
-					'Key' => $Row->TOPT,
+					'Key' => $Row->topt,
 					'Timestamp' => time(),
 					'InitialTime' => '0',
 					'TimeStep' => $this->config->item("api_topt_timealive"),
@@ -303,7 +303,7 @@ class Login extends CI_Controller {
 						} else {
 							$Email = NULL;
 						}
-						if($this->login_model->Facebook($Account->id,$Account->name,$Email,$CountryObject->Name,$Language,$UserId)){
+						if($this->login_model->Facebook($Account->id,$Account->name,$Email,$CountryObject->name,$Language,$UserId)){
 							if(!is_null($UserId)){
 								$_SESSION["UserId"] = $UserId;
 								redirect($this->config->item("front_page"));
@@ -364,7 +364,7 @@ class Login extends CI_Controller {
 						$this->load->library('country');
 						$CountryObject = new Country();
 						$CountryObject->Find(array("Code" => strtoupper($Account->lang)));
-						if($this->login_model->Twitter($Account->name,$Account->id,$Account->profile_image_url,$Account->lang,$CountryObject->Name,$UserId)){
+						if($this->login_model->Twitter($Account->name,$Account->id,$Account->profile_image_url,$Account->lang,$CountryObject->name,$UserId)){
 							if(!is_null($UserId)){
 								$_SESSION["UserId"] = $UserId;
 								redirect($this->config->item("front_page"));
@@ -427,7 +427,7 @@ class Login extends CI_Controller {
 						$CountryObject = new Country();
 						$CountryObject->Find(array("Code" => strtoupper($Account->location->country->code)));
 						$Name = $Account->{'first-name'}." ".$Account->{'last-name'};
-						if($this->login_model->LinkedIn($Name,$Account->id,$Account->{'picture-url'},$CountryObject->Name,$UserId)){
+						if($this->login_model->LinkedIn($Name,$Account->id,$Account->{'picture-url'},$CountryObject->name,$UserId)){
 							if(!is_null($UserId)){
 								$_SESSION["UserId"] = $UserId;
 								redirect($this->config->item("front_page"));

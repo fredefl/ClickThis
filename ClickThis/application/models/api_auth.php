@@ -58,9 +58,9 @@ class Api_Auth extends CI_Model{
 	public function Logout($UserId = NULL,$Token = NULL){
 		if(!is_null($UserId)){
 			if(!is_null($Token)){
-				$this->db->where(array("UserId" => $UserId,"Token" => $Token))->delete($this->config->item("api_simple_token_table"));
+				$this->db->where(array("user_id" => $UserId,"token" => $Token))->delete($this->config->item("api_simple_token_table"));
 			} else {
-				$this->db->where(array("UserId" => $UserId))->delete($this->config->item("api_simple_token_table"));
+				$this->db->where(array("iser_id" => $UserId))->delete($this->config->item("api_simple_token_table"));
 			}
 			return TRUE;
 		} else {

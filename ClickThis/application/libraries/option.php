@@ -139,7 +139,7 @@ class Option extends Std_Library{
 			if($Query->num_rows() > 0){
 				$Row = current($Query->result());
 				$Value = new Value();
-				if($Value->Find(array("option_id" => $this->Id,"answer_id" => $Row->id))){
+				if($Value->Find(array("option_id" => $this->id,"answer_id" => $Row->id))){
 					if((int)$Value->value !== 0){
 						$this->value = $Value->value;
 					}

@@ -76,7 +76,7 @@ function rand_md5($length = 16) {
  * @return string
  * @author Kyle Florence <kyle.florence@gmail.com>
  */
-function Rand_Str($Length = 32, $Chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890')
+function rand_character($Length = 32, $Chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890')
 {
     $Chars_Length = (strlen($Chars) - 1);
     $String = $Chars{rand(0, $Chars_Length)};

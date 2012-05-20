@@ -825,8 +825,8 @@ class Api extends CI_Controller {
 				$UsernameIn = $Data['login-username'];
 				$PasswordIn = $Data['login-password'];
 				if($this->api_login->Username($UsernameIn,$Row)){
-					if($UsernameIn === $Row["Username"] && hash_hmac("sha512", $PasswordIn, $this->config->item("api_hash_hmac")) === $Row["Password"] && $Row["Status"] == 1){
-						$_SESSION["UserId"] = $Row["Id"];
+					if($UsernameIn === $Row["username"] && hash_hmac("sha512", $PasswordIn, $this->config->item("api_hash_hmac")) === $Row["password"] && $Row["status"] == 1){
+						$_SESSION["UserId"] = $Row["id"];
 						redirect($this->config->item("token"));
 					} else {
 						redirect($this->config->item("login_page"));

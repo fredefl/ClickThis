@@ -129,7 +129,7 @@ class clickthis_security {
 		if(!self::IsLoggedIn() && is_null($this->_UserId)){
 			if(!self::_Pages() && !self::_Keywords()){
 				redirect($this->_CI->config->item("not_logged_in_page"));
-				die();	
+				die();
 			}
 		} else if(self::IsLoggedIn() && !self::_Pages() && !self::_Keywords()){
 			if(!strpos($this->_CI->uri->ruri_string(), $this->_CI->config->item("login_page")) && $_SESSION["check_topt"] === true && self::Uses_Two_Step() === true){
