@@ -104,6 +104,20 @@ class Auth extends CI_Controller {
 	}
 
 	/**
+	 * This function handles input security
+	 * @param  string $input The input string
+	 * @return string
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _security($input){
+		$output = htmlentities($input);
+		$output = htmlspecialchars($input);
+		$output = strip_tags($input);
+		return $output;
+	}
+
+	/**
 	 * This function ensures that the required parameters are set
 	 * @param  array $parameters The parameters to check for
 	 * @param array $optionals A list of optional parameters
@@ -118,7 +132,11 @@ class Auth extends CI_Controller {
 					$this->errors[] = $parameter." is missing";
 					return FALSE;
 				} else {
-					(property_exists($this, $parameter)) ? $this->{$parameter} = $_GET[$parameter] : NULL;
+					if(isset($_GET[$parameter])){
+						(property_exists($this, $parameter)) ? $this->{$parameter} = self::_security($_GET[$parameter]) : NULL;
+					} else if(isset($_POST[$parameter])){
+						(property_exists($this, $parameter)) ? $this->{$parameter} = self::_security($_POST[$parameter]) : NULL;
+					}
 				}
 			}
 			if (!is_null($optionals)) {
@@ -203,15 +221,13 @@ class Auth extends CI_Controller {
 	 * @access private
 	 */
 	private function _user_id(){
-		/*$this->load->model("oauth/user");
+		$this->load->model("oauth/user");
 		if (isset($_SESSION[$this->config->item("oauth_user_id_session_key")]) && !empty($_SESSION[$this->config->item("oauth_user_id_session_key")]) && $this->user->user_exists($_SESSION[$this->config->item("oauth_user_id_session_key")])) {
 			$this->user_id = $_SESSION[$this->config->item("oauth_user_id_session_key")];
 			return TRUE;
 		} else {
 			return FALSE;
-		}*/
-		$this->user_id = 1;
-		return TRUE;
+		}
 	}
 
 	/**
