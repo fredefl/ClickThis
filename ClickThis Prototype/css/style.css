@@ -180,20 +180,6 @@ h1 {
 	z-index: 9999;
 }
 
-.listIcon {
-	background: url("../img/list-icon.png") !important;
-	width: 14px;
-	height: 13px;
-	margin-top:8.5px;
-}
-
-.arrowLeftIcon {
-	background: url("../img/arrow-left-icon.png") !important;
-	width: 14px;
-	height: 14px;
-	margin-top:8px;
-}
-
 #menu {
 	z-index:9999999;
 	width:100px;

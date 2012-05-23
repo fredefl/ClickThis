@@ -21,15 +21,24 @@
 		<link rel="stylesheet" href="css/theme.css?1439"/>
 		<link rel="stylesheet" href="css/buttons.css?1439"/>
 		<link rel="stylesheet" href="css/style.css?1439"/>
+		<link rel="stylesheet" href="css/sprites.css?1439"/>
 	</head>
 	<body>
 		<div id="page">
 			<!--########## toolbar ##########-->
 			<div class="toolbar current">
 				<h1 id="toolbarTitle">ClickThis</h1>
-				<a class="button slideup" id="menuButton">
-					<div class="listIcon"></div>
-				</a>
+				<div class="button-container">
+					<a class="button" id="menuButton">
+						<i class="icon-align-justify icon-white"></i>
+					</a>
+					<a class="button" style="display:none" id="searchButton">
+						<i class="icon-search icon-white"></i>
+					</a>
+					<a class="button" style="display:none" id="seriesNavigatorButton">
+						<i class="icon-chevron-down icon-white"></i>
+					</a>
+				</div> 
 				<a class="back disabled" id="backButton" onclick="page.goTo('home')">
 					Back
 				</a>

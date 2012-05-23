@@ -29,8 +29,11 @@ var page = {
 		home: function () {
 			page.goToHome();
 		},
-		user : function (parameters) {
+		user: function (parameters) {
 			page.goToUser(parameters);
+		},
+		groups: function (parameters) {
+			page.goToGroups(parameters);
 		}
 	},
 
@@ -97,6 +100,10 @@ var page = {
 		element = element.split("/");
 		// Get the responsible function
 		var functionToCall = this.pages[element[0]];
+		// Hide search button
+		$("#searchButton").hide();
+		// Hide the series question navigator
+		$("#seriesNavigatorButton").hide();
 		// Back button
 		page.checkBackButton(element[0]);
 		// Check that the function is existing, if not, screw it
@@ -136,6 +143,8 @@ var page = {
 	 * @return {void}
 	 */
 	goToSeries: function (parameters) {
+		// Show the series question navigator button
+		$("#seriesNavigatorButton").show();
 		// Show the series container, to make sure it is visible
 		$("#seriesContainer").show();
 		// Hide all the surveys
@@ -181,5 +190,9 @@ var page = {
 				this.goTo("home");
 			}
 		}, this));
+	},
+
+	goToGroups: function (parameters) {
+		$("#searchButton").show();
 	}
 };

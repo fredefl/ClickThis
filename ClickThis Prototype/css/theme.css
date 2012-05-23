@@ -35,12 +35,21 @@ body {
 	white-space: nowrap;
 	color: #fff;
 }
-#page .toolbar > .button, #page .back, #page .cancel, #page .add {
+
+.button-container {
 	position: absolute;
 	overflow: hidden;
 	top: 8px;
 	right: 10px;
 	margin: 0;
+	width: auto;
+	height: 30px;
+}
+
+#page .toolbar > .button, #page .back, #page .button-container > .button {
+	float: right;
+	overflow: hidden;
+	margin: 0 0 0 10px;
 	border-width: 0 5px;
 	padding: 0 3px;
 	width: auto;
@@ -62,7 +71,13 @@ body {
 	-ms-border-image: url(../img/button.png) 0 5 0 5;
 	-webkit-touch-callout:none;
 }
+
 #page .back {
+	position: absolute;
+	overflow: hidden;
+	float: none;
+	top: 8px;
+	margin: 0;
 	left: 6px;
 	right: auto;
 	padding: 0;
