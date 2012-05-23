@@ -101,6 +101,7 @@ class Auth extends CI_Controller {
 		$this->load->config("api");
 		$this->load->helper("rand");
 		$this->load->model("oauth/client");
+		$this->load->config("oauth");
 	}
 
 	/**
@@ -132,10 +133,12 @@ class Auth extends CI_Controller {
 					$this->errors[] = $parameter." is missing";
 					return FALSE;
 				} else {
-					if(isset($_GET[$parameter])){
+					if(isset($_GET[$parameter]) && !empty($_GET[$parameter])){
 						(property_exists($this, $parameter)) ? $this->{$parameter} = self::_security($_GET[$parameter]) : NULL;
-					} else if(isset($_POST[$parameter])){
+					} else if(isset($_POST[$parameter]) && !empty($_POST[$parameter])){
 						(property_exists($this, $parameter)) ? $this->{$parameter} = self::_security($_POST[$parameter]) : NULL;
+					} else {
+						return FALSE;
 					}
 				}
 			}
@@ -253,9 +256,22 @@ class Auth extends CI_Controller {
 				}
 			}
 		} else {
-
-			//Add error redirect
-			print_r($this->errors);
+			if(!is_null($this->redirect_uri)){
+				if(is_null($this->response_type)){
+					$this->response_type = "code";
+				}
+				$append_url = "error=".implode(",", $this->errors);
+				if(!is_null($this->state)){
+					$append_url = "&state=".$this->state;
+				}
+				if ($this->response_type == "token") {
+					header("Location: ".$this->redirect_uri."?".$append_url)
+				} else if($this->response_type == "code") {
+					header("Location: ".$this->redirect_uri."#".$append_url);
+				}
+			} else {
+				header("Location: ".base_url().$this->config->item("front_page"));
+			}
 		}
 	}
 

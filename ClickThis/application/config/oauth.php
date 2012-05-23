@@ -18,6 +18,12 @@
 	$config["oauth_request_code_table"] = "request_codes";
 
 	/**
+	 * The name of the device codes table
+	 * @since 1.0
+	 */
+	$config["oauth_device_code_table"] = "device_codes";
+
+	/**
 	 * The name of the table storing the OAuth access tokens
 	 * @since 1.0
 	 */
@@ -33,6 +39,12 @@
 	 * The number of seconds the request code stays alive
 	 */
 	$config["oauth_request_code_time_alive"] = 300;
+
+	/**
+	 * The life time in seconds of a device user code
+	 * @since 1.0
+	 */
+	$config["oauth_device_auth_time_alive"] = 1800;
 
 	/**
 	 * The name of the table to store that an app has been authenticated by the user
