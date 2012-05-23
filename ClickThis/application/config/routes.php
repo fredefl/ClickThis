@@ -51,6 +51,7 @@ $route["token"] = "api/token";
 $route["token/set"] = "api/set_token";
 $route["v1/(:any)"] = "api/$1";
 $route["keypair"] = "api/keypair";
+$route["device/validate"] = "oauth/device/validate_code";
 $route["device"] = "oauth/device/enter_code";
 
 /**

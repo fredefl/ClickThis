@@ -18,6 +18,14 @@ class Device extends CI_Controller {
 	public $client_secret = NULL;
 
 	/**
+	 * The id of the current logged in user
+	 * @var string
+	 * @since 1.0
+	 * @access public
+	 */
+	public $user_id = NULL;
+
+	/**
 	 * The id of the requesting app
 	 * @var integer
 	 * @since 1.0
@@ -26,12 +34,29 @@ class Device extends CI_Controller {
 	public $app_id = NULL;
 
 	/**
+	 * The device code/request code
+	 * that belongs to that user code
+	 * @var string
+	 * @since 1.0
+	 * @access public
+	 */
+	public static $device_code = NULL;
+
+	/**
 	 * An array containing the requesting scopes
 	 * @var array
 	 * @since 1.0
 	 * @access public
 	 */
-	public $scope = NULL;
+	public$scope = NULL;
+
+	/**
+	 * The submitted device code
+	 * @var string
+	 * @since 1.0
+	 * @access public
+	 */
+	public $code = NULL;
 
 	/**
 	 * This function is the constructor it loads the config files
@@ -44,7 +69,24 @@ class Device extends CI_Controller {
 		$this->load->config("oauth");
 		$this->load->helper("rand");
 		$this->load->model("oauth/client");
+		$this->load->model("oauth/token");
 		$this->load->model("oauth/device_token");
+	}
+
+	/**
+	 * This function checks if a user id is specified and is correct
+	 * @return boolean
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _user_id(){
+		$this->load->model("oauth/user_model");
+		if (isset($_SESSION[$this->config->item("oauth_user_id_session_key")]) && !empty($_SESSION[$this->config->item("oauth_user_id_session_key")]) && $this->user_model->user_exists($_SESSION[$this->config->item("oauth_user_id_session_key")])) {
+			$this->user_id = $_SESSION[$this->config->item("oauth_user_id_session_key")];
+			return TRUE;
+		} else {
+			return FALSE;
+		}
 	}
 
 	/**
@@ -97,8 +139,75 @@ class Device extends CI_Controller {
 		echo json_encode($response);
 	}
 
-	public function enter_code(){
+	/**
+	 * This function creates and shows the user the auth dialog
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _dialog(){
+		$_SESSION["auth_token"] = (string)$this->code;
+		$this->load->library("App");
+		$App = new App();
+		$App->Load($this->app_id);
+		$data = array(
+			"base_url" => base_url(),
+			"auth_token" => $_SESSION["auth_token"],
+			"cdn_url" => $this->config->item("cdn_url"),
+			"app_image" => $App->icon_url,
+			"app_description" => $App->description,
+			"app_name" => $App->name,
+			"app_url" => $App->app_url,
+			"scopes" => implode(";", $this->scope)
+		);
+		$this->load->view("auth_view",$data);
+	}
 
+	/**
+	 * This function handles the device auth screen and the device user code screen
+	 * @since 1.0
+	 * @access public
+	 */
+	public function validate_code(){
+		if(isset($_POST["auth"]) && isset($_POST["auth_token"]) && isset($_SESSION["auth_token"]) && $_POST["auth_token"] == $_SESSION["auth_token"] && self::_user_id() && $this->device_token->validate($_SESSION["auth_token"], $this->app_id, $this->scope)){
+			if($_POST["auth"] == "auth"){
+				$this->code = $_SESSION["auth_token"];
+				$this->device_token->authenticate($this->code, $this->user_id, $this->app_id, $this->scope);
+				header("Location: ".base_url().$this->config->item("front_page"));
+			} else {
+				$this->device_token->remove($_SESSION["auth_token"]);
+				header("Location: ".base_url().$this->config->item("front_page"));
+			}
+		} else {
+			if(self::_check_parameters(array("code")) && self::_user_id() && $this->device_token->validate($this->code, $this->app_id, $this->scope)) {
+				if($this->token->is_authenticated($this->app_id, $this->user_id, $this->scope, "offline")){
+					$this->token->request_code($this->device_token->get_device_code($this->code), $this->app_id, $this->user_id, $this->scope, "offline");
+					$this->device_token->remove($this->code);
+					header("Location: ".base_url().$this->config->item("front_page"));
+				} else {
+					self::_dialog();
+				}
+			} else {
+				header("Location: ".base_url().$this->config->item("front_page"));
+			}
+		}
+	}
+
+	/**
+	 * This function checks if a user is logged in, if a user is, 
+	 * then the user is shown the device code screen.
+	 * @since 1.0
+	 * @access public
+	 */
+	public function enter_code(){
+		if(self::_user_id()){
+			$data = array(
+				"base_url" => base_url(),
+				"cdn_url" => $this->config->item("cdn_url")
+			);
+			$this->load->view("device_code_view",$data);
+		} else {
+			header("Location: ".base_url().$this->config->item("not_logged_in_page"));
+		}
 	}
 
 	/**

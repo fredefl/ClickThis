@@ -224,8 +224,8 @@ class Auth extends CI_Controller {
 	 * @access private
 	 */
 	private function _user_id(){
-		$this->load->model("oauth/user");
-		if (isset($_SESSION[$this->config->item("oauth_user_id_session_key")]) && !empty($_SESSION[$this->config->item("oauth_user_id_session_key")]) && $this->user->user_exists($_SESSION[$this->config->item("oauth_user_id_session_key")])) {
+		$this->load->model("oauth/user_model");
+		if (isset($_SESSION[$this->config->item("oauth_user_id_session_key")]) && !empty($_SESSION[$this->config->item("oauth_user_id_session_key")]) && $this->user_model->user_exists($_SESSION[$this->config->item("oauth_user_id_session_key")])) {
 			$this->user_id = $_SESSION[$this->config->item("oauth_user_id_session_key")];
 			return TRUE;
 		} else {

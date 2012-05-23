@@ -1,5 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
-class User extends CI_Model{
+class User_Model extends CI_Model{
 
 	/**
 	 * This function is the constructor it load up some configs
