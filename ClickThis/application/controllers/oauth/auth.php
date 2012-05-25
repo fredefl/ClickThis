@@ -189,8 +189,14 @@ class Auth extends CI_Controller {
 	 */
 	private function _redirect_uri () {
 		if (!is_null($this->app_id)) {
-			$redirect_uri = $this->client->auth_endpoint($this->app_id);
-			if (strpos(strtolower($this->redirect_uri), strtolower($redirect_uri)) !== false) {
+			$result = FALSE;
+			$redirect_uris = explode(",", $this->client->auth_endpoint($this->app_id));
+			foreach ($redirect_uris as $redirect_uri) {
+				if (strpos(strtolower($this->redirect_uri), strtolower($redirect_uri)) !== false) {
+					$result = TRUE;
+				} 
+			}
+			if($result == true){
 				return TRUE;
 			} else {
 				$this->errors[] = "Redirect uri mismatch";
@@ -239,6 +245,7 @@ class Auth extends CI_Controller {
 	 * @access public
 	 */
 	public function index () {
+		//Redirect to login if user is not signed in...
 		$this->load->model("oauth/token");
 		if (self::_check_parameters(array("client_id","response_type","redirect_uri","scope"),array("access_type","state","approval_prompt")) && self::_scopes() && self::_client_id() && self::_redirect_uri() && self::_user_id()) {
 			if (isset($_POST["auth"]) && isset($_POST["auth_token"]) && isset($_SESSION["auth_token"]) && $_POST["auth_token"] == $_SESSION["auth_token"]) {
@@ -260,12 +267,15 @@ class Auth extends CI_Controller {
 				if(is_null($this->response_type)){
 					$this->response_type = "code";
 				}
-				$append_url = "error=".implode(",", $this->errors);
+				$append_url = "";
+				if(!is_null($this->errors) && count($this->errors)){
+					$append_url = "error=".implode(",", $this->errors);
+				}
 				if(!is_null($this->state)){
 					$append_url = "&state=".$this->state;
 				}
 				if ($this->response_type == "token") {
-					header("Location: ".$this->redirect_uri."?".$append_url)
+					header("Location: ".$this->redirect_uri."?".$append_url);
 				} else if($this->response_type == "code") {
 					header("Location: ".$this->redirect_uri."#".$append_url);
 				}
@@ -348,7 +358,7 @@ class Auth extends CI_Controller {
 	 */
 	private function _request_code () {
 		$this->load->model("oauth/token");
-		$code = rand_character(16);
+		$code = rand_character($this->config->item("oauth_request_code_length"));
 		if ($this->token->request_code($code, $this->app_id, $this->user_id, $this->scope, $this->access_type)) {
 			$url = $this->redirect_uri."?code=".$code;
 			if(!is_null($this->state)){

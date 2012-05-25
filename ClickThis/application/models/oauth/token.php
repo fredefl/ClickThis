@@ -41,8 +41,8 @@ class Token extends CI_Model{
 		$this->db->where(array("app_id" => $app_id,"user_id" => $user_id,"created_time <" => time() - $this->config->item("oauth_access_token_time_alive")))->delete($this->config->item("oauth_access_token_table"));
 		$this->db->insert($this->config->item("oauth_access_token_table"),$data);
 
-		if ($grant_type == "code" && $access_type == "online") {
-			if (!self::has_refresh_token($app_id,$user_id,$refresh_token)) {
+		if (($grant_type == "code" || $grant_type == "authorization_code") && $access_type == "offline") {
+			if (!self::has_refresh_token($app_id,$user_id,$refresh_token,$scope)) {
 				$refresh_token_data = array(
 					"refresh_token" => $refresh_token,
 					"scope" => implode(";", $scope),
@@ -77,6 +77,35 @@ class Token extends CI_Model{
 		);
 		$result = $this->db->where($query)->get($this->config->item("oauth_authenticated_table"));
 		return ($result->num_rows() > 0);
+	}
+
+	/**
+	 * This function checks if a refresh token exists
+	 * @param  string  $refresh_token The refresh token to search for
+	 * @return boolean
+	 * @since 1.0
+	 * @access public
+	 */
+	public function is_valid_refresh_token ( $refresh_token ) {
+		$query = $this->db->where(array("refresh_token" => $refresh_token))->select("id")->get($this->config->item("oauth_refresh_token_table"));
+		return ($query->num_rows() > 0);
+	}
+
+	/**
+	 * This function gets information that are stored of a refresh token
+	 * @param  string $refresh_token The refresh token to search for
+	 * @param  integer &$app_id       A variable to store the app id that are the owner of the refresh token
+	 * @param  integer &$user_id      A variable to store the user id that the refresh token gives access too
+	 * @param  array &$scope        A variable to store the authenticated scopes of a refresh token
+	 * @since 1.0
+	 * @access public
+	 */
+	public function get_information_by_refresh_token( $refresh_token, &$app_id, &$user_id, &$scope ){
+		$query = $this->db->where(array("refresh_token" => $refresh_token))->get($this->config->item("oauth_refresh_token_table"));
+		$row = current($query->result());
+		$app_id = $row->app_id;
+		$user_id = $row->user_id;
+		$scope = explode(",", $row->scope);
 	}
 
 	/**
@@ -138,16 +167,74 @@ class Token extends CI_Model{
 	}
 
 	/**
+	 * This function validates if a request code exists and is valid
+	 * @param  string  $code The request code validate
+	 * @return boolean
+	 * @since 1.0
+	 * @access public
+	 */
+	public function is_valid_request_code( $code ){
+		$query = $this->db->select("created_time")->where(array("code" => $code))->get($this->config->item("oauth_request_code_table"));
+		if($query->num_rows() > 0){
+			$row = current($query->result());
+			return ($row->created_time >= time() - $this->config->item("oauth_request_code_time_alive"));
+		} else {
+			return FALSE;
+		}
+	}
+
+	/**
+	 * This function removes a request code
+	 * @param  string $code The request code to remove
+	 * @since 1.0
+	 * @access public
+	 */
+	public function remove_request_code ( $code ) {
+		$this->db->where(array("code" => $code))->delete($this->config->item("oauth_request_code_table"));
+	}
+
+	/**
+	 * This function retrieves information on a request code
+	 * @param  string $code         The request code to seach for
+	 * @param  integer &$app_id      A variable to store the registred app id of the code
+	 * @param  integer &$user_id     A variable to store the user id of the user the code gives access too
+	 * @param  array &$scope       A variable to store the access code of the request
+	 * @param  string &$access_type The access type to create the token with offline or online
+	 * @return boolean
+	 * @since 1.0
+	 * @access public
+	 */
+	public function get_information_by_request_code ( $code, &$app_id, &$user_id, &$scope, &$access_type ) {
+		$query = $this->db->where(array("code" => $code))->get($this->config->item("oauth_request_code_table"));
+		if($query->num_rows() > 0){
+			$row = current($query->result());
+			if ($row->created_time >= time() - $this->config->item("oauth_request_code_time_alive")) {
+				$app_id = $row->app_id;
+				$user_id = $row->user_id;
+				$scope = explode(",", $row->scope);
+				$access_type = $row->access_type;
+				return TRUE;
+			} else {
+				return FALSE;
+			}
+		} else {
+			return FALSE;
+		}
+	}
+
+	/**
 	 * This function checks if that app and that user already have an assosiated refresh token
 	 * @param  string  $app_id         The app id
 	 * @param  string  $user_id        The user id
 	 * @param  pointer  &$refresh_token An variable to store a possible refresh token
+	 * @param array $scope The registred scopes of the user
 	 * @since 1.0
 	 * @access public
 	 * @return boolean
 	 */
-	public function has_refresh_token ($app_id, $user_id, &$refresh_token) {
-		$query = $this->db->select("refresh_token")->where(array("app_id" => $app_id,"user_id" => $user_id))->get($this->config->item("oauth_refresh_token_table"));
+	public function has_refresh_token ($app_id, $user_id, &$refresh_token , $scope = NULL) {
+		sort($scope);
+		$query = $this->db->select("refresh_token")->where(array("app_id" => $app_id,"user_id" => $user_id, "scope" => implode(";", $scope)))->get($this->config->item("oauth_refresh_token_table"));
 		if ($query->num_rows() > 0) {
 			$refresh_token = current($query->result())->refresh_token;
 			return TRUE;

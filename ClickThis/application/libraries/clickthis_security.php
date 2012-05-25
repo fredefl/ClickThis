@@ -128,6 +128,7 @@ class clickthis_security {
 	private function _Check_Security(){
 		if(!self::IsLoggedIn() && is_null($this->_UserId)){
 			if(!self::_Pages() && !self::_Keywords()){
+				$_SESSION["redirect"] = str_replace("/ClickThis/", "", $_SERVER['REQUEST_URI']);
 				redirect($this->_CI->config->item("not_logged_in_page"));
 				die();
 			}
@@ -139,6 +140,26 @@ class clickthis_security {
 		}
 		self::_Ensure_TOPT();
 		self::_Ensure_Token();
+		if(isset($_SESSION["redirect"]) && self::_is_login_page() === false && !self::_is_page("token")){
+			$redirect = $_SESSION["redirect"];
+			unset($_SESSION["redirect"]);
+			header("Location: ".base_url().$redirect);
+		}
+	}
+
+	/**
+	 * This function checks if the current page is the requested
+	 * @param  string  $page The page to check
+	 * @return boolean
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _is_page($page){
+		if(strpos($this->_CI->uri->ruri_string(), $page) !== false || strpos($this->_CI->uri->uri_string(), $page) !== false){
+			return TRUE;
+		} else {
+			return FALSE;
+		}
 	}
 
 	/**
@@ -168,6 +189,20 @@ class clickthis_security {
 		if(self::IsLoggedIn() && !self::_Pages() && !self::_Keywords() && (!isset($_SESSION["clickthis_token"]) || isset($_SESSION["clickthis_token"]) && $_SESSION["clickthis_token"] === "")){
 			unset($_SESSION["clickthis_token"]);
 			redirect("token");
+		}
+	}
+
+	/**
+	 * This function checks if the current page is the login page
+	 * @since 1.0
+	 * @access private
+	 * @return boolean
+	 */
+	private function _is_login_page(){
+		if(strpos($this->_CI->uri->ruri_string(), $this->_CI->config->item("not_logged_in_page")) !== false){
+			return TRUE;
+		} else {
+			return FALSE;
 		}
 	}
 

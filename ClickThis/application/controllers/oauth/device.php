@@ -126,8 +126,8 @@ class Device extends CI_Controller {
 	 * @access private
 	 */
 	private function _create_response(){
-		$user_code = rand_character(6);
-		$device_code = rand_character(32);
+		$user_code = rand_character($this->config->item("oauth_device_user_code_length"));
+		$device_code = rand_character($this->config->item("oauth_request_code_length"));
 		$this->device_token->device_code($device_code, $user_code, $this->app_id, $this->scope);
 		$response = array(
 			"device_code" => $device_code,

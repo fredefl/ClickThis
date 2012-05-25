@@ -35,7 +35,7 @@ $config['folder'] = '/ClickThis/';
 |--------------------------------------------------------------------------
 | Add pages that shudn't have the clickthis_security applied etc 'login','login/twitter'
 */
-$config['pages'] = array('test',"logout",'login','login/google','login/linkedin','login/twitter','login/twitter/auth/','login/facebook','login/linkedin/callback','login/myspace');
+$config['pages'] = array('test',"oauth/access_token","oauth/device/code","logout",'login','login/google','login/linkedin','login/twitter','login/twitter/auth/','login/facebook','login/linkedin/callback','login/myspace');
 
 /*
 |--------------------------------------------------------------------------
@@ -43,7 +43,7 @@ $config['pages'] = array('test',"logout",'login','login/google','login/linkedin'
 |--------------------------------------------------------------------------
 | Keywords/Controllers that doensn't need clickthis_security Login redirection etc 'login'
 */
-$config['keywords'] = array('oauth','verify/login','api','login','social','register','v1',"login/twitter","login/linkedin","login/facebook","login/google","login/myspace");
+$config['keywords'] = array('verify/login','api','login','social','register','v1',"login/twitter","login/linkedin","login/facebook","login/google","login/myspace");
 
 /**
  * The url to get jquery from

@@ -35,7 +35,6 @@ class Frontend extends CI_Controller {
 				$Platform = $_SESSION["platform"];
 			}
 		}
-		self::_Check_Redirect();
 		$this->_Platform = $Platform;
 		if(method_exists($this, "_".ucfirst($Platform))){
 			return call_user_func_array(array($this, "_".ucfirst($Platform)), $Params);
@@ -80,21 +79,6 @@ class Frontend extends CI_Controller {
 	private function _Desktop() {
 		echo $_SESSION["UserId"];
 		$this->load->view("desktop_view");
-	}
-
-	/**
-	 * This function checks if the session redirect is
-	 * set, if it's then the user is redirected
-	 * @since 1.0
-	 * @access private
-	 */
-	private function _Check_Redirect(){
-		if(isset($_SESSION["redirect"])){
-			$redirect = $_SESSION["redirect"];
-			unset($_SESSION["redirect"]);
-			redirect($redirect);
-			exit();
-		}
 	}
 }
 ?>

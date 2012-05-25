@@ -13,7 +13,7 @@
 	&nbsp;to access your account data,<br>
 	&nbsp;please enter the code that the app gave you.
 	<div id="codebox">
-		<form id="code" action="<?php echo $base_url; ?>oauth/device/validate_code" method="post">
+		<form id="code" action="<?php echo $base_url; ?>device/validate" method="post">
 			&nbsp;&nbsp;<input type="text" class="input" name="code">
 			<input type="submit">
 		</form>

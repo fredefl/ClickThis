@@ -38,7 +38,7 @@
 	/**
 	 * The number of seconds the request code stays alive
 	 */
-	$config["oauth_request_code_time_alive"] = 300;
+	$config["oauth_request_code_time_alive"] = 40000;//300;
 
 	/**
 	 * The life time in seconds of a device user code
@@ -51,6 +51,30 @@
 	 * @since 1.0
 	 */
 	$config["oauth_authenticated_table"] = "authenticated_apps";
+
+	/**
+	 * The length of a OAuth request code
+	 * @since 1.0
+	 */
+	$config["oauth_request_code_length"] = 32;
+
+	/**
+	 * The length of the OAuth Device User code
+	 * @since 1.0
+	 */
+	$config["oauth_device_user_code_length"] = 6;
+
+	/**
+	 * The length of a OAuth access token
+	 * @since 1.0
+	 */
+	$config["oauth_access_token_length"] = 32;
+
+	/**
+	 * The length of a OAuth refresh token
+	 * @since 1.0
+	 */
+	$config["oauth_refresh_token_length"] = 32;
 
 	/**
 	 * The session key storing the current user id
