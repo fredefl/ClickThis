@@ -56,7 +56,7 @@ body {
 	height: 30px;
 	line-height: 30px;
 	font-family: inherit;
-	font-size: 12px;
+	font-size: 14px;
 	font-weight: bold;
 	color: #fff;
 	text-shadow: rgba(0, 0, 0, 0.5) 0px -1px 0;
@@ -76,6 +76,7 @@ body {
 	position: absolute;
 	overflow: hidden;
 	float: none;
+	font-size: 12px;
 	top: 8px;
 	margin: 0;
 	left: 6px;
