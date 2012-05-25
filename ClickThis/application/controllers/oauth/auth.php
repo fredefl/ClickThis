@@ -369,7 +369,27 @@ class Auth extends CI_Controller {
 
 			//Add error redirect
 			$this->errors[] = "Something is not matching";
-			print_r($this->errors);
+			self::_error();
+		}
+	}
+
+	/**
+	 * This function outputs errors
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _error(){
+		if(property_exists($this, "errors") && !is_null($this->errors)){
+			$error = array(
+				"errors" => $this->errors
+			);
+			echo json_encode($error);
+		} else {
+			$error = array(
+				"error_code" => 500
+				"error_message" => "Internal Server Error" 
+			);
+			echo json_encode($error);
 		}
 	}
 
@@ -392,7 +412,7 @@ class Auth extends CI_Controller {
 
 			//Add error redirect
 			$this->errors[] = "Something is not matching";
-			print_r($this->errors);
+			self::_error();
 		}
 	}
 }

@@ -29,6 +29,14 @@ class Access_Token extends CI_Controller {
 	public $client_id = NULL;
 
 	/**
+	 * The users refresh token
+	 * @var string
+	 * @since 1.0
+	 * @access public
+	 */
+	public $refresh_token = NULL;
+
+	/**
 	 * The application secret key of the requesting application
 	 * @var string
 	 * @since 1.0
@@ -131,14 +139,39 @@ class Access_Token extends CI_Controller {
 						break;
 					
 					default:
-						//Error
+						$this->errors[] = "Not a valid grant type";
+						self::_error();
 						break;
 				}
 			} else {
-				//Error
+				$this->errors[] = "No grant type deffined";
+				self::_error();
 			}
 		} else {
-			//Error only post allowed
+			$this->errors[] = "Only POST is allowed"
+			self::_error();
+			header("HTTP/1.1 405 Method Not Allowed");
+		}
+	}
+
+
+	/**
+	 * This function outputs errors
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _error(){
+		if(property_exists($this, "errors") && !is_null($this->errors)){
+			$error = array(
+				"errors" => $this->errors
+			);
+			echo json_encode($error);
+		} else {
+			$error = array(
+				"error_code" => 500
+				"error_message" => "Internal Server Error" 
+			);
+			echo json_encode($error);
 		}
 	}
 
@@ -179,8 +212,9 @@ class Access_Token extends CI_Controller {
 			}
 			echo json_encode($return);
 		} else {
-			echo "Error";
-			//Error
+			$this->errors[] = "The deffined parameters is wrong";
+			self::_error();
+			header("HTTP/1.1 503 Service Unavailable");
 		}
 	}
 
@@ -196,10 +230,9 @@ class Access_Token extends CI_Controller {
 			$refresh_token = rand_character(32);
 			$this->refresh_token = $refresh_token;
 			self::_remove_request_code();
-			self::_access_token();
-		} else {
-			echo "Error";
-			//Error
+			self::_access_token($refresh_token);
+		} else {	
+			self::_error();
 		}
 	}
 
@@ -211,10 +244,11 @@ class Access_Token extends CI_Controller {
 	private function _refresh_token () {
 		if(self::_check_parameters(array("refresh_token", "client_id", "client_secret")) && self::_client() && $this->token->is_valid_refresh_token($this->refresh_token)){
 			$this->access_token = rand_character($this->config->item("oauth_access_token_length"));
+			$this->grant_type = "authorization_code";
 			$this->token->get_information_by_refresh_token($this->refresh_token, $this->app_id, $this->user_id, $this->scope);
 			self::_access_token();
 		} else {
-			//Error
+			self::_error();
 		}
 	}
 
@@ -246,7 +280,7 @@ class Access_Token extends CI_Controller {
 				die();
 			}
 		} else {
-			//Error
+			self::_error();
 		}
 	}
 

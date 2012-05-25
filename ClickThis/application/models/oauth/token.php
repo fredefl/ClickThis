@@ -50,7 +50,7 @@ class Token extends CI_Model{
 					"user_id" => $user_id,
 					"app_id" => $app_id
 				);
-				$this->db->insert($this->config->item("oauth_refresh_token_table"),$data);
+				$this->db->insert($this->config->item("oauth_refresh_token_table"),$refresh_token_data);
 			}
 		}
 		return TRUE;
