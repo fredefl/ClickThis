@@ -10,9 +10,11 @@ body {
 	padding: 10px;
 	height: 45px;
 	/* Grey: http://www.irisapp.cc/assets/img/header.png */
+	/*
 	background: 
 		url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAsCAIAAADTpb7BAAABJ0lEQVR42o2RsYqEMBRFXyFYWAgWKVI8SJEikCLFgIWFhf//T3vcSMhO3g4jlwOXA3oTpZT9Q0RDmOcZ2nqeF5Gbts45L8sCbX0cx3VdsJTXGOnKF1r1XgofncurT1taK7r0SSmxFNYqTO6z7/t5nrDWpu2I98oWaGscW6CtY4xsgSnnMfe565Uxdox0xdK8tI9zfppmWKvw0T5taa3vWlVx8NEhxj78eK4M1iohxA+RbXPTNEFbs5Mt0Nbee7ZADWEM506lFGhr1fB/Br1tG0uhrXEshbZ2zrEUPprFferFwVqFE3lVaEbW9d4Cbd222JoVOGjrEEJKCdq6K6b++6zryrdgre+6LX00k/q0O7/rqFW5sQgHbUWW3y2Qk4+RtsXWbYupfwDwhKfqS97nJAAAAABJRU5ErkJggg%3D%3D)
-		#000000 repeat-x;
+		#000000 repeat-x;*/
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#555), to(#111), color-stop(.5,#333),color-stop(.5,#262626));
 	position: fixed;
 	top:0px;
 	left:0px;
@@ -40,7 +42,7 @@ body {
 .button-container {
 	position: absolute;
 	overflow: hidden;
-	top: 8px;
+	top: 7px;
 	right: 10px;
 	margin: 0;
 	width: auto;
@@ -78,7 +80,7 @@ body {
 	overflow: hidden;
 	float: none;
 	font-size: 12px;
-	top: 8px;
+	top: 7px;
 	margin: 0;
 	left: 6px;
 	right: auto;
