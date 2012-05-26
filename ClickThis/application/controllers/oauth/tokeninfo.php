@@ -1,4 +1,13 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+/**
+ * This endpoint is used to show information of a access token
+ * @package Authentication
+ * @license http://illution.dk/copyright © Illution 2012
+ * @subpackage OAuth
+ * @category OAuth
+ * @version 1.0
+ * @author Illution <support@illution.dk>
+ */ 
 class TokenInfo extends CI_Controller {
 
 	/**

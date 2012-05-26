@@ -1,4 +1,13 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+/**
+ * This endpoint is used to revoke the applications access to a user
+ * @package Authentication
+ * @license http://illution.dk/copyright © Illution 2012
+ * @subpackage OAuth
+ * @category OAuth
+ * @version 1.0
+ * @author Illution <support@illution.dk>
+ */ 
 class Revoke extends CI_Controller {
 
 	/**

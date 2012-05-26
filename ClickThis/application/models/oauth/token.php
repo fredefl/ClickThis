@@ -1,4 +1,14 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
+/**
+ * This model is used get information on OAuth tokens,
+ * generate new ones or remove tokens
+ * @package Authentication
+ * @license http://illution.dk/copyright © Illution 2012
+ * @subpackage OAuth
+ * @category Model
+ * @version 1.0
+ * @author Illution <support@illution.dk>
+ */ 
 class Token extends CI_Model{
 
 	/**

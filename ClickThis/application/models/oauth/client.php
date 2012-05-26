@@ -1,6 +1,20 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
+/**
+ * This model is used get information of registred applications in ClickThis
+ * @package Authentication
+ * @license http://illution.dk/copyright © Illution 2012
+ * @subpackage OAuth
+ * @category Model
+ * @version 1.0
+ * @author Illution <support@illution.dk>
+ */ 
 class Client extends CI_Model{
 
+	/**
+	 * This function is the contructor it loads up some configs
+	 * @since 1.0
+	 * @access public
+	 */
 	public function __construct(){
 		parent::__construct();
 		$this->config->load("oauth");

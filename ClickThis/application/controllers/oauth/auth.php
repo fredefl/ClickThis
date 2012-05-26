@@ -1,4 +1,14 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+/**
+ * This endpoint is used to authenticate the user with ClickThis application
+ * and generate a request code
+ * @package Authentication
+ * @license http://illution.dk/copyright © Illution 2012
+ * @subpackage OAuth
+ * @category OAuth
+ * @version 1.0
+ * @author Illution <support@illution.dk>
+ */ 
 class Auth extends CI_Controller {
 
 	/**

@@ -1,7 +1,13 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
- * 
- */
+ * This endpoint is used to generate a OAuth 2.0 access token
+ * @package Authentication
+ * @license http://illution.dk/copyright © Illution 2012
+ * @subpackage OAuth
+ * @category OAuth
+ * @version 1.0
+ * @author Illution <support@illution.dk>
+ */ 
 class Access_Token extends CI_Controller {
 
 	/**
@@ -123,7 +129,7 @@ class Access_Token extends CI_Controller {
 	 * @access public
 	 */
 	public function index () {
-		if (/*strtolower($_SERVER['REQUEST_METHOD'])) == "post"*/ 1== 1) {
+		if (strtolower($_SERVER['REQUEST_METHOD'])) == "post") {
 			if (self::_check_parameters(array("grant_type"))) {
 
 				switch ($this->grant_type) {
