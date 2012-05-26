@@ -12,7 +12,7 @@ class Device_Token extends CI_Model{
 	 * @param  string $device_code The device code, later on to become a request code
 	 * @param  string $user_code   The user code, that the user must enter
 	 * @param  integer $app_id      The id of the app that requests
-	 * @param  array $scope       [description]
+	 * @param  array $scope       The scopes that the app want's access too
 	 * @return boolean
 	 * @since 1.0
 	 * @access public
@@ -28,6 +28,24 @@ class Device_Token extends CI_Model{
 		);
 		$this->db->insert($this->config->item("oauth_device_code_table"),$data);
 		return TRUE;
+	}
+
+	/**
+	 * Thsi function sets the authenticated to one for the device code
+	 * @param  string $code The device code to accept
+	 * @param integer $user_id The id of the authenticated user
+	 * @since 1.0
+	 * @access public
+	 */
+	public function accept_device_code ( $code, $user_id) {
+		$data = array(
+			"autehnticated" => 1,
+			"user_id" => $user_id
+		);
+		$where = array(
+			"device_code" => $code
+		);
+		$this->db->where($where)->update($this->config->item("oauth_device_code_table"),$data);
 	}
 
 	/**
@@ -158,8 +176,7 @@ class Device_Token extends CI_Model{
 			"access_type" => "offline"
 		);
 		$this->db->insert($this->config->item("oauth_authenticated_table"),$data);
-		self::remove($code);
-		$this->token->request_code($device_code, $app_id, $user_id, $scope, "offline");
+		self::accept_device_code($device_code, $user_id);
 	}
 
 	/**
@@ -168,7 +185,79 @@ class Device_Token extends CI_Model{
 	 * @since 1.0
 	 * @access public
 	 */
-	public function remove($code){
+	public function remove ( $code ) {
 		$this->db->where(array("user_code" => $code))->delete($this->config->item("oauth_device_code_table"));
+	}
+
+	/**
+	 * This function checks if an existing request has been made
+	 * @param  string $code The device code
+	 * @return boolean
+	 * @since 1.0
+	 * @access public
+	 */
+	public function last_request_exists ( $code ) {
+		$data = array(
+			"device_code" => $code
+		);
+		$query = $this->db->select("id")->where( $data )->get($this->config->item("oauth_device_code_last_request_table"));
+		return ($query->num_rows() > 0);
+	}
+
+	/**
+	 * This function sets the last request time to the current time
+	 * @param string $code The request code used
+	 * @since 1.0
+	 * @access public
+	 */
+	public function set_request_time ( $code ) {
+		if (self::last_request_exists($code)) {
+			$data = array(
+				"time" => time()
+			);
+			$where = array(
+				"device_code" => $code
+			);
+			$this->db->where($where)->update($this->config->item("oauth_device_code_last_request_table"),$data);
+		} else {
+			$data = array(
+				"device_code" => $code,
+				"time" => time()
+			);
+			$this->db->insert($this->config->item("oauth_device_code_last_request_table"),$data);
+		}
+	}
+
+	/**
+	 * This function removes the last request item for the device code
+	 * @param  string code The device code
+	 * @since 1.0
+	 * @access public
+	 */
+	public function remove_last_request ( $code ) {
+		$where = array(
+			"device_code" => $code
+		);
+		$this->db->where($where)->delete($this->config->item("oauth_device_code_last_request_table"));
+	}
+
+	/**
+	 * This function returns FALSE if the client hasn't waited the requested interval since the last reqeust
+	 * @param  string $code The device code to look for
+	 * @return boolean
+	 * @since 1.0
+	 * @access public
+	 */
+	public function device_code_interval( $code ){
+		$where = array(
+			"device_code" => $code
+		);
+		$query = $this->db->select("time")->where($where)->get($this->config->item("oauth_device_code_last_request_table"));
+		if ($query->num_rows() > 0) {
+			$row = current($query->result());
+			return (time() > $row->time + $this->config->item("oauth_device_code_interval"));
+		} else {
+			return TRUE;
+		}
 	}
 }

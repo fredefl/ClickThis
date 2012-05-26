@@ -30,6 +30,12 @@
 	$config["oauth_access_token_table"] = "access_tokens";
 
 	/**
+	 * The name of the table storing the last device code access token reqeust
+	 * @since 1.0
+	 */
+	$config["oauth_device_code_last_request_table"] = "device_code_last_requests";
+
+	/**
 	 * The time in seconds the access token is alive
 	 * @since 1.0
 	 */
@@ -37,14 +43,27 @@
 
 	/**
 	 * The number of seconds the request code stays alive
+	 * @since 1.0
 	 */
-	$config["oauth_request_code_time_alive"] = 40000;//300;
+	$config["oauth_request_code_time_alive"] = 300;
+
+	/**
+	 * The number of seconds the device code stays alive
+	 * @since 1.0
+	 */
+	$config["oauth_device_code_time_alive"] = 1800;
 
 	/**
 	 * The life time in seconds of a device user code
 	 * @since 1.0
 	 */
 	$config["oauth_device_auth_time_alive"] = 1800;
+
+	/**
+	 * The time that should be between the device access token requests
+	 * @since 1.0
+	 */
+	$config["oauth_device_code_interval"] = 5;
 
 	/**
 	 * The name of the table to store that an app has been authenticated by the user

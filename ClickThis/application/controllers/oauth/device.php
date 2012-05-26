@@ -134,7 +134,7 @@ class Device extends CI_Controller {
 			"user_code" => $user_code,
 			"verification_url" => base_url()."device",
 			"expires_in" => $this->config->item("oauth_device_auth_time_alive"),
-			"interval" => 5
+			"interval" => $this->config->item("oauth_device_code_interval")
 		);
 		echo json_encode($response);
 	}
@@ -180,8 +180,7 @@ class Device extends CI_Controller {
 		} else {
 			if(self::_check_parameters(array("code")) && self::_user_id() && $this->device_token->validate($this->code, $this->app_id, $this->scope)) {
 				if($this->token->is_authenticated($this->app_id, $this->user_id, $this->scope, "offline")){
-					$this->token->request_code($this->device_token->get_device_code($this->code), $this->app_id, $this->user_id, $this->scope, "offline");
-					$this->device_token->remove($this->code);
+					$this->device_token->accept_device_code($this->device_token->get_device_code($this->code), $this->user_id);
 					header("Location: ".base_url().$this->config->item("front_page"));
 				} else {
 					self::_dialog();

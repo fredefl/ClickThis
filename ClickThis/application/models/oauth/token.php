@@ -183,6 +183,36 @@ class Token extends CI_Model{
 		}
 	}
 
+
+	/**
+	 * This function checks if it's a valid device code and the devifce code is authenticated
+	 * @param  string  $code The device code
+	 * @since 1.0
+	 * @access public
+	 * @return boolean
+	 */
+	public function is_valid_device_code( $code ){
+		$query = $this->db->select("created_time,autehnticated")->where(array("device_code" => $code))->get($this->config->item("oauth_device_code_table"));
+		if($query->num_rows() > 0){
+			$row = current($query->result());
+			return ($row->created_time >= time() - $this->config->item("oauth_device_code_time_alive") && ($row->autehnticated == "1" || $row->autehnticated == 1));
+		} else {
+			return FALSE;
+		}
+	}
+
+	/**
+	 * This function checks if a device code exists
+	 * @param  string $code The decice code to check for
+	 * @return booelan
+	 * @since 1.0
+	 * @access public
+	 */
+	public function device_code_exists( $code ){
+		$query = $this->db->select("id")->where(array("device_code" => $code))->get($this->config->item("oauth_device_code_table"));
+		return ($query->num_rows() > 0);
+	}
+
 	/**
 	 * This function removes a request code
 	 * @param  string $code The request code to remove
@@ -191,6 +221,16 @@ class Token extends CI_Model{
 	 */
 	public function remove_request_code ( $code ) {
 		$this->db->where(array("code" => $code))->delete($this->config->item("oauth_request_code_table"));
+	}
+
+	/**
+	 * This function removes a device code
+	 * @param  string $code The device code to remove
+	 * @since 1.0
+	 * @access public
+	 */
+	public function remove_device_code ( $code ) {
+		$this->db->where(array("device_code" => $code))->delete($this->config->item("oauth_device_code_table"));
 	}
 
 	/**
@@ -213,6 +253,34 @@ class Token extends CI_Model{
 				$user_id = $row->user_id;
 				$scope = explode(",", $row->scope);
 				$access_type = $row->access_type;
+				return TRUE;
+			} else {
+				return FALSE;
+			}
+		} else {
+			return FALSE;
+		}
+	}
+
+	/**
+	 * This function gets the information used to create the access token
+	 * from a device code
+	 * @param  string $code     The device code to search for
+	 * @param  integer &$app_id  The app id of the device code
+	 * @param  integer &$user_id The user id of th device code
+	 * @param  array &$scope   The authenticated scopes
+	 * @return boolean
+	 * @since 1.0
+	 * @access public
+	 */
+	public function get_information_by_device_code ( $code, &$app_id, &$user_id, &$scope ) {
+		$query = $this->db->where(array("device_code" => $code))->get($this->config->item("oauth_device_code_table"));
+		if($query->num_rows() > 0){
+			$row = current($query->result());
+			if ($row->created_time >= time() - $this->config->item("oauth_device_code_time_alive")) {
+				$app_id = $row->app_id;
+				$user_id = $row->user_id;
+				$scope = explode(",", $row->scope);
 				return TRUE;
 			} else {
 				return FALSE;

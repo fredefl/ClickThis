@@ -113,6 +113,7 @@ class Access_Token extends CI_Controller {
 		$this->load->helper("rand");
 		$this->load->model("oauth/client");
 		$this->load->model("oauth/token");
+		$this->load->model("oauth/device_token");
 		$this->load->config("oauth");
 	}
 
@@ -148,7 +149,7 @@ class Access_Token extends CI_Controller {
 				self::_error();
 			}
 		} else {
-			$this->errors[] = "Only POST is allowed"
+			$this->errors[] = "Only POST is allowed";
 			self::_error();
 			header("HTTP/1.1 405 Method Not Allowed");
 		}
@@ -168,7 +169,7 @@ class Access_Token extends CI_Controller {
 			echo json_encode($error);
 		} else {
 			$error = array(
-				"error_code" => 500
+				"error_code" => 500,
 				"error_message" => "Internal Server Error" 
 			);
 			echo json_encode($error);
@@ -232,6 +233,7 @@ class Access_Token extends CI_Controller {
 			self::_remove_request_code();
 			self::_access_token($refresh_token);
 		} else {	
+			$this->errors[] = "The request code is incorrect";
 			self::_error();
 		}
 	}
@@ -262,24 +264,66 @@ class Access_Token extends CI_Controller {
 	}
 
 	/**
+	 * This function removes the used device code
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _remove_device_code(){
+		$this->token->remove_device_code($this->code);
+		$this->device_token->remove_last_request($this->code);
+	}
+
+	/**
+	 * This function returns if it's a valid request code that is being used
+	 * @return boolean
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _valid_device_code(){
+		return (!is_null($this->code) && $this->token->is_valid_device_code($this->code));
+	}
+
+	/**
+	 * This function gets the information, from the database on the request code
+	 * @since 1.0
+	 * @access private
+	 */
+	private function _device_code(){
+		$this->token->get_information_by_device_code($this->code, $this->app_id, $this->user_id, $this->scope);
+	}
+
+	/**
 	 * This function handles the device grant type
 	 * @since 1.0
 	 * @access private
 	 */
 	private function _device () {
 		if(self::_check_parameters(array("client_id", "client_secret", "code")) && self::_client()){
-			if(self::_code()){
-				self::_request_code();
-				$this->access_token = rand_character($this->config->item("oauth_access_token_length"));
-				$refresh_token = rand_character($this->config->item("oauth_refresh_token_length"));
-				$this->refresh_token = $refresh_token;
-				self::_remove_request_code();
-				self::_access_token();
+			if($this->token->device_code_exists( $this->code )){
+				if($this->device_token->device_code_interval($this->code)){
+					if(self::_valid_device_code()){
+						self::_device_code();
+						$this->access_type = "offline";
+						$this->access_token = rand_character($this->config->item("oauth_access_token_length"));
+						$refresh_token = rand_character($this->config->item("oauth_refresh_token_length"));
+						$this->refresh_token = $refresh_token;
+						self::_remove_device_code();
+						self::_access_token();
+					} else {
+						$this->device_token->set_request_time($this->code);
+						echo json_encode(array("error" => "authorization_pending"));
+						die();
+					}
+				} else {
+					echo json_encode(array("error" => "slow_down"));
+					die();
+				}
 			} else {
-				echo json_encode(array("error" => "authorization_pending"));
+				echo json_encode(array("error" => "not_found"));
 				die();
 			}
 		} else {
+			$this->errors[] = "The device_code is incorrect";
 			self::_error();
 		}
 	}
@@ -318,6 +362,7 @@ class Access_Token extends CI_Controller {
 					} else if(isset($_POST[$parameter]) && !empty($_POST[$parameter])){
 						(property_exists($this, $parameter)) ? $this->{$parameter} = self::_security($_POST[$parameter]) : NULL;
 					} else {
+						$this->errors[] = $parameter." is incorrect";
 						return FALSE;
 					}
 				}
@@ -331,6 +376,7 @@ class Access_Token extends CI_Controller {
 			}
 			return TRUE;
 		} else {
+			$this->errors[] = "No parameters is deffined";
 			return FALSE;
 		}
 	}
