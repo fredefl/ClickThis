@@ -23,7 +23,7 @@ class Device_Token extends CI_Model{
 			"device_code" => $device_code,
 			"user_code" => $user_code,
 			"app_id" => $app_id,
-			"scope" => implode(";", $scope),
+			"scope" => implode(",", $scope),
 			"created_time" => time()
 		);
 		$this->db->insert($this->config->item("oauth_device_code_table"),$data);
@@ -67,7 +67,7 @@ class Device_Token extends CI_Model{
 		if($query->num_rows() > 0){
 			$row = current($query->result());
 			$app_id = $row->app_id;
-			$scope = explode(";", $row->scope);
+			$scope = explode(",", $row->scope);
 			return TRUE;
 		} else {
 			return FALSE;
@@ -112,7 +112,7 @@ class Device_Token extends CI_Model{
 		$query = $this->db->where($data)->get($this->config->item("oauth_device_code_table"));
 		if($query->num_rows() > 0){
 			$row = current($query->result());
-			return explode(";", $row->scope);
+			return explode(",", $row->scope);
 		} else {
 			return FALSE;
 		}
@@ -172,7 +172,7 @@ class Device_Token extends CI_Model{
 			"user_id" => $user_id,
 			"app_id" => $app_id,
 			"created_time" => time(),
-			"scope" => implode(";", $scope),
+			"scope" => implode(",", $scope),
 			"access_type" => "offline"
 		);
 		$this->db->insert($this->config->item("oauth_authenticated_table"),$data);

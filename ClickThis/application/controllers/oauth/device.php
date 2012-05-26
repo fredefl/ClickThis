@@ -157,7 +157,7 @@ class Device extends CI_Controller {
 			"app_description" => $App->description,
 			"app_name" => $App->name,
 			"app_url" => $App->app_url,
-			"scopes" => implode(";", $this->scope)
+			"scopes" => implode(",", $this->scope)
 		);
 		$this->load->view("auth_view",$data);
 	}

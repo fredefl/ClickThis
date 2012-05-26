@@ -50,5 +50,24 @@ class Client extends CI_Model{
 				return current($query->result())->auth_endpoint;
 			}
 		}
+	}	
+
+	/**
+	 * This function gets the app client id based on the app_id
+	 * @param  integer $app_id     The app id to search for
+	 * @param  string &$client_id A variable to store the client id
+	 * @return boolean
+	 * @since 1.0
+	 * @access public
+	 */
+	public function get_client_id ( $app_id, &$client_id ) {
+		$query = $this->db->select("client_id")->where(array("id" => $app_id))->get($this->config->item("oauth_apps_table"));
+		if($query->num_rows() > 0){
+			$row = current($query->result());
+			$client_id = $row->client_id;
+			return TRUE;
+		} else {
+			return FALSE;
+		}
 	}
 }

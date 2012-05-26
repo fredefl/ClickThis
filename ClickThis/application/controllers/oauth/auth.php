@@ -345,7 +345,7 @@ class Auth extends CI_Controller {
 			"app_description" => $App->description,
 			"app_name" => $App->name,
 			"app_url" => $App->app_url,
-			"scopes" => implode(";", self::_scopes_description())
+			"scopes" => implode(",", self::_scopes_description())
 		);
 		$this->load->view("auth_view",$data);
 	}
@@ -386,7 +386,7 @@ class Auth extends CI_Controller {
 			echo json_encode($error);
 		} else {
 			$error = array(
-				"error_code" => 500
+				"error_code" => 500,
 				"error_message" => "Internal Server Error" 
 			);
 			echo json_encode($error);

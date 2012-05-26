@@ -145,7 +145,6 @@ class Access_Token extends CI_Controller {
 						break;
 				}
 			} else {
-				$this->errors[] = "No grant type deffined";
 				self::_error();
 			}
 		} else {
