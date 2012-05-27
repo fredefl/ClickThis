@@ -50,6 +50,7 @@ body {
 }
 
 #page .toolbar > .button, #page .back, #page .button-container > .button {
+	cursor:pointer;	
 	float: right;
 	overflow: hidden;
 	margin: 0 0 0 10px;
@@ -67,11 +68,11 @@ body {
 	text-decoration: none;
 	white-space: nowrap;
 	background: none;
-	border-image: url(../img/button.png) 0 5 0 5;
-	-webkit-border-image: url(../img/button.png) 0 5 0 5;
-	-moz-border-image: url(../img/button.png) 0 5 0 5;
-	-o-border-image: url(../img/button.png) 0 5 0 5;
-	-ms-border-image: url(../img/button.png) 0 5 0 5;
+	border-image: 			url(../img/button.png) 0 5 0 5;
+	-webkit-border-image: 	url(../img/button.png) 0 5 0 5;
+	-moz-border-image: 		url(../img/button.png) 0 5 0 5;
+	-o-border-image: 		url(../img/button.png) 0 5 0 5;
+	-ms-border-image: 		url(../img/button.png) 0 5 0 5;
 	-webkit-touch-callout:none;
 }
 
@@ -87,11 +88,11 @@ body {
 	padding: 0;
 	max-width: 55px;
 	border-width: 0 8px 0 14px;
-	border-image: url(../img/back_button.png) 0 8 0 14;
-	-webkit-border-image: url(../img/back_button.png) 0 8 0 14;
-	-moz-border-image: url(../img/back_button.png) 0 8 0 14;
-	-o-border-image: url(../img/back_button.png) 0 8 0 14;
-	-ms-border-image: url(../img/back_button.png) 0 8 0 14;
+	border-image: 			url(../img/back_button.png) 0 8 0 14;
+	-webkit-border-image: 	url(../img/back_button.png) 0 8 0 14;
+	-moz-border-image: 		url(../img/back_button.png) 0 8 0 14;
+	-o-border-image: 		url(../img/back_button.png) 0 8 0 14;
+	-ms-border-image: 		url(../img/back_button.png) 0 8 0 14;
 }
 /* @end */
 /* @group Lists */
@@ -136,7 +137,7 @@ body {
 	background-image: -moz-linear-gradient(top, #4a4b4d, #404142);
 	background-image: -o-linear-gradient(top, #4a4b4d, #404142);
 	background-image: -ms-linear-gradient(top, #4a4b4d, #404142);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4a4b4d', endColorstr='#404142');
+	filter:	progid:DXImageTransform.Microsoft.gradient(startColorstr='#4a4b4d', endColorstr='#404142');
 	overflow: hidden;
 }
 #page ul li.arrow {
@@ -155,10 +156,10 @@ body {
 }
 
 #page ul li.forward {
-	user-select:none;
+	user-select:		none;
 	-webkit-user-select:none;
-	-moz-user-select:none;
-	-ms-user-select:none;
+	-moz-user-select: 	none;
+	-ms-user-select:	none;
 	-webkit-touch-callout:none;
 	background-image: url(../img/chevron_circle.png));
 	background-position: right center;
