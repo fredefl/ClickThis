@@ -25,35 +25,22 @@ $("#settings-clearQueue").bind("click", function () {
 	ajaxQueue.clear();
 });
 
+function fullyLoaded () {
+	// Add the touch effect to the list buttons
+	$('#page ul li, #menu p').bind('touchstart', function () {
+		$(this).addClass("touchActive");
+	});
 
-// Add the touch effect to the list buttons
-$('#page ul li').bind('touchstart', function () {
-	$(this).addClass("touchActive");
-});
+	// Add the touch effect to the list buttons
+	$('#page ul li, #menu p').bind('touchend', function () {
+		$(this).removeClass("touchActive");
+	});
 
-// Add the touch effect to the list buttons
-$('#page ul li').bind('touchend', function () {
-	$(this).removeClass("touchActive");
-});
-
-// Add the touch effect to the list buttons
-$('#page ul li').bind('touchmove', function () {
-	$(this).removeClass("touchActive");
-});
-
-$("#page ul li > a").bind('touchstart', function () {
-	$(this).parent().addClass("touchActive");
-});
-
-// Add the touch effect to the list buttons
-$("#page ul li > a").bind('touchend', function () {
-	$(this).parent().removeClass("touchActive");
-});
-
-// Add the touch effect to the list buttons
-$("#page ul li > a").bind('touchmove', function () {
-	$(this).parent().removeClass("touchActive");
-});
+	// Add the touch effect to the list buttons
+	$('#page ul li, #menu p').bind('touchmove', function () {
+		$(this).removeClass("touchActive");
+	});
+}
 
 $("#menuButton").bind("click", function () {
 	$("#menu").toggle();

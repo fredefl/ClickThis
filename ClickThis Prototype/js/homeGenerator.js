@@ -66,6 +66,7 @@ var homeGenerator = {
 		});
 		// Run the hyphenation
 		Hyphenator.run();
+		fullyLoaded();
 	},
 
 	/**
