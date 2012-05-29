@@ -88,6 +88,24 @@ var page = {
 	},
 
 	/**
+	 * Hides any page elements that isn't directly affiliated (eg. not in the same div).
+	 * This could be toolbar buttons.
+	 * @return {void}
+	 */
+	hideFormerPageElements: function () {
+		switch (this.currentPage) {
+		case "groups":
+			// Hide search button
+			$("#searchButton").hide();
+			break;
+		case "series": 
+			// Hide the series question navigator
+			$("#seriesNavigatorButton").hide();
+			break;
+		}
+	},
+
+	/**
 	 * Goes to the specified page
 	 * @param  {string} element The page to go to as a string
 	 * @return {void}
@@ -96,14 +114,11 @@ var page = {
 	 * page.goTo("home");
 	 */
 	goTo: function (element) {
+		this.hideFormerPageElements();
 		// Split the input string up
 		element = element.split("/");
 		// Get the responsible function
 		var functionToCall = this.pages[element[0]];
-		// Hide search button
-		$("#searchButton").hide();
-		// Hide the series question navigator
-		$("#seriesNavigatorButton").hide();
 		// Back button
 		page.checkBackButton(element[0]);
 		// Check that the function is existing, if not, screw it
