@@ -129,7 +129,7 @@ class Access_Token extends CI_Controller {
 	 * @access public
 	 */
 	public function index () {
-		if (strtolower($_SERVER['REQUEST_METHOD'])) == "post") {
+		if (strtolower($_SERVER['REQUEST_METHOD']) == "post") {
 			if (self::_check_parameters(array("grant_type"))) {
 
 				switch ($this->grant_type) {

@@ -8,7 +8,7 @@
  * @param SimpleXMLElement $xml - should only be used recursively
  * @return string XML
  */
-function array_to_xml($data = NULL, $rootNodeName = 'response', $xml=null)
+function array_to_xml($data = NULL, $rootNodeName = 'response', $xml = null)
 {
 	if(!is_null($data) && is_array($data)){
 		// turn off compatibility mode as simple xml throws a wobbly if you don't.
@@ -70,9 +70,9 @@ function array_to_xml($data = NULL, $rootNodeName = 'response', $xml=null)
  * @param  object $object The object to convert to array
  * @return array
  */
-function object_to_array($object = null){
+function object_to_array ( $object = null ) {
 	$array = array();
-	if(!is_null($object)){
+	if(!is_null($object) && is_object($object)){
 		foreach (get_object_vars($object) as $key => $value) {
 			if(is_object($value)){
 				$array[$key] = object_to_array($value);
@@ -82,5 +82,116 @@ function object_to_array($object = null){
 		}
 	}
 	return $array;
+}
+
+/**
+ * This function is the recursive function that converts the array to the correct format
+ * @param  array $array The array currently converting
+ * @return array
+ */
+function xml_import_loop($array){
+	$temp = array();
+	if(is_array($array)){
+		foreach ($array as $key => $value) {
+			if($key == "element"){
+				if(is_array($value) && count($value) > 1){
+					$temp[] = xml_import_loop($value);
+				} else {
+					$temp[] = $value;
+				}
+			} else {
+				if(is_array($value)){
+					if(count($value) == 1){
+						$value = current($value);
+					}
+					$temp[$key] = xml_import_loop($value);
+				} else {
+					$temp[$key] = $value;
+				}
+			}
+		}
+	} else {
+		$temp = $array;
+	}
+	return $temp;
+}
+
+/**
+ * This function imports raw XML and converts it to the Standard Library Import Format
+ * @param  string $xml The raw xml string to inport
+ * @return array
+ */
+function xml_import($xml){
+	$object = simplexml_load_string($xml);
+	$array = xml_to_array($object);
+	return xml_import_loop($array);
+}
+
+/**
+ * This function converts a SimpleXML element to an array
+ * @param  object  $obj   The XML element to convert
+ * @param  boolean $extra If attributes etc should be included
+ * @return array
+ * @author Xaviered <xaviered@gmail.com>
+ */
+function xml_object_to_array($obj, $extra = true) { 
+    $namespace = $obj->getDocNamespaces(true); 
+    $namespace[NULL] = NULL; 
+    
+    $children = array(); 
+    $attributes = array(); 
+    $name = strtolower((string)$obj->getName()); 
+    
+    $text = trim((string)$obj); 
+    if( strlen($text) <= 0 ) { 
+        $text = NULL; 
+    } 
+    
+    // get info for all namespaces 
+    if(is_object($obj)) { 
+        foreach( $namespace as $ns=>$nsUrl ) { 
+            // atributes 
+            $objAttributes = $obj->attributes($ns, true); 
+            foreach( $objAttributes as $attributeName => $attributeValue ) { 
+                $attribName = strtolower(trim((string)$attributeName)); 
+                $attribVal = trim((string)$attributeValue); 
+                if (!empty($ns)) { 
+                    $attribName = $ns . ':' . $attribName; 
+                } 
+                $attributes[$attribName] = $attribVal; 
+            } 
+            
+            // children 
+            $objChildren = $obj->children($ns, true); 
+            foreach( $objChildren as $childName=>$child ) { 
+                $childName = strtolower((string)$childName); 
+                if( !empty($ns) ) { 
+                    $childName = $ns.':'.$childName; 
+                } 
+                $children[$childName][] = xml_object_to_array($child); 
+            } 
+        } 
+    } 
+    if($extra){
+        return array( 
+            'name'=>$name, 
+            'text'=>$text, 
+            'attributes'=>$attributes, 
+            'children'=>$children 
+        ); 
+	} else {
+		return $children;
+	}
+}
+
+function xml_to_array($xml) {
+    $array = json_decode(json_encode($xml), TRUE);
+    
+    foreach ( array_slice($array, 0) as $key => $value ) {
+        if ( empty($value) ) $array[$key] = NULL;
+        elseif ( is_array($value) ) $array[$key] = xml_to_array($value);
+    }
+
+    return $array;
 }
 ?>
