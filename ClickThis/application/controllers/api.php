@@ -207,7 +207,7 @@ class Api extends CI_Controller {
 			if(!is_null($Data)){
 				if(!is_null($Id)){
 					$User = $Data;
-					($User->CheckProfileImage())? $User->ProfileImage = $User->ProfileImage: $User->ProfileImage = "https://gravatar.com/avatar?s=256";
+					($User->CheckProfileImage())? $User->profile_image = $User->profile_image: $User->profile_image = "https://gravatar.com/avatar?s=256";
 					$Return["user"] = $User->Export(false,true);
 					$Return["error_message"] = NULL;
 					$Return["error_code"] = NULL;
