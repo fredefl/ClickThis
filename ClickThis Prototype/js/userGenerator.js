@@ -52,9 +52,7 @@ var userGenerator = {
 	findUser : function (id, callback) {
 		if (this.userContainer.find("#user_" + id).length === 0) {
 			return $.ajax({
-
 				url : "https://illution.dk/ClickThis/api/user/" + id,
-
 				success: $.proxy(function (data) {
 					this.lastResponse = data;
 					this.lastCode = 200;
@@ -83,11 +81,12 @@ var userGenerator = {
 	 */
 	createUser : function () {
 		var element = $("#user_template").clone();
-		element.attr("id", 'user_' + this.lastResponse.User.Id);
-		element.find(".profile_image").attr("src", this.lastResponse.User.ProfileImage);
-		element.find(".name").val(this.lastResponse.User.Name);
-		element.find(".email").val(this.lastResponse.User.Email);
-		element.find(".location").val(this.lastResponse.User.Country);
+		console.log(this);
+		element.attr("id", 'user_' + this.lastResponse.user.id);
+		element.find(".profile_image").attr("src", this.lastResponse.user.profile_image);
+		element.find(".name").val(this.lastResponse.user.name);
+		element.find(".email").val(this.lastResponse.user.email);
+		element.find(".location").val(this.lastResponse.user.country);
 		if ($("body").css("width").replace("px", "") < 600) {
 			element.find(".profile_image").attr("width", "128");
 			element.find(".profile_image").attr("height", "128");
