@@ -45,6 +45,10 @@ body {
 	background-color: #53b401 !important;
 }
 
+.buttonTouchActive {
+	opacity: 0.5;
+}
+
 h1 {
 	color: #fff;
 	text-decoration: none; 

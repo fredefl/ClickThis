@@ -42,6 +42,21 @@ function fullyLoaded () {
 	});
 }
 
+	// Add the touch effect to the topbar buttons
+	$('.toolbar .button').bind('touchstart', function () {
+		$(this).addClass("buttonTouchActive");
+	});
+
+	// Add the touch effect to the topbar buttons
+	$('.toolbar .button').bind('touchend', function () {
+		$(this).removeClass("buttonTouchActive");
+	});
+
+	// Add the touch effect to the topbar buttons
+	$('.toolbar .button').bind('touchmove', function () {
+		$(this).removeClass("buttonTouchActive");
+	});
+
 $("#menuButton").bind("click", function () {
 	$("#menu").toggle();
 	$("#menuOverlay").toggle();

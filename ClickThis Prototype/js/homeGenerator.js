@@ -35,7 +35,8 @@ var homeGenerator = {
 	 */
 	generate: function (data) {
 		// Show the series container so swipe can run
-		$("#seriesContainer").show();
+		$("#seriesContainer").css("display","block");
+		$("#seriesContainer").css("visibility","hidden");
 		// Loop through all the series
 		$(data.Series).each(function (index, element) {
 			// A the series to home
@@ -55,7 +56,8 @@ var homeGenerator = {
 			$("#series_" + element.id).hide();
 		});
 		// Hide the series container again
-		$("#seriesContainer").hide();
+		$("#seriesContainer").css("display","none");
+		$("#seriesContainer").css("visibility","hidden");
 		// Shorten titles on home
 		homeGenerator.shortenTitles();
 		// Configure Hyphenator.js
