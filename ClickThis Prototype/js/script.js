@@ -142,7 +142,7 @@ function connectToPush () {
 	sockjs = new SockJS(sockjs_url);
 
 	sockjs.onopen    = function()  {
-		console.log('Connected to realtime service with: ' + sockjs.protocol);
+		//console.log('Connected to realtime service with: ' + sockjs.protocol);
 		$('#pushStatus').html('Connected' + (sockjs.protocol === 'websocket' ? "(WS)" : "(XHR)")).css('color','#119911');
 	};
 	sockjs.onmessage = function(e) {
@@ -150,7 +150,7 @@ function connectToPush () {
 		setTimeout('$("#toolbarTitle").css("-webkit-transform","rotate(0deg)")',2000);
 	};
 	sockjs.onclose   = function()  {
-		console.log("Disconnected from realtime service");
+		//console.log("Disconnected from realtime service");
 		$('#pushStatus').html('Disconnected').css('color','#991111');
 	};
 }
