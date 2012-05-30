@@ -40,22 +40,27 @@ function fullyLoaded () {
 	$('#page ul li, #menu p').bind('touchmove mousemove', function () {
 		$(this).removeClass("touchActive");
 	});
+	// Get the current page, if any
+	var hash = window.location.hash.substring(1);
+	if (hash) {
+		page.goTo(hash);
+	}
 }
 
-	// Add the touch effect to the topbar buttons
-	$('.toolbar .button').bind('touchstart mousedown', function () {
-		$(this).addClass("buttonTouchActive");
-	});
+// Add the touch effect to the topbar buttons
+$('.toolbar .button').bind('touchstart mousedown', function () {
+	$(this).addClass("buttonTouchActive");
+});
 
-	// Add the touch effect to the topbar buttons
-	$('.toolbar .button').bind('touchend mouseup', function () {
-		$(this).removeClass("buttonTouchActive");
-	});
+// Add the touch effect to the topbar buttons
+$('.toolbar .button').bind('touchend mouseup', function () {
+	$(this).removeClass("buttonTouchActive");
+});
 
-	// Add the touch effect to the topbar buttons
-	$('.toolbar .button').bind('touchmove mousemove', function () {
-		$(this).removeClass("buttonTouchActive");
-	});
+// Add the touch effect to the topbar buttons
+$('.toolbar .button').bind('touchmove mousemove', function () {
+	$(this).removeClass("buttonTouchActive");
+});
 
 $("#menuButton").bind("click", function () {
 	$("#menu").toggle();
