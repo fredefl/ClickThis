@@ -27,33 +27,33 @@ $("#settings-clearQueue").bind("click", function () {
 
 function fullyLoaded () {
 	// Add the touch effect to the list buttons
-	$('#page ul li, #menu p').bind('touchstart', function () {
+	$('#page ul li, #menu p').bind('touchstart mousedown', function () {
 		$(this).addClass("touchActive");
 	});
 
 	// Add the touch effect to the list buttons
-	$('#page ul li, #menu p').bind('touchend', function () {
+	$('#page ul li, #menu p').bind('touchend mouseup', function () {
 		$(this).removeClass("touchActive");
 	});
 
 	// Add the touch effect to the list buttons
-	$('#page ul li, #menu p').bind('touchmove', function () {
+	$('#page ul li, #menu p').bind('touchmove mousemove', function () {
 		$(this).removeClass("touchActive");
 	});
 }
 
 	// Add the touch effect to the topbar buttons
-	$('.toolbar .button').bind('touchstart', function () {
+	$('.toolbar .button').bind('touchstart mousedown', function () {
 		$(this).addClass("buttonTouchActive");
 	});
 
 	// Add the touch effect to the topbar buttons
-	$('.toolbar .button').bind('touchend', function () {
+	$('.toolbar .button').bind('touchend mouseup', function () {
 		$(this).removeClass("buttonTouchActive");
 	});
 
 	// Add the touch effect to the topbar buttons
-	$('.toolbar .button').bind('touchmove', function () {
+	$('.toolbar .button').bind('touchmove mousemove', function () {
 		$(this).removeClass("buttonTouchActive");
 	});
 
