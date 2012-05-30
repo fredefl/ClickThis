@@ -155,6 +155,16 @@ function connectToPush () {
 	};
 }
 
+function ping () {
+	try {
+		sockjs.send("ping");
+	} catch (e) {
+		e = null
+	};
+	setTimeout(ping, 30000);
+}
+ping();
+
 // Random Shit
 $(window).load(function () {
 	ajaxQueue.load();
