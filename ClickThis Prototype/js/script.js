@@ -37,7 +37,7 @@ function fullyLoaded () {
 	});
 
 	// Add the touch effect to the list buttons
-	$('#page ul li, #menu p').bind('touchmove mousemove', function () {
+	$('#page ul li, #menu p').bind('touchmove mouseout', function () {
 		$(this).removeClass("touchActive");
 	});
 	// Get the current page, if any
