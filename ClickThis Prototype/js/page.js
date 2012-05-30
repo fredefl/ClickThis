@@ -88,7 +88,7 @@ var page = {
 	},
 
 	/**
-	 * Hides any page elements that isn't directly affiliated (eg. not in the same div).
+	 * Hides any page elements that isn't directly linked with the page itself (eg. not in the same div).
 	 * This could be toolbar buttons.
 	 * @return {void}
 	 */
