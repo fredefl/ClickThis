@@ -83,19 +83,11 @@ var seriesGenerator = {
 		// Sort the options
 		options = data.options;
 		options.sort(function (a, b) {
-			// This sort function sorts so that those items with the lowest view order is first
-			if (parseInt(a.view_order, 10) < parseInt(b.view_vrder, 10)) { // A is first
-				return -1;
-			} else if (parseInt(a.view_order, 10) > parseInt(b.view_order, 10)) { // B is first
-				return 1;
-			} else {
-				return 0;
-			}
+			return a.view_order - b.view_order;
 		});
 		// Append all the options
 		for (i = 0; i < options.length; i++) {
 			option = options[i];
-			//html += buttonGenerator.newButton(option.Id, option.Color, option.Title, parseInt(option.OptionType, 10), 1);
 			html += buttonGenerator.newButton({
 				id: option.id,
 				color: option.color,
