@@ -31,7 +31,7 @@
  * Loads the base classes and executes the request.
  *
  * @package		CodeIgniter
- * @subpackage	codeigniter
+ * @subpackage	CodeIgniter
  * @category	Common Functions
  * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/
@@ -57,7 +57,7 @@ if ( ! function_exists('is_php'))
 
 		if ( ! isset($_is_php[$version]))
 		{
-			$_is_php[$version] = (version_compare(PHP_VERSION, $version) < 0) ? FALSE : TRUE;
+			$_is_php[$version] = (version_compare(PHP_VERSION, $version) >= 0);
 		}
 
 		return $_is_php[$version];
@@ -200,7 +200,7 @@ if ( ! function_exists('is_loaded'))
 	{
 		static $_is_loaded = array();
 
-		if ($class != '')
+		if ($class !== '')
 		{
 			$_is_loaded[strtolower($class)] = $class;
 		}
@@ -231,20 +231,24 @@ if ( ! function_exists('get_config'))
 			return $_config[0];
 		}
 
-		// Is the config file in the environment folder?
-		if ( ! defined('ENVIRONMENT') OR ! file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/config.php'))
+		$file_path = APPPATH.'config/config.php';
+		$found = FALSE;
+		if (file_exists($file_path)) 
 		{
-			$file_path = APPPATH.'config/config.php';
+			$found = TRUE;
+			require($file_path);
 		}
 
-		// Fetch the config file
-		if ( ! file_exists($file_path))
+		// Is the config file in the environment folder?
+		if (defined(ENVIRONMENT) && file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/config.php'))
+		{
+			require($file_path);			
+		} 
+		elseif ( ! $found) 
 		{
 			set_status_header(503);
 			exit('The configuration file does not exist.');
 		}
-
-		require($file_path);
 
 		// Does the $config array exist in the file?
 		if ( ! isset($config) OR ! is_array($config))
@@ -366,7 +370,7 @@ if ( ! function_exists('log_message'))
 	{
 		static $_log;
 
-		if (config_item('log_threshold') == 0)
+		if (config_item('log_threshold') === 0)
 		{
 			return;
 		}
@@ -432,17 +436,17 @@ if ( ! function_exists('set_status_header'))
 			505	=> 'HTTP Version Not Supported'
 		);
 
-		if ($code == '' OR ! is_numeric($code))
+		if ($code === '' OR ! is_numeric($code))
 		{
 			show_error('Status codes must be numeric', 500);
 		}
 
-		if (isset($stati[$code]) && $text == '')
+		if (isset($stati[$code]) && $text === '')
 		{
 			$text = $stati[$code];
 		}
 
-		if ($text == '')
+		if ($text === '')
 		{
 			show_error('No status text available. Please check your status code number or supply your own message text.', 500);
 		}
@@ -487,27 +491,17 @@ if ( ! function_exists('_exception_handler'))
 	 */
 	function _exception_handler($severity, $message, $filepath, $line)
 	{
-		 // We don't bother with "strict" notices since they tend to fill up
-		 // the log file with excess information that isn't normally very helpful.
-		 // For example, if you are running PHP 5 and you use version 4 style
-		 // class functions (without prefixes like "public", "private", etc.)
-		 // you'll get notices telling you that these have been deprecated.
-		if ($severity == E_STRICT)
-		{
-			return;
-		}
-
 		$_error =& load_class('Exceptions', 'core');
 
 		// Should we display the error? We'll get the current error_reporting
 		// level and add its bits with the severity bits to find out.
-		if (($severity & error_reporting()) == $severity)
+		if (($severity & error_reporting()) === $severity)
 		{
 			$_error->show_php_error($severity, $message, $filepath, $line);
 		}
 
-		// Should we log the error?  No?  We're done...
-		if (config_item('log_threshold') == 0)
+		// Should we log the error? No? We're done...
+		if (config_item('log_threshold') === 0)
 		{
 			return;
 		}
