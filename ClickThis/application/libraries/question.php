@@ -78,24 +78,14 @@ class Question extends Std_Library{
 	 * @since 1.0
 	 */
 	public $Database_Table = "questions";
-
-	/**
-	 * This is an internal property containing a CodeIgniter pointer
-	 * @var string
-	 * @internal This is a pointer to CodeIgniter
-	 * @access public
-	 * @since 1.0
-	 */
-	private $_CI = NULL;
 	
 	/**
 	 * This is the constructor it do some settings for the Model and std library.
 	 * @since 1.0
 	 * @access public
 	 */
-	public function Question () {
-		$this->_CI =& get_instance();
-		self::Config($this->_CI);
+	public function __construct(){
+		parent::__construct();
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("title","series_id");
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id","options","answers");
@@ -103,7 +93,6 @@ class Question extends Std_Library{
 		$this->_INTERNAL_LINK_PROPERTIES = array("options" => array("options",array("question_id" => "id")));
 		$this->_INTERNAL_FORCE_ARRAY = array("options");
 		$this->_INTERNAL_CONVERT_TO_BOOLEAN = array("force_answer");
-		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 	}
 }
 ?>

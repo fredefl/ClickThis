@@ -172,9 +172,8 @@ class User extends Std_Library{
 	 * @since 1.0
 	 * @access public
 	 */
-	public function User() {
-		$this->_CI =& get_instance();
-		self::Config($this->_CI);
+	public function __construct(){
+		parent::__construct();
 		$this->_INTERNAL_DATABASE_NAME_CONVERT = array(
 			"name" => "real_name",
 			"facebook_id" => "facebook",
@@ -199,8 +198,6 @@ class User extends Std_Library{
 		$this->_INTERNAL_FORCE_ARRAY = array("user_group","target_group");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
 		$this->_INTERNAL_LOAD_FROM_CLASS = array("target_group" => "Group");
-		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
-		$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_DATABASE_NAME_CONVERT);
 	}
 
 	/**

@@ -44,26 +44,15 @@ class DidAnswer extends Std_Library{
 	 * @since 1.0
 	 */
 	public $Database_Table = "did_answer";
-
-	/**
-	 * The local instance of CodeIgniter
-	 * @var object
-	 * @access private
-	 * @since 1.0
-	 * @internal This is a local instance of CodeIgniter it's only used in the class
-	 */
-	private $_CI = NULL;
 	
 	/**
 	 * The constructor
 	 * @access public
 	 * @since 1.0
 	 */
-	public function DidAnswer () {
-		$this->_CI =& get_instance();
-		self::Config($this->_CI);
+	public function __construct(){
+		parent::__construct();
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("UserId","QuestionId");
-		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
 	}

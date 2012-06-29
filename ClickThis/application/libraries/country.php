@@ -73,24 +73,14 @@ class Country extends Std_Library{
 	 * @since 1.0
 	 */
 	public $Database_Table = "countries";
-
-	/**
-	 * This is an internal property containing a CodeIgniter pointer
-	 * @var object
-	 * @internal This is a pointer to CodeIgniter
-	 * @access public
-	 * @since 1.0
-	 */
-	private $_CI = NULL;
 	
 	/**
 	 * This is the contructor
 	 * @since 1.0
 	 * @access public
 	 */
-	public function Country(){
-		$this->_CI =& get_instance();
-		self::Config($this->_CI);
+	public function __construct(){
+		parent::__construct();
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_DATABASE_NAME_CONVERT = array(
 			"upper_name" => "upper_case_name",
@@ -98,8 +88,6 @@ class Country extends Std_Library{
 		);
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("code","abbrevation");
-		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
-		$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_DATABASE_NAME_CONVERT);
 	}	
 }
 ?>

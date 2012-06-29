@@ -69,14 +69,6 @@ class Group extends Std_Library{
 	#### Class Setttings ####
 
 	/**
-	 * A local instance of CodeIgniter
-	 * @var object
-	 * @since 1.0
-	 * @access private
-	 */
-	private $_CI = NULL;
-
-	/**
 	 * This variable stores the database table for the class
 	 * @var string
 	 * @access public
@@ -90,15 +82,13 @@ class Group extends Std_Library{
 	 * @since 1.0
 	 * @access public
 	 */
-	public function Group(){
-		$this->_CI =& get_instance();
-		self::Config($this->_CI);
+	public function __construct(){
+		parent::__construct();
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("Name","Creator");
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
 		$this->_INTERNAL_SIMPLE_LOAD = array("creator" => true);
 		$this->_INTERNAL_LOAD_FROM_CLASS = array("creator" => "User");
-		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 	}
 }
 ?>

@@ -52,22 +52,11 @@ class Value extends Std_Library{
 	 */
 	public $Database_Table = "values";
 
-	/**
-	 * This property contains a pointer to Code Igniter
-	 * @var object
-	 * @since 1.0
-	 * @access private
-	 * @internal This is just a local container for Code Igniter
-	 */
-	private $_CI = NULL;
-
-	public function Value(){
-		$this->_CI =& get_instance();
-		self::Config($this->_CI);
+	public function __construct(){
+		parent::__construct();
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI","Id");
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("option_id","answer_id");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
-		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 	}
 }
 ?>

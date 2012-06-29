@@ -139,20 +139,10 @@ class Series extends Std_Library{
 	public $Database_Table = "series";
 
 	/**
-	 * The local instance of CodeIgniter
-	 * @var object
-	 * @access private
-	 * @since 1.0
-	 * @internal This is a local instance of CodeIgniter it's only used in the class
-	 */
-	private $_CI = NULL;
-
-	/**
 	 * The constructor, it sets some settings for the std_library to work
 	 */
-	public function Series () {
-		$this->_CI =& get_instance();
-		self::Config($this->_CI);
+	public function __construct(){
+		parent::__construct();
 		$this->_INTERNAL_DATABASE_NAME_CONVERT = array(
 			"type" => "series_type"
 		);
@@ -172,8 +162,6 @@ class Series extends Std_Library{
 			"target_group"
 		);
 		$this->_INTERNAL_LINK_PROPERTIES = array("questions" => array("questions",array("series_id" => "id")));
-		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
-		$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_DATABASE_NAME_CONVERT);
 	}
 }
 ?>

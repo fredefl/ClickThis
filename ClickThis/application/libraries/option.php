@@ -104,15 +104,14 @@ class Option extends Std_Library{
 	 * @access public
 	 * @since 1.0
 	 */
-	public function Option () {
+	public function __construct(){
+		parent::__construct();		
 		$this->_CI =& get_instance();
 		self::Config($this->_CI);
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","Database_Table","_CI");
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("question_id","title");
 		$this->_INTERNAL_DATABASE_NAME_CONVERT = array("option_type" => "type");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id","value");
-		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
-		$this->_CI->_INTERNAL_DATABASE_MODEL->Set_Names($this->_INTERNAL_DATABASE_NAME_CONVERT);
 	}
 
 	/**

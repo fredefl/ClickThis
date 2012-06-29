@@ -115,13 +115,11 @@ class App extends Std_Library{
 	/**
 	 * The constructor of the app class
 	 */
-	public function App(){
-		$this->_CI =& get_instance();
-		self::Config($this->_CI);
+	public function __construct(){
+		parent::__construct();
 		$this->_INTERNAL_NOT_ALLOWED_DUBLICATE_ROWS = array("name","owner_ids");
 		$this->_INTERNAL_EXPORT_INGNORE = array("CI","_CI","Database_Table");
 		$this->_INTERNAL_SECURE_EXPORT_IGNORE = array("authn_endpoint","client_secret","client_id");
-		$this->_CI->load->model("Std_Model","_INTERNAL_DATABASE_MODEL");
 		$this->_INTERNAL_DATABASE_EXPORT_INGNORE = array("id");
 		$this->_INTERNAL_FORCE_ARRAY = array("owner_ids");
 		$this->_INTERNAL_LOAD_FROM_CLASS = array("owner_ids" => "User");
